@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<save>
+    <header version="2" />
+    <version major="3" minor="6" revision="6" build="0" />
+    <region id="Config">
+        <node id="root">
+            <children>
+                <node id="Dependencies">
+                    <children>
+                        <node id="ModuleShortDesc">
+                            <attribute id="Folder" value="DivinityOrigins_1301db3d-1f54-4e98-9be5-5094030916e4" type="30" />
+                            <attribute id="MD5" value="8c08a78e11b3c02215cdf0982d8c0981" type="23" />
+                            <attribute id="Name" value="Divinity: Original Sin 2" type="22" />
+                            <attribute id="UUID" value="1301db3d-1f54-4e98-9be5-5094030916e4" type="22" />
+                            <attribute id="Version" value="372645092" type="4" />
+                        </node>
+                        <node id="ModuleShortDesc">
+                            <attribute id="Folder" value="DOS2_Arena" type="30" />
+                            <attribute id="MD5" value="ba12b04eb34b2bcac60bb3edcceb7c5e" type="23" />
+                            <attribute id="Name" value="Arena" type="22" />
+                            <attribute id="UUID" value="a99afe76-e1b0-43a1-98c2-0fd1448c223b" type="22" />
+                            <attribute id="Version" value="271981796" type="4" />
+                        </node>
+                        <node id="ModuleShortDesc">
+                            <attribute id="Folder" value="GameMaster" type="30" />
+                            <attribute id="MD5" value="a81ffa30bfb55ccddbdc37256bc6f7f4" type="23" />
+                            <attribute id="Name" value="Game Master" type="22" />
+                            <attribute id="UUID" value="00550ab2-ac92-410c-8d94-742f7629de0e" type="22" />
+                            <attribute id="Version" value="271587865" type="4" />
+                        </node>
+                    </children>
+                </node>
+                <node id="ModuleInfo">
+                    <attribute id="Author" value="Hunter-Ghost-27" type="30" />
+                    <attribute id="CharacterCreationLevelName" value="" type="22" />
+                    <attribute id="Description" value="" type="30" />
+                    <attribute id="DescriptionName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
+                    <attribute id="DisplayName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
+                    <attribute id="Folder" value="S7_Config_de8f15f2-65a2-4ee4-a25f-7a7ab0305a58" type="30" />
+                    <attribute id="GMTemplate" value="" type="22" />
+                    <attribute id="LobbyLevelName" value="" type="22" />
+                    <attribute id="MD5" value="" type="23" />
+                    <attribute id="MenuLevelName" value="" type="22" />
+                    <attribute id="Name" value="S7_Config" type="22" />
+                    <attribute id="NumPlayers" value="2" type="1" />
+                    <attribute id="PhotoBooth" value="" type="22" />
+                    <attribute id="StartupLevelName" value="" type="22" />
+                    <attribute id="Tags" value="" type="30" />
+                    <attribute id="Type" value="Add-on" type="22" />
+                    <attribute id="UUID" value="de8f15f2-65a2-4ee4-a25f-7a7ab0305a58" type="22" />
+                    <attribute id="Version" value="16777216" type="4" />
+                    <children>
+                        <node id="PublishVersion">
+                            <attribute id="Version" value="909321303" type="4" />
+                        </node>
+                        <node id="Scripts" />
+                        <node id="TargetModes">
+                            <children>
+                                <node id="Target">
+                                    <attribute id="Object" value="Story" type="22" />
+                                </node>
+                            </children>
+                        </node>
+                    </children>
+                </node>
+            </children>
+        </node>
+    </region>
+</save>

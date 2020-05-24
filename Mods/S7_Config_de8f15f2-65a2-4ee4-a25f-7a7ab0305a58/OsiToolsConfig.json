@@ -1,0 +1,8 @@
+{
+    "RequiredExtensionVersion": 45,
+    "ModTable": "S7_Config",
+    "FeatureFlags": [
+        "OsirisExtensions",
+        "Lua"
+    ]
+}

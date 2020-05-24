@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<save>
+    <header version="2" />
+    <version major="3" minor="6" revision="6" build="0" />
+    <region id="MetaData">
+        <node id="root">
+            <attribute id="Module" value="de8f15f2-65a2-4ee4-a25f-7a7ab0305a58" type="23" />
+            <attribute id="Name" value="S7_Config" type="23" />
+            <attribute id="Type" value="Add-on" type="23" />
+            <attribute id="UUID" value="1ab690f2-3dcd-4c5c-b226-35d64a383575" type="23" />
+        </node>
+    </region>
+</save>
