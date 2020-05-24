@@ -1,0 +1,36 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+
+//  ====================================================================================================================================
+//  |                                                           MOD-MENU                                                               |
+//  ====================================================================================================================================
+
+KBSECTION
+
+//=============================
+//REGION  START MOD-MENU DIALOG
+
+//  ____________________________________________
+//  Combine a claw-hammer with a trap disarm kit
+//  ********************************************
+
+IF                                      
+ItemTemplateCombinedWithItemTemplate("TOOL_Hammer_A_4f67d82f-9397-4c48-9134-4679fc9ea770", "TOOL_Trap_DisarmToolkit_9fda335e-2220-4ae9-a4c2-2424d5ef5165", _, _, _, _Character, _)     
+AND
+DB_IsPlayer(_Character)                                        
+AND
+QRY_SpeakerIsAvailable(_Character)                                          //  Checks whether player can have a dialog.
+THEN
+Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                //  Starts the Mod-Menu dialog.
+NRD_DebugLog("[S7:Config - ModMenu] --- Activated.");
+
+//  TODO --- Allow Reversed Combination to start dialog.
+
+//END_REGION
+//=============================
+
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "S7__Config_Initializer"

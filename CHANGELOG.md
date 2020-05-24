@@ -7,6 +7,7 @@
 ### NEW
 
 * _Created_ **BootstrapClient.lua** - Reads **S7_Config.json** and applies stat-modifications.
+* _Created_ basic **ModMenu**.
 
 ## [0.1.0.0] --- 24th May 2020 --- **__Osiris Init and ModVersioning**
 
