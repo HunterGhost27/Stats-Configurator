@@ -3,7 +3,7 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 //  ==================================    MOD VERSION (NAME, CURRENT VERSION)    ========================================
-//  DB_S7_ModIdentifier("S7_Config", "0.1.0.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
+//  DB_S7_ModIdentifier("S7_Config", "0.3.0.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
 //  =====================================================================================================================
 
 //  =====================================================================================================================
@@ -20,12 +20,12 @@ KBSECTION
 IF
 GameStarted(_, _)
 AND
-NOT DB_S7_ModIdentifier("S7_Config", "0.1.0.0")              //  Latest-Version does not exist.
+NOT DB_S7_ModIdentifier("S7_Config", "0.3.0.0")              //  Latest-Version does not exist.
 THEN
 Proc_S7_Config_Updater();                                    //  Run Update Procedure.
-// GlobalSetFlag("S7_CS_CHANGELOG");                                   //  Request CHANGELOG. >>>>>> TODO <<<<<<<<
-DB_S7_ModIdentifier("S7_Config", "0.1.0.0");                 //  Add the latest version in the DB.
-NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.1.0.0");
+// GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG. >>>>>> TODO <<<<<<<<
+DB_S7_ModIdentifier("S7_Config", "0.3.0.0");                 //  Add the latest version in the DB.
+NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.3.0.0");
 
 //====================
 //REGION CHANGELOG
@@ -35,10 +35,10 @@ NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.1.0.0");
 //  *************************************
 
 // IF
-// GlobalFlagSet("S7_CS_CHANGELOG")                                    //  CHANGELOG requested through update or dialog option.
+// GlobalFlagSet("S7_Config_CHANGELOG")                                    //  CHANGELOG requested through update or dialog option.
 // THEN
 // Proc_S7_Config_ChangelogRequest();                           //  Calls procedure.
-// GlobalClearFlag("S7_CS_CHANGELOG");                                 //  Clears flag.
+// GlobalClearFlag("S7_Config_CHANGELOG");                                 //  Clears flag.
 
 // PROC
 // Proc_S7_Config_ChangelogRequest()                            //  Procedure Definition.
@@ -83,7 +83,7 @@ Proc_S7_Config_Updater()
 AND
 DB_S7_ModIdentifier("S7_Config", _ModVersion)                    //  Gets all facts from the ModIdentifier.
 AND
-_ModVersion != "0.1.0.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
+_ModVersion != "0.3.0.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
 THEN
 NOT DB_S7_ModIdentifier("S7_Config", _ModVersion);               //  Removes all older facts from DB.
 

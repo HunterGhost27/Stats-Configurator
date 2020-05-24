@@ -1,13 +1,17 @@
 Version 1
 SubGoalCombiner SGC_AND
 INITSECTION
-
 //  ====================================================================================================================================
 //  |                                                           MOD-MENU                                                               |
 //  ====================================================================================================================================
 
-KBSECTION
+//  =============================================
+//  DB_S7_Config_ModMenu((STRING)_FlagName)
+    DB_S7_Config_ModMenu("S7_StatsConfigurator");
+    DB_S7_Config_ModMenu("S7_StatsSynchronize");
+//  =============================================
 
+KBSECTION
 //=============================
 //REGION  START MOD-MENU DIALOG
 
@@ -25,10 +29,30 @@ THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                //  Starts the Mod-Menu dialog.
 NRD_DebugLog("[S7:Config - ModMenu] --- Activated.");
 
-//  TODO --- Allow Reversed Combination to start dialog.
+//  ____________________________________________
+//  Combine a trap disarm kit with a claw-hammer
+//  ********************************************
+
+IF                                      
+ItemTemplateCombinedWithItemTemplate("TOOL_Trap_DisarmToolkit_9fda335e-2220-4ae9-a4c2-2424d5ef5165", "TOOL_Hammer_A_4f67d82f-9397-4c48-9134-4679fc9ea770", _, _, _, _Character, _)     
+AND
+DB_IsPlayer(_Character)                                        
+AND
+QRY_SpeakerIsAvailable(_Character)                                          //  Checks whether player can have a dialog.
+THEN
+Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                //  Starts the Mod-Menu dialog.
+NRD_DebugLog("[S7:Config - ModMenu] --- Activated.");
 
 //END_REGION
 //=============================
+
+IF
+GlobalFlagSet(_Signal)      //  Flag set during ModMenu dialog.
+AND
+DB_S7_Config_ModMenu(_Signal)   //  Fetch FlagName from DB.
+THEN
+S7_Config_ModMenuSignal(_Signal);   //  Signal Lua.
+GlobalClearFlag(_Signal);           //  Clear Flag.
 
 EXITSECTION
 
