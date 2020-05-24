@@ -1,0 +1,37 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+
+//  ====================================================================================================================================
+//  |                                                      MOD INITIALIZATION                                                          |
+//  ====================================================================================================================================
+
+KBSECTION
+
+//  ===================
+//  STARTING A NEW GAME
+//  ===================
+
+IF
+GameEventSet("GAMEEVENT_GameStarted")
+THEN
+GlobalSetFlag("S7_Config_ModAddedTo_NewGame");
+NRD_DebugLog("[S7:Config - Initializer] --- Parent Goal Initialized. Mod added to a new game.");
+GoalCompleted;
+
+//  =============================
+//  LOADING AN EXISTING SAVE-GAME
+//  =============================
+
+IF
+SavegameLoaded(_, _, _, _)
+AND
+DB_StoryStarted(_)
+THEN
+NRD_DebugLog("[S7:Config - Initializer] --- Parent Goal Initialized. Story was already initialized. Mod added to an existing save-file.");
+GoalCompleted;
+
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "__Start"
