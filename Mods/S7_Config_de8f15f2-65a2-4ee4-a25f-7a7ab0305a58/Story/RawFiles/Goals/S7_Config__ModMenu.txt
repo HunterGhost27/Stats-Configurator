@@ -15,26 +15,12 @@ KBSECTION
 //=============================
 //REGION  START MOD-MENU DIALOG
 
-//  ____________________________________________
-//  Combine a claw-hammer with a trap disarm kit
-//  ********************************************
+//  _________________________________
+//  Character Used The Stat-Inspector
+//  *********************************
 
 IF                                      
-ItemTemplateCombinedWithItemTemplate("TOOL_Hammer_A_4f67d82f-9397-4c48-9134-4679fc9ea770", "TOOL_Trap_DisarmToolkit_9fda335e-2220-4ae9-a4c2-2424d5ef5165", _, _, _, _Character, _)     
-AND
-DB_IsPlayer(_Character)                                        
-AND
-QRY_SpeakerIsAvailable(_Character)                                          //  Checks whether player can have a dialog.
-THEN
-Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                //  Starts the Mod-Menu dialog.
-NRD_DebugLog("[S7:Config - ModMenu] --- Activated.");
-
-//  ____________________________________________
-//  Combine a trap disarm kit with a claw-hammer
-//  ********************************************
-
-IF                                      
-ItemTemplateCombinedWithItemTemplate("TOOL_Trap_DisarmToolkit_9fda335e-2220-4ae9-a4c2-2424d5ef5165", "TOOL_Hammer_A_4f67d82f-9397-4c48-9134-4679fc9ea770", _, _, _, _Character, _)     
+CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)     // Character used Inspector.
 AND
 DB_IsPlayer(_Character)                                        
 AND
@@ -53,6 +39,76 @@ DB_S7_Config_ModMenu(_Signal)   //  Fetch FlagName from DB.
 THEN
 S7_Config_ModMenuSignal(_Signal);   //  Signal Lua.
 GlobalClearFlag(_Signal);           //  Clear Flag.
+
+
+//  ===========================
+//REGION    INSPECT
+
+//  _______________________________
+//      Learn/Unlearn Inspect Skill
+//  *******************************
+
+IF
+GlobalFlagSet("S7_LearnInspect")
+AND
+CharacterGetHostCharacter(_Character)
+THEN
+CharacterAddSkill(_Character, "Target_S7_Config_Inspect", 1);
+
+IF
+GlobalFlagCleared("S7_LearnInspect")
+AND
+CharacterGetHostCharacter(_Character)
+THEN
+CharacterRemoveSkill(_Character, "Target_S7_Config_Inspect");
+
+//  __________________________________
+//          Inspect Skill
+//  **********************************
+
+IF
+CharacterUsedSkillOnTarget(_Character, _Target, "Target_S7_Config_Inspect", _, _)
+AND
+CharacterGetHostCharacter(_Character)
+THEN
+Proc_S7_Config_Inspect(_Target);
+
+PROC
+Proc_S7_Config_Inspect((GUIDSTRING)_Target)
+AND
+ObjectIsCharacter(_Target, 1)
+THEN
+NRD_CharacterIterateSkills((CHARACTERGUID)_Target, "S7_Config_Inspect_TargetSkills");
+NRD_IterateStatuses(_Target, "S7_Config_Inspect_TargetStatuses");
+
+IF
+NRD_SkillIteratorEvent("S7_Config_Inspect_TargetSkills", _Target, _SkillID, _, _)
+AND
+NRD_StatGetType(_SkillID, _SkillIDType)
+THEN
+S7_InspectStats(_SkillID, _SkillIDType);
+
+IF
+NRD_StatusIteratorEvent("S7_Config_Inspect_TargetStatuses", _Target, _StatusID, _)
+AND
+NRD_StatGetType(_StatusID, _StatusIDType)
+THEN
+S7_InspectStats(_StatusID, _StatusIDType);
+
+PROC
+Proc_S7_Config_Inspect((GUIDSTRING)_Target)
+AND
+ObjectIsItem(_Target, 1)
+AND
+NRD_ItemGetStatsId((ITEMGUID)_Target, _TargetID)
+AND
+NRD_StatGetType(_TargetID, _TargetIDType)
+THEN
+S7_InspectStats(_TargetID, _TargetIDType);
+
+
+//END_REGION
+//  ===========================
 
 EXITSECTION
 

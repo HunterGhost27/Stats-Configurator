@@ -57,7 +57,7 @@ Ext.NewCall(S7_StatsConfigurator, "S7_StatsConfigurator", "")
 --  =========================================================
 
 function S7_StatsSynchronize()
-    if toSync ~= nil then
+    if type(next(toSync)) ~= "nil" then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing Stats.")
         Ext.Print("==========================================================")
 
@@ -67,16 +67,30 @@ function S7_StatsSynchronize()
             toSync[i] = nil
         end
         Ext.Print("==========================================================")
-    elseif toSync[1] == nil then
+    elseif type(next(toSync)) == "nil" then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Failed to Synchronize. toSync queue is empty.")
     else
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Failed to Synchronize. toSync is nil.")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Failed to Synchronize.")
     end
 end
 
 --  =========================================================
 Ext.NewCall(S7_StatsSynchronize, "S7_StatsSynchronize", "")
 --  =========================================================
+
+local function S7_InspectStats(StatsID, StatType)
+    local allstat = Ext.GetStatEntries(StatType)
+
+    for name, content in pairs(allstat) do
+        if content == StatsID then
+            Ext.Print("(" .. StatType .. "): " .. StatsID)
+        end
+    end
+end
+
+--  ==================================================================================
+Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatsID, (STRING)_StatType")
+--  ==================================================================================
 
 --  ####################
 --      ISSUE-TRACKER

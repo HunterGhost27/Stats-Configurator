@@ -1,6 +1,13 @@
-# S7_Config Changelog
+# Stats Configurator Changelog
 
 ----------
+
+## [0.3.0.0] --- 25th May 2020 --- **__Inspector__**
+
+### NEW
+
+* _Created_ **Inspector** item. Using opens mod-menu.
+* _Created_ **Inspect** skill that returns the ***stat-type*** and ***stat-name/stat-id*** of the target.
 
 ## [0.3.0.0] --- 24th May 2020 --- **__Stats, Sync Up__**
 

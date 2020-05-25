@@ -1,0 +1,8 @@
+new entry "S7_Config_Inspector"
+type "Object"
+using "TOOL_IdentifyingGlass"
+data "RootTemplate" "c5959819-25e9-4dbc-ae20-0f6283502254"
+data "UseAPCost" "0"
+data "Value" "9001"
+data "Unique" "1"
+
