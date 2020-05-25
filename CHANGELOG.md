@@ -7,6 +7,7 @@
 ### NEW
 
 * _Created_ manual ***synchronize*** option in the **ModMenu**.
+* _Created_ thumbnail for the mod.
 
 ### CHANGED
 

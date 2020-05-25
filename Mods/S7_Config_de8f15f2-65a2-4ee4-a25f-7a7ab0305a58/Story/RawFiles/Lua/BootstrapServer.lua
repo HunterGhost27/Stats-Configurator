@@ -48,6 +48,7 @@ function S7_StatsConfigurator()
         Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON file could not be loaded.")
     end
     Ext.Print("[S7:Config - BootstrapServer.lua] --- Configuration Profile Active.")
+    S7_StatsSynchronize()
 end
 
 --  =========================================================
@@ -59,6 +60,7 @@ function S7_StatsSynchronize()
     if toSync ~= nil then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing Stats.")
         Ext.Print("==========================================================")
+
         for i, name in ipairs(toSync) do
             Ext.SyncStat(name)
             Ext.Print("Synchronized Stat: " .. name)
@@ -75,3 +77,10 @@ end
 --  =========================================================
 Ext.NewCall(S7_StatsSynchronize, "S7_StatsSynchronize", "")
 --  =========================================================
+
+--  ####################
+--      ISSUE-TRACKER
+--  ####################
+
+--  Cone skills are unsupported.
+--  Memorization-Requirements bugged in tooltips. Show up multiple times.
