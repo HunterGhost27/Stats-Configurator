@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<save>
+    <header version="2" />
+    <version major="3" minor="6" revision="6" build="0" />
+    <region id="DialogVariables">
+        <node id="root">
+            <children>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="Existing-Save" type="23" />
+                    <attribute id="Description" value="ModAddedTo" type="23" />
+                    <attribute id="UUID" value="70f2c40a-2237-4041-aed6-d1f1623d0ab6" type="31" />
+                    <attribute id="name" value="S7_Config_ModAddedTo" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="S7_Config, 1.0.0.0" type="23" />
+                    <attribute id="Description" value="Mod-Identifier" type="23" />
+                    <attribute id="UUID" value="76d92488-990f-45d4-828a-525bf966efaa" type="31" />
+                    <attribute id="name" value="S7_Config_ModID" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+            </children>
+        </node>
+    </region>
+</save>

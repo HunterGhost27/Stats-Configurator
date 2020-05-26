@@ -25,6 +25,7 @@ THEN
 Proc_S7_Config_Updater();                                    //  Run Update Procedure.
 // GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG. >>>>>> TODO <<<<<<<<
 DB_S7_ModIdentifier("S7_Config", "0.3.0.0");                 //  Add the latest version in the DB.
+DialogSetVariableFixedString("S7_Config_ModMenu", "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa", "S7_Config, 0.3.0.0");
 NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.3.0.0");
 
 //====================

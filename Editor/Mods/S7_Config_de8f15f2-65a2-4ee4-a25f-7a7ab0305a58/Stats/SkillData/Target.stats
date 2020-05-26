@@ -15,7 +15,7 @@
         <field name="Description" type="TranslatedStringStatObjectFieldDefinition" value="Inspect the target. Prints statsIDs to the Debug-Console." />
         <field name="IgnoreVisionBlock" type="EnumerationStatObjectFieldDefinition" value="1" enumeration_type_name="YesNo" />
         <field name="Stealth" type="EnumerationStatObjectFieldDefinition" value="1" enumeration_type_name="YesNo" />
-        <field name="Icon" type="StringStatObjectFieldDefinition" value="Talent_AncestralKnowledge" />
+        <field name="Icon" type="StringStatObjectFieldDefinition" value="Item_TOOL_IdentifyingGlass_A" />
         <field name="StatsDescription" type="TranslatedStringStatObjectFieldDefinition" value="Prints to the Debug-Console." />
         <field name="TargetRadius" type="IntegerStatObjectFieldDefinition" value="20" />
       </fields>

@@ -2,6 +2,18 @@
 
 ----------
 
+## [0.3.0.0] --- 26th May 2020 --- **__Code Clean-up__**
+
+### NEW
+
+* _Added_ dialog variables for some flags.
+
+### CHANGED
+
+* _Refactored_ **Inspector** item as a gear instead of an identifying-glass. Name changed to **Stats-Configurator**.
+* _Changed_ **Inspect** skill-icon to the standard identifying-glass.
+* _Moved_ dialog options around. Manual **Synchronization** moved inside **diagnostics** options. -still pretty useless, but hey peace of mind.
+
 ## [0.3.0.0] --- 25th May 2020 --- **_Inspector_**
 
 ### NEW
