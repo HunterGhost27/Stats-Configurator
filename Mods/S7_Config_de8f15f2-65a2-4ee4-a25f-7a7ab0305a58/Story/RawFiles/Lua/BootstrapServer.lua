@@ -18,6 +18,11 @@ local function S7_Config_ModMenuSignal(Signal) --  Signal recieved from Osiris
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
         S7_StatsSynchronize() --  Call StatsSynchronize
     end
+    --  =====   QUERY   =====
+    if Signal == "S7_StatsFetchAll" then --  Query stat-details
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- FetchAll")
+        S7_FetchAllStats() --  Call logs all stats.
+    end
 end
 
 --  ==============================================================================
@@ -119,6 +124,16 @@ function S7_SafeToModify(key)
             return true
         end
     end
+end
+
+function S7_FetchAllStats()
+    local SaveAllStatsToFile = Ext.LoadFile("S7_Config_AllTheStats.tsv")
+    local allStat = Ext.GetStatEntries()
+    SaveAllStatsToFile = ""
+    for key, value in ipairs(allStat) do
+        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. value .. "\n"
+    end
+    Ext.SaveFile("S7_Config_AllTheStats.tsv", SaveAllStatsToFile)
 end
 
 --  ####################

@@ -9,6 +9,7 @@ INITSECTION
 //  DB_S7_Config_ModMenu((STRING)_FlagName)
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
+    DB_S7_Config_ModMenu("S7_StatsFetchAll");
 //  =============================================
 
 KBSECTION
