@@ -24,6 +24,10 @@ end
 Ext.NewCall(S7_Config_ModMenuSignal, "S7_Config_ModMenuSignal", "(STRING)_Signal")
 --  ==============================================================================
 
+--  #####################
+--  STATS CONFIG AND SYNC
+--  #####################
+
 toSync = {}
 
 function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile() or a mod.
@@ -39,8 +43,10 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
 
             local stat = Ext.GetStat(name) --  Gets original stat-entry
             for key, value in pairs(content) do
-                Ext.Print(key .. ": " .. value .. "\t(" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                stat[key] = value --  Sets new value for Name[Attribute]
+                if S7_SafeToModify(key) then
+                    Ext.Print(key .. ": " .. value .. "\t(" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                    stat[key] = value --  Sets new value for Name[Attribute]
+                end
             end
             Ext.Print("_____________________________________________________________")
             Ext.Print("\n")
@@ -93,18 +99,37 @@ Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatsID, (STRING)_Stat
 --  ==================================================================================
 
 --  ####################
+--  FUNCTION DEFINITIONS
+--  ####################
+
+function S7_SafeToModify(key)
+    local dontFwith = {
+        "AoEConditions",
+        "TargetConditions",
+        "ForkingConditions",
+        "CycleConditions",
+        "SkillProperties",
+        "WinBoost",
+        "LoseBoost"
+    }
+    for i, avoid in ipairs(dontFwith) do
+        if key == avoid then
+            return false
+        else
+            return true
+        end
+    end
+end
+
+--  ####################
 --      ISSUE-TRACKER
 --  ####################
 
 --  Cone skills are unsupported.
 --  Memorization-Requirements bugged in tooltips. Show up multiple times.
-
--- dontFwith = {
---     "AoEConditions",
---     "TargetConditions",
---     "ForkingConditions",
---     "CycleConditions",
---     "SkillProperties",
---     "WinBoost",
---     "LoseBoost"
--- }
+-- local MemReq = Ext.StatGetAttribute(name, "MemorizationRequirements")
+-- for k, v in pairs(MemReq) do
+--     for x, y in pairs(v) do
+--         Ext.Print(k .. ": " .. x .. ": " .. tostring(y))
+--     end
+-- end
