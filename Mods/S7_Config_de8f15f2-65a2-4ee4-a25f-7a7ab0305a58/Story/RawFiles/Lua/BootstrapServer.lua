@@ -8,8 +8,11 @@
 
 local function S7_Config_ModMenuSignal(Signal) --  Signal recieved from Osiris
     if Signal == "S7_StatsConfigurator" then --  Load JSON and Configure Stats
-        S7_StatsConfigurator() --  Call StatsConfigurator
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading S7_Config.json")
+        local JSONstring = Ext.LoadFile("S7_Config.json") --  Loads Configuration File.
+        S7_StatsConfigurator(JSONstring) --  Call StatsConfigurator
     end
+
     if Signal == "S7_StatsSynchronize" then --  Synchronize stats between all clients
         S7_StatsSynchronize() --  Call StatsSynchronize
     end
@@ -21,13 +24,11 @@ Ext.NewCall(S7_Config_ModMenuSignal, "S7_Config_ModMenuSignal", "(STRING)_Signal
 
 toSync = {}
 
-function S7_StatsConfigurator()
-    Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading S7_Config.json")
-    local JSONstring = Ext.LoadFile("S7_Config.json") --  Loads Configuration File.
+function S7_StatsConfigurator(JSONstring)
     local JSONborne = Ext.JsonParse(JSONstring) --  Parse JSONstring.
 
     if JSONborne ~= nil then --  JSONborne is not empty.
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON file loaded. Applying Configuration Profile.\n\n")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.\n\n")
 
         Ext.Print("=============================================================")
         for name, content in pairs(JSONborne) do --  Iterate over JSONborne
@@ -69,8 +70,6 @@ function S7_StatsSynchronize()
         Ext.Print("==========================================================")
     elseif type(next(toSync)) == "nil" then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Failed to Synchronize. toSync queue is empty.")
-    else
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Failed to Synchronize.")
     end
 end
 
@@ -98,3 +97,13 @@ Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatsID, (STRING)_Stat
 
 --  Cone skills are unsupported.
 --  Memorization-Requirements bugged in tooltips. Show up multiple times.
+
+-- dontFwith = {
+--     "AoEConditions",
+--     "TargetConditions",
+--     "ForkingConditions",
+--     "CycleConditions",
+--     "SkillProperties",
+--     "WinBoost",
+--     "LoseBoost"
+-- }

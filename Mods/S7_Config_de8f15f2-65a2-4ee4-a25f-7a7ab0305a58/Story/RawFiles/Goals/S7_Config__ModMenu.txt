@@ -12,6 +12,16 @@ INITSECTION
 //  =============================================
 
 KBSECTION
+IF
+GameStarted(_, _)
+AND
+CharacterGetHostCharacter(_Character)
+AND
+NOT ItemTemplateIsInPartyInventory(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1, 1)
+THEN
+ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _Character, 1);
+NRD_DebugLog("[S7:Config - ModMenu] --- Inspector added to Host-Character's Inventory.");
+
 //=============================
 //REGION  START MOD-MENU DIALOG
 
@@ -72,6 +82,13 @@ AND
 CharacterGetHostCharacter(_Character)
 THEN
 Proc_S7_Config_Inspect(_Target);
+
+// PROC
+// Proc_S7_Config_Inspect((GUIDSTRING)_Target)
+// AND
+// ObjectIsCharacter(_Target, 1)
+// THEN
+// S7_InspectStats((STRING)_Target, "Character");
 
 PROC
 Proc_S7_Config_Inspect((GUIDSTRING)_Target)
