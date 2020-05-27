@@ -104,13 +104,6 @@ Proc_S7_Config_Inspect(_Target);                                                
 PROC
 Proc_S7_Config_Inspect((GUIDSTRING)_Target)
 AND
-ObjectIsCharacter(_Target, 1)
-THEN
-S7_InspectStats((STRING)_Target, "Character");
-
-PROC
-Proc_S7_Config_Inspect((GUIDSTRING)_Target)
-AND
 ObjectIsCharacter(_Target, 1)                                                           //  Inspect Target is a Character.
 THEN
 NRD_CharacterIterateSkills((CHARACTERGUID)_Target, "S7_Config_Inspect_TargetSkills");   //  Iterate Over Character's Skills

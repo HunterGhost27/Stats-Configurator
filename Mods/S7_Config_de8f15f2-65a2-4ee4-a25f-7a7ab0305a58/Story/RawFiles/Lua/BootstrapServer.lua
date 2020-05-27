@@ -95,14 +95,11 @@ Ext.NewCall(S7_StatsSynchronize, "S7_StatsSynchronize", "")
 
 local function S7_InspectStats(StatsID, StatType) --  Recieves StatsID and StatType from Osiris
     local allstat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
-
-    Ext.Print("[S7:Config - BootstrapServer.lua] --- Inspect Skill Results:\n")
     for name, content in pairs(allstat) do --  Iterate over allstat
         if content == StatsID then
             Ext.Print("[S7:Config - BootstrapServer.lua] --- (" .. StatType .. "): " .. StatsID)
         end
     end
-    Ext.Print("\n")
 end
 
 --  ==================================================================================
