@@ -20,11 +20,11 @@ KBSECTION
 IF
 GameStarted(_, _)
 AND
-NOT DB_S7_ModIdentifier("S7_Config", "0.3.0.0")              //  Latest-Version does not exist.
+NOT DB_S7_ModIdentifier("S7_Config", "0.3.0.0")                         //  Latest-Version does not exist.
 THEN
-Proc_S7_Config_Updater();                                    //  Run Update Procedure.
-// GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG. >>>>>> TODO <<<<<<<<
-DB_S7_ModIdentifier("S7_Config", "0.3.0.0");                 //  Add the latest version in the DB.
+Proc_S7_Config_Updater();                                               //  Run Update Procedure.
+// GlobalSetFlag("S7_Config_CHANGELOG");                                //  Request CHANGELOG. >>>>>> TODO <<<<<<<<
+DB_S7_ModIdentifier("S7_Config", "0.3.0.0");                            //  Add the latest version in the DB.
 DialogSetVariableFixedString("S7_Config_ModMenu", "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa", "S7_Config, 0.3.0.0");
 NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.3.0.0");
 
@@ -36,36 +36,36 @@ NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.3.0.0");
 //  *************************************
 
 // IF
-// GlobalFlagSet("S7_Config_CHANGELOG")                                    //  CHANGELOG requested through update or dialog option.
+// GlobalFlagSet("S7_Config_CHANGELOG")                                 //  CHANGELOG requested through update or dialog option.
 // THEN
-// Proc_S7_Config_ChangelogRequest();                           //  Calls procedure.
-// GlobalClearFlag("S7_Config_CHANGELOG");                                 //  Clears flag.
+// Proc_S7_Config_ChangelogRequest();                                   //  Calls procedure.
+// GlobalClearFlag("S7_Config_CHANGELOG");                              //  Clears flag.
 
 // PROC
-// Proc_S7_Config_ChangelogRequest()                            //  Procedure Definition.
+// Proc_S7_Config_ChangelogRequest()                                    //  Procedure Definition.
 // AND
 // DB_IsPlayer(_Character)
 // AND
-// DB_S7_ChangeLogs("S7_Config", _, _LogItem)                   //  Fetches LogItems from DB
+// DB_S7_ChangeLogs("S7_Config", _, _LogItem)                           //  Fetches LogItems from DB
 // AND
-// ItemTemplateIsInPartyInventory(_Character, _LogItem, 1, 1)          //  Character already has CHANGELOG. (old instances for example)
+// ItemTemplateIsInPartyInventory(_Character, _LogItem, 1, 1)           //  Character already has CHANGELOG. (old instances for example)
 // THEN
-// ItemTemplateRemoveFromUser(_LogItem, _Character, 1);                //  Removes old instances of items from player's inventory.
+// ItemTemplateRemoveFromUser(_LogItem, _Character, 1);                 //  Removes old instances of items from player's inventory.
 
 // PROC
-// Proc_S7_Config_ChangelogRequest()                            //  Procedure Definition.
+// Proc_S7_Config_ChangelogRequest()                                    //  Procedure Definition.
 // AND
 // DB_IsPlayer(_Character)     
 // AND
-// DB_S7_ChangeLogs("S7_Config", _ItemType, _LogItem)           //  Gets the Note and Log from the DB.
+// DB_S7_ChangeLogs("S7_Config", _ItemType, _LogItem)                   //  Gets the Note and Log from the DB.
 // AND
-// NOT ItemTemplateIsInPartyInventory(_Character, _LogItem, 1, 1)      //  Checks if player doesn't already have those items in inventory
+// NOT ItemTemplateIsInPartyInventory(_Character, _LogItem, 1, 1)       //  Checks if player doesn't already have those items in inventory
 // AND
 // StringConcatenate("[S7:Config - ModVersioning] --- ", _ItemType, _TempStr)
 // AND
 // StringConcatenate(_TempStr, " added to player inventory.", _LogPlayerLog)
 // THEN
-// ItemTemplateAddTo(_LogItem, _Character, 1);                         //  Adds the Note and Changelog to the player's inventory.
+// ItemTemplateAddTo(_LogItem, _Character, 1);                          //  Adds the Note and Changelog to the player's inventory.
 // NRD_DebugLog(_LogPlayerLog);
 
 
@@ -82,11 +82,11 @@ NRD_DebugLog("[S7:Config - ModVersioning] --- Mod Updated to Version: 0.3.0.0");
 PROC    
 Proc_S7_Config_Updater()                             
 AND
-DB_S7_ModIdentifier("S7_Config", _ModVersion)                    //  Gets all facts from the ModIdentifier.
+DB_S7_ModIdentifier("S7_Config", _ModVersion)                           //  Gets all facts from the ModIdentifier.
 AND
 _ModVersion != "0.3.0.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
 THEN
-NOT DB_S7_ModIdentifier("S7_Config", _ModVersion);               //  Removes all older facts from DB.
+NOT DB_S7_ModIdentifier("S7_Config", _ModVersion);                      //  Removes all older facts from DB.
 
 //END_REGION
 //====================

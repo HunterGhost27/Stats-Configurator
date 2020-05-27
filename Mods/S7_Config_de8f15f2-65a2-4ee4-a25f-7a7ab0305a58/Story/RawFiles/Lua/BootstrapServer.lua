@@ -10,7 +10,7 @@ local function S7_Config_ModMenuSignal(Signal) --  Signal recieved from Osiris
     --  =====   STATS-CONFIGURATOR  =====
     if Signal == "S7_StatsConfigurator" then --  Load JSON and Configure Stats
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading S7_Config.json")
-        local JSONstring = Ext.LoadFile("S7_Config.json") --  Loads Configuration File.
+        local JSONstring = Ext.LoadFile("S7_Config.json") --  Loads Configuration File
         S7_StatsConfigurator(JSONstring) --  Call StatsConfigurator
     end
     --  =====   STATS-SYNCHRONIZE   =====
@@ -18,10 +18,10 @@ local function S7_Config_ModMenuSignal(Signal) --  Signal recieved from Osiris
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
         S7_StatsSynchronize() --  Call StatsSynchronize
     end
-    --  =====   QUERY   =====
-    if Signal == "S7_StatsFetchAll" then --  Query stat-details
+    --  =====   EXPORT STATS TO TSV   =====
+    if Signal == "S7_StatsFetchAll" then --  Export stat-types and stat-names to tsv
         Ext.Print("[S7:Config - BootstrapServer.lua] --- FetchAll")
-        S7_FetchAllStats() --  Call logs all stats.
+        S7_FetchAllStats() --  Logs statIDs in an external TSV file for reference
     end
 end
 
@@ -33,7 +33,7 @@ Ext.NewCall(S7_Config_ModMenuSignal, "S7_Config_ModMenuSignal", "(STRING)_Signal
 --  STATS CONFIG AND SYNC
 --  #####################
 
-toSync = {}
+toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
 function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile() or a mod.
     local JSONborne = Ext.JsonParse(JSONstring) --  Parse JSONstring.
@@ -48,7 +48,7 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
 
             local stat = Ext.GetStat(name) --  Gets original stat-entry
             for key, value in pairs(content) do
-                if S7_SafeToModify(key) then
+                if S7_SafeToModify(key) then --  Checks if key is safe to modify
                     Ext.Print(key .. ": " .. value .. "\t(" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                     stat[key] = value --  Sets new value for Name[Attribute]
                 end
@@ -75,7 +75,7 @@ function S7_StatsSynchronize()
         Ext.Print("==========================================================")
 
         for i, name in ipairs(toSync) do
-            Ext.SyncStat(name)
+            Ext.SyncStat(name) --  Sync
             Ext.Print("Synchronized Stat: " .. name)
             toSync[i] = nil --  Clears out toSync entry.
         end
@@ -89,26 +89,35 @@ end
 Ext.NewCall(S7_StatsSynchronize, "S7_StatsSynchronize", "")
 --  =========================================================
 
+--  ###########################
+--      INSPECT STATS SKILL
+--  ###########################
+
 local function S7_InspectStats(StatsID, StatType) --  Recieves StatsID and StatType from Osiris
     local allstat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
 
+    Ext.Print("[S7:Config - BootstrapServer.lua] --- Inspect Skill Results:\n")
     for name, content in pairs(allstat) do --  Iterate over allstat
         if content == StatsID then
             Ext.Print("[S7:Config - BootstrapServer.lua] --- (" .. StatType .. "): " .. StatsID)
         end
     end
+    Ext.Print("\n")
 end
 
 --  ==================================================================================
 Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatsID, (STRING)_StatType")
 --  ==================================================================================
 
---  ####################
---  FUNCTION DEFINITIONS
---  ####################
+--  ############################
+--      FUNCTION DEFINITIONS
+--  ############################
 
-function S7_SafeToModify(key)
+function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = {
+        --  Don't mess with these keys.
+        "MemorizationRequirements",
+        "Requirements",
         "AoEConditions",
         "TargetConditions",
         "ForkingConditions",
@@ -117,6 +126,7 @@ function S7_SafeToModify(key)
         "WinBoost",
         "LoseBoost"
     }
+
     for i, avoid in ipairs(dontFwith) do
         if key == avoid then
             return false
@@ -126,14 +136,15 @@ function S7_SafeToModify(key)
     end
 end
 
-function S7_FetchAllStats()
-    local SaveAllStatsToFile = Ext.LoadFile("S7_Config_AllTheStats.tsv")
-    local allStat = Ext.GetStatEntries()
-    SaveAllStatsToFile = ""
+function S7_FetchAllStats() --  Fetches literally every stat and exports to TSV
+    Ext.SaveFile("S7_Config_AllTheStats.tsv", "") --  Creates an empty TSV or Overwrites the existing one.
+    local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column
+    local allStat = Ext.GetStatEntries() --  Get All Stat Entries
     for key, value in ipairs(allStat) do
-        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. value .. "\n"
+        local type = NRD_StatGetType(value)
+        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n"
     end
-    Ext.SaveFile("S7_Config_AllTheStats.tsv", SaveAllStatsToFile)
+    Ext.SaveFile("S7_Config_AllTheStats.tsv", SaveAllStatsToFile) --  Save TSV file.
 end
 
 --  ####################
@@ -141,10 +152,20 @@ end
 --  ####################
 
 --  Cone skills are unsupported.
---  Memorization-Requirements bugged in tooltips. Show up multiple times.
--- local MemReq = Ext.StatGetAttribute(name, "MemorizationRequirements")
--- for k, v in pairs(MemReq) do
---     for x, y in pairs(v) do
---         Ext.Print(k .. ": " .. x .. ": " .. tostring(y))
---     end
--- end
+--  Memorization-Requirements bugged in tooltips. Shows up multiple times.
+
+--[[    KEY NAMES FOR REFERENCE
+        #######################
+        
+    Armor
+    Character
+    Crime
+    Object      -   RootTemplate, UseAPCost, Value, Unique
+    Potion
+    Shield
+    SkillData   -   SkillType, ActionPoints, Cooldown, TargetRadius, CanTargetCharacters, CanTargetItems, CanTargetTerrain,     \\
+                    MemoryCost, MagicCost, Icon, DisplayName, DisplayNameRef, Description, DescriptionRef, StatsDescription,    \\
+                    StatsDescriptionRef, IgnoreVisionBlock, Stealth
+    StatusData
+    Weapon
+]]

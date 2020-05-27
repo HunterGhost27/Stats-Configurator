@@ -2,7 +2,13 @@
 
 ----------
 
-## [0.3.0.0] --- 26th May 2020 --- **__Code Clean-up__**
+## [0.3.0.0] --- 27th May 20202 --- **_File I/O_**
+
+### NEW
+
+* _Created_ an ModMenu option to export all stats to a **TSV** file.
+
+## [0.3.0.0] --- 26th May 2020 --- **_Code Clean-up_**
 
 ### NEW
 
@@ -48,7 +54,7 @@
 * _Created_ **BootstrapClient.lua** - Reads **S7_Config.json** and applies stat-modifications.
 * _Created_ basic **ModMenu**.
 
-## [0.1.0.0] --- 24th May 2020 --- **__Osiris Init and ModVersioning**
+## [0.1.0.0] --- 24th May 2020 --- **_Osiris Init and ModVersioning_**
 
 ### NEW
 

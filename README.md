@@ -6,7 +6,7 @@
 
 ## Releases
 
-* ***[Steam Workshop]()*** 
+* ***[Steam Workshop]()***
 * ***[Nexus]()***
 
 ## Requirements
