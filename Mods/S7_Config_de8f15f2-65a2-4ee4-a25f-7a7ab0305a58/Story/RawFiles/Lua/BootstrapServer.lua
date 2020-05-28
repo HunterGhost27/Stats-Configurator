@@ -6,7 +6,7 @@
 --       MOD-MENU
 --  ##################
 
-local function S7_Config_ModMenuSignal(Signal) --  Signal recieved from Osiris
+local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris
     --  =====   STATS-CONFIGURATOR  =====
     if Signal == "S7_StatsConfigurator" then --  Load JSON and Configure Stats
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading S7_Config.json")
@@ -19,15 +19,15 @@ local function S7_Config_ModMenuSignal(Signal) --  Signal recieved from Osiris
         S7_StatsSynchronize() --  Call StatsSynchronize
     end
     --  =====   EXPORT STATS TO TSV   =====
-    if Signal == "S7_StatsFetchAll" then --  Export stat-types and stat-names to tsv
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- FetchAll")
-        S7_FetchAllStats() --  Logs statIDs in an external TSV file for reference
+    if Signal == "S7_StatsExportTSV" then --  Export stat-types and stat-names to a tsv
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Exporting all StatIDs to S7_Config_AllTheStats.tsv")
+        S7_StatsExportTSV() --  Logs statIDs in an external TSV file for reference
     end
 end
 
---  ==============================================================================
-Ext.NewCall(S7_Config_ModMenuSignal, "S7_Config_ModMenuSignal", "(STRING)_Signal")
---  ==============================================================================
+--  ============================================================================
+Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
+--  ============================================================================
 
 --  #####################
 --  STATS CONFIG AND SYNC
@@ -35,7 +35,7 @@ Ext.NewCall(S7_Config_ModMenuSignal, "S7_Config_ModMenuSignal", "(STRING)_Signal
 
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
-function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile() or a mod.
+function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile(), Osiris or a mod.
     local JSONborne = Ext.JsonParse(JSONstring) --  Parse JSONstring.
 
     if JSONborne ~= nil then --  JSONborne is not empty.
@@ -71,15 +71,15 @@ Ext.NewCall(S7_StatsConfigurator, "S7_StatsConfigurator", "")
 
 function S7_StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified.
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing Stats.")
-        Ext.Print("==========================================================")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing Stat-edit")
+        Ext.Print("=============================================================")
 
         for i, name in ipairs(toSync) do
             Ext.SyncStat(name) --  Sync
             Ext.Print("Synchronized Stat: " .. name)
             toSync[i] = nil --  Clears out toSync entry.
         end
-        Ext.Print("==========================================================")
+        Ext.Print("=============================================================")
     elseif type(next(toSync)) == "nil" then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Nothing to Synchronize. toSync queue is empty.")
     end
@@ -88,6 +88,21 @@ end
 --  =========================================================
 Ext.NewCall(S7_StatsSynchronize, "S7_StatsSynchronize", "")
 --  =========================================================
+
+--  ################################
+--      EXPORT STAT-NAMES TO TSV
+--  ################################
+
+function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
+    Ext.SaveFile("S7_Config_AllTheStats.tsv", "") --  Creates an empty TSV or Overwrites the existing one.
+    local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column
+    local allStat = Ext.GetStatEntries() --  Get All Stat Entries
+    for key, value in ipairs(allStat) do
+        local type = NRD_StatGetType(value)
+        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n"
+    end
+    Ext.SaveFile("S7_Config_AllTheStats.tsv", SaveAllStatsToFile) --  Save TSV file.
+end
 
 --  ###########################
 --      INSPECT STATS SKILL
@@ -110,20 +125,20 @@ Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatsID, (STRING)_Stat
 --      FUNCTION DEFINITIONS
 --  ############################
 
-function S7_SafeToModify(key) --  Checks if key is safe to modify.
-    local dontFwith = {
-        --  Don't mess with these keys.
-        "MemorizationRequirements",
-        "Requirements",
-        "AoEConditions",
-        "TargetConditions",
-        "ForkingConditions",
-        "CycleConditions",
-        "SkillProperties",
-        "WinBoost",
-        "LoseBoost"
-    }
+dontFwith = {
+    --  Don't mess with these keys.
+    "MemorizationRequirements",
+    "Requirements",
+    "AoEConditions",
+    "TargetConditions",
+    "ForkingConditions",
+    "CycleConditions",
+    "SkillProperties",
+    "WinBoost",
+    "LoseBoost"
+}
 
+function S7_SafeToModify(key) --  Checks if key is safe to modify.
     for i, avoid in ipairs(dontFwith) do
         if key == avoid then
             return false
@@ -133,22 +148,10 @@ function S7_SafeToModify(key) --  Checks if key is safe to modify.
     end
 end
 
-function S7_FetchAllStats() --  Fetches literally every stat and exports to TSV
-    Ext.SaveFile("S7_Config_AllTheStats.tsv", "") --  Creates an empty TSV or Overwrites the existing one.
-    local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column
-    local allStat = Ext.GetStatEntries() --  Get All Stat Entries
-    for key, value in ipairs(allStat) do
-        local type = NRD_StatGetType(value)
-        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n"
-    end
-    Ext.SaveFile("S7_Config_AllTheStats.tsv", SaveAllStatsToFile) --  Save TSV file.
-end
-
 --  ####################
 --      ISSUE-TRACKER
 --  ####################
 
---  Cone skills are unsupported.
 --  Memorization-Requirements bugged in tooltips. Shows up multiple times.
 
 --[[    KEY NAMES FOR REFERENCE

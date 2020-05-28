@@ -9,7 +9,7 @@ INITSECTION
 //  DB_S7_Config_ModMenu((STRING)_FlagName)
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
-    DB_S7_Config_ModMenu("S7_StatsFetchAll");
+    DB_S7_Config_ModMenu("S7_StatsExportTSV");
 //  =============================================
 
 KBSECTION
@@ -65,7 +65,7 @@ GlobalFlagSet(_Signal)                                                          
 AND
 DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
 THEN
-S7_Config_ModMenuSignal(_Signal);                                                       //  Signal Lua.
+S7_Config_ModMenuRelay(_Signal);                                                        //  Signal Lua.
 GlobalClearFlag(_Signal);                                                               //  Clear Flag.
 
 
@@ -82,6 +82,7 @@ AND
 CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
 THEN
 CharacterAddSkill(_Character, "Target_S7_Config_Inspect", 1);                           //  Add Inspect Skill.
+NRD_DebugLog("[S7:Config - ModMenu] --- Host learned Inspect Spell.");
 
 IF
 GlobalFlagCleared("S7_LearnInspect")                                                    //  Flag cleared by dialog.
@@ -89,6 +90,7 @@ AND
 CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
 THEN
 CharacterRemoveSkill(_Character, "Target_S7_Config_Inspect");                           //  Remove Inspect Skill.
+NRD_DebugLog("[S7:Config - ModMenu] --- Host unlearned Inspect Spell.");
 
 //  __________________________________
 //          Inspect Skill

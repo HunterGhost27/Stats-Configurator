@@ -2,7 +2,13 @@
 
 ----------
 
-## [0.3.0.0] --- 27th May 20202 --- **_File I/O_**
+## [0.3.0.0] --- 28th May 2020 --- **_Minor Refactoring_**
+
+### CHANGED
+
+* Minor ***Refactoring*** pass. Renamed **FetchAll** to **ExportTSV**.
+
+## [0.3.0.0] --- 27th May 2020 --- **_File I/O_**
 
 ### NEW
 
