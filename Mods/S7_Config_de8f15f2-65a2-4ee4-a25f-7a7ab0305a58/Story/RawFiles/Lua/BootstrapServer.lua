@@ -3,17 +3,29 @@
 --  ################################################################################################################
 
 --  ##################
+--       SETTINGS
+--  ##################
+
+S7_ConfigSettings = {
+    ["ConfigFiles"] = {"S7_Config.json", "S7_SecConfig.json"},
+    ["SyncStatPersistence"] = true
+}
+
+--  ##################
 --       MOD-MENU
 --  ##################
 
 local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris
     --  =====   STATS-CONFIGURATOR  =====
     if Signal == "S7_StatsConfigurator" then --  Load JSON and Configure Stats
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading S7_Config.json")
-        local JSONstring = Ext.LoadFile("S7_Config.json") --  Loads Configuration File
-        S7_StatsConfigurator(JSONstring) --  Call StatsConfigurator
+        local files = S7_ConfigSettings.ConfigFiles
+        for i, fileName in ipairs(files) do
+            Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading " .. fileName)
+            local JSONstring = Ext.LoadFile(fileName) --  Loads Configuration File
+            S7_StatsConfigurator(JSONstring) --  Call StatsConfigurator
+        end
     end
-    --  =====   STATS-SYNCHRONIZE   =====
+    --  =====   STATS-SYNCHRONIZE   =====    IS THIS EVEN NEEDED ?
     if Signal == "S7_StatsSynchronize" then --  Synchronize stats between all clients
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
         S7_StatsSynchronize() --  Call StatsSynchronize
@@ -65,17 +77,14 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
     S7_StatsSynchronize() --  Synchronize stats for all clients.
 end
 
---  =========================================================
-Ext.NewCall(S7_StatsConfigurator, "S7_StatsConfigurator", "")
---  =========================================================
-
 function S7_StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified.
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing Stat-edit")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing Stats")
         Ext.Print("=============================================================")
 
         for i, name in ipairs(toSync) do
-            Ext.SyncStat(name) --  Sync
+            Ext.Print(S7_ConfigSettings.SyncStatPersistence)
+            Ext.SyncStat(name, S7_ConfigSettings.SyncStatPersistence) --  Sync
             Ext.Print("Synchronized Stat: " .. name)
             toSync[i] = nil --  Clears out toSync entry.
         end
@@ -84,10 +93,6 @@ function S7_StatsSynchronize()
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Nothing to Synchronize. toSync queue is empty.")
     end
 end
-
---  =========================================================
-Ext.NewCall(S7_StatsSynchronize, "S7_StatsSynchronize", "")
---  =========================================================
 
 --  ################################
 --      EXPORT STAT-NAMES TO TSV
@@ -108,37 +113,37 @@ end
 --      INSPECT STATS SKILL
 --  ###########################
 
-local function S7_InspectStats(StatsID, StatType) --  Recieves StatsID and StatType from Osiris
-    local allstat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
-    for name, content in pairs(allstat) do --  Iterate over allstat
-        if content == StatsID then
-            Ext.Print("[S7:Config - BootstrapServer.lua] --- (" .. StatType .. "): " .. StatsID)
+local function S7_InspectStats(StatID, StatType) --  Recieves StatID and StatType from Osiris
+    local compareStat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
+    for name, content in pairs(compareStat) do --  Iterate over compareStat
+        if content == StatID then
+            Ext.Print("[S7:Config - BootstrapServer.lua] --- (" .. StatType .. "): " .. StatID)
         end
     end
 end
 
 --  ==================================================================================
-Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatsID, (STRING)_StatType")
+Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatType")
 --  ==================================================================================
 
 --  ############################
 --      FUNCTION DEFINITIONS
 --  ############################
 
-dontFwith = {
-    --  Don't mess with these keys.
-    "MemorizationRequirements",
-    "Requirements",
-    "AoEConditions",
-    "TargetConditions",
-    "ForkingConditions",
-    "CycleConditions",
-    "SkillProperties",
-    "WinBoost",
-    "LoseBoost"
-}
-
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
+    local dontFwith = {
+        --  Don't mess with these keys.
+        "MemorizationRequirements",
+        "Requirements",
+        "AoEConditions",
+        "TargetConditions",
+        "ForkingConditions",
+        "CycleConditions",
+        "SkillProperties",
+        "WinBoost",
+        "LoseBoost"
+    }
+
     for i, avoid in ipairs(dontFwith) do
         if key == avoid then
             return false
