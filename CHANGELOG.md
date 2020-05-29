@@ -2,6 +2,16 @@
 
 ----------
 
+## [0.4.0.0] --- 29th May 2020 --- **_Setting Up_**
+
+### NEW
+
+* Started working on custom settings.
+* `SyncStat()` persistence can be toggled.
+* `StatsConfigurator()` can read from **multiple config files**.
+* `StatExportTSV` can be **restricted** to certain `StatTypes`.
+* Can bypass `SafeToModify()` function.
+
 ## [0.3.0.0] --- 28th May 2020 --- **_Minor Refactoring_**
 
 ### CHANGED
@@ -35,7 +45,7 @@
 
 ### CHANGED
 
-* ***Loading*** JSON files is done by the ModMenu functions. Moving this out of **S7_StatsConfigurator()** allows other mods to pass a ***stringified JSON (JSONstring)***  to the function.
+* ***Loading*** JSON files is done by the ModMenu functions. Moving this out of `S7_StatsConfigurator()` allows other mods to pass a ***stringified JSON (JSONstring)***  to the function.
 
 ### REMOVED
 
