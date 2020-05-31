@@ -1,6 +1,6 @@
---  ################################################################################################################
---  ########                                       STATS CONFIGURATOR                                       ########
---  ################################################################################################################
+--  #################################################################################################################################
+--  #########                                                STATS CONFIGURATOR                                             #########
+--  #################################################################################################################################
 
 --  ##################
 --       SETTINGS
@@ -8,12 +8,14 @@
 
 --  Default Settings
 --  ================
+
 S7_ConfigSettings = {
     ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from
     ["SyncStatPersistence"] = true, --  Changes made with Ext.SyncStat() will be stored persistently if true
+    ["ManuallySynchronize"] = {}, --  list statsIDs to manually synchronize using diagnostics-option.
     ["ExportStatIDtoTSV"] = {
         ["FileName"] = "S7_Config_AllTheStats.tsv", --  FileName for ExportedStats
-        ["RestrictStatTypeTo"] = {} --  Limit the search to only these statTypes.
+        ["RestrictStatTypeTo"] = {} --  Limit the search to only these statTypes. e.g. Character, Potions, SkillData
     },
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify()
 }
@@ -21,11 +23,26 @@ S7_ConfigSettings = {
 --  Import Custom Settings
 --  ======================
 
---  <TODO>
+function S7_ApplyCustomSettings()
+    local JSONsetting = Ext.LoadFile("S7_Config_CustomSettings.json")
+    if JSONsetting ~= "" then
+        local settingsOverride = Ext.JsonParse(JSONsetting)
+        S7_ConfigSettings = settingsOverride
+        Ext.Print("[S7:Config - BootstrapServer.lua] - Custom settings applied.")
+    else
+        Ext.Print("[S7:Config - BootstrapServer.lua] - Using default settings.")
+    end
+end
+
+--  ==========================================================
+Ext.RegisterListener("SessionLoading", S7_ApplyCustomSettings)
+--  ==========================================================
 
 --  ##################
 --       MOD-MENU
 --  ##################
+
+toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
 local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris
     --  =====   STATS-CONFIGURATOR  =====
@@ -37,10 +54,19 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris
             S7_StatsConfigurator(JSONstring) --  Calls StatsConfigurator
         end
     end
-    --  =====   STATS-SYNCHRONIZE   =====    IS THIS EVEN NEEDED ? Completely useless as of now.
+    --  =====   STATS-SYNCHRONIZE   =====    Should do something now atleast. Still pretty useless.
     if Signal == "S7_StatsSynchronize" then --  Synchronize stats between all clients
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
+        if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Check if player wants to manually synchronize certain stats
+            for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats
+                table.insert(toSync, stats) --  insert stats into toSync queue
+            end
+        end
         S7_StatsSynchronize() --  Call StatsSynchronize
+    end
+    --  =====   REAPPLY-SETTINGS    ======
+    if Signal == "S7_ReapplySettings" then
+        S7_ApplyCustomSettings() --  Nice and easy
     end
     --  =====   EXPORT STATS TO TSV   =====
     if Signal == "S7_StatsExportTSV" then --  Export stat-types and stat-names to a tsv
@@ -60,13 +86,11 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  STATS CONFIG AND SYNC
 --  #####################
 
-toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
-
 function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile(), Osiris or a mod.
     local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
     if JSONborne ~= nil then --  JSONborne is not empty.
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.\n")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.")
 
         Ext.Print("=============================================================")
         for name, content in pairs(JSONborne) do --  Iterate over JSONborne
@@ -96,8 +120,8 @@ end
 function S7_StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified.
         Ext.Print(
-            "[S7:Config - BootstrapServer.lua] --- Synchronizing [Persistence: " ..
-                S7_ConfigSettings.SyncStatPersistence .. "]"
+            "[S7:Config - BootstrapServer.lua] --- Synchronizing Stats [Savegame-Persistence: " ..
+                tostring(S7_ConfigSettings.SyncStatPersistence) .. "]"
         )
         Ext.Print("=============================================================")
 
@@ -125,15 +149,16 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
         allStat = Ext.GetStatEntries() --  Get All Stat Entries
     else
         for i, statType in ipairs(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo) do --  Only selected statTypes are loaded
-            table.insert(allStat, Ext.GetStatEntries(statType)) --  appends selected stat-type entries to allStat
+            limit = Ext.GetStatEntries(statType)
+            for l, val in ipairs(limit) do
+                table.insert(allStat, val) --  appends selected stat-type entries to allStat
+            end
         end
     end
 
-    for i, limitedAllStat in ipairs(allStat) do
-        for key, value in ipairs(limitedAllStat) do --  Iterate over allStat
-            local type = NRD_StatGetType(value) --  Didn't I just filter stats by statType? - this is what happens when you return to old code with new ideas
-            SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values
-        end
+    for key, value in ipairs(allStat) do
+        local type = NRD_StatGetType(value) --  Didn't I just filter stats by statType? - this is what happens when you return to old code with new ideas
+        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values
     end
     Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV file.
 end
@@ -144,7 +169,6 @@ end
 
 local function S7_InspectStats(StatID, StatType) --  Recieves StatID and StatType from Osiris
     local compareStat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
-    Ext.Print("[S7:Config - BootstrapServer.lua] --- Inspecting Target")
     for name, content in pairs(compareStat) do --  Iterate over compareStat
         if content == StatID then
             Ext.Print("[S7:Config - BootstrapServer.lua] --- (" .. StatType .. "): " .. StatID)
@@ -156,9 +180,9 @@ end
 Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatType")
 --  =================================================================================
 
---  ############################
---      FUNCTION DEFINITIONS
---  ############################
+--  ###################################
+--      SUPPORT FUNCTION DEFINITIONS
+--  ###################################
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = {
@@ -191,20 +215,6 @@ end
 --      ISSUE-TRACKER
 --  ####################
 
---  Memorization-Requirements bugged in tooltips. Shows up multiple times.
+--  Memorization-Requirements bugged in tooltips. Shows up multiple times. Possible Cause: SyncStat()
 
---[[    KEY NAMES FOR REFERENCE
-        #######################
-        
-    Armor
-    Character
-    Crime
-    Object      -   RootTemplate, UseAPCost, Value, Unique
-    Potion
-    Shield
-    SkillData   -   SkillType, ActionPoints, Cooldown, TargetRadius, CanTargetCharacters, CanTargetItems, CanTargetTerrain,     \\
-                    MemoryCost, MagicCost, Icon, DisplayName, DisplayNameRef, Description, DescriptionRef, StatsDescription,    \\
-                    StatsDescriptionRef, IgnoreVisionBlock, Stealth
-    StatusData
-    Weapon
-]]
+--  ########################################################################################################################################
