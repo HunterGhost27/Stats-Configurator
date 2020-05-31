@@ -9,7 +9,7 @@
 --  Default Settings
 --  ================
 
-S7_ConfigSettings = {
+S7_DefaultSettings = {
     ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from
     ["SyncStatPersistence"] = true, --  Changes made with Ext.SyncStat() will be stored persistently if true
     ["ManuallySynchronize"] = {}, --  list statsIDs to manually synchronize using diagnostics-option.
@@ -20,23 +20,27 @@ S7_ConfigSettings = {
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify()
 }
 
+S7_ConfigSettings = S7_DefaultSettings
+
 --  Import Custom Settings
 --  ======================
 
-function S7_ApplyCustomSettings()
-    local JSONsetting = Ext.LoadFile("S7_Config_CustomSettings.json")
-    if JSONsetting ~= "" then
-        local settingsOverride = Ext.JsonParse(JSONsetting)
-        S7_ConfigSettings = settingsOverride
-        Ext.Print("[S7:Config - BootstrapServer.lua] - Custom settings applied.")
+function S7_RefreshSettings()
+    local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json")
+    local settingsOverride = Ext.JsonParse(JSONsetting)
+    if settingsOverride ~= nil then
+        for setting, value in pairs(S7_DefaultSettings) do
+            S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting)
+        end
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Custom settings applied.")
     else
-        Ext.Print("[S7:Config - BootstrapServer.lua] - Using default settings.")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Using default settings.")
     end
 end
 
---  ==========================================================
-Ext.RegisterListener("SessionLoading", S7_ApplyCustomSettings)
---  ==========================================================
+--  ======================================================
+Ext.RegisterListener("SessionLoading", S7_RefreshSettings)
+--  ======================================================
 
 --  ##################
 --       MOD-MENU
@@ -65,8 +69,8 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris
         S7_StatsSynchronize() --  Call StatsSynchronize
     end
     --  =====   REAPPLY-SETTINGS    ======
-    if Signal == "S7_ReapplySettings" then
-        S7_ApplyCustomSettings() --  Nice and easy
+    if Signal == "S7_RefreshSettings" then
+        S7_RefreshSettings() --  Nice and easy
     end
     --  =====   EXPORT STATS TO TSV   =====
     if Signal == "S7_StatsExportTSV" then --  Export stat-types and stat-names to a tsv
@@ -183,6 +187,14 @@ Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatT
 --  ###################################
 --      SUPPORT FUNCTION DEFINITIONS
 --  ###################################
+
+function S7_CustomOrDefaultSettings(settingsOverride, setting)
+    if settingsOverride[setting] == false then
+        return false
+    else
+        return settingsOverride[setting] or S7_DefaultSettings[setting]
+    end
+end
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = {

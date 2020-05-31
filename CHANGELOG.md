@@ -2,6 +2,14 @@
 
 ----------
 
+## [0.4.0.0] --- 1st June 2020 --- **_Still Setting Up_**
+
+### CHANGED
+
+* **S7_ReapplySettings()** renamed to **S7_RefreshSettings()**.
+* **RefreshSettings()** now properly works with a mix of default and custom imported settings.
+* **S7_Config_CustomSettings.json** file renamed to **S7_ConfigSettings.json**.
+
 ## [0.4.0.0] --- 29th May 2020 --- **_Setting Up_**
 
 ### NEW

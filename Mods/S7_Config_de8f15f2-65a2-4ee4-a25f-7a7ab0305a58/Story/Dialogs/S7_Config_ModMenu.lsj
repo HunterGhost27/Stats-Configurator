@@ -511,7 +511,7 @@
                                  {
                                     "flag" : [
                                        {
-                                          "name" : {"type" : 22, "value" : "S7_ReapplySettings"},"value" : {"type" : 19, "value" : 1}}
+                                          "name" : {"type" : 22, "value" : "S7_RefreshSettings"},"value" : {"type" : 19, "value" : 1}}
                                     ],"type" : {"type" : 22, "value" : "Global"}}
                               ]
                            }
@@ -2000,7 +2000,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 46}
+            "nextNodeId" : {"type" : 5, "value" : 47}
          }
       }
    }
