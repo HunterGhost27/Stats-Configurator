@@ -13,3 +13,4 @@
 ## TODOS
 
 * [ ] README.md basic description.
+* [ ] Create test-stats and export stat.txt for reference.
