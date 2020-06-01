@@ -28,14 +28,17 @@ S7_ConfigSettings = S7_DefaultSettings
 --  ======================
 
 function S7_RefreshSettings() --  Overrides ConfigSettings on SessionLoading and Player's request.
+    S7_ConfigSettings = S7_DefaultSettings --  Reset to base settings.
     local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") --  Load CustomSettings json file.
-    local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
-    if settingsOverride ~= nil or "" then --  if json file exists and is not empty.
+    if (type(JSONsetting) == "string") and (JSONsetting ~= "") and (JSONsetting ~= "{}") then --  if json file exists and is not empty.
+        local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
         for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in Default ConfigSettings.
             S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default.
         end
+    end
+    if S7_ConfigSettings ~= S7_DefaultSettings then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Custom settings applied.")
-    else --  json file empty or does not exist.
+    else
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Using default settings.")
     end
 end
@@ -46,6 +49,12 @@ function S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides Con
     else
         return settingsOverride[setting] or S7_DefaultSettings[setting] --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
     end
+end
+
+function S7_ExportCurrentSettings() --  Exports the current ConfigSettings to a json file
+    local exportSettings = Ext.JsonStringify(S7_ConfigSettings)
+    Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
+    Ext.Print("[S7:Config - BootstrapServer.lua] --- Exporting Current ConfigSettings to S7_ConfigSettings.json")
 end
 
 --  ======================================================
@@ -82,6 +91,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_RefreshSettings" then --  Player requests settings refresh.
         S7_RefreshSettings() --  Nice and easy
     end
+    --  =====   EXPORT CURRENT SETTINGS ===
+    if Signal == "S7_ExportCurrentSettings" then --  Player requests settings export.
+        S7_ExportCurrentSettings() --  Calls Export settings function.
+    end
     --  =====   EXPORT STATS TO TSV   =====
     if Signal == "S7_StatsExportTSV" then --  Export stat-types and stat-names to a tsv
         Ext.Print(
@@ -104,10 +117,9 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  ==================
 
 function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile(), Osiris or a mod.
-    local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
-
-    if JSONborne ~= nil then --  JSONborne is not empty.
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.")
+    if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= "{}") then --  if json file exists and is not empty.
+        local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.\n")
 
         Ext.Print("=============================================================")
         for name, content in pairs(JSONborne) do --  Iterate over JSONborne.
@@ -127,10 +139,10 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
             table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
         end
         Ext.Print("=============================================================")
+        Ext.Print("[S7:Config - BootstrapServer.lua] --- Configuration Profile Active.")
     else
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON file could not be loaded.")
+        Ext.PrintError("[S7:Config - BootstrapServer.lua] --- JSON file could not be loaded.")
     end
-    Ext.Print("[S7:Config - BootstrapServer.lua] --- Configuration Profile Active.")
     S7_StatsSynchronize() --  Synchronize stats for all clients.
 end
 
@@ -179,7 +191,7 @@ function S7_StatsSynchronize()
         end
         Ext.Print("=============================================================")
     elseif type(next(toSync)) == "nil" then
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Nothing to Synchronize. toSync queue is empty.")
+        Ext.PrintWarning("[S7:Config - BootstrapServer.lua] --- Nothing to Synchronize. toSync queue is empty.")
     end
 end
 

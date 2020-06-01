@@ -2,13 +2,18 @@
 
 ----------
 
-## [0.4.0.0] --- 1st June 2020 --- **_Still Setting Up_**
+## [0.4.1.0] --- 1st June 2020 --- **_Still Setting Up_**
+
+### NEW
+
+* _Added_ a ModMenu option to **export** current **ConfigSettings** to ***S7_ConfigSettings.json***.
 
 ### CHANGED
 
 * **S7_ReapplySettings()** renamed to **S7_RefreshSettings()**.
 * **RefreshSettings()** now properly works with a mix of default and custom imported settings.
 * **S7_Config_CustomSettings.json** file renamed to **S7_ConfigSettings.json**.
+* _Improved_ File Error-Handling.
 
 ## [0.4.0.0] --- 29th May 2020 --- **_Setting Up_**
 

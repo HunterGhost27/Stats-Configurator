@@ -5,13 +5,14 @@ INITSECTION
 //  |                                                           MOD-MENU                                                               |
 //  ====================================================================================================================================
 
-//  =============================================
+//  ================================================
 //  DB_S7_Config_ModMenu((STRING)_FlagName)
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_StatsExportTSV");
     DB_S7_Config_ModMenu("S7_RefreshSettings");
-//  =============================================
+    DB_S7_Config_ModMenu("S7_ExportCurrentSettings");
+//  ================================================
 
 KBSECTION
 
