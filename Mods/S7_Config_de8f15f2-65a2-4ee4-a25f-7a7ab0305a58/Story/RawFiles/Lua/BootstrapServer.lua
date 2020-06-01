@@ -35,8 +35,6 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on SessionLoading and
         for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in Default ConfigSettings.
             S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default.
         end
-    end
-    if S7_ConfigSettings ~= S7_DefaultSettings then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Custom settings applied.")
     else
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Using default settings.")
@@ -50,6 +48,9 @@ function S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides Con
         return settingsOverride[setting] or S7_DefaultSettings[setting] --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
     end
 end
+
+--  Export Current Settings
+--  =======================
 
 function S7_ExportCurrentSettings() --  Exports the current ConfigSettings to a json file
     local exportSettings = Ext.JsonStringify(S7_ConfigSettings)
@@ -246,5 +247,7 @@ Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatT
 --  ####################
 
 --  Memorization-Requirements bugged in tooltips. Shows up multiple times. Possible Cause: SyncStat()
+--  Stat Inheritance and SyncStat()
+--  Broken Translated String Keys.
 
 --  ########################################################################################################################################
