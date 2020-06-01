@@ -11,6 +11,7 @@ INITSECTION
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_StatsExportTSV");
     DB_S7_Config_ModMenu("S7_RefreshSettings");
+    DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
     DB_S7_Config_ModMenu("S7_ExportCurrentSettings");
 //  ================================================
 
@@ -21,7 +22,9 @@ KBSECTION
 //  =======================================
 
 IF
-GameStarted(_, _)
+GameStarted(_GameLevel, _)
+AND
+IsGameLevel(_GameLevel, 1)
 AND
 CharacterGetHostCharacter(_Character)                                                                               //  Only checks for host-character.
 AND

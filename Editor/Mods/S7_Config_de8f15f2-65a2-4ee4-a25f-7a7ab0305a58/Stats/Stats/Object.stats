@@ -11,5 +11,14 @@
         <field name="UseAPCost" type="IntegerStatObjectFieldDefinition" value="0" />
       </fields>
     </stat_object>
+    <stat_object is_substat="false">
+      <fields>
+        <field name="Name" type="NameStatObjectFieldDefinition" value="S7_Config_CHANGELOG" />
+        <field name="Using" type="BaseClassStatObjectFieldDefinition" value="_Lorebooks" />
+        <field name="RootTemplate" type="RootTemplateStatObjectFieldDefinition" value="7b4a334e-7613-4ab9-bc21-a724519d6e6e" />
+        <field name="Value" type="IntegerStatObjectFieldDefinition" value="1" />
+        <field name="Unique" type="IntegerStatObjectFieldDefinition" value="1" />
+      </fields>
+    </stat_object>
   </stat_objects>
 </stats>

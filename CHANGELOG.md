@@ -2,6 +2,17 @@
 
 ----------
 
+## [0.4.2.0] --- 1st June 2020 --- **_Changelog_**
+
+### META
+
+* _Created_ NOTES.md
+
+### NEW
+
+* _Created_ **CHANGELOG** item.
+* _Added_ dialog options to obtain **CHANGELOG**.
+
 ## [0.4.1.0] --- 1st June 2020 --- **_Still Setting Up_**
 
 ### NEW
@@ -87,7 +98,7 @@
 
 ### NEW
 
-* _Created_ Initializer and ModVersioning scripts.
+* _Created_ `Initializer` and `ModVersioning` scripts.
 
 ## [0.1.0.0] --- 24th May 2020 --- **_Initial Commit_**
 
