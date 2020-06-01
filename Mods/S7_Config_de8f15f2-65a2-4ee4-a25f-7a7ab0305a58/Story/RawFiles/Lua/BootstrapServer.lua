@@ -10,31 +10,41 @@
 --  ================
 
 S7_DefaultSettings = {
-    ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from
-    ["SyncStatPersistence"] = true, --  Changes made with Ext.SyncStat() will be stored persistently if true
-    ["ManuallySynchronize"] = {}, --  list statsIDs to manually synchronize using diagnostics-option.
+    ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from.
+    ["SyncStatPersistence"] = true, --  Changes made with Ext.SyncStat() will be stored persistently if true.
+    ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option.
     ["ExportStatIDtoTSV"] = {
-        ["FileName"] = "S7_Config_AllTheStats.tsv", --  FileName for ExportedStats
-        ["RestrictStatTypeTo"] = {} --  Limit the search to only these statTypes. e.g. Character, Potions, SkillData
+        ["FileName"] = "S7_Config_AllTheStats.tsv", --  FileName for ExportedStats.
+        ["RestrictStatTypeTo"] = {} --  Limit the search to only these statTypes. e.g. Character, Potions, SkillData.
     },
-    ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify()
+    ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() - Prevents modifications of unsupported or problematic keys.
 }
 
+--  ----------------------------------
 S7_ConfigSettings = S7_DefaultSettings
+--  ----------------------------------
 
 --  Import Custom Settings
 --  ======================
 
-function S7_RefreshSettings()
-    local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json")
-    local settingsOverride = Ext.JsonParse(JSONsetting)
-    if settingsOverride ~= nil then
-        for setting, value in pairs(S7_DefaultSettings) do
-            S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting)
+function S7_RefreshSettings() --  Overrides ConfigSettings on SessionLoading and Player's request.
+    local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") --  Load CustomSettings json file.
+    local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
+    if settingsOverride ~= nil or "" then --  if json file exists and is not empty.
+        for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in Default ConfigSettings.
+            S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default.
         end
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Custom settings applied.")
-    else
+    else --  json file empty or does not exist.
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Using default settings.")
+    end
+end
+
+function S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides ConfigSettings. CustomSettings given priority over Default.
+    if settingsOverride[setting] == false then --  If settingsOverride has boolean false.
+        return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil skips settingsOverride.
+    else
+        return settingsOverride[setting] or S7_DefaultSettings[setting] --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
     end
 end
 
@@ -48,28 +58,28 @@ Ext.RegisterListener("SessionLoading", S7_RefreshSettings)
 
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
-local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris
+local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  =====   STATS-CONFIGURATOR  =====
-    if Signal == "S7_StatsConfigurator" then --  Player requests stats-configuration
-        local files = S7_ConfigSettings.ConfigFiles --  list of all config files
-        for i, fileName in ipairs(files) do --  Iterate over each file
+    if Signal == "S7_StatsConfigurator" then --  Player requests stats-configuration.
+        local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
+        for i, fileName in ipairs(files) do --  Iterate over each file.
             Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading " .. fileName)
-            local JSONstring = Ext.LoadFile(fileName) --  Loads Configuration File
-            S7_StatsConfigurator(JSONstring) --  Calls StatsConfigurator
+            local JSONstring = Ext.LoadFile(fileName) --  Loads Configuration File.
+            S7_StatsConfigurator(JSONstring) --  Calls StatsConfigurator.
         end
     end
     --  =====   STATS-SYNCHRONIZE   =====    Should do something now atleast. Still pretty useless.
-    if Signal == "S7_StatsSynchronize" then --  Synchronize stats between all clients
+    if Signal == "S7_StatsSynchronize" then --  Player requests manual-synchronization.
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
-        if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Check if player wants to manually synchronize certain stats
-            for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats
-                table.insert(toSync, stats) --  insert stats into toSync queue
+        if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
+            for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
+                table.insert(toSync, stats) --  insert stats into toSync queue.
             end
         end
-        S7_StatsSynchronize() --  Call StatsSynchronize
+        S7_StatsSynchronize() --  Call StatsSynchronize.
     end
     --  =====   REAPPLY-SETTINGS    ======
-    if Signal == "S7_RefreshSettings" then
+    if Signal == "S7_RefreshSettings" then --  Player requests settings refresh.
         S7_RefreshSettings() --  Nice and easy
     end
     --  =====   EXPORT STATS TO TSV   =====
@@ -86,9 +96,9 @@ end
 Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  ============================================================================
 
---  #####################
---  STATS CONFIG AND SYNC
---  #####################
+--  #############################
+--      STATS CONFIG AND SYNC
+--  #############################
 
 function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile(), Osiris or a mod.
     local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
@@ -97,11 +107,11 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
         Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.")
 
         Ext.Print("=============================================================")
-        for name, content in pairs(JSONborne) do --  Iterate over JSONborne
+        for name, content in pairs(JSONborne) do --  Iterate over JSONborne.
             Ext.Print(name)
             Ext.Print("-------------------------------------------------------------")
 
-            local stat = Ext.GetStat(name) --  Gets original stat-entry
+            local stat = Ext.GetStat(name) --  Gets original stat-entry.
             for key, value in pairs(content) do
                 if S7_SafeToModify(key) then --  Checks if key is safe to modify
                     Ext.Print(key .. ": " .. value .. " (" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
@@ -187,14 +197,6 @@ Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatT
 --  ###################################
 --      SUPPORT FUNCTION DEFINITIONS
 --  ###################################
-
-function S7_CustomOrDefaultSettings(settingsOverride, setting)
-    if settingsOverride[setting] == false then
-        return false
-    else
-        return settingsOverride[setting] or S7_DefaultSettings[setting]
-    end
-end
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = {
