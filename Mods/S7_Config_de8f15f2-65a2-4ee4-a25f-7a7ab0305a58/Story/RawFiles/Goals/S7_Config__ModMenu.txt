@@ -5,17 +5,29 @@ INITSECTION
 //  |                                                           MOD-MENU                                                               |
 //  ====================================================================================================================================
 
-//  ================================================
+//  =================================================
 //  DB_S7_Config_ModMenu((STRING)_FlagName)
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_StatsExportTSV");
     DB_S7_Config_ModMenu("S7_RefreshSettings");
+    DB_S7_Config_ModMenu("S7_SetDefaultSettings");
     DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
     DB_S7_Config_ModMenu("S7_ExportCurrentSettings");
-//  ================================================
+//  =================================================
 
 KBSECTION
+
+//  =================================
+//          REFRESH SETTINGS
+//  =================================
+
+IF
+GameStarted(_GameLevel, _)
+AND
+IsGameLevel(_GameLevel, 1)
+THEN
+GlobalSetFlag("S7_RefreshSettings");
 
 //  =======================================
 //      GIVE ITEM TO THE HOST-CHARACTER
@@ -66,7 +78,7 @@ NRD_DebugLog("[S7:Config - ModMenu] --- ModMenu activated by Clients. Redirectly
 //=============================
 
 IF
-GlobalFlagSet(_Signal)                                                                  //  Flag set during ModMenu dialog.
+GlobalFlagSet(_Signal)                                                                  //  Flag set during ModMenu dialog or GameStart.
 AND
 DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
 THEN

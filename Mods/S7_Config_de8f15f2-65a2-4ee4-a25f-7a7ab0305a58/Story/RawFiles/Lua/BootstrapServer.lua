@@ -20,14 +20,19 @@ S7_DefaultSettings = {
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() - Prevents modifications of unsupported or problematic keys.
 }
 
---  ----------------------------------
-S7_ConfigSettings = S7_DefaultSettings
---  ----------------------------------
+function S7_SetDefaultSettings() --  Sets ConfigSettings = DefaultSettings during SessionLoading.
+    S7_ConfigSettings = S7_DefaultSettings
+    Ext.Print("[S7:Config - BootstrapServer.lua] --- Using default settings.")
+end
+
+--  =========================================================
+Ext.RegisterListener("SessionLoading", S7_SetDefaultSettings)
+--  =========================================================
 
 --  Import Custom Settings
 --  ======================
 
-function S7_RefreshSettings() --  Overrides ConfigSettings on SessionLoading and Player's request.
+function S7_RefreshSettings() --  Overrides ConfigSettings on <GAMELOAD> and Player's request.
     S7_ConfigSettings = S7_DefaultSettings --  Reset to base settings.
     local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") --  Load CustomSettings json file.
     if (type(JSONsetting) == "string") and (JSONsetting ~= "") and (JSONsetting ~= "{}") then --  if json file exists and is not empty.
@@ -36,8 +41,10 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on SessionLoading and
             S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default.
         end
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Custom settings applied.")
+        S7_SetDialogVars("Settings", "Settings: Custom")
     else
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Using default settings.")
+        S7_SetDialogVars("Settings", "Settings: Default")
     end
 end
 
@@ -57,10 +64,6 @@ function S7_ExportCurrentSettings() --  Exports the current ConfigSettings to a 
     Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
     Ext.Print("[S7:Config - BootstrapServer.lua] --- Exporting Current ConfigSettings to S7_ConfigSettings.json")
 end
-
---  ======================================================
-Ext.RegisterListener("SessionLoading", S7_RefreshSettings)
---  ======================================================
 
 --  ##################
 --       MOD-MENU
@@ -84,6 +87,9 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
             end
         end
         S7_StatsSynchronize() --  Call StatsSynchronize.
+    elseif Signal == "S7_SetDefaultSettings" then -- ==== SET DEFAULT SETTINGS =====
+        S7_SetDefaultSettings()
+        S7_SetDialogVars("Settings", "Settings: Default")
     elseif Signal == "S7_RefreshSettings" then --  =====   REAPPLY-SETTINGS    ======
         S7_RefreshSettings() --  Nice and easy
     elseif Signal == "S7_ExportCurrentSettings" then --  =====   EXPORT CURRENT SETTINGS ===
@@ -134,6 +140,7 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
         end
         Ext.Print("=============================================================")
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Configuration Profile Active.")
+        S7_SetDialogVars("StatsConfigurator", "Configuration Profile Activated.")
     else
         Ext.PrintError("[S7:Config - BootstrapServer.lua] --- JSON file could not be loaded.")
     end
@@ -186,12 +193,34 @@ function S7_StatsSynchronize()
         Ext.Print("=============================================================")
     elseif type(next(toSync)) == "nil" then
         Ext.PrintWarning("[S7:Config - BootstrapServer.lua] --- Nothing to Synchronize. toSync queue is empty.")
+        S7_SetDialogVars(
+            "SyncStat",
+            "Nothing to Synchronize. toSync queue is empty. Use S7_ConfigSettings.json to specify stats."
+        )
     end
 end
 
 --  ################################
 --        AUXILIARY FUNCTIONS
 --  ################################
+
+--  SET DIALOG VARS
+--  ===============
+
+function S7_SetDialogVars(dialogVar, dialogVal)
+    local dialogCase = {
+        ["StatsConfigurator"] = "S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb",
+        ["Settings"] = "S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6",
+        ["ExportStats"] = "S7_Config_ExportedStats_e59ebc61-6f13-4e91-9200-36e474113c48",
+        ["SyncStat"] = "S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917"
+    }
+
+    for dialogName, dialogVariable in pairs(dialogCase) do
+        if dialogVar == dialogName then
+            Osi.DialogSetVariableFixedString("S7_Config_ModMenu", dialogVariable, dialogVal)
+        end
+    end
+end
 
 --  EXPORT STATS TO TSV
 --  ===================
@@ -217,6 +246,7 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
         SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
     end
     Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV file.
+    S7_SetDialogVars("ExportStats", "Stats Exported to TSV.")
 end
 
 --  INSPECT SKILL
