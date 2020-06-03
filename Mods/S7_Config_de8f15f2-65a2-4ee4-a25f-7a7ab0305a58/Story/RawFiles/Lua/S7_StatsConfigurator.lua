@@ -2,9 +2,11 @@
 --      STATS CONFIG AND SYNC
 --  #############################
 
---  ================================
-Ext.Require("S7_ConfigSettings.lua")
---  ================================
+fileName = "S7_StatsConfigurator.lua"
+
+--  =================================
+Ext.Require("S7_ConfigAuxiliary.lua")
+--  =================================
 
 --  STATS-CONFIGURATOR
 --  ==================
@@ -15,29 +17,27 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
     if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json file exists and is not empty.
         local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
-        Ext.Print("[S7:Config - S7_StatsConfigurator.lua] --- JSON loaded. Applying Configuration Profile.\n")
-        Ext.Print("=============================================================")
+        S7_DebugLog("JSON loaded. Applying Configuration Profile.\n", "[Lua]")
+        S7_DebugLog("=============================================================", "[Lua]")
         for name, content in pairs(JSONborne) do --  Iterate over JSONborne.
-            Ext.Print(name)
-            Ext.Print("-------------------------------------------------------------")
+            S7_DebugLog(name, "[Lua]")
+            S7_DebugLog("-------------------------------------------------------------", "[Lua]")
 
             local stat = Ext.GetStat(name) --  Gets original stat-entry.
             for key, value in pairs(content) do
                 if S7_SafeToModify(key) then --  Checks if key is safe to modify
-                    Ext.Print(key .. ": " .. value .. " (" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                    S7_DebugLog(key .. ": " .. value .. " (" .. stat[key] .. ")", "[Lua]") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                     stat[key] = value --  Sets new value for Name[Attribute]
                 end
             end
 
-            Ext.Print("_____________________________________________________________\n")
+            S7_DebugLog("_____________________________________________________________\n", "[Lua]")
             table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
         end
-        Ext.Print("=============================================================")
-        Ext.Print("[S7:Config - S7_StatsConfigurator.lua] --- Configuration Profile Active.")
-        dialogVarToSet["StatsConfigurator"] = "Configuration Profile Active."
+        S7_DebugLog("=============================================================", "[Lua]")
+        S7_DebugLog("Configuration Profile Active.", "[Lua]", "StatsConfigurator")
     else
-        Ext.Print("[S7:Config - S7_StatsConfigurator.lua] --- Failed to load JSON.")
-        dialogVarToSet["StatsConfigurator"] = "Failed to load JSON."
+        S7_DebugLog("Failed to load JSON.", "[Lua]", "StatsConfigurator")
     end
 end
 
@@ -60,7 +60,7 @@ function S7_SafeToModify(key) --  Checks if key is safe to modify.
     else -- Default Setting
         for i, avoid in ipairs(dontFwith) do --  Iterate over keys to avoid.
             if key == avoid then --  If key matches.
-                Ext.Print(key .. ": Modification Prevented by S7_SafeToModify()")
+                S7_DebugLog(key .. ": Modification Prevented by S7_SafeToModify()", "[Warning]")
                 return false --  Stop it right there.
             else
                 return true --  else continue.
@@ -74,22 +74,21 @@ end
 
 function S7_StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified. toSync is not empty.
-        Ext.Print(
-            "[S7:Config - S7_StatsConfigurator.lua] --- Synchronizing Stats [Savegame-Persistence: " ..
-                tostring(S7_ConfigSettings.SyncStatPersistence) .. "]"
+        S7_DebugLog(
+            "Synchronizing Stats [Savegame-Persistence: " .. tostring(S7_ConfigSettings.SyncStatPersistence) .. "]",
+            "[Lua]"
         )
-        Ext.Print("=============================================================")
+        S7_DebugLog("=============================================================", "[Lua]")
 
         for i, name in ipairs(toSync) do
             Ext.SyncStat(name, S7_ConfigSettings.SyncStatPersistence) --  Sync
-            Ext.Print("Synchronized Stat: " .. name)
+            S7_DebugLog("Synchronized Stat: " .. name, "[Lua]")
             toSync[i] = nil --  Clears out toSync entry.
         end
-        Ext.Print("=============================================================")
-        dialogVarToSet["SyncStat"] = "Synchronization Complete."
+        S7_DebugLog("=============================================================", "[Lua]")
+        S7_DebugLog("Synchronization Complete.", "[Lua]", "SyncStat")
     elseif type(next(toSync)) == "nil" then
-        Ext.PrintWarning("[S7:Config - S7_StatsConfigurator.lua] --- Nothing to Synchronize. toSync queue is empty.")
-        dialogVarToSet["SyncStat"] = "Nothing to Synchronize. toSync queue is empty."
+        S7_DebugLog("Nothing to Synchronize. toSync queue is empty.", "[Warning]", "SyncStat")
     end
 end
 

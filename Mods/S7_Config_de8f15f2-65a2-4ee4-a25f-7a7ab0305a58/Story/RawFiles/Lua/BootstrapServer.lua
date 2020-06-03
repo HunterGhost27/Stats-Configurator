@@ -2,8 +2,9 @@
 --  #########                                                STATS CONFIGURATOR                                             #########
 --  #################################################################################################################################
 
+fileName = "BootstrapServer.lua"
+
 --  ===================================
-Ext.Require("S7_ConfigSettings.lua")
 Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_StatsConfigurator.lua")
 --  ===================================
@@ -19,24 +20,26 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_StatsConfigurator" then
         local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
         for i, fileName in ipairs(files) do --  Iterate over each file.
-            Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading " .. fileName)
+            S7_DebugLog("Loading " .. fileName, "[Lua]")
             local JSONstring = Ext.LoadFile(fileName) --  Loads Configuration File.
             S7_StatsConfigurator(JSONstring) --  Calls StatsConfigurator.
             S7_StatsSynchronize() --  Synchronize stats for all clients.
         end
+        S7_UpdateSettingVars()
     end
 
     --  STATS-SYNCHRONIZE
     -- ===================
 
     if Signal == "S7_StatsSynchronize" then
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
+        S7_DebugLog("Synchronizing at Player's request.", "[Lua]")
         if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
             for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
                 table.insert(toSync, stats) --  insert stats into toSync queue.
             end
         end
         S7_StatsSynchronize() --  Call StatsSynchronize.
+        S7_UpdateSettingVars()
     end
 
     --  TOGGLE STATSLOADER
@@ -104,17 +107,16 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ==========================
 
     if Signal == "S7_StatsExportTSV" then
-        Ext.Print(
-            "[S7:Config - BootstrapServer.lua] --- Exporting StatIDs to " ..
-                S7_ConfigSettings.ExportStatIDtoTSV.FileName
-        )
+        S7_DebugLog("Exporting StatIDs to " .. S7_ConfigSettings.ExportStatIDtoTSV.FileName, "[Lua]")
         S7_StatsExportTSV() --  Logs statIDs in an external TSV file for reference
+        S7_UpdateSettingVars()
     end
 
     --  CHANGELOG
     -- ===========
     if Signal == "S7_Config_CHANGELOG" then
         Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
+        S7_UpdateSettingVars()
     end
 end
 

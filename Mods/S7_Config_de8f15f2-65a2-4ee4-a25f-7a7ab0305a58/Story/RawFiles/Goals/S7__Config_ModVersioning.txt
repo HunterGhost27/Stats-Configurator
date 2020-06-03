@@ -3,7 +3,7 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 //  ==================================    MOD VERSION (NAME, CURRENT VERSION)    ========================================
-//  DB_S7_ModIdentifier("S7_Config", "0.5.1.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
+//  DB_S7_ModIdentifier("S7_Config", "0.5.2.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
 //  =====================================================================================================================
 
 //  =====================================================================================================================
@@ -21,13 +21,12 @@ KBSECTION
 IF
 GameStarted(_, _)
 AND
-NOT DB_S7_ModIdentifier("S7_Config", "0.5.1.0")                         //  Latest-Version does not exist.
+NOT DB_S7_ModIdentifier("S7_Config", "0.5.2.0")                         //  Latest-Version does not exist.
 THEN
 Proc_S7_Config_Updater();                                               //  Run Update Procedure.
 GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG.
-DB_S7_ModIdentifier("S7_Config", "0.5.1.0");                            //  Add the latest version in the DB.
-DialogSetVariableFixedString("S7_Config_ModMenu", "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa", "S7_Config, 0.5.1.0");
-NRD_DebugLog("[S7:Config - ModVersioning] --- S7_Config Updated to Version: 0.5.1.0");
+DB_S7_ModIdentifier("S7_Config", "0.5.2.0");                            //  Add the latest version in the DB.
+S7_DebugLog("S7_Config Updated to Version: 0.5.2.0", "[ModVersioning]", "ModID", "S7_Config, 0.5.2.0");
 
 //====================
 //REGION CHANGELOG
@@ -56,12 +55,10 @@ DB_S7_ChangeLogs("S7_Config", _ItemType, _LogItem)                   //  Gets th
 AND
 NOT ItemTemplateIsInPartyInventory(_Character, _LogItem, 1, 1)       //  Checks if player doesn't already have those items in inventory.
 AND
-StringConcatenate("[S7:Config - ModVersioning] --- ", _ItemType, _TempStr)
-AND
-StringConcatenate(_TempStr, " added to player inventory.", _LogPlayerLog)
+StringConcatenate(_ItemType, " added to player inventory.", _LogPlayerLog)
 THEN
 ItemTemplateAddTo(_LogItem, _Character, 1);                          //  Adds the Note and Changelog to the player's inventory.
-NRD_DebugLog(_LogPlayerLog);
+S7_DebugLog(_LogPlayerLog, "[ModVersioning]");
 
 
 //END_REGION
@@ -79,7 +76,7 @@ Proc_S7_Config_Updater()
 AND
 DB_S7_ModIdentifier("S7_Config", _ModVersion)                           //  Gets all facts from the ModIdentifier.
 AND
-_ModVersion != "0.5.1.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
+_ModVersion != "0.5.2.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
 THEN
 NOT DB_S7_ModIdentifier("S7_Config", _ModVersion);                      //  Removes all older facts from DB.
 

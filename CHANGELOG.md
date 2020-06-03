@@ -2,6 +2,12 @@
 
 ----------
 
+## [0.5.2.0] --- 3rd June 2020 --- **_Smart-Logger_**
+
+### META
+
+* _Merged_ `S7_ConfigSettings.lua` into `S7_ConfigAuxiliary.lua`. Both files were highly interdependent.
+
 ## [0.5.1.0] --- 3rd June 2020 --- **_Improved ModMenu_**
 
 ### NEW

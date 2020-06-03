@@ -16,8 +16,7 @@ IF
 GameEventSet("GAMEEVENT_GameStarted")
 THEN
 GlobalSetFlag("S7_Config_ModAddedTo_NewGame");
-DialogSetVariableFixedString("S7_Config_ModMenu", "S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6", "NewGame");
-NRD_DebugLog("[S7:Config - Initializer] --- Parent Goal Initialized. Mod added to a new game.");
+S7_DebugLog("Parent Goal Initialized. Mod added to a new game.", "[Initializer]", "ModAddedTo", "NewGame");
 GoalCompleted;
 
 //  =============================
@@ -29,8 +28,7 @@ SavegameLoaded(_, _, _, _)
 AND
 DB_StoryStarted(_)
 THEN
-DialogSetVariableFixedString("S7_Config_ModMenu", "S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6", "Existing-Save");
-NRD_DebugLog("[S7:Config - Initializer] --- Parent Goal Initialized. Story was already initialized. Mod added to an existing save-file.");
+S7_DebugLog("Parent Goal Initialized. Story was already initialized. Mod added to an existing save-file.", "[Initializer]", "ModAddedTo", "ExistingSave");
 GoalCompleted;
 
 EXITSECTION

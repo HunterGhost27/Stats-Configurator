@@ -2,8 +2,10 @@
 --  #########                                                STATS CONFIGURATOR                                             #########
 --  #################################################################################################################################
 
+fileName = "BootstrapClient.lua"
+
 --  ===================================
-Ext.Require("S7_ConfigSettings.lua")
+Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_StatsConfigurator.lua")
 --  ===================================
 

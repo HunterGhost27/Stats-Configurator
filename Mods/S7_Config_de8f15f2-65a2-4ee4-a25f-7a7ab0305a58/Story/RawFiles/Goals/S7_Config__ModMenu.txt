@@ -46,7 +46,7 @@ AND
 NOT ItemTemplateIsInPartyInventory(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1, 1)    //  Host-character's party doesn't already have the inspector.
 THEN
 ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _Character, 1);                       //  Add inspector to host-character's inventory.
-NRD_DebugLog("[S7:Config - ModMenu] --- Inspector added to Host-Character's Inventory.");
+S7_DebugLog("Inspector added to Host-Character's Inventory.", "[ModMenu]");
 
 //=============================
 //REGION  START MOD-MENU DIALOG
@@ -63,7 +63,7 @@ AND
 QRY_SpeakerIsAvailable(_Character)                                                                          //  Checks whether player can have a dialog.
 THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                                                       //  Starts the Mod-Menu dialog.
-NRD_DebugLog("[S7:Config - ModMenu] --- ModMenu activated by the host-character.");
+S7_DebugLog("ModMenu activated by the host-character.", "[ModMenu]");
 
 IF                                      
 CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)        // Character used Inspector.
@@ -76,7 +76,7 @@ QRY_SpeakerIsAvailable(_HostCharacter)                                          
 THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _HostCharacter);                                                   //  Redirect Mod-Menu dialog to Host-Character.
 S7_UpdateSettingVars();
-NRD_DebugLog("[S7:Config - ModMenu] --- ModMenu activated by Client. Redirecting dialog to Host-Character.");
+S7_DebugLog("ModMenu activated by Client. Redirecting dialog to Host-Character.", "[ModMenu]");
 
 //END_REGION
 //=============================
@@ -87,7 +87,6 @@ AND
 DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
 THEN
 S7_Config_ModMenuRelay(_Signal);                                                        //  Signal Lua.
-S7_UpdateSettingVars();                                                                 //  Refreshes all dialog-variables.
 GlobalClearFlag(_Signal);                                                               //  Clear Flag.
 
 
@@ -104,7 +103,7 @@ AND
 CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
 THEN
 CharacterAddSkill(_Character, "Target_S7_Config_Inspect", 1);                           //  Add Inspect Skill.
-NRD_DebugLog("[S7:Config - ModMenu] --- Host learned Inspect Spell.");
+S7_DebugLog("Host learned Inspect Spell.", "[ModMenu]");
 
 IF
 GlobalFlagCleared("S7_LearnInspect")                                                    //  Flag cleared by dialog.
@@ -112,7 +111,7 @@ AND
 CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
 THEN
 CharacterRemoveSkill(_Character, "Target_S7_Config_Inspect");                           //  Remove Inspect Skill.
-NRD_DebugLog("[S7:Config - ModMenu] --- Host unlearned Inspect Spell.");
+S7_DebugLog("Host unlearned Inspect Spell.", "[ModMenu]");
 
 //  __________________________________
 //          Inspect Skill
