@@ -39,11 +39,48 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         S7_StatsSynchronize() --  Call StatsSynchronize.
     end
 
+    --  TOGGLE STATSLOADER
+    --  ==================
+
+    if Signal == "S7_ToggleStatsLoader" then
+        if S7_ConfigSettings.StatsLoader == true then
+            S7_ConfigSettings.StatsLoader = false
+        else
+            S7_ConfigSettings.StatsLoader = true
+        end
+        S7_UpdateSettingVars()
+    end
+
+    --  TOGGLE SYNC-STAT PERSISTENCE
+    --  ============================
+
+    if Signal == "S7_ToggleSyncStatPersistence" then
+        if S7_ConfigSettings.SyncStatPersistence == true then
+            S7_ConfigSettings.SyncStatPersistence = false
+        else
+            S7_ConfigSettings.SyncStatPersistence = true
+        end
+        S7_UpdateSettingVars()
+    end
+
+    --  TOGGLE BYPASS-SAFETY-CHECK
+    --  ==========================
+
+    if Signal == "S7_ToggleSafetyCheck" then
+        if S7_ConfigSettings.BypassSafetyCheck == true then
+            S7_ConfigSettings.BypassSafetyCheck = false
+        else
+            S7_ConfigSettings.BypassSafetyCheck = true
+        end
+        S7_UpdateSettingVars()
+    end
+
     --  SET DEFAULT SETTINGS
     -- ======================
 
     if Signal == "S7_SetDefaultSettings" then
         S7_SetDefaultSettings() --  Resets ConfigSettings to Default Values.
+        S7_UpdateSettingVars()
     end
 
     --  REFRESH SETTINGS
@@ -51,6 +88,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_RefreshSettings" then
         S7_RefreshSettings() --  Nice and easy
+        S7_UpdateSettingVars()
     end
 
     --  EXPORT CURRENT SETTINGS
@@ -58,6 +96,8 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_ExportCurrentSettings" then
         S7_ExportCurrentSettings() --  Calls Export settings function.
+        S7_RefreshSettings()
+        S7_UpdateSettingVars()
     end
 
     --  EXPORT STATS TO TSV FILE
@@ -74,7 +114,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  CHANGELOG
     -- ===========
     if Signal == "S7_Config_CHANGELOG" then
-        Osi.Proc_S7_Config_ChangelogRequest()
+        Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
     end
 end
 

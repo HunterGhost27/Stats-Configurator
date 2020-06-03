@@ -8,6 +8,7 @@ dialogVarToSet = {} --  Will holds a queue of pending dialog-variable changes. D
 --  ================
 
 S7_DefaultSettings = {
+    ["StatsLoader"] = true, --  Clients call StatsLoader() if true.
     ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from. NOTE: S7_Config.json is the only file read by Client during ModuleLoading.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.

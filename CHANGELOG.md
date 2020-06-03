@@ -2,6 +2,14 @@
 
 ----------
 
+## [0.5.1.0] --- 3rd June 2020 --- **_Improved ModMenu_**
+
+### NEW
+
+* _Added_ a settings toggle for `S7_StatsLoader()`.
+* _Added_ **ModMenu** toggles for `StatsLoader`, `SyncStatPersistence` and `BypassSafetyCheck`.
+* _Created_ `S7_UpdateSettingVars()` to reapply dialog-vars when necessary.
+
 ## [0.5.0.0] --- 2nd June 2020 --- **_The Return of the Client_**
 
 ### NEW
@@ -20,26 +28,26 @@
 
 ## [0.4.2.0] --- 1st June 2020 --- **_Changelog_**
 
-### META
-
-* _Created_ NOTES.md
-
 ### NEW
 
 * _Created_ **CHANGELOG** item.
 * _Added_ dialog options to obtain **CHANGELOG**.
 
+### META
+
+* _Created_ NOTES.md
+
 ## [0.4.1.0] --- 1st June 2020 --- **_Still Setting Up_**
 
 ### NEW
 
-* _Added_ a ModMenu option to **export** current **ConfigSettings** to ***S7_ConfigSettings.json***.
+* _Added_ a ModMenu option to **export** current **ConfigSettings** to `S7_ConfigSettings.json`.
 
 ### CHANGED
 
 * `S7_ReapplySettings()` renamed to `S7_RefreshSettings()`.
 * `RefreshSettings()` now properly works with a mix of default and custom imported settings.
-* **S7_Config_CustomSettings.json** file renamed to **S7_ConfigSettings.json**.
+* `S7_Config_CustomSettings.json` file renamed to `S7_ConfigSettings.json`.
 * _Improved_ File Error-Handling.
 
 ## [0.4.0.0] --- 29th May 2020 --- **_Setting Up_**
@@ -49,7 +57,7 @@
 * Started working on custom settings.
 * `SyncStat()` persistence can be toggled.
 * `StatsConfigurator()` can read from **multiple config files**.
-* `StatExportTSV` can be **restricted** to certain `StatTypes`.
+* `StatExportTSV()` can be **restricted** to certain `StatTypes`.
 * Can bypass `SafeToModify()` function.
 
 ## [0.3.0.0] --- 28th May 2020 --- **_Minor Refactoring_**
@@ -100,14 +108,14 @@
 
 ### CHANGED
 
-* _Moved_ JSON loading and stats-modification to **BootstrapServer.lua**
-* **BootstrapClient.lua** is now deprecated as a result of the above.
+* _Moved_ JSON loading and stats-modification to `BootstrapServer.lua`
+* `BootstrapClient.lua` is now deprecated as a result of the above.
 
 ## [0.2.0.0] --- 24th May 2020 --- **_JSON-Bourne_**
 
 ### NEW
 
-* _Created_ **BootstrapClient.lua** - Reads **S7_Config.json** and applies stat-modifications.
+* _Created_ `BootstrapClient.lua` - Reads `S7_Config.json` and applies stat-modifications.
 * _Created_ basic **ModMenu**.
 
 ## [0.1.0.0] --- 24th May 2020 --- **_Osiris Init and ModVersioning_**

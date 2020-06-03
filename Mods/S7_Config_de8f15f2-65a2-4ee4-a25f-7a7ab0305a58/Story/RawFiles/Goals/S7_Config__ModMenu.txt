@@ -5,16 +5,19 @@ INITSECTION
 //  |                                                           MOD-MENU                                                               |
 //  ====================================================================================================================================
 
-//  =================================================
+//  ======================================================
 //  DB_S7_Config_ModMenu((STRING)_FlagName)
+    DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_StatsExportTSV");
-    DB_S7_Config_ModMenu("S7_RefreshSettings");
     DB_S7_Config_ModMenu("S7_SetDefaultSettings");
-    DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
+    DB_S7_Config_ModMenu("S7_RefreshSettings");
+    DB_S7_Config_ModMenu("S7_ToggleSyncStatPersistence");
+    DB_S7_Config_ModMenu("S7_ToggleSafetyCheck");
+    DB_S7_Config_ModMenu("S7_ToggleStatsLoader");
     DB_S7_Config_ModMenu("S7_ExportCurrentSettings");
-//  =================================================
+//  ======================================================
 
 KBSECTION
 
@@ -72,6 +75,7 @@ AND
 QRY_SpeakerIsAvailable(_HostCharacter)                                                                      //  Check if host-character is available for dialog.
 THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _HostCharacter);                                                   //  Redirect Mod-Menu dialog to Host-Character.
+S7_UpdateSettingVars();
 NRD_DebugLog("[S7:Config - ModMenu] --- ModMenu activated by Client. Redirecting dialog to Host-Character.");
 
 //END_REGION
@@ -83,7 +87,7 @@ AND
 DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
 THEN
 S7_Config_ModMenuRelay(_Signal);                                                        //  Signal Lua.
-S7_SetDialogVars();                                                                     //  Refreshes all dialog-variables.
+S7_UpdateSettingVars();                                                                 //  Refreshes all dialog-variables.
 GlobalClearFlag(_Signal);                                                               //  Clear Flag.
 
 
