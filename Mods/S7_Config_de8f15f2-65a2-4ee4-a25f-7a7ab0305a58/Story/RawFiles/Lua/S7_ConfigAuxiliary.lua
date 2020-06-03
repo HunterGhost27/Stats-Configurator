@@ -2,14 +2,14 @@
 --        AUXILIARY FUNCTIONS
 --  ################################
 
+--  ================================
 modName = "S7_Config"
-fileName = "S7_ConfigAuxiliary.lua"
+logSource = "Lua:S7_ConfigAuxiliary"
+--  ================================
 
 --  ##################
 --       SETTINGS
 --  ##################
-
-dialogVarToSet = {} --  Will holds a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
 
 --  Default Settings
 --  ================
@@ -26,29 +26,29 @@ S7_DefaultSettings = {
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() - Prevents modification of unsupported or problematic keys.
 }
 
-S7_ConfigSettings = S7_DefaultSettings
-
 function S7_SetDefaultSettings() --  Resets ConfigSettings to DefaultSettings listed above.
     S7_ConfigSettings = S7_DefaultSettings
-    S7_DebugLog("Using default settings.", "[Lua]", "Settings", "Settings: Default")
+    S7_DebugLog("Using default settings.", nil, "Settings", "Settings: Default")
 end
 
 --  Import Custom Settings
 --  ======================
 
+dialogVarToSet = {} --  Will holds a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
+
 function S7_RefreshSettings() --  Overrides ConfigSettings on SessionLoaded event and Player's request.
     S7_ConfigSettings = S7_DefaultSettings --  Reset to base settings.
 
-    local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") --  Load CustomSettings json file.
+    local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") or "" --  Load CustomSettings json file.
     if (type(JSONsetting) == "string") and (JSONsetting ~= "") and (JSONsetting ~= nil) then --  if json file exists and is not empty.
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
         for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in DefaultSettings.
             S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default.
         end
-        S7_DebugLog("Custom settings applied.", "[Lua]", "Settings", "Settings: Custom")
+        S7_DebugLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
     else
-        S7_DebugLog("Default settings applied.", "[Lua]", "Settings", "Settings: Default")
+        S7_DebugLog("Default settings applied.", nil, "Settings", "Settings: Default")
     end
 end
 
@@ -70,30 +70,44 @@ Ext.RegisterListener("StatsLoaded", S7_RefreshSettings)
 function S7_ExportCurrentSettings() --  Exports the current ConfigSettings to S7_ConfigSettings.json file.
     local exportSettings = Ext.JsonStringify(S7_ConfigSettings) --  stringifies ConfigSettings.
     Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
-    S7_DebugLog("Exporting current ConfigSettings to S7_ConfigSettings.json", "[Lua]")
+    S7_DebugLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
 end
 
 --  ############################################################################################################################################
 
+--  #######################
 --  STATE-OF-THE-ART-LOGGER
---  =======================
+--  #######################
 
 function S7_DebugLog(...)
     local logArgs = {...}
     local logMsg = logArgs[1] or ""
-    local logType = logArgs[2] or "Log"
+    local logType = logArgs[2] or "[Log]"
     local dialogVar = logArgs[3] or nil
     local dialogVal = logArgs[4] or logMsg or ""
+
+    local switchLogType = {
+        ["[Initializer]"] = "Osiris:Initializer",
+        ["[ModVersioning]"] = "Osiris:ModVersioning",
+        ["[ModMenu]"] = "Osiris:ModMenu"
+    }
+
+    for type, switchCase in pairs(switchLogType) do
+        if type == logType then
+            logSource = switchCase
+        end
+    end
+
+    local S7Log = Ext.LoadFile("S7_Log.txt") or "LogType\tLog\tAssociated DialogVariable\tDialogValue"
+    S7Log = S7Log .. "\n" .. logType
+
+    local log = "[" .. modName .. "-" .. logSource .. "] --- " .. logMsg
 
     local switchLog = {
         ["[Warning]"] = Ext.PrintWarning,
         ["[Error]"] = Ext.PrintError
     }
 
-    local S7Log = Ext.LoadFile("S7_Log.txt") or ""
-    S7Log = S7Log .. "\n" .. logType
-
-    local log = "[" .. modName .. ":" .. fileName .. "] --- " .. logMsg
     if logMsg ~= nil then
         for type, switchCase in pairs(switchLog) do
             if type == logType then
@@ -110,9 +124,7 @@ function S7_DebugLog(...)
         dialogVarToSet[dialogVar] = logMsg
         S7Log = S7Log .. "\t" .. dialogVar .. "\t" .. dialogVal
     end
-    if Ext.OsirisIsCallable() then
-        S7_UpdateSettingVars()
-    end
+    S7_UpdateSettingVars()
     Ext.SaveFile("S7_Log.txt", S7Log)
 end
 
@@ -128,6 +140,8 @@ if Ext.IsServer() then
     )
 end
 --  =========================================================================================================================================
+
+--  #########################################################################################################################################
 
 --  SET DIALOG VARIABLES
 --  ====================
@@ -226,7 +240,7 @@ local function S7_InspectStats(StatID, StatType) --  Recieves StatID and StatTyp
     local compareStat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
     for name, content in pairs(compareStat) do --  Iterate over compareStat.
         if content == StatID then
-            S7_DebugLog("Inspected: (" .. StatType .. "): " .. StatID, "[Lua]")
+            S7_DebugLog("Inspected: (" .. StatType .. "): " .. StatID)
         end
     end
 end
