@@ -9,6 +9,11 @@
 * _Added_ a settings toggle for `S7_StatsLoader()`.
 * _Added_ **ModMenu** toggles for `StatsLoader`, `SyncStatPersistence` and `BypassSafetyCheck`.
 * _Created_ `S7_UpdateSettingVars()` to reapply dialog-vars when necessary.
+* _Created_ a **How-To** book item.
+
+### META
+
+* _Renamed_ `SCG/S7_Config_CHANGELOG.tsv` to `SCG/S7_Config_Items.tsv` to better represent its purpose.
 
 ## [0.5.0.0] --- 2nd June 2020 --- **_The Return of the Client_**
 
