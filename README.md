@@ -23,6 +23,7 @@
 
 * ***[Scribe Scrolls and Skillbooks](https://steamcommunity.com/sharedfiles/filedetails/?id=2012742114)***
 * ***[Declutter Skill-Panel](https://steamcommunity.com/sharedfiles/filedetails/?id=2049313850)***
+* ***[Channel Source](https://steamcommunity.com/sharedfiles/filedetails/?id=2028696492)***
 
 ## Thanks and Credits
 

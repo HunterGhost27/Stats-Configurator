@@ -12,17 +12,24 @@ Ext.Require("S7_StatsConfigurator.lua")
 --       MOD-MENU RELAY
 --  #######################
 
-toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
-
 local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
-    if Signal == "S7_StatsConfigurator" then --  =====   STATS-CONFIGURATOR  =====
+    --  STATS-CONFIGURATOR
+    -- ====================
+
+    if Signal == "S7_StatsConfigurator" then
         local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
         for i, fileName in ipairs(files) do --  Iterate over each file.
             Ext.Print("[S7:Config - BootstrapServer.lua] --- Loading " .. fileName)
             local JSONstring = Ext.LoadFile(fileName) --  Loads Configuration File.
             S7_StatsConfigurator(JSONstring) --  Calls StatsConfigurator.
+            S7_StatsSynchronize() --  Synchronize stats for all clients.
         end
-    elseif Signal == "S7_StatsSynchronize" then --  =====   STATS-SYNCHRONIZE   =====
+    end
+
+    --  STATS-SYNCHRONIZE
+    -- ===================
+
+    if Signal == "S7_StatsSynchronize" then
         Ext.Print("[S7:Config - BootstrapServer.lua] --- Synchronizing at Player's request.")
         if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
             for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
@@ -30,20 +37,43 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
             end
         end
         S7_StatsSynchronize() --  Call StatsSynchronize.
-    elseif Signal == "S7_SetDefaultSettings" then -- ==== SET DEFAULT SETTINGS =====
-        S7_SetDefaultSettings()
-        S7_SetDialogVars("Settings", "Settings: Default")
-    elseif Signal == "S7_RefreshSettings" then --  =====   REAPPLY-SETTINGS    ======
+    end
+
+    --  SET DEFAULT SETTINGS
+    -- ======================
+
+    if Signal == "S7_SetDefaultSettings" then
+        S7_SetDefaultSettings() --  Resets ConfigSettings to Default Values.
+    end
+
+    --  REFRESH SETTINGS
+    -- ==================
+
+    if Signal == "S7_RefreshSettings" then
         S7_RefreshSettings() --  Nice and easy
-    elseif Signal == "S7_ExportCurrentSettings" then --  =====   EXPORT CURRENT SETTINGS ===
+    end
+
+    --  EXPORT CURRENT SETTINGS
+    -- =========================
+
+    if Signal == "S7_ExportCurrentSettings" then
         S7_ExportCurrentSettings() --  Calls Export settings function.
-    elseif Signal == "S7_StatsExportTSV" then --  =====   EXPORT STATS TO TSV   =====
+    end
+
+    --  EXPORT STATS TO TSV FILE
+    -- ==========================
+
+    if Signal == "S7_StatsExportTSV" then
         Ext.Print(
             "[S7:Config - BootstrapServer.lua] --- Exporting StatIDs to " ..
                 S7_ConfigSettings.ExportStatIDtoTSV.FileName
         )
         S7_StatsExportTSV() --  Logs statIDs in an external TSV file for reference
-    elseif Signal == "S7_Config_CHANGELOG" then --  =====   CHANGELOG   =====
+    end
+
+    --  CHANGELOG
+    -- ===========
+    if Signal == "S7_Config_CHANGELOG" then
         Osi.Proc_S7_Config_ChangelogRequest()
     end
 end

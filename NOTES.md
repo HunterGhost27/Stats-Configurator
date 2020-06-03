@@ -13,3 +13,4 @@
 
 * [ ] README.md basic description.
 * [ ] Create test-stats and export stat.txt for reference.
+* [ ] Create a How-To ingame book.

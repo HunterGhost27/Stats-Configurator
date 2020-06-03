@@ -2,16 +2,20 @@
 --      STATS CONFIG AND SYNC
 --  #############################
 
+--  ================================
+Ext.Require("S7_ConfigSettings.lua")
+--  ================================
+
 --  STATS-CONFIGURATOR
 --  ==================
 
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
 function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext.LoadFile(), Osiris or a mod.
-    if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= "{}") then --  if json file exists and is not empty.
+    if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json file exists and is not empty.
         local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- JSON loaded. Applying Configuration Profile.\n")
 
+        Ext.Print("[S7:Config - S7_StatsConfigurator.lua] --- JSON loaded. Applying Configuration Profile.\n")
         Ext.Print("=============================================================")
         for name, content in pairs(JSONborne) do --  Iterate over JSONborne.
             Ext.Print(name)
@@ -25,17 +29,16 @@ function S7_StatsConfigurator(JSONstring) --  Recieves stringified JSON from Ext
                 end
             end
 
-            Ext.Print("_____________________________________________________________")
-            Ext.Print("\n")
+            Ext.Print("_____________________________________________________________\n")
             table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
         end
         Ext.Print("=============================================================")
-        Ext.Print("[S7:Config - BootstrapServer.lua] --- Configuration Profile Active.")
-        S7_SetDialogVars("StatsConfigurator", "Configuration Profile Activated.")
+        Ext.Print("[S7:Config - S7_StatsConfigurator.lua] --- Configuration Profile Active.")
+        dialogVarToSet["StatsConfigurator"] = "Configuration Profile Active."
     else
-        Ext.PrintError("[S7:Config - BootstrapServer.lua] --- JSON file could not be loaded.")
+        Ext.Print("[S7:Config - S7_StatsConfigurator.lua] --- Failed to load JSON.")
+        dialogVarToSet["StatsConfigurator"] = "Failed to load JSON."
     end
-    S7_StatsSynchronize() --  Synchronize stats for all clients.
 end
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
@@ -57,6 +60,7 @@ function S7_SafeToModify(key) --  Checks if key is safe to modify.
     else -- Default Setting
         for i, avoid in ipairs(dontFwith) do --  Iterate over keys to avoid.
             if key == avoid then --  If key matches.
+                Ext.Print(key .. ": Modification Prevented by S7_SafeToModify()")
                 return false --  Stop it right there.
             else
                 return true --  else continue.
@@ -71,7 +75,7 @@ end
 function S7_StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified. toSync is not empty.
         Ext.Print(
-            "[S7:Config - BootstrapServer.lua] --- Synchronizing Stats [Savegame-Persistence: " ..
+            "[S7:Config - S7_StatsConfigurator.lua] --- Synchronizing Stats [Savegame-Persistence: " ..
                 tostring(S7_ConfigSettings.SyncStatPersistence) .. "]"
         )
         Ext.Print("=============================================================")
@@ -82,11 +86,11 @@ function S7_StatsSynchronize()
             toSync[i] = nil --  Clears out toSync entry.
         end
         Ext.Print("=============================================================")
+        dialogVarToSet["SyncStat"] = "Synchronization Complete."
     elseif type(next(toSync)) == "nil" then
-        Ext.PrintWarning("[S7:Config - BootstrapServer.lua] --- Nothing to Synchronize. toSync queue is empty.")
-        S7_SetDialogVars(
-            "SyncStat",
-            "Nothing to Synchronize. toSync queue is empty. Use S7_ConfigSettings.json to specify stats."
-        )
+        Ext.PrintWarning("[S7:Config - S7_StatsConfigurator.lua] --- Nothing to Synchronize. toSync queue is empty.")
+        dialogVarToSet["SyncStat"] = "Nothing to Synchronize. toSync queue is empty."
     end
 end
+
+--  ####################################################################################################################################################

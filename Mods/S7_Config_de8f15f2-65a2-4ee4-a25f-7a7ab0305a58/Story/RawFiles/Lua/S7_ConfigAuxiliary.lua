@@ -2,10 +2,14 @@
 --        AUXILIARY FUNCTIONS
 --  ################################
 
---  SET DIALOG VARS
---  ===============
+--  ================================
+Ext.Require("S7_ConfigSettings.lua")
+--  ================================
 
-function S7_SetDialogVars(dialogVar, dialogVal) --  Shorthand for Osi.DialogSetVariableFixedString()
+--  SET DIALOG VARIABLES
+--  ====================
+
+function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). Isn't called instantly so changes are applied whenever Osiris is available.
     local dialogCase = {
         ["StatsConfigurator"] = "S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb",
         ["Settings"] = "S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6",
@@ -13,12 +17,23 @@ function S7_SetDialogVars(dialogVar, dialogVal) --  Shorthand for Osi.DialogSetV
         ["SyncStat"] = "S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917"
     }
 
-    for dialogName, dialogVariable in pairs(dialogCase) do
-        if dialogVar == dialogName then
-            Osi.DialogSetVariableFixedString("S7_Config_ModMenu", dialogVariable, dialogVal)
+    if type(next(dialogVarToSet)) ~= "nil" then --  dialogVar cache is not empty.
+        for dialogVar, dialogVal in pairs(dialogVarToSet) do --  for entries in dialogVarToSet()
+            for dialogName, dialogVariable in pairs(dialogCase) do
+                if dialogVar == dialogName then --  If entries match those in dialogCase
+                    Osi.DialogSetVariableFixedString("S7_Config_ModMenu", dialogVariable, dialogVal) -- Set DialogVariables.
+                else
+                    dialogVarToSet[dialogVar] = nil --  Remove unmatched key. To declutter dialogVarToSet queue.
+                end
+            end
+            dialogVarToSet[dialogVar] = nil --  Removes processed keys.
         end
     end
 end
+
+--  =================================================
+Ext.NewCall(S7_SetDialogVars, "S7_SetDialogVars", "")
+--  =================================================
 
 --  EXPORT STATS TO TSV
 --  ===================
@@ -43,8 +58,8 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
         local type = NRD_StatGetType(value) --  Didn't I just filter stats by statType? - this is what happens when you return to old code with new ideas.
         SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
     end
-    Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV file.
-    S7_SetDialogVars("ExportStats", "Stats Exported to TSV.")
+    Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
+    dialogVarToSet["ExportStats"] = "Stats exported to TSV file."
 end
 
 --  INSPECT SKILL
@@ -62,3 +77,5 @@ end
 --  =================================================================================
 Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatType")
 --  =================================================================================
+
+--  ###########################################################################################################################################################

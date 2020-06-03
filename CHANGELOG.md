@@ -2,6 +2,22 @@
 
 ----------
 
+## [0.5.0.0] --- 2nd June 2020 --- **_The Return of the Client_**
+
+### NEW
+
+* `BootstrapClient.lua` returns. Loads json during `StatsLoaded` event.
+* _Created_ `S7_SetDialogVars()` to apply ***dialog-var*** changes whenever the **ModMenu** throws a flag. Allows dialog-vars to be set even when ***osiris*** is unavailable as changes are stashed in table and only applied when **ModMenu** is accessed.
+
+### CHANGED
+
+* `S7_InspectStats()` moved in `BootstrapServer.lua`. `Ext.NewCall()` needs to be in that file.
+* `SyncStat()` save-game persistence is set to `false` by default now.
+
+### META
+
+* `BootstrapServer.lua` split into multiple files.
+
 ## [0.4.2.0] --- 1st June 2020 --- **_Changelog_**
 
 ### META

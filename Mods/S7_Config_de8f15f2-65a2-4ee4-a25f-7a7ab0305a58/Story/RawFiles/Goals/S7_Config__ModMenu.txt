@@ -23,11 +23,11 @@ KBSECTION
 //  =================================
 
 IF
-GameStarted(_GameLevel, _)
+GameStarted(_GameLevel, _)              //  GameStarted
 AND
-IsGameLevel(_GameLevel, 1)
+IsGameLevel(_GameLevel, 1)              //  Not in CharacterCreation level
 THEN
-GlobalSetFlag("S7_RefreshSettings");
+GlobalSetFlag("S7_RefreshSettings");    //  Set flag to reload settings
 
 //  =======================================
 //      GIVE ITEM TO THE HOST-CHARACTER
@@ -36,7 +36,7 @@ GlobalSetFlag("S7_RefreshSettings");
 IF
 GameStarted(_GameLevel, _)
 AND
-IsGameLevel(_GameLevel, 1)
+IsGameLevel(_GameLevel, 1)                                                                                          //  Not in CharacterCreation Level.
 AND
 CharacterGetHostCharacter(_Character)                                                                               //  Only checks for host-character.
 AND
@@ -72,7 +72,7 @@ AND
 QRY_SpeakerIsAvailable(_HostCharacter)                                                                      //  Check if host-character is available for dialog.
 THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _HostCharacter);                                                   //  Redirect Mod-Menu dialog to Host-Character.
-NRD_DebugLog("[S7:Config - ModMenu] --- ModMenu activated by Clients. Redirectly dialog to Host-Character.");
+NRD_DebugLog("[S7:Config - ModMenu] --- ModMenu activated by Client. Redirecting dialog to Host-Character.");
 
 //END_REGION
 //=============================
@@ -83,6 +83,7 @@ AND
 DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
 THEN
 S7_Config_ModMenuRelay(_Signal);                                                        //  Signal Lua.
+S7_SetDialogVars();                                                                     //  Refreshes all dialog-variables.
 GlobalClearFlag(_Signal);                                                               //  Clear Flag.
 
 
