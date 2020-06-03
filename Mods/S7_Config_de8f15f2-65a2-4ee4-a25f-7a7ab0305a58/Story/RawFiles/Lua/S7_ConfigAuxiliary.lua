@@ -110,8 +110,9 @@ function S7_DebugLog(...)
         dialogVarToSet[dialogVar] = logMsg
         S7Log = S7Log .. "\t" .. dialogVar .. "\t" .. dialogVal
     end
-    S7_UpdateSettingVars()
-
+    if Ext.OsirisIsCallable() then
+        S7_UpdateSettingVars()
+    end
     Ext.SaveFile("S7_Log.txt", S7Log)
 end
 
@@ -131,7 +132,7 @@ end
 --  SET DIALOG VARIABLES
 --  ====================
 
-local dialogCase = {
+dialogCase = {
     ["StatsLoader"] = "S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37",
     ["StatsConfigurator"] = "S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb",
     ["Settings"] = "S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6",

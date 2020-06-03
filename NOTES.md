@@ -13,3 +13,4 @@
 
 * [ ] README.md basic description.
 * [ ] Create test-stats and export stat.txt for reference.
+* [ ] I can smell another Refactoring-Pass around the corner.

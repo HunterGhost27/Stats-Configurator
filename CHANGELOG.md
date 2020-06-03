@@ -4,6 +4,10 @@
 
 ## [0.5.2.0] --- 3rd June 2020 --- **_Smart-Logger_**
 
+### FIX
+
+* _Changed_ scope of `dialogCase` to **Global**. Fixed issue where dialog-vars weren't being updated. Gave me a headache this one.
+
 ### META
 
 * _Merged_ `S7_ConfigSettings.lua` into `S7_ConfigAuxiliary.lua`. Both files were highly interdependent.
