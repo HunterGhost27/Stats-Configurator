@@ -1,6 +1,6 @@
---  ################################
---        AUXILIARY FUNCTIONS
---  ################################
+--  ##################################################################################################################################################
+--                                                                      AUXILIARY FUNCTIONS
+--  ##################################################################################################################################################
 
 --  ================================
 modName = "S7_Config"
@@ -25,6 +25,8 @@ S7_DefaultSettings = {
     },
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() - Prevents modification of unsupported or problematic keys.
 }
+
+S7_ConfigSettings = S7_DefaultSettings
 
 function S7_SetDefaultSettings() --  Resets ConfigSettings to DefaultSettings listed above.
     S7_ConfigSettings = S7_DefaultSettings
@@ -79,53 +81,56 @@ end
 --  STATE-OF-THE-ART-LOGGER
 --  #######################
 
-function S7_DebugLog(...)
-    local logArgs = {...}
-    local logMsg = logArgs[1] or ""
-    local logType = logArgs[2] or "[Log]"
-    local dialogVar = logArgs[3] or nil
-    local dialogVal = logArgs[4] or logMsg or ""
+function S7_DebugLog(...) --  Amped up DebugLog.
+    local logArgs = {...} --  Multiple Arguments stored in a table.
+    local logMsg = logArgs[1] or "" --  The actual log message.
+    local logType = logArgs[2] or "[Log]" --  logType tags - e.g. [Warning] or [Osiris] etc.
+    local dialogVar = logArgs[3] or nil --  Associated DialogVars (if any).
+    local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if nil.
 
-    local switchLogType = {
-        ["[Initializer]"] = "Osiris:Initializer",
-        ["[ModVersioning]"] = "Osiris:ModVersioning",
-        ["[ModMenu]"] = "Osiris:ModMenu"
-    }
+    local S7ConfigLog =
+        Ext.LoadFile("S7_ConfigLog.tsv") or "LuaState\tLogType\tLog\tAssociated DialogVariable\tDialogValue"
 
-    for type, switchCase in pairs(switchLogType) do
-        if type == logType then
-            logSource = switchCase
-        end
+    local luaState = ""
+
+    if Ext.IsServer() then
+        luaState = "[Server]" --  Code running on Server.
+    elseif Ext.IsClient() then
+        luaState = "[Client]" --  Code running on Client.
     end
 
-    local S7Log = Ext.LoadFile("S7_Log.txt") or "LogType\tLog\tAssociated DialogVariable\tDialogValue"
-    S7Log = S7Log .. "\n" .. logType
-
-    local log = "[" .. modName .. "-" .. logSource .. "] --- " .. logMsg
-
     local switchLog = {
+        --  LogType Special Tags.
+        ["[Initializer]"] = "Osiris:Initializer",
+        ["[ModVersioning]"] = "Osiris:ModVersioning",
+        ["[ModMenu]"] = "Osiris:ModMenu",
         ["[Warning]"] = Ext.PrintWarning,
         ["[Error]"] = Ext.PrintError
     }
 
-    if logMsg ~= nil then
-        for type, switchCase in pairs(switchLog) do
-            if type == logType then
-                switchLog[type](log)
-            else
+    local log = "[" .. modName .. " - " .. logSource .. "] --- " .. logMsg
+
+    for type, switchCase in pairs(switchLog) do
+        if type == LogType then
+            if type(switchCase) == "string" then
+                logSource = switchCase --  Rename logSource if Tags match.
                 Ext.Print(log)
-                break
+            elseif type(switchCase) == "function" then
+                switchLog[type](log) --  Special log function
             end
+        else
+            Ext.Print(log)
         end
     end
-    S7Log = S7Log .. "\t" .. log
 
-    if dialogVar ~= nil then
+    S7ConfigLog = S7ConfigLog .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log
+
+    if dialogVar ~= nil then --  If associated dialogVar specified.
         dialogVarToSet[dialogVar] = logMsg
-        S7Log = S7Log .. "\t" .. dialogVar .. "\t" .. dialogVal
+        S7ConfigLog = S7ConfigLog .. "\t" .. dialogVar .. "\t" .. dialogVal
     end
-    S7_UpdateSettingVars()
-    Ext.SaveFile("S7_Log.txt", S7Log)
+    S7_UpdateSettingVars() --  Update DialogVars.
+    Ext.SaveFile("S7_ConfigLog.tsv", S7ConfigLog) --  SaveLog in a TSV file.
 end
 
 --  =========================================================================================================================================
