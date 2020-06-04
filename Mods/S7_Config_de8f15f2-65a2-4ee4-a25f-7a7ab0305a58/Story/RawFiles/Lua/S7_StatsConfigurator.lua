@@ -2,47 +2,44 @@
 --      STATS CONFIG AND SYNC
 --  #############################
 
-fileName = "S7_StatsConfigurator.lua"
-
---  =================================
+--  ==================================
+logSource = "Lua:S7_StatsConfigurator"
 Ext.Require("S7_ConfigAuxiliary.lua")
---  =================================
+--  ==================================
 
 --  STATS-CONFIGURATOR
 --  ==================
 
--- queues jsons that need to be configured.
-toConfigure = {}
+toConfigure = {} -- queues jsons that need to be configured.
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
-function S7_StatsConfigurator() --  Recieves stringified JSON from Ext.LoadFile(), Osiris or a mod.
+function S7_StatsConfigurator()
     for i, config in ipairs(toConfigure) do
         for modID, configure in pairs(config) do
             local JSONstring = configure
             if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json file exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
-                S7_DebugLog("JSON loaded. Applying Configuration Profile.\n", "[Lua]")
-                S7_DebugLog("=============================================================", "[Lua]")
+                S7_DebugLog(modID .. " loaded. Applying Configuration Profile.")
+                S7_DebugLog("=============================================================")
                 for name, content in pairs(JSONborne) do --  Iterate over JSONborne.
-                    S7_DebugLog(name, "[Lua]")
-                    S7_DebugLog("-------------------------------------------------------------", "[Lua]")
+                    S7_DebugLog(name)
+                    S7_DebugLog("-------------------------------------------------------------")
 
                     local stat = Ext.GetStat(name) --  Gets original stat-entry.
                     for key, value in pairs(content) do
                         if S7_SafeToModify(key) then --  Checks if key is safe to modify
-                            S7_DebugLog(key .. ": " .. value .. " (" .. stat[key] .. ")", "[Lua]") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                            S7_DebugLog(key .. ": " .. value .. " (" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                             stat[key] = value --  Sets new value for Name[Attribute]
                         end
                     end
-
-                    S7_DebugLog("_____________________________________________________________\n", "[Lua]")
+                    S7_DebugLog("_____________________________________________________________\n")
                     table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
                 end
-                S7_DebugLog("=============================================================", "[Lua]")
-                S7_DebugLog("Configuration Profile Active.", "[Lua]", "StatsConfigurator")
+                S7_DebugLog("=============================================================")
+                S7_DebugLog("Configuration Profile Active.", nil, "StatsConfigurator")
             else
-                S7_DebugLog("Failed to load JSON.", "[Lua]", "StatsConfigurator")
+                S7_DebugLog("Failed to load JSON.", nil, "StatsConfigurator")
             end
         end
     end
@@ -85,15 +82,15 @@ function S7_StatsSynchronize()
             "Synchronizing Stats [Savegame-Persistence: " .. tostring(S7_ConfigSettings.SyncStatPersistence) .. "]",
             "[Lua]"
         )
-        S7_DebugLog("=============================================================", "[Lua]")
+        S7_DebugLog("=============================================================")
 
         for i, name in ipairs(toSync) do
             Ext.SyncStat(name, S7_ConfigSettings.SyncStatPersistence) --  Sync
-            S7_DebugLog("Synchronized Stat: " .. name, "[Lua]")
+            S7_DebugLog("Synchronized Stat: " .. name)
             toSync[i] = nil --  Clears out toSync entry.
         end
-        S7_DebugLog("=============================================================", "[Lua]")
-        S7_DebugLog("Synchronization Complete.", "[Lua]", "SyncStat")
+        S7_DebugLog("=============================================================")
+        S7_DebugLog("Synchronization Complete.", nil, "SyncStat")
     elseif type(next(toSync)) == "nil" then
         S7_DebugLog("Nothing to Synchronize. toSync queue is empty.", "[Warning]", "SyncStat")
     end

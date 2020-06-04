@@ -2,7 +2,23 @@
 
 ----------
 
+## [0.5.2.0] --- 4th June 2020 -- **_Uh What?_**
+
+### NEW
+
+* Instead of loading and parsing json immediately, `StatsConfigurator()` now processes a queue of json strings stored in a table `toConfigure`. Decoupling should theoretically allow a more flexible and compatible approach. ~~(Buzzwords for: I done goofed.)~~
+
+### COMMENTS
+
+* _Merged_ `SAL` branch with `queue-loader` branch. Stuff of nightmares. I honestly don't know what I'm doing anymore.
+* TFW you wake up one day and don't remember what half your code does.
+
 ## [0.5.2.0] --- 3rd June 2020 --- **_Smart-Logger_**
+
+### NEW
+
+* _Created_ `S7_DebugLog()` codenamed `SAL`.
+* `SAL` logs messages to `DebugConsole`, to an external `tsv` and also sets dialog-vars all from one function.
 
 ### FIX
 
@@ -23,7 +39,7 @@
 
 ### META
 
-* _Renamed_ `SCG/S7_Config_CHANGELOG.tsv` to `SCG/S7_Config_Items.tsv` to better represent its purpose.
+* _Renamed_ `SCG/S7_Config_CHANGELOG.tsv` to `SCG/S7_Config_Items.tsv` since it now has multiple keys.
 
 ## [0.5.0.0] --- 2nd June 2020 --- **_The Return of the Client_**
 
@@ -34,7 +50,7 @@
 
 ### CHANGED
 
-* `S7_InspectStats()` moved in `BootstrapServer.lua`. `Ext.NewCall()` needs to be in that file.
+* `S7_InspectStats()` moved in `BootstrapServer.lua` - `Ext.NewCall()` needs to be in that file.
 * `SyncStat()` save-game persistence is set to `false` by default now.
 
 ### META
@@ -50,7 +66,7 @@
 
 ### META
 
-* _Created_ NOTES.md
+* _Created_ NOTES.md    - Cause nobody got time for Alt-Tabs
 
 ## [0.4.1.0] --- 1st June 2020 --- **_Still Setting Up_**
 
@@ -108,7 +124,7 @@
 
 ### CHANGED
 
-* ***Loading*** JSON files is done by the ModMenu functions. Moving this out of `S7_StatsConfigurator()` allows other mods to pass a ***stringified JSON (JSONstring)***  to the function.
+* Loading JSON files is done by the ModMenu functions. Moving this out of `S7_StatsConfigurator()` allows other mods to pass a ***stringified JSON (JSONstring)***  to the function.
 
 ### REMOVED
 
