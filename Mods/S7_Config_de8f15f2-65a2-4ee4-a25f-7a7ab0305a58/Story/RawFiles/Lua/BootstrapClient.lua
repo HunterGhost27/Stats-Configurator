@@ -10,8 +10,13 @@ Ext.Require("S7_StatsConfigurator.lua")
 --  ===================================
 
 local function S7_StatsLoader() --  Loads stats-configuration json during StatsLoaded Event.
-    local JSONstring = Ext.LoadFile("S7_Config.json") --  Only loads S7_Config.json.
-    S7_StatsConfigurator(JSONstring) --  Pass stringified JSON to StatsConfigurator()
+    local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
+    for i, fileName in ipairs(files) do --  Iterate over each file.
+        S7_DebugLog("Loading " .. fileName, "[Lua]")
+        table.insert(toConfigure, {["S7_Config"] = Ext.LoadFile(fileName) or ""})
+    end
+    S7_StatsConfigurator() --  Pass stringified JSON to StatsConfigurator()
+    toConfigure = {} -- flush list
 end
 
 --  ===============================================

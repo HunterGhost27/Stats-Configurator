@@ -21,11 +21,12 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
         for i, fileName in ipairs(files) do --  Iterate over each file.
             S7_DebugLog("Loading " .. fileName, "[Lua]")
-            local JSONstring = Ext.LoadFile(fileName) --  Loads Configuration File.
-            S7_StatsConfigurator(JSONstring) --  Calls StatsConfigurator.
-            S7_StatsSynchronize() --  Synchronize stats for all clients.
+            table.insert(toConfigure, {["S7_Config"] = Ext.LoadFile(fileName)})
         end
+        S7_StatsConfigurator() --  Calls StatsConfigurator.
+        S7_StatsSynchronize() --  Synchronize stats for all clients.
         S7_UpdateSettingVars()
+        toConfigure = {}
     end
 
     --  STATS-SYNCHRONIZE
