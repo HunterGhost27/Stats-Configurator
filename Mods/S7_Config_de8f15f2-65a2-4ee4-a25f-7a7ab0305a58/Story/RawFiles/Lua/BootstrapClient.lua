@@ -12,10 +12,11 @@ local function S7_StatsLoader() --  Loads stats-configuration json during StatsL
     local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
     for i, fileName in ipairs(files) do --  Iterate over each file.
         S7_DebugLog("Loading " .. fileName, "[Lua]")
-        table.insert(toConfigure, {["S7_Config"] = Ext.LoadFile(fileName) or ""})
+        table.insert(toConfigure, {[fileName] = Ext.LoadFile(fileName) or ""})
     end
     S7_StatsConfigurator() --  Pass stringified JSON to StatsConfigurator()
     toConfigure = {} -- flush list
+    S7_DebugLog("StatsLoading Completed.")
 end
 
 --  ===============================================

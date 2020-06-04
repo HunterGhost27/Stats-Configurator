@@ -25,6 +25,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         S7_StatsConfigurator() --  Calls StatsConfigurator.
         S7_StatsSynchronize() --  Synchronize stats for all clients.
         toConfigure = {} --  Clear out toConfigure queue.
+        S7_DebugLog("StatsConfiguration Finished.")
     end
 
     --  STATS-SYNCHRONIZE
@@ -38,6 +39,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
             end
         end
         S7_StatsSynchronize() --  Call StatsSynchronize.
+        S7_DebugLog("StatsSynchronization Finished.")
     end
 
     --  TOGGLE STATSLOADER
@@ -46,8 +48,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleStatsLoader" then
         if S7_ConfigSettings.StatsLoader == true then
             S7_ConfigSettings.StatsLoader = false
+            S7_DebugLog("StatsLoader: Deactivated", nil, "StatsLoader")
         else
             S7_ConfigSettings.StatsLoader = true
+            S7_DebugLog("StatsLoader: Activated", nil, "StatsLoader")
         end
     end
 
@@ -57,8 +61,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSyncStatPersistence" then
         if S7_ConfigSettings.SyncStatPersistence == true then
             S7_ConfigSettings.SyncStatPersistence = false
+            S7_DebugLog("SyncStatPersistence: Deactivated", nil, "SyncStatPersistence")
         else
             S7_ConfigSettings.SyncStatPersistence = true
+            S7_DebugLog("SyncStatPersistence: Activated", nil, "SyncStatPersistence")
         end
     end
 
@@ -66,10 +72,12 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ==========================
 
     if Signal == "S7_ToggleSafetyCheck" then
-        if S7_ConfigSettings.BypassSafetyCheck == true then
-            S7_ConfigSettings.BypassSafetyCheck = false
-        else
+        if S7_ConfigSettings.BypassSafetyCheck == false then
             S7_ConfigSettings.BypassSafetyCheck = true
+            S7_DebugLog("BypassSafetyCheck: Activated", nil, "BypassSafetyCheck")
+        else
+            S7_ConfigSettings.BypassSafetyCheck = false
+            S7_DebugLog("BypassSafetyCheck: Deactivated", nil, "BypassSafetyCheck")
         end
     end
 
@@ -78,13 +86,15 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_SetDefaultSettings" then
         S7_SetDefaultSettings() --  Resets ConfigSettings to Default Values.
+        S7_DebugLog("Settings restored to default values.")
     end
 
     --  REFRESH SETTINGS
     -- ==================
 
     if Signal == "S7_RefreshSettings" then
-        S7_RefreshSettings() --  Nice and easy
+        S7_RefreshSettings() --  Reload settings.
+        S7_DebugLog("Settings refreshed.")
     end
 
     --  EXPORT CURRENT SETTINGS
@@ -93,14 +103,15 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ExportCurrentSettings" then
         S7_ExportCurrentSettings() --  Calls Export settings function.
         S7_RefreshSettings() --  Reload settings.
+        S7_DebugLog("Custom Settings Exported and Refreshed.")
     end
 
     --  EXPORT STATS TO TSV FILE
     -- ==========================
 
     if Signal == "S7_StatsExportTSV" then
-        S7_DebugLog("Exporting StatIDs to " .. S7_ConfigSettings.ExportStatIDtoTSV.FileName)
         S7_StatsExportTSV() --  Logs statIDs in an external TSV file for reference
+        S7_DebugLog("Exporting StatIDs to " .. S7_ConfigSettings.ExportStatIDtoTSV.FileName)
     end
 
     --  CHANGELOG
@@ -109,7 +120,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
     end
 
-    S7_UpdateSettingVars()
+    S7_SetDialogVars() --  Request dialogVar update
 end
 
 --  ============================================================================

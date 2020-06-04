@@ -20,7 +20,6 @@ INITSECTION
 //  ======================================================
 
 KBSECTION
-
 //  =================================
 //          REFRESH SETTINGS
 //  =================================
@@ -74,8 +73,8 @@ CharacterGetHostCharacter(_HostCharacter)                                       
 AND
 QRY_SpeakerIsAvailable(_HostCharacter)                                                                      //  Check if host-character is available for dialog.
 THEN
+S7_SetDialogVars();
 Proc_StartDialog(1, "S7_Config_ModMenu", _HostCharacter);                                                   //  Redirect Mod-Menu dialog to Host-Character.
-S7_UpdateSettingVars();
 S7_DebugLog("ModMenu activated by Client. Redirecting dialog to Host-Character.", "[ModMenu]");
 
 //END_REGION

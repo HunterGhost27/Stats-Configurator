@@ -2,6 +2,19 @@
 
 ----------
 
+## [0.5.2.5] --- 4th June 2020 -- **_Bad Day_**
+
+### CHANGED
+
+* _Renamed_ `dialogVarToSet` to `toSetDialogVar` for consistency.
+* _Moved_ `S7_CustomOrDefaultSettings()` inside `S7_RefreshSettings()`. No need for it to be a global function.
+* _Gutted_ `S7_UpdateSettingsVars()`. Redundant. [Update] - Not so redundant actually :P
+* _Switched_ out switch-case from `S7_DebugLog()` for traditional `if-else lists`. Stopped working for whatever reason. I'm having a bad day. [Update] - I declared the variable `logType` and had been calling it `LogType` this whole time wondering why stuff didn't work.
+* Anti-globalization movement. Made a whole lot of stuff `local`.
+* Switch-case is back in! - Two dozen `LogType` typos executed for INSUBORDINATION.
+* _Moved_ `S7_SetDialogVars()` to the bottom of `S7_ModMenuRelay()` as its the only place where `dialogVars` are needed and `Osiris` is guaranteed to be available. Also figured out why `S7_UpdateSettingVars()` and `S7_SetDialogVars()` were different functions - to make sure updates only happened when `Osiris` was ready.
+* I think that's a complete circle. 14 hours I've spent doing this and I am essentially back to the code I started with. Atleast it works now.
+
 ## [0.5.2.0] --- 4th June 2020 -- **_Uh What?_**
 
 ### NEW

@@ -6,63 +6,63 @@
         <node id="root">
             <children>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Disabled." type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="06618d4e-dff1-4bfb-a0e2-14865b5dfb64" type="31" />
                     <attribute id="name" value="S7_Config_BypassSafety" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Export to TSV failed." type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="Export to TSV." type="23" />
                     <attribute id="UUID" value="e59ebc61-6f13-4e91-9200-36e474113c48" type="31" />
                     <attribute id="name" value="S7_Config_ExportedStats" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Existing-Save" type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="ModAddedTo" type="23" />
                     <attribute id="UUID" value="70f2c40a-2237-4041-aed6-d1f1623d0ab6" type="31" />
                     <attribute id="name" value="S7_Config_ModAddedTo" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="S7_Config, N/A" type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="Mod-Identifier" type="23" />
                     <attribute id="UUID" value="76d92488-990f-45d4-828a-525bf966efaa" type="31" />
                     <attribute id="name" value="S7_Config_ModID" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Settings: Default" type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="Custom or Default settings in use." type="23" />
                     <attribute id="UUID" value="c02bc213-de0d-4f0f-b501-7b8913d146a6" type="31" />
                     <attribute id="name" value="S7_Config_Settings" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Failed to apply configuration profile." type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="Response for loading Stats." type="23" />
                     <attribute id="UUID" value="68b60e77-cbff-460d-8a78-5a264fe0bbcb" type="31" />
                     <attribute id="name" value="S7_Config_StatsConfiguratorResponse" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Activated." type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="11670d82-a36e-4657-9868-5fdb7c86db37" type="31" />
                     <attribute id="name" value="S7_Config_StatsLoader" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Savegame Persistence: Disabled." type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="SyncStat Status" type="23" />
                     <attribute id="UUID" value="7506390a-9fa8-4300-8abd-5dc476e6b917" type="31" />
                     <attribute id="name" value="S7_Config_SyncStat" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="Savegame Persistence: Disabled." type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a" type="31" />
                     <attribute id="name" value="S7_SyncStatPersistence" type="22" />

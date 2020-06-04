@@ -1,14 +1,15 @@
---  #############################
---      STATS CONFIG AND SYNC
---  #############################
+--  ###################################################################################################################################################
+--                                                                      STATS CONFIG AND SYNC
+--  ###################################################################################################################################################
 
---  ==================================
+--  ========================================
 logSource = "Lua:S7_StatsConfigurator"
 Ext.Require("S7_ConfigAuxiliary.lua")
---  ==================================
+--  ========================================
 
+--  ##################
 --  STATS-CONFIGURATOR
---  ==================
+--  ##################
 
 toConfigure = {} -- queues jsons that need to be configured.
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
@@ -33,13 +34,13 @@ function S7_StatsConfigurator()
                             stat[key] = value --  Sets new value for Name[Attribute]
                         end
                     end
-                    S7_DebugLog("_____________________________________________________________\n")
+                    S7_DebugLog("_____________________________________________________________")
                     table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
                 end
                 S7_DebugLog("=============================================================")
                 S7_DebugLog("Configuration Profile Active.", nil, "StatsConfigurator")
             else
-                S7_DebugLog("Failed to load JSON.", nil, "StatsConfigurator")
+                S7_DebugLog("Failed to load JSON.", "[Error]", "StatsConfigurator")
             end
         end
     end
@@ -48,8 +49,6 @@ end
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = {
         --  Don't mess with these keys.
-        "MemorizationRequirements",
-        "Requirements",
         "AoEConditions",
         "TargetConditions",
         "ForkingConditions",

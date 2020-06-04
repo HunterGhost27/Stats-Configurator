@@ -2258,7 +2258,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Bypass-Safety switched to [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]"
+                                                   "value" : "[S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2570,7 +2570,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Settings: [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]<br>StatsLoader: [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]<br>SyncStat: [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]<br>BypassSafetyMeasures: [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]"
+                                                   "value" : "[S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]<br>[S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]<br>[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]<br>[S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2982,7 +2982,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "StatsLoader [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]"
+                                                   "value" : "[S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4031,7 +4031,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 92}
+            "nextNodeId" : {"type" : 5, "value" : 95}
          }
       }
    }
