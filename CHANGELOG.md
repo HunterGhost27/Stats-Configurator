@@ -2,7 +2,14 @@
 
 ----------
 
-## [0.5.2.5] --- 4th June 2020 -- **_Bad Day_**
+## [0.5.3.0] --- 5th June 2020 --- **_Restructuring_**
+
+### NEW
+
+* _Created_ `S7_Restructure()` for immediate translation of tables. No more `for-loop` spam.
+* _Added_ the option to change `ActiveConfiguration`.
+
+## [0.5.2.5] --- 4th June 2020 --- **_Bad Day_**
 
 ### CHANGED
 
@@ -15,7 +22,7 @@
 * _Moved_ `S7_SetDialogVars()` to the bottom of `S7_ModMenuRelay()` as its the only place where `dialogVars` are needed and `Osiris` is guaranteed to be available. Also figured out why `S7_UpdateSettingVars()` and `S7_SetDialogVars()` were different functions - to make sure updates only happened when `Osiris` was ready.
 * I think that's a complete circle. 14 hours I've spent doing this and I am essentially back to the code I started with. Atleast it works now.
 
-## [0.5.2.0] --- 4th June 2020 -- **_Uh What?_**
+## [0.5.2.0] --- 4th June 2020 --- **_Uh What?_**
 
 ### NEW
 

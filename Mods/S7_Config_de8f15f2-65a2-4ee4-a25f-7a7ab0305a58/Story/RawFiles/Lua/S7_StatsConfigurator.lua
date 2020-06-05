@@ -2,10 +2,10 @@
 --                                                                      STATS CONFIG AND SYNC
 --  ###################################################################################################################################################
 
---  ========================================
+--  ==================================
 logSource = "Lua:S7_StatsConfigurator"
 Ext.Require("S7_ConfigAuxiliary.lua")
---  ========================================
+--  ==================================
 
 --  ##################
 --  STATS-CONFIGURATOR
@@ -93,6 +93,18 @@ function S7_StatsSynchronize()
     elseif type(next(toSync)) == "nil" then
         S7_DebugLog("Nothing to Synchronize. toSync queue is empty.", "[Warning]", "SyncStat")
     end
+end
+
+--  BUILD ACTIVE CONFIG
+--  ===================
+
+local function S7_BuildActiveConfig()
+end
+
+--  PUSH ACTIVE CONFIG TO CLIENTS
+--  =============================
+
+local function S7_PushActiveConfigToClients()
 end
 
 --  ####################################################################################################################################################

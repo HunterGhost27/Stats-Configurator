@@ -2,13 +2,23 @@
 --                                                                      AUXILIARY FUNCTIONS
 --  ##################################################################################################################################################
 
---  ===========================================
+--  ================================
 S7_ModIdentifier = {
     ["modName"] = "S7_Config",
     ["modVersion"] = "0.5.2.5"
 }
 logSource = "Lua:S7_ConfigAuxiliary"
---  ===========================================
+--  ================================
+
+--  ####################
+--      RESTRUCTURE
+--  ####################
+
+function S7_Restructure(Entity) --  Created for immediate translation of Tables without for-loops.
+    return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works Maybe Definitely.
+end
+
+--  ============================================================================================================================================
 
 toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
 
@@ -20,7 +30,7 @@ toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. D
 --  ================
 
 S7_DefaultSettings = {
-    ["StatsLoader"] = true, --  Clients call StatsLoader() if true.
+    ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ActiveConfig.json"}, --  FileName for the ActiveConfiguration Profile.
     ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
@@ -31,10 +41,10 @@ S7_DefaultSettings = {
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
 }
 
-S7_ConfigSettings = S7_DefaultSettings --  just to initialize S7_ConfigSettings.
+S7_ConfigSettings = S7_Restructure(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
 
 function S7_SetDefaultSettings() --  Resets ConfigSettings to DefaultSettings listed above. On Player's request.
-    S7_ConfigSettings = S7_DefaultSettings
+    S7_ConfigSettings = S7_Restructure(S7_DefaultSettings)
     S7_DebugLog("Using default settings.", nil, "Settings", "Settings: Default")
 end
 
@@ -46,7 +56,7 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on StatsLoaded event 
         if settingsOverride[setting] == false then --  If a settingsOverride setting has boolean false.
             return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skips settingsOverride.
         else
-            return settingsOverride[setting] or S7_DefaultSettings[setting] --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
+            return S7_Restructure(settingsOverride[setting]) or S7_Restructure(S7_DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
         end
     end
 
@@ -170,7 +180,7 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         ["ModID"] = "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa"
     }
 
-    if S7_ConfigSettings.StatsLoader == true then
+    if S7_ConfigSettings.StatsLoader.Enable == true then
         toSetDialogVar["StatsLoader"] = "StatsLoader: Activated."
     else
         toSetDialogVar["StatsLoader"] = "StatsLoader: Deactivated."
@@ -184,6 +194,11 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         toSetDialogVar["BypassSafetyCheck"] = "BypassSafetyCheck: Activated."
     else
         toSetDialogVar["BypassSafetyCheck"] = "BypassSafetyCheck: Deactivated."
+    end
+    if Ext.JsonStringify(S7_ConfigSettings) == Ext.JsonStringify(S7_DefaultSettings) then
+        toSetDialogVar["Settings"] = "Settings: Default"
+    else
+        toSetDialogVar["Settings"] = "Settings: Custom"
     end
 
     if type(next(toSetDialogVar)) ~= "nil" then --  dialogVar cache is not empty.

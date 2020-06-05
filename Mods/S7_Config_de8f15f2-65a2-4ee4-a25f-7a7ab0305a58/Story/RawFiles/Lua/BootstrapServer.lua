@@ -46,12 +46,12 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ==================
 
     if Signal == "S7_ToggleStatsLoader" then
-        if S7_ConfigSettings.StatsLoader == true then
-            S7_ConfigSettings.StatsLoader = false
-            S7_DebugLog("StatsLoader: Deactivated", nil, "StatsLoader")
+        if S7_ConfigSettings.StatsLoader.Enable == true then
+            S7_ConfigSettings.StatsLoader.Enable = false
+            S7_DebugLog("StatsLoader: Deactivated", nil, "Settings", "Settings: Custom")
         else
-            S7_ConfigSettings.StatsLoader = true
-            S7_DebugLog("StatsLoader: Activated", nil, "StatsLoader")
+            S7_ConfigSettings.StatsLoader.Enable = true
+            S7_DebugLog("StatsLoader: Activated", nil, "Settings", "Settings: Custom")
         end
     end
 
@@ -61,10 +61,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSyncStatPersistence" then
         if S7_ConfigSettings.SyncStatPersistence == true then
             S7_ConfigSettings.SyncStatPersistence = false
-            S7_DebugLog("SyncStatPersistence: Deactivated", nil, "SyncStatPersistence")
+            S7_DebugLog("SyncStatPersistence: Deactivated", nil, "Settings", "Settings: Custom")
         else
             S7_ConfigSettings.SyncStatPersistence = true
-            S7_DebugLog("SyncStatPersistence: Activated", nil, "SyncStatPersistence")
+            S7_DebugLog("SyncStatPersistence: Activated", nil, "Settings", "Settings: Custom")
         end
     end
 
@@ -74,10 +74,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSafetyCheck" then
         if S7_ConfigSettings.BypassSafetyCheck == false then
             S7_ConfigSettings.BypassSafetyCheck = true
-            S7_DebugLog("BypassSafetyCheck: Activated", nil, "BypassSafetyCheck")
+            S7_DebugLog("BypassSafetyCheck: Activated", nil, "Settings", "Settings: Custom")
         else
             S7_ConfigSettings.BypassSafetyCheck = false
-            S7_DebugLog("BypassSafetyCheck: Deactivated", nil, "BypassSafetyCheck")
+            S7_DebugLog("BypassSafetyCheck: Deactivated", nil, "Settings", "Settings: Custom")
         end
     end
 
@@ -86,7 +86,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_SetDefaultSettings" then
         S7_SetDefaultSettings() --  Resets ConfigSettings to Default Values.
-        S7_DebugLog("Settings restored to default values.")
+        S7_DebugLog("Settings restored to default values.", nil, "Settings", "Settings: Default")
     end
 
     --  REFRESH SETTINGS
