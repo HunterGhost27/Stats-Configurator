@@ -6,8 +6,9 @@
 
 ### NEW
 
-* _Created_ `S7_Restructure()` for immediate translation of tables. No more `for-loop` spam.
+* _Created_ `S7_Rematerialize()` for immediate translation of tables. No more `for-loop` spam.
 * _Added_ the option to change `ActiveConfiguration`.
+* Stat-edits are now staged before being exported to Active Configuration. Player can unstage changes.
 
 ## [0.5.2.5] --- 4th June 2020 --- **_Bad Day_**
 

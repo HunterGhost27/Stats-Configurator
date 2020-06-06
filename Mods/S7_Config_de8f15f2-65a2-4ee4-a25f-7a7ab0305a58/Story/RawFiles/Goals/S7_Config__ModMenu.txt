@@ -11,6 +11,7 @@ INITSECTION
     DB_S7_Config_ModMenu("S7_RefreshSettings");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
+    DB_S7_Config_ModMenu("S7_BuildActiveConfig");
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_ToggleSafetyCheck");
     DB_S7_Config_ModMenu("S7_ToggleStatsLoader");
@@ -20,16 +21,18 @@ INITSECTION
 //  ======================================================
 
 KBSECTION
+
 //  =================================
 //          REFRESH SETTINGS
 //  =================================
 
 IF
-GameStarted(_GameLevel, _)              //  GameStarted
+GameStarted(_GameLevel, _)                      //  GameStarted
 AND
-IsGameLevel(_GameLevel, 1)              //  Not in CharacterCreation level
+IsGameLevel(_GameLevel, 1)                      //  Not in CharacterCreation level
 THEN
-GlobalSetFlag("S7_RefreshSettings");    //  Set flag to reload settings
+GlobalSetFlag("S7_RefreshSettings");            //  Set flag to reload settings
+GlobalSetFlag("S7_ClearStagedConfig");          //  Set flag for No Staged Configs
 
 //  =======================================
 //      GIVE ITEM TO THE HOST-CHARACTER

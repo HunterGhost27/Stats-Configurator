@@ -2,19 +2,16 @@
 --                                                                      AUXILIARY FUNCTIONS
 --  ##################################################################################################################################################
 
---  ================================
-S7_ModIdentifier = {
-    ["modName"] = "S7_Config",
-    ["modVersion"] = "0.5.2.5"
-}
+--  ============================================================
+modInfo = Ext.GetModInfo("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")
 logSource = "Lua:S7_ConfigAuxiliary"
---  ================================
+--  ============================================================
 
---  ####################
---      RESTRUCTURE
---  ####################
+--  ######################
+--      REMATERIALIZE
+--  ######################
 
-function S7_Restructure(Entity) --  Created for immediate translation of Tables without for-loops.
+function S7_Rematerialize(Entity) --  Created for immediate translation of Tables without the excessive for-loop spam.
     return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works Maybe Definitely.
 end
 
@@ -31,20 +28,20 @@ toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. D
 
 S7_DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ActiveConfig.json"}, --  FileName for the ActiveConfiguration Profile.
-    ["ConfigFiles"] = {"S7_Config.json"}, --  A list of all the files the configurator will pull from.
+    ["ConfigFile"] = "S7_Config.json", --  The file the configurator will pull from.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["ExportStatIDtoTSV"] = {
         ["FileName"] = "S7_Config_AllTheStats.tsv", --  FileName for ExportedStats. Configurable for configuration sake.
-        ["RestrictStatTypeTo"] = {} --  limits the search to only these statTypes. e.g. "Character", "Potions", "SkillData".
+        ["RestrictStatTypeTo"] = {} --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     },
     ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
 }
 
-S7_ConfigSettings = S7_Restructure(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
+S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
 
 function S7_SetDefaultSettings() --  Resets ConfigSettings to DefaultSettings listed above. On Player's request.
-    S7_ConfigSettings = S7_Restructure(S7_DefaultSettings)
+    S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings)
     S7_DebugLog("Using default settings.", nil, "Settings", "Settings: Default")
 end
 
@@ -56,7 +53,7 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on StatsLoaded event 
         if settingsOverride[setting] == false then --  If a settingsOverride setting has boolean false.
             return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skips settingsOverride.
         else
-            return S7_Restructure(settingsOverride[setting]) or S7_Restructure(S7_DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
+            return S7_Rematerialize(settingsOverride[setting]) or S7_Rematerialize(S7_DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
         end
     end
 
@@ -65,11 +62,11 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on StatsLoaded event 
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
         for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in DefaultSettings.
-            S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default.
+            S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default if override omitted.
         end
         S7_DebugLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
     else
-        S7_DebugLog("Default settings applied.", nil, "Settings", "Settings: Default")
+        S7_DebugLog("Failed to load custom-settings. Using Defaults.", "[Warning]", "Settings", "Settings: Default")
     end
 end
 
@@ -81,7 +78,7 @@ Ext.RegisterListener("StatsLoaded", S7_RefreshSettings)
 --  =======================
 
 function S7_ExportCurrentSettings() --  Exports the current ConfigSettings to S7_ConfigSettings.json file.
-    local exportSettings = Ext.JsonStringify(S7_ConfigSettings) --  stringifies ConfigSettings.
+    local exportSettings = Ext.JsonStringify(S7_ConfigSettings) --  stringifies the current ConfigSettings.
     Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
     S7_DebugLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
 end
@@ -89,7 +86,7 @@ end
 --  ############################################################################################################################################
 
 --  #######################
---  STATE-OF-THE-ART-LOGGER
+--  STATE-OF-THE-ART LOGGER
 --  #######################
 
 function S7_DebugLog(...) --  Amped up DebugLog.
@@ -99,13 +96,13 @@ function S7_DebugLog(...) --  Amped up DebugLog.
     local dialogVar = logArgs[3] or nil --  Associated DialogVars (if any).
     local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if empty.
 
-    local S7ConfigLog = ""
+    local logHistory = "" --  Initialize the log-History.
 
     if Ext.LoadFile("S7_ConfigLog.tsv") == nil then --  if the file does not exist
         Ext.SaveFile("S7_ConfigLog.tsv", "State\tLogType\tLog\tAssociated DialogVariable\tDialogValue\n") --  Save file with header column
     end
 
-    S7ConfigLog = S7ConfigLog .. Ext.LoadFile("S7_ConfigLog.tsv") --  If file exists - load all data into S7ConfigLog
+    logHistory = Ext.LoadFile("S7_ConfigLog.tsv") --  If file exists - load all data into logHistory
 
     local luaState = ""
     if Ext.IsServer() then
@@ -114,7 +111,7 @@ function S7_DebugLog(...) --  Amped up DebugLog.
         luaState = "[Client]" --  Code running on Client.
     end
 
-    local logCat = logSource
+    local logCat = logSource --  Defaults to this file.
     local printFunction = Ext.Print --  Default Print Function
 
     local switchCase = {
@@ -136,17 +133,17 @@ function S7_DebugLog(...) --  Amped up DebugLog.
         end
     end
 
-    local log = "[" .. S7_ModIdentifier.modName .. " - " .. logCat .. "] --- " .. logMsg --  The compiled log message.
+    local log = "[" .. modInfo.Name .. " - " .. logCat .. "] --- " .. logMsg --  The compiled log message.
 
-    S7ConfigLog = S7ConfigLog .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log
+    logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log -- The compiled log history.
 
     if dialogVar ~= nil then --  If associated dialogVar specified.
         toSetDialogVar[dialogVar] = dialogVal --  Queue dialogVar
-        S7ConfigLog = S7ConfigLog .. "\t" .. dialogVar .. "\t" .. dialogVal
+        logHistory = logHistory .. "\t" .. dialogVar .. "\t" .. dialogVal -- append dialog-var and val.
     end
 
     printFunction(log) --  prints log to Extender's Debug Console
-    Ext.SaveFile("S7_ConfigLog.tsv", S7ConfigLog) --  SaveLog in a TSV file.
+    Ext.SaveFile("S7_ConfigLog.tsv", logHistory) --  SaveLog in a TSV file.
 end
 
 --  =========================================================================================================================================

@@ -17,14 +17,16 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ====================
 
     if Signal == "S7_StatsConfigurator" then
-        local files = S7_ConfigSettings.ConfigFiles --  lists all config files.
-        for i, fileName in ipairs(files) do --  Iterate over each file.
-            S7_DebugLog("Queue: [" .. i .. "] - " .. fileName)
-            table.insert(toConfigure, {["S7_Config"] = Ext.LoadFile(fileName)}) -- Queue json for Configuration.
+        local file = Ext.LoadFile(S7_ConfigSettings.ConfigFile) or nil
+        if type(file) ~= "nil" or file == "" then
+            S7_DebugLog("Loading: " .. S7_ConfigSettings.ConfigFile)
+            table.insert(toConfigure, {["S7_Config"] = file}) -- Queue json for Configuration.
+        else
+            S7_DebugLog(fileName .. " not found. Creating empty file.")
+            Ext.SaveFile(fileName, "")
         end
         S7_StatsConfigurator() --  Calls StatsConfigurator.
         S7_StatsSynchronize() --  Synchronize stats for all clients.
-        toConfigure = {} --  Clear out toConfigure queue.
         S7_DebugLog("StatsConfiguration Finished.")
     end
 
@@ -40,6 +42,20 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         end
         S7_StatsSynchronize() --  Call StatsSynchronize.
         S7_DebugLog("StatsSynchronization Finished.")
+    end
+
+    --  CLEAR STAGED-CHANGES
+    --  ====================
+
+    if Signal == "S7_ClearStagedConfig" then
+        toConfigure = {}
+    end
+
+    --  BUILD ACTIVE CONFIG
+    --  ===================
+
+    if Signal == "S7_BuildActiveConfig" then
+        S7_BuildActiveConfig()
     end
 
     --  TOGGLE STATSLOADER

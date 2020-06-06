@@ -16,8 +16,7 @@ toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
 function S7_StatsConfigurator()
     for i, config in ipairs(toConfigure) do
-        for modID, configure in pairs(config) do
-            local JSONstring = configure
+        for modID, JSONstring in pairs(config) do
             if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json file exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
@@ -98,13 +97,31 @@ end
 --  BUILD ACTIVE CONFIG
 --  ===================
 
-local function S7_BuildActiveConfig()
+function S7_BuildActiveConfig()
+    local currentData = {}
+    local ActiveConfig = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
+    if ActiveConfig ~= "" then
+        currentData = Ext.JsonParse(ActiveConfig)
+    end
+
+    local buildConfig = S7_Rematerialize(toConfigure) or nil
+    for i, content in ipairs(buildConfig) do
+        for modID, modString in pairs(content) do
+            local string = Ext.JsonParse(modString)
+            for key, value in pairs(string) do
+                currentData[key] = value
+            end
+        end
+    end
+
+    Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(currentData))
+    toConfigure = {}
 end
 
 --  PUSH ACTIVE CONFIG TO CLIENTS
 --  =============================
 
-local function S7_PushActiveConfigToClients()
+function S7_PushActiveConfigToClients()
 end
 
 --  ####################################################################################################################################################
