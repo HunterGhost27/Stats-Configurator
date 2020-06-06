@@ -1,11 +1,9 @@
---  ##################################################################################################################################################
---                                                                      AUXILIARY FUNCTIONS
---  ##################################################################################################################################################
-
---  ============================================================
-modInfo = Ext.GetModInfo("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")
+--  ###################################################################################################################################################
+--                                                                 AUXILIARY FUNCTIONS
+--  ===================================================================================================================================================
+modInfo = Ext.GetModInfo("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58") --  {"ProjectName": "S7_Config","ProjectUUID": "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58"}
 logSource = "Lua:S7_ConfigAuxiliary"
---  ============================================================
+--  ###################################################################################################################################################
 
 --  ######################
 --      REMATERIALIZE
@@ -15,7 +13,7 @@ function S7_Rematerialize(Entity) --  Created for immediate translation of Table
     return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works Maybe Definitely.
 end
 
---  ============================================================================================================================================
+--  ===================================================================================================================================================
 
 toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
 
@@ -66,7 +64,7 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on StatsLoaded event 
         end
         S7_DebugLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
     else
-        S7_DebugLog("Failed to load custom-settings. Using Defaults.", "[Warning]", "Settings", "Settings: Default")
+        S7_DebugLog("Default settings applied.", nil, "Settings", "Settings: Default")
     end
 end
 
@@ -133,7 +131,7 @@ function S7_DebugLog(...) --  Amped up DebugLog.
         end
     end
 
-    local log = "[" .. modInfo.Name .. " - " .. logCat .. "] --- " .. logMsg --  The compiled log message.
+    local log = "[S7_Config" .. " - " .. logCat .. "] --- " .. logMsg --  The compiled log message.
 
     logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log -- The compiled log history.
 

@@ -2,6 +2,12 @@
 
 ----------
 
+## [0.5.4.0] --- 6th June 2020 --- **_Broadcast_**
+
+### NEW
+
+* The `Server` can now broadcast `S7_ActiveConfig.json` to all `clients`. The file is then saved locally.
+
 ## [0.5.3.0] --- 5th June 2020 --- **_Restructuring_**
 
 ### NEW

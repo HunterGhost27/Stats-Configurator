@@ -1,11 +1,9 @@
 --  ###################################################################################################################################################
 --                                                                      STATS CONFIG AND SYNC
---  ###################################################################################################################################################
-
---  ==================================
+--  ===================================================================================================================================================
 logSource = "Lua:S7_StatsConfigurator"
 Ext.Require("S7_ConfigAuxiliary.lua")
---  ==================================
+--  ###################################################################################################################################################
 
 --  ##################
 --  STATS-CONFIGURATOR
@@ -39,7 +37,7 @@ function S7_StatsConfigurator()
                 S7_DebugLog("=============================================================")
                 S7_DebugLog("Configuration Profile Active.", nil, "StatsConfigurator")
             else
-                S7_DebugLog("Failed to load JSON.", "[Error]", "StatsConfigurator")
+                S7_DebugLog("Failed to apply configuration.", "[Error]", "StatsConfigurator")
             end
         end
     end
@@ -97,13 +95,15 @@ end
 --  BUILD ACTIVE CONFIG
 --  ===================
 
-function S7_BuildActiveConfig()
+function S7_BuildActiveConfig() --  Creates S7_ActiveConfig.json from the staged changes.
+    --  Load existing data from S7_ActiveConfig.json
     local currentData = {}
     local ActiveConfig = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
     if ActiveConfig ~= "" then
         currentData = Ext.JsonParse(ActiveConfig)
     end
 
+    --  Add data from toConfigure for export
     local buildConfig = S7_Rematerialize(toConfigure) or nil
     for i, content in ipairs(buildConfig) do
         for modID, modString in pairs(content) do
@@ -115,13 +115,17 @@ function S7_BuildActiveConfig()
     end
 
     Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(currentData))
+    S7_DebugLog("Staged profile exported to S7_ActiveConfig.json")
     toConfigure = {}
 end
 
 --  PUSH ACTIVE CONFIG TO CLIENTS
 --  =============================
 
-function S7_PushActiveConfigToClients()
+function S7_BroadcastToClients()
+    local broadcast = Ext.LoadFile("S7_ActiveConfig.json") or ""
+    Ext.BroadcastMessage("S7_ActiveConfig", broadcast)
+    S7_DebugLog("Server broadcasts Active Configuration Profile.")
 end
 
 --  ####################################################################################################################################################
