@@ -19,6 +19,7 @@
 ### META
 
 * _Created_ VSCode Workspace. _Added_ `*.code-workspace` to `.gitignore`
+* _Upped_ Extender Requirement to v47.
 
 ## [0.5.3.0] --- 5th June 2020 --- **_Restructuring_**
 
