@@ -13,7 +13,7 @@ function S7_Rematerialize(Entity) --  Created for immediate translation of Table
     return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works Maybe Definitely.
 end
 
---  ===================================================================================================================================================
+--  ###################################################################################################################################################
 
 toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
 
@@ -37,11 +37,6 @@ S7_DefaultSettings = {
 }
 
 S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
-
-function S7_SetDefaultSettings() --  Resets ConfigSettings to DefaultSettings listed above. On Player's request.
-    S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings)
-    S7_DebugLog("Using default settings.", nil, "Settings", "Settings: Default")
-end
 
 --  Import Custom Settings
 --  ======================
@@ -71,15 +66,6 @@ end
 --  ===================================================
 Ext.RegisterListener("StatsLoaded", S7_RefreshSettings)
 --  ===================================================
-
---  Export Current Settings
---  =======================
-
-function S7_ExportCurrentSettings() --  Exports the current ConfigSettings to S7_ConfigSettings.json file.
-    local exportSettings = Ext.JsonStringify(S7_ConfigSettings) --  stringifies the current ConfigSettings.
-    Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
-    S7_DebugLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
-end
 
 --  ############################################################################################################################################
 

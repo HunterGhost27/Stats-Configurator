@@ -47,6 +47,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_ClearStagedConfig" then
         toConfigure = {}
+        S7_DebugLog("Staged changes have been cleared.")
     end
 
     --  BUILD ACTIVE CONFIG
@@ -54,13 +55,25 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_BuildActiveConfig" then
         S7_BuildActiveConfig()
+        S7_DebugLog("Staged profile exported to S7_ActiveConfig.json")
     end
 
     --  SEND ACTIVE CONFIG
     --  ==================
 
     if Signal == "S7_BroadcastActiveConfig" then
-        S7_BroadcastToClients()
+        local broadcast = Ext.LoadFile("S7_ActiveConfig.json") or ""
+        Ext.BroadcastMessage("S7_ActiveConfig", broadcast)
+        S7_DebugLog("Server broadcasts Active Configuration Profile.")
+    end
+
+    --  VALIDATE CLIENT FILES
+    --  =====================
+
+    if Signal == "S7_ValidateClientConfig" then
+        local compare = Ext.LoadFile("S7_ActiveConfig.json")
+        Ext.BroadcastMessage("S7_ValidateClientConfig", compare)
+        S7_DebugLog("Validating Client Config.")
     end
 
     --  TOGGLE STATSLOADER
@@ -105,9 +118,9 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  SET DEFAULT SETTINGS
     -- ======================
 
-    if Signal == "S7_SetDefaultSettings" then
-        S7_SetDefaultSettings() --  Resets ConfigSettings to Default Values.
-        S7_DebugLog("Settings restored to default values.", nil, "Settings", "Settings: Default")
+    if Signal == "S7_SetDefaultSettings" then --  Resets ConfigSettings to Default Values.
+        S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings)
+        S7_DebugLog("Using default settings.", nil, "Settings", "Settings: Default")
     end
 
     --  REFRESH SETTINGS
@@ -121,8 +134,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  EXPORT CURRENT SETTINGS
     -- =========================
 
-    if Signal == "S7_ExportCurrentSettings" then
-        S7_ExportCurrentSettings() --  Calls Export settings function.
+    if Signal == "S7_ExportCurrentSettings" then --  Exports the current ConfigSettings to S7_ConfigSettings.json file.
+        local exportSettings = Ext.JsonStringify(S7_ConfigSettings) --  stringifies the current ConfigSettings.
+        Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
+        S7_DebugLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
         S7_RefreshSettings() --  Reload settings.
         S7_DebugLog("Custom Settings Exported and Refreshed.")
     end
@@ -147,5 +162,13 @@ end
 --  ============================================================================
 Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  ============================================================================
+
+function S7_ValidateClientResponse(channel, payload)
+    S7_DebugLog("Client Response: " .. tostring(payload))
+end
+
+--  ===========================================================================
+Ext.RegisterNetListener("S7_ValidateClientResponse", S7_ValidateClientResponse)
+--  ===========================================================================
 
 --  ################################################################################################################################

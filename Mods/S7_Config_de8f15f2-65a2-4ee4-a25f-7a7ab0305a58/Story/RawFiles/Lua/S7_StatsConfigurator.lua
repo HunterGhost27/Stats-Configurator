@@ -9,7 +9,7 @@ Ext.Require("S7_ConfigAuxiliary.lua")
 --  STATS-CONFIGURATOR
 --  ##################
 
-toConfigure = {} -- queues jsons that need to be configured.
+toConfigure = {} -- holds a list of stringified-jsons that need to be configured.
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
 function S7_StatsConfigurator()
@@ -115,17 +115,7 @@ function S7_BuildActiveConfig() --  Creates S7_ActiveConfig.json from the staged
     end
 
     Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(currentData))
-    S7_DebugLog("Staged profile exported to S7_ActiveConfig.json")
-    toConfigure = {}
-end
-
---  PUSH ACTIVE CONFIG TO CLIENTS
---  =============================
-
-function S7_BroadcastToClients()
-    local broadcast = Ext.LoadFile("S7_ActiveConfig.json") or ""
-    Ext.BroadcastMessage("S7_ActiveConfig", broadcast)
-    S7_DebugLog("Server broadcasts Active Configuration Profile.")
+    toConfigure = {} --  Clear out queue
 end
 
 --  ####################################################################################################################################################

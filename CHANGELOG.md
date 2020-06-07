@@ -8,6 +8,18 @@
 
 * The `Server` can now broadcast `S7_ActiveConfig.json` to all `clients`. The file is then saved locally.
 
+### CHANGED
+
+* _Trimmed_ the fat.
+
+### REMOVED
+
+* Notes.md
+
+### META
+
+* _Created_ VSCode Workspace. _Added_ `*.code-workspace` to `.gitignore`
+
 ## [0.5.3.0] --- 5th June 2020 --- **_Restructuring_**
 
 ### NEW
