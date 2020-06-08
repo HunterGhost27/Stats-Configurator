@@ -351,7 +351,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Toggle SyncStat Persistence]</b>"
+                                                   "value" : "<b>[Toggle SyncStat Persistence]</b> Stat-edits are stored persistently in the savegame if enabled. (Default: Disabled)"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -671,10 +671,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "d1802751-5b8f-4cc2-91bb-0ed459bf920d"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Clear Staged Configuration]</b>"
+                                                   "value" : "<b>[Clear Staged Configuration] </b>Unstage [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -886,7 +891,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Go Back"
+                                                   "value" : "<b>[Go Back]</b>"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -979,10 +984,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "387dc76d-016f-4b0e-ab61-a38cec23a555"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Broadcast Active Configuration]</b>"
+                                                   "value" : "<b>[Broadcast Active Configuration]</b> Export [S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555] to all Clients."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1590,10 +1600,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "387dc76d-016f-4b0e-ab61-a38cec23a555"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "he135a3bagd492g471dg9181g7ada28f7a87c",
                                                    "type" : 28,
-                                                   "value" : "Greetings!"
+                                                   "value" : "[<b>Active Profile]</b>: [S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1698,7 +1713,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Toggle StatsLoader]</b>"
+                                                   "value" : "<b>[Toggle StatsLoader] </b>Responsible for Loading <b>Active Configuration Profile </b>during <i>ModuleLoading</i> event. (Default: Enabled)"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1804,7 +1819,7 @@
                                                 "TagText" : {
                                                    "handle" : "h5608c89fg3cc8g4feega7ffgbcd2a0cec3be",
                                                    "type" : 28,
-                                                   "value" : "<b>[Reapply Custom Settings]</b>"
+                                                   "value" : "<b>[Reapply Custom Settings]</b> Reload settings from S7_ConfigSettings.json"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2003,10 +2018,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "387dc76d-016f-4b0e-ab61-a38cec23a555"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Broadcasted"
+                                                   "value" : "Broadcasted [S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555]."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2331,10 +2351,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "387dc76d-016f-4b0e-ab61-a38cec23a555"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Build Active Configuration]</b>"
+                                                   "value" : "<b>[Build Active Configuration]</b> Export Staged Changes to [S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2750,10 +2775,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "d1802751-5b8f-4cc2-91bb-0ed459bf920d"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Stage Configuration Profile]</b>"
+                                                   "value" : "<b>[Stage Configuration Profile] </b>Load [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2956,10 +2986,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "d1802751-5b8f-4cc2-91bb-0ed459bf920d"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Applying Configuration Profile..."
+                                                   "value" : "Applying Configuration Profile from [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -3095,7 +3130,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Validate Client Configs]</b>"
+                                                   "value" : "<b>[Validate Client Configs] </b>Check if all Clients have the same Active Configuration Profile."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -3241,7 +3276,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "ActiveConfiguration Built."
+                                                   "value" : "Active Configuration Built."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -3670,7 +3705,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Reset to Default]</b>"
+                                                   "value" : "<b>[Reset to Default]</b> Reset settings to the original default values."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4401,10 +4436,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "387dc76d-016f-4b0e-ab61-a38cec23a555"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Building Configuration Profile"
+                                                   "value" : "Building Configuration Profile: [S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4636,7 +4676,7 @@
                                                 "TagText" : {
                                                    "handle" : "h06f1b5e8g5ce8g4b7cga35fgac4d8c514b0a",
                                                    "type" : 28,
-                                                   "value" : "<b>[Export Current Settings]</b>"
+                                                   "value" : "<b>[Export Current Settings] </b>Save the current combination of settings in S7_ConfigSettings.json"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4742,7 +4782,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Toggle BypassSafetyCheck]</b>"
+                                                   "value" : "<b>[Toggle BypassSafetyCheck] </b>Prevents Modification of certain attributes. Enable to waive all restrictions. (Default: Disabled)"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -5032,7 +5072,40 @@
                            }
                         ],
                         "ShowOnce" : {"type" : 19, "value" : 0},
-                        "TaggedTexts" : [ {} ],
+                        "TaggedTexts" : [
+                           {
+                              "TaggedText" : [
+                                 {
+                                    "HasTagRule" : {"type" : 19, "value" : 1},
+                                    "RuleGroup" : [
+                                       {
+                                          "Rules" : [ {} ],
+                                          "TagCombineOp" : {"type" : 1, "value" : 0}
+                                       }
+                                    ],
+                                    "TagTexts" : [
+                                       {
+                                          "TagText" : [
+                                             {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "387dc76d-016f-4b0e-ab61-a38cec23a555"}
+                                                   }
+                                                ],
+                                                "TagText" : {
+                                                   "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
+                                                   "type" : 28,
+                                                   "value" : "<b>[Active Profile]</b>: [S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555]"
+                                                },
+                                                "stub" : {"type" : 19, "value" : 1}
+                                             }
+                                          ]
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        ],
                         "Tags" : [ {} ],
                         "UUID" : {"type" : 22, "value" : "f346560d-c724-4e39-a59b-9113fa02908a"},
                         "addressedspeaker" : {"type" : 4, "value" : -1},
@@ -5314,7 +5387,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 165}
+            "nextNodeId" : {"type" : 5, "value" : 210}
          }
       }
    }

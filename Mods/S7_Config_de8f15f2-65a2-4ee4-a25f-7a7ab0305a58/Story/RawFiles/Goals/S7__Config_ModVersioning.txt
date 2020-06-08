@@ -3,7 +3,7 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 //  ==================================    MOD VERSION (NAME, CURRENT VERSION)    ========================================
-//  DB_S7_ModIdentifier("S7_Config", "0.5.3.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
+//  DB_S7_ModIdentifier("S7_Config", "0.5.4.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
 //  =====================================================================================================================
 
 //  =====================================================================================================================
@@ -21,12 +21,12 @@ KBSECTION
 IF
 GameStarted(_, _)
 AND
-NOT DB_S7_ModIdentifier("S7_Config", "0.5.3.0")                         //  Latest-Version does not exist.
+NOT DB_S7_ModIdentifier("S7_Config", "0.5.4.0")                         //  Latest-Version does not exist.
 THEN
 Proc_S7_Config_Updater();                                               //  Run Update Procedure.
 GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG.
-DB_S7_ModIdentifier("S7_Config", "0.5.3.0");                            //  Add the latest version in the DB.
-S7_DebugLog("S7_Config Updated to Version: 0.5.3.0", "[ModVersioning]", "ModID", "S7_Config, 0.5.3.0");
+DB_S7_ModIdentifier("S7_Config", "0.5.4.0");                            //  Add the latest version in the DB.
+S7_DebugLog("S7_Config Updated to Version: 0.5.4.0", "[ModVersioning]", "ModID", "S7_Config, 0.5.4.0");
 
 //====================
 //REGION CHANGELOG
@@ -76,7 +76,7 @@ Proc_S7_Config_Updater()
 AND
 DB_S7_ModIdentifier("S7_Config", _ModVersion)                           //  Gets all facts from the ModIdentifier.
 AND
-_ModVersion != "0.5.3.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
+_ModVersion != "0.5.4.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
 THEN
 NOT DB_S7_ModIdentifier("S7_Config", _ModVersion);                      //  Removes all older facts from DB.
 

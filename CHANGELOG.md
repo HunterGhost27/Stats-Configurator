@@ -11,6 +11,7 @@
 ### CHANGED
 
 * _Trimmed_ the fat.
+* _Added_ more options to **settings**.
 
 ### REMOVED
 

@@ -15,13 +15,13 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ====================
 
     if Signal == "S7_StatsConfigurator" then
-        local file = Ext.LoadFile(S7_ConfigSettings.ConfigFile) or nil
-        if type(file) ~= "nil" or file == "" then
-            S7_DebugLog("Loading: " .. S7_ConfigSettings.ConfigFile)
+        local file = Ext.LoadFile(S7_ConfigSettings.ConfigFiles) or nil
+        if file ~= nil then
+            S7_DebugLog("Loading: " .. S7_ConfigSettings.ConfigFiles)
             table.insert(toConfigure, {["S7_Config"] = file}) -- Queue json for Configuration.
         else
-            S7_DebugLog(fileName .. " not found. Creating empty file.")
-            Ext.SaveFile(fileName, "")
+            S7_DebugLog(S7_ConfigSettings.ConfigFiles .. " not found. Creating empty file.", "[Error]")
+            Ext.SaveFile(S7_ConfigSettings.ConfigFiles, "")
         end
         S7_StatsConfigurator() --  Calls StatsConfigurator.
         S7_StatsSynchronize() --  Synchronize stats for all clients.
@@ -32,7 +32,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ===================
 
     if Signal == "S7_StatsSynchronize" then
-        S7_DebugLog("Synchronizing at Player's request.")
+        S7_DebugLog("Synchronizing stats at Player's request.")
         if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
             for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
                 table.insert(toSync, stats) --  insert stats into toSync queue.
@@ -55,25 +55,39 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_BuildActiveConfig" then
         S7_BuildActiveConfig()
-        S7_DebugLog("Staged profile exported to S7_ActiveConfig.json")
+        S7_DebugLog("Staged profile exported to " .. S7_ConfigSettings.StatsLoader.FileName)
     end
 
     --  SEND ACTIVE CONFIG
     --  ==================
 
     if Signal == "S7_BroadcastActiveConfig" then
-        local broadcast = Ext.LoadFile("S7_ActiveConfig.json") or ""
-        Ext.BroadcastMessage("S7_ActiveConfig", broadcast)
-        S7_DebugLog("Server broadcasts Active Configuration Profile.")
+        local package = {}
+        local content = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
+        if content ~= "" or content ~= nil then
+            package[S7_ConfigSettings.StatsLoader.FileName] = content
+            local broadcast = Ext.JsonStringify(package)
+            Ext.BroadcastMessage("S7_ActiveConfig", broadcast)
+            S7_DebugLog("Server broadcasts Active Configuration Profile.")
+        else
+            S7_DebugLog("Failed to broadcast Active Configuration Profile", "[Error]")
+        end
     end
 
     --  VALIDATE CLIENT FILES
     --  =====================
 
     if Signal == "S7_ValidateClientConfig" then
-        local compare = Ext.LoadFile("S7_ActiveConfig.json")
-        Ext.BroadcastMessage("S7_ValidateClientConfig", compare)
-        S7_DebugLog("Validating Client Config.")
+        local compare = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName)
+        if compare ~= "" and compare ~= nil then
+            Ext.BroadcastMessage("S7_ValidateClientConfig", compare)
+            S7_DebugLog("Validating Client Config.")
+        else
+            S7_DebugLog(
+                "Nothing to validate. Please check if the server has " .. S7_ConfigSettings.StatsLoader.FileName,
+                "[Error]"
+            )
+        end
     end
 
     --  TOGGLE STATSLOADER

@@ -9,13 +9,13 @@ logSource = "Lua:S7_ConfigAuxiliary"
 --      REMATERIALIZE
 --  ######################
 
-function S7_Rematerialize(Entity) --  Created for immediate translation of Tables without the excessive for-loop spam.
-    return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works Maybe Definitely.
+function S7_Rematerialize(Entity) --  Created for immediate translation of tables without the excessive for-loop spam.
+    return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works maybe definitely.
 end
 
 --  ###################################################################################################################################################
 
-toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
+toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
 
 --  ##################
 --       SETTINGS
@@ -26,7 +26,7 @@ toSetDialogVar = {} --  Will holds a queue of pending dialog-variable changes. D
 
 S7_DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ActiveConfig.json"}, --  FileName for the ActiveConfiguration Profile.
-    ["ConfigFile"] = "S7_Config.json", --  The file the configurator will pull from.
+    ["ConfigFiles"] = "S7_Config.json", --  The file the configurator will pull from.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["ExportStatIDtoTSV"] = {
@@ -158,8 +158,13 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         ["SyncStatPersistence"] = "S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a",
         ["BypassSafetyCheck"] = "S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64",
         ["ModAddedTo"] = "S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6",
-        ["ModID"] = "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa"
+        ["ModID"] = "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa",
+        ["ActiveProfile"] = "S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555",
+        ["ConfigFiles"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
     }
+
+    toSetDialogVar["ConfigFiles"] = S7_ConfigSettings.ConfigFiles
+    toSetDialogVar["ActiveProfile"] = S7_ConfigSettings.StatsLoader.FileName
 
     if S7_ConfigSettings.StatsLoader.Enable == true then
         toSetDialogVar["StatsLoader"] = "StatsLoader: Activated."

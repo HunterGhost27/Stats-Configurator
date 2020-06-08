@@ -28,7 +28,7 @@ function S7_StatsConfigurator()
                     for key, value in pairs(content) do
                         if S7_SafeToModify(key) then --  Checks if key is safe to modify
                             S7_DebugLog(key .. ": " .. value .. " (" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                            stat[key] = value --  Sets new value for Name[Attribute]
+                            stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
                         end
                     end
                     S7_DebugLog("_____________________________________________________________")
@@ -95,8 +95,8 @@ end
 --  BUILD ACTIVE CONFIG
 --  ===================
 
-function S7_BuildActiveConfig() --  Creates S7_ActiveConfig.json from the staged changes.
-    --  Load existing data from S7_ActiveConfig.json
+function S7_BuildActiveConfig() --  Creates ActiveConfiguration json from the staged changes.
+    --  Load existing data from S7_ConfigSettings.StatsLoader.FileName
     local currentData = {}
     local ActiveConfig = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
     if ActiveConfig ~= "" then
@@ -109,7 +109,7 @@ function S7_BuildActiveConfig() --  Creates S7_ActiveConfig.json from the staged
         for modID, modString in pairs(content) do
             local string = Ext.JsonParse(modString)
             for key, value in pairs(string) do
-                currentData[key] = value
+                currentData[key] = S7_Rematerialize(value)
             end
         end
     end
