@@ -16,7 +16,7 @@ local function S7_CatchBroadcast(channel, payload) --  Listens for broadcasts fr
     end
 
     if channel == "S7_ValidateClientConfig" then --  if broadcast channel is S7_ValidateClientConfig
-        local verify = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or "" --    Load local ActiveConfiguration if available
+        local verify = Ext.LoadFile(S7_ConfigSettings.ConfigFile) or "" --    Load local ActiveConfiguration if available
         if payload == verify then
             Ext.PostMessageToServer("S7_ValidateClientResponse", "All Good.")
         else
@@ -31,15 +31,12 @@ Ext.RegisterNetListener("S7_ValidateClientConfig", S7_CatchBroadcast)
 --  =================================================================
 
 local function S7_StatsLoader() --  Loads stats-configuration json during StatsLoaded Event.
-    if S7_ConfigSettings.StatsLoader.Enable == true then
-        S7_DebugLog("Loading " .. S7_ConfigSettings.StatsLoader.FileName)
-        table.insert(
-            toConfigure,
-            {[S7_ConfigSettings.StatsLoader.FileName] = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName)}
-        ) --  Queue files for configuration.
+    if S7_ConfigSettings.StatsLoader == true then
+        S7_DebugLog("Loading " .. S7_ConfigSettings.ConfigFile)
+        table.insert(toConfigure, {[S7_ConfigSettings.ConfigFile] = Ext.LoadFile(S7_ConfigSettings.ConfigFile)}) --  Queue files for configuration.
         S7_StatsConfigurator() --  Pass stringified JSON to StatsConfigurator()
         toConfigure = {} -- flush list
-        S7_DebugLog("StatsLoading Completed. ")
+        S7_DebugLog("StatsLoading Completed.")
     end
 end
 

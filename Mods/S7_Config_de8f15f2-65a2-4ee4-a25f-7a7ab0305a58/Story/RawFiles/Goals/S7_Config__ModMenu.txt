@@ -8,10 +8,10 @@ INITSECTION
 //  ======================================================
 //  DB_S7_Config_ModMenu((STRING)_FlagName)
     DB_S7_Config_ModMenu("S7_StatsExportTSV");
+    DB_S7_Config_ModMenu("S7_ToggleConfigLog");
     DB_S7_Config_ModMenu("S7_RefreshSettings");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
-    DB_S7_Config_ModMenu("S7_BuildActiveConfig");
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
     DB_S7_Config_ModMenu("S7_ToggleSafetyCheck");
     DB_S7_Config_ModMenu("S7_ToggleStatsLoader");
@@ -34,7 +34,6 @@ AND
 IsGameLevel(_GameLevel, 1)                      //  Not in CharacterCreation level
 THEN
 GlobalSetFlag("S7_RefreshSettings");            //  Set flag to reload settings
-GlobalSetFlag("S7_ClearStagedConfig");          //  Set flag for No Staged Configs
 
 //  =======================================
 //      GIVE ITEM TO THE HOST-CHARACTER

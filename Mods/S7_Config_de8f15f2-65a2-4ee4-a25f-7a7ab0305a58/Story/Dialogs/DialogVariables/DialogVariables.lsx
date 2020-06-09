@@ -6,10 +6,10 @@
         <node id="root">
             <children>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="None" type="23" />
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="387dc76d-016f-4b0e-ab61-a38cec23a555" type="31" />
-                    <attribute id="name" value="S7_Config_ActiveProfile" type="22" />
+                    <attribute id="UUID" value="f7d055c6-0d9c-44e8-9959-21046cc33cb5" type="31" />
+                    <attribute id="name" value="S7_ConfigLog" type="22" />
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">

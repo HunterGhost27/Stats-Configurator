@@ -13,9 +13,9 @@ toConfigure = {} -- holds a list of stringified-jsons that need to be configured
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
 function S7_StatsConfigurator()
-    for i, config in ipairs(toConfigure) do
+    for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
-            if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json file exists and is not empty.
+            if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
                 S7_DebugLog(modID .. " loaded. Applying Configuration Profile.")
@@ -26,8 +26,8 @@ function S7_StatsConfigurator()
 
                     local stat = Ext.GetStat(name) --  Gets original stat-entry.
                     for key, value in pairs(content) do
-                        if S7_SafeToModify(key) then --  Checks if key is safe to modify
-                            S7_DebugLog(key .. ": " .. value .. " (" .. stat[key] .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                        if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
+                            S7_DebugLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                             stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
                         end
                     end
@@ -44,27 +44,17 @@ function S7_StatsConfigurator()
 end
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
-    local dontFwith = {
-        --  Don't mess with these keys.
-        "AoEConditions",
-        "TargetConditions",
-        "ForkingConditions",
-        "CycleConditions",
-        "SkillProperties",
-        "WinBoost",
-        "LoseBoost"
-    }
+    local dontFwith = --  dont mess with these keys
+        "AoEConditions, TargetConditions, ForkingConditions, CycleConditions, SkillProperties, WinBoost, LoseBoost"
 
     if S7_ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
         return true --  S7_SafeToModify() returns true for everything.
     else -- Default Setting
-        for i, avoid in ipairs(dontFwith) do --  Iterate over keys to avoid.
-            if key == avoid then --  If key matches.
-                S7_DebugLog(key .. ": Modification Prevented by S7_SafeToModify()", "[Warning]")
-                return false --  Stop it right there.
-            else
-                return true --  else continue.
-            end
+        if string.match(dontFwith, key) then --  If key matches.
+            S7_DebugLog(key .. ": Modification Prevented by S7_SafeToModify()", "[Warning]")
+            return false --  Stop it right there.
+        else
+            return true --  else continue.
         end
     end
 end
@@ -90,32 +80,6 @@ function S7_StatsSynchronize()
     elseif type(next(toSync)) == "nil" then
         S7_DebugLog("Nothing to Synchronize. toSync queue is empty.", "[Warning]", "SyncStat")
     end
-end
-
---  BUILD ACTIVE CONFIG
---  ===================
-
-function S7_BuildActiveConfig() --  Creates ActiveConfiguration json from the staged changes.
-    --  Load existing data from S7_ConfigSettings.StatsLoader.FileName
-    local currentData = {}
-    local ActiveConfig = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
-    if ActiveConfig ~= "" then
-        currentData = Ext.JsonParse(ActiveConfig)
-    end
-
-    --  Add data from toConfigure for export
-    local buildConfig = S7_Rematerialize(toConfigure) or nil
-    for i, content in ipairs(buildConfig) do
-        for modID, modString in pairs(content) do
-            local string = Ext.JsonParse(modString)
-            for key, value in pairs(string) do
-                currentData[key] = S7_Rematerialize(value)
-            end
-        end
-    end
-
-    Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(currentData))
-    toConfigure = {} --  Clear out queue
 end
 
 --  ####################################################################################################################################################

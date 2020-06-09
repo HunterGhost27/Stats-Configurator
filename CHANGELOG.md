@@ -2,24 +2,32 @@
 
 ----------
 
+## [0.5.5.0] --- 8th June 2020 --- **_Rework Time_**
+
+### CHANGED
+
+* _Consolidated_ `S7_ActiveConfig.json` and `S7_Config.json` into one file. Again. - Was needlessly complicated.
+* _Added_ Toggle option for `S7_ConfigLog`.    - cuz options.
+* _Changed_ how `S7_SafeToModify()` works.  - Well, more like, _fixed_ - as it probably never worked in the first place.
+
+### REMOVED
+
+* _Removed_ `S7_BuildActiveConfig()`. - Unnecessary.
+* _Removed_ the whole 2-step stage-commit setup.
+
 ## [0.5.4.0] --- 6th June 2020 --- **_Broadcast_**
 
 ### NEW
 
-* The `Server` can now broadcast `S7_ActiveConfig.json` to all `clients`. The file is then saved locally.
-
-### CHANGED
-
-* _Trimmed_ the fat.
-* _Added_ more options to **settings**.
+* The `Server` can now broadcast the config file to all `clients`. The file is then saved locally on the client's machine.
 
 ### REMOVED
 
-* Notes.md
+* `Notes.md`  -   wasn't that useful tbh.
 
 ### META
 
-* _Created_ VSCode Workspace. _Added_ `*.code-workspace` to `.gitignore`
+* _Created_ VSCode Workspace. _Added_ `*.code-workspace` to `.gitignore`.
 * _Upped_ Extender Requirement to v47.
 
 ## [0.5.3.0] --- 5th June 2020 --- **_Restructuring_**

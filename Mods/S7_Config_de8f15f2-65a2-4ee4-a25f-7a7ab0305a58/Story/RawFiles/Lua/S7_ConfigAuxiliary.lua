@@ -25,15 +25,16 @@ toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. Di
 --  ================
 
 S7_DefaultSettings = {
-    ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ActiveConfig.json"}, --  FileName for the ActiveConfiguration Profile.
-    ["ConfigFiles"] = "S7_Config.json", --  The file the configurator will pull from.
+    ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
+    ["StatsLoader"] = true, --  Enable stat-editing during ModuleLoading.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["ExportStatIDtoTSV"] = {
         ["FileName"] = "S7_Config_AllTheStats.tsv", --  FileName for ExportedStats. Configurable for configuration sake.
         ["RestrictStatTypeTo"] = {} --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     },
-    ["BypassSafetyCheck"] = false --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
+    ["BypassSafetyCheck"] = false, --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
+    ["ConfigLog"] = true --  The mod logs to an external file S7_ConfigLog.txt if true.
 }
 
 S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
@@ -63,9 +64,9 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on StatsLoaded event 
     end
 end
 
---  ===================================================
-Ext.RegisterListener("StatsLoaded", S7_RefreshSettings)
---  ===================================================
+--  =========================================================
+Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings)
+--  =========================================================
 
 --  ############################################################################################################################################
 
@@ -77,16 +78,11 @@ function S7_DebugLog(...) --  Amped up DebugLog.
     local logArgs = {...} --  Multiple Arguments stored in a table.
     local logMsg = logArgs[1] or "" --  The actual log message.
     local logType = logArgs[2] or "[Log]" --  logType tags - e.g. [Warning] or [Osiris] etc.
-    local dialogVar = logArgs[3] or nil --  Associated DialogVars (if any).
+    local dialogVar = logArgs[3] or "" --  Associated DialogVars (if any).
     local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if empty.
 
-    local logHistory = "" --  Initialize the log-History.
-
-    if Ext.LoadFile("S7_ConfigLog.tsv") == nil then --  if the file does not exist
-        Ext.SaveFile("S7_ConfigLog.tsv", "State\tLogType\tLog\tAssociated DialogVariable\tDialogValue\n") --  Save file with header column
-    end
-
-    logHistory = Ext.LoadFile("S7_ConfigLog.tsv") --  If file exists - load all data into logHistory
+    local logCat = logSource --  Defaults to this file.
+    local printFunction = Ext.Print --  Default Print Function
 
     local luaState = ""
     if Ext.IsServer() then
@@ -94,9 +90,6 @@ function S7_DebugLog(...) --  Amped up DebugLog.
     elseif Ext.IsClient() then
         luaState = "[Client]" --  Code running on Client.
     end
-
-    local logCat = logSource --  Defaults to this file.
-    local printFunction = Ext.Print --  Default Print Function
 
     local switchCase = {
         ["[Initializer]"] = "Osiris:Initializer",
@@ -119,15 +112,25 @@ function S7_DebugLog(...) --  Amped up DebugLog.
 
     local log = "[S7_Config" .. " - " .. logCat .. "] --- " .. logMsg --  The compiled log message.
 
-    logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log -- The compiled log history.
+    local dialogLog = ""
 
-    if dialogVar ~= nil then --  If associated dialogVar specified.
+    if dialogVar ~= "" and dialogVar ~= nil then --  If associated dialogVar specified.
         toSetDialogVar[dialogVar] = dialogVal --  Queue dialogVar
-        logHistory = logHistory .. "\t" .. dialogVar .. "\t" .. dialogVal -- append dialog-var and val.
+        dialogLog = dialogVar .. "\t" .. dialogVal
     end
 
     printFunction(log) --  prints log to Extender's Debug Console
-    Ext.SaveFile("S7_ConfigLog.tsv", logHistory) --  SaveLog in a TSV file.
+
+    if S7_ConfigSettings.ConfigLog == true then
+        local logHistory = "" --  Initialize the log-History.
+        if Ext.LoadFile("S7_ConfigLog.txt") == nil then --  if the file does not exist
+            Ext.SaveFile("S7_ConfigLog.txt", "State\tLogType\tLog\tAssociated DialogVariable\tDialogValue\n") --  Save file with header column
+            S7_DebugLog("Creating new ConfigLog.txt", "[Warning]")
+        end
+        logHistory = Ext.LoadFile("S7_ConfigLog.txt") --  If file exists - load all data into logHistory
+        logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog -- The compiled log history.
+        Ext.SaveFile("S7_ConfigLog.txt", logHistory) --  SaveLog in a txt file.
+    end
 end
 
 --  =========================================================================================================================================
@@ -159,32 +162,36 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         ["BypassSafetyCheck"] = "S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64",
         ["ModAddedTo"] = "S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6",
         ["ModID"] = "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa",
-        ["ActiveProfile"] = "S7_Config_ActiveProfile_387dc76d-016f-4b0e-ab61-a38cec23a555",
-        ["ConfigFiles"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
+        ["S7_ConfigLog"] = "S7_ConfigLog_f7d055c6-0d9c-44e8-9959-21046cc33cb5",
+        ["ConfigFile"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
     }
 
-    toSetDialogVar["ConfigFiles"] = S7_ConfigSettings.ConfigFiles
-    toSetDialogVar["ActiveProfile"] = S7_ConfigSettings.StatsLoader.FileName
+    toSetDialogVar["ConfigFile"] = S7_ConfigSettings.ConfigFile
 
-    if S7_ConfigSettings.StatsLoader.Enable == true then
-        toSetDialogVar["StatsLoader"] = "StatsLoader: Activated."
+    if S7_ConfigSettings.StatsLoader == true then
+        toSetDialogVar["StatsLoader"] = "Activated."
     else
-        toSetDialogVar["StatsLoader"] = "StatsLoader: Deactivated."
+        toSetDialogVar["StatsLoader"] = "Deactivated."
     end
     if S7_ConfigSettings.SyncStatPersistence == true then
-        toSetDialogVar["SyncStatPersistence"] = "SyncStatPersistence: Activated."
+        toSetDialogVar["SyncStatPersistence"] = "Activated."
     else
-        toSetDialogVar["SyncStatPersistence"] = "SyncStatPersistence: Deactivated."
+        toSetDialogVar["SyncStatPersistence"] = "Deactivated."
     end
     if S7_ConfigSettings.BypassSafetyCheck == true then
-        toSetDialogVar["BypassSafetyCheck"] = "BypassSafetyCheck: Activated."
+        toSetDialogVar["BypassSafetyCheck"] = "Activated."
     else
-        toSetDialogVar["BypassSafetyCheck"] = "BypassSafetyCheck: Deactivated."
+        toSetDialogVar["BypassSafetyCheck"] = "Deactivated."
+    end
+    if S7_ConfigSettings.ConfigLog == true then
+        toSetDialogVar["S7_ConfigLog"] = "Activated."
+    else
+        toSetDialogVar["S7_ConfigLog"] = "Deactivated."
     end
     if Ext.JsonStringify(S7_ConfigSettings) == Ext.JsonStringify(S7_DefaultSettings) then
-        toSetDialogVar["Settings"] = "Settings: Default"
+        toSetDialogVar["Settings"] = "Default"
     else
-        toSetDialogVar["Settings"] = "Settings: Custom"
+        toSetDialogVar["Settings"] = "Custom"
     end
 
     if type(next(toSetDialogVar)) ~= "nil" then --  dialogVar cache is not empty.
@@ -223,7 +230,7 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
         end
     end
 
-    for key, value in ipairs(allStat) do
+    for key, value in ipairs(allStat) do --  Iterate over allStat
         local type = NRD_StatGetType(value) --  Didn't I just filter stats by statType? - this is what happens when you return to old code with new ideas.
         SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
     end
