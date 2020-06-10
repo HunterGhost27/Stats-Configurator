@@ -2,18 +2,17 @@
 
 ----------
 
-## [0.5.5.0] --- 8th June 2020 --- **_Rework Time_**
+## [0.5.5.0] --- 10th June 2020 --- **_Rework Time_**
 
 ### CHANGED
 
-* _Consolidated_ `S7_ActiveConfig.json` and `S7_Config.json` into one file. Again. - Was needlessly complicated.
 * _Added_ Toggle option for `S7_ConfigLog`.    - cuz options.
 * _Changed_ how `S7_SafeToModify()` works.  - Well, more like, _fixed_ - as it probably never worked in the first place.
+* Localization pass.
 
-### REMOVED
+### COMMENTS
 
-* _Removed_ `S7_BuildActiveConfig()`. - Unnecessary.
-* _Removed_ the whole 2-step stage-commit setup.
+* More stuff that I forgot to document. As the saying goes, _"If you don't remember, it probably wasn't important. Probably."_
 
 ## [0.5.4.0] --- 6th June 2020 --- **_Broadcast_**
 

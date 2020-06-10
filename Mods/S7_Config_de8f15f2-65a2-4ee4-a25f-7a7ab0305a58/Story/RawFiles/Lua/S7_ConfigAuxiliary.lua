@@ -26,7 +26,7 @@ toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. Di
 
 S7_DefaultSettings = {
     ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
-    ["StatsLoader"] = true, --  Enable stat-editing during ModuleLoading.
+    ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["ExportStatIDtoTSV"] = {
@@ -42,10 +42,10 @@ S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize 
 --  Import Custom Settings
 --  ======================
 
-function S7_RefreshSettings() --  Overrides ConfigSettings on StatsLoaded event and Player's request.
+function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
     local function S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides ConfigSettings. CustomSettings given priority over Default.
         if settingsOverride[setting] == false then --  If a settingsOverride setting has boolean false.
-            return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skips settingsOverride.
+            return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skip settingsOverride.
         else
             return S7_Rematerialize(settingsOverride[setting]) or S7_Rematerialize(S7_DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
         end
@@ -81,7 +81,7 @@ function S7_DebugLog(...) --  Amped up DebugLog.
     local dialogVar = logArgs[3] or "" --  Associated DialogVars (if any).
     local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if empty.
 
-    local logCat = logSource --  Defaults to this file.
+    local logCat = logSource --  logCategory defaults to this file.
     local printFunction = Ext.Print --  Default Print Function
 
     local luaState = ""
@@ -162,13 +162,16 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         ["BypassSafetyCheck"] = "S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64",
         ["ModAddedTo"] = "S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6",
         ["ModID"] = "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa",
+        ["ValidateClientConfig"] = "S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698",
         ["S7_ConfigLog"] = "S7_ConfigLog_f7d055c6-0d9c-44e8-9959-21046cc33cb5",
+        ["ConfigData"] = "S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8",
         ["ConfigFile"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
     }
 
     toSetDialogVar["ConfigFile"] = S7_ConfigSettings.ConfigFile
+    toSetDialogVar["ConfigData"] = S7_ConfigSettings.StatsLoader.FileName
 
-    if S7_ConfigSettings.StatsLoader == true then
+    if S7_ConfigSettings.StatsLoader.Enable == true then
         toSetDialogVar["StatsLoader"] = "Activated."
     else
         toSetDialogVar["StatsLoader"] = "Deactivated."

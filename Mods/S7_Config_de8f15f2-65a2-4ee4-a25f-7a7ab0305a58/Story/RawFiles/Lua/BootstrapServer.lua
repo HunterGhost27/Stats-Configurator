@@ -34,7 +34,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_StatsSynchronize" then
         S7_DebugLog("Synchronizing stats at Player's request.")
         if S7_ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
-            for i, stats in pairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
+            for i, stats in ipairs(S7_ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
                 table.insert(toSync, stats) --  insert stats into toSync queue.
             end
         end
@@ -42,16 +42,22 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         S7_DebugLog("StatsSynchronization Finished.")
     end
 
+    --  BUILD CONFIG-DATA
+    --  =================
+
+    if Signal == "S7_BuildConfigData" then
+        local buildData = Ext.LoadFile(S7_ConfigSettings.ConfigFile)
+        S7_BuildConfigData(buildData)
+        S7_DebugLog("Rebuilt " .. S7_ConfigSettings.StatsLoader.FileName .. "using " .. S7_ConfigSettings.ConfigFile)
+    end
+
     --  SEND ACTIVE CONFIG
     --  ==================
 
     if Signal == "S7_BroadcastActiveConfig" then
-        local package = {}
-        local content = Ext.LoadFile(S7_ConfigSettings.ConfigFile) or ""
-        if type(content) == "string" and content ~= "" and content ~= nil then
-            package[S7_ConfigSettings.ConfigFile] = content
-            local broadcast = Ext.JsonStringify(package)
-            Ext.BroadcastMessage("S7_ActiveConfig", broadcast)
+        local broadcast = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
+        if type(broadcast) == "string" and broadcast ~= "" and broadcast ~= nil then --  if file exists and is not empty
+            Ext.BroadcastMessage("S7_ActiveConfig", broadcast) --  broadcast Server's configFile
             S7_DebugLog("Server broadcasts Active Configuration Profile.")
         else
             S7_DebugLog("Failed to broadcast Active Configuration Profile", "[Error]")
@@ -62,13 +68,13 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  =====================
 
     if Signal == "S7_ValidateClientConfig" then
-        local compare = Ext.LoadFile(S7_ConfigSettings.ConfigFile)
-        if type(compare) == "string" and compare ~= "" and compare ~= nil then
-            Ext.BroadcastMessage("S7_ValidateClientConfig", compare)
+        local compare = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) --  Loads server's config
+        if type(compare) == "string" and compare ~= "" and compare ~= nil then -- if file exists and is not empty
+            Ext.BroadcastMessage("S7_ValidateClientConfig", compare) -- broadcast server's config file to all clients.
             S7_DebugLog("Validating Client Config.")
         else
             S7_DebugLog(
-                "Nothing to validate. Please check if the server has " .. S7_ConfigSettings.ConfigFile,
+                "Nothing to validate. Please check if the server has " .. S7_ConfigSettings.StatsLoader.FileName,
                 "[Error]"
             )
         end
@@ -78,12 +84,12 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ==================
 
     if Signal == "S7_ToggleStatsLoader" then
-        if S7_ConfigSettings.StatsLoader == true then
-            S7_ConfigSettings.StatsLoader = false
-            S7_DebugLog("StatsLoader: Deactivated", nil, "Settings", "Settings: Custom")
+        if S7_ConfigSettings.StatsLoader.Enable == true then
+            S7_ConfigSettings.StatsLoader.Enable = false
+            S7_DebugLog("StatsLoader: Deactivated")
         else
-            S7_ConfigSettings.StatsLoader = true
-            S7_DebugLog("StatsLoader: Activated", nil, "Settings", "Settings: Custom")
+            S7_ConfigSettings.StatsLoader.Enable = true
+            S7_DebugLog("StatsLoader: Activated")
         end
     end
 
@@ -93,10 +99,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSyncStatPersistence" then
         if S7_ConfigSettings.SyncStatPersistence == true then
             S7_ConfigSettings.SyncStatPersistence = false
-            S7_DebugLog("SyncStatPersistence: Deactivated", nil, "Settings", "Settings: Custom")
+            S7_DebugLog("SyncStatPersistence: Deactivated")
         else
             S7_ConfigSettings.SyncStatPersistence = true
-            S7_DebugLog("SyncStatPersistence: Activated", nil, "Settings", "Settings: Custom")
+            S7_DebugLog("SyncStatPersistence: Activated")
         end
     end
 
@@ -106,10 +112,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSafetyCheck" then
         if S7_ConfigSettings.BypassSafetyCheck == false then
             S7_ConfigSettings.BypassSafetyCheck = true
-            S7_DebugLog("BypassSafetyCheck: Activated", nil, "Settings", "Settings: Custom")
+            S7_DebugLog("BypassSafetyCheck: Activated")
         else
             S7_ConfigSettings.BypassSafetyCheck = false
-            S7_DebugLog("BypassSafetyCheck: Deactivated", nil, "Settings", "Settings: Custom")
+            S7_DebugLog("BypassSafetyCheck: Deactivated")
         end
     end
 
@@ -118,7 +124,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_SetDefaultSettings" then --  Resets ConfigSettings to Default Values.
         S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings)
-        S7_DebugLog("Using default settings.", nil, "Settings", "Settings: Default")
+        S7_DebugLog("Using default settings.")
     end
 
     --  REFRESH SETTINGS
@@ -160,10 +166,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleConfigLog" then
         if S7_ConfigSettings.ConfigLog == true then
             S7_ConfigSettings.ConfigLog = false
-            S7_DebugLog("S7_ConfigLog: Disabled", "[Warning]", "S7_ConfigLog")
+            S7_DebugLog("S7_ConfigLog: Disabled", "[Warning]")
         else
             S7_ConfigSettings.ConfigLog = true
-            S7_DebugLog("S7_ConfigLog: Enabled", "[Warning]", "S7_ConfigLog")
+            S7_DebugLog("S7_ConfigLog: Enabled", "[Warning]")
         end
     end
 
@@ -175,7 +181,15 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  ============================================================================
 
 function S7_ValidateClientResponse(channel, payload)
-    S7_DebugLog("Client Response: " .. tostring(payload))
+    local validateClients = {}
+    table.insert(validateClients, payload)
+    for i, clientResponse in ipairs(validateClients) do
+        if payload == "Config Mismatch Detected." then
+            S7_DebugLog("Client Response: " .. tostring(payload), "[Warning]")
+        else
+            S7_DebugLog("Client Response: " .. tostring(payload))
+        end
+    end
 end
 
 --  ===========================================================================

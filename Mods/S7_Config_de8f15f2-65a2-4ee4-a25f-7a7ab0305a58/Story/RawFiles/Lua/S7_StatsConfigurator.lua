@@ -25,11 +25,15 @@ function S7_StatsConfigurator()
                     S7_DebugLog("-------------------------------------------------------------")
 
                     local stat = Ext.GetStat(name) --  Gets original stat-entry.
-                    for key, value in pairs(content) do
-                        if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
-                            S7_DebugLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                            stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
+                    if stat ~= nil then
+                        for key, value in pairs(content) do
+                            if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
+                                S7_DebugLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                                stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
+                            end
                         end
+                    else
+                        S7_DebugLog("Error 404 - " .. name .. " not found!", "[Error]")
                     end
                     S7_DebugLog("_____________________________________________________________")
                     table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
@@ -79,6 +83,21 @@ function S7_StatsSynchronize()
         S7_DebugLog("Synchronization Complete.", nil, "SyncStat")
     elseif type(next(toSync)) == "nil" then
         S7_DebugLog("Nothing to Synchronize. toSync queue is empty.", "[Warning]", "SyncStat")
+    end
+end
+
+--  BUILD CONFIG-DATA
+--  =================
+
+function S7_BuildConfigData(buildData)
+    local configData = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName)
+    local configTable = {}
+    if configData ~= nil then
+        configTable = Ext.JsonParse(configData)
+        configTable["S7_Config"] = buildData
+        Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable))
+    else
+        Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, "")
     end
 end
 
