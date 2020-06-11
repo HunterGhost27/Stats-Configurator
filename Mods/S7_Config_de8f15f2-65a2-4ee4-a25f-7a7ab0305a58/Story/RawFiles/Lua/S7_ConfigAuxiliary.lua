@@ -58,9 +58,9 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
         for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in DefaultSettings.
             S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default if override omitted.
         end
-        S7_DebugLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
+        S7_ConfigLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
     else
-        S7_DebugLog("Default settings applied.", nil, "Settings", "Settings: Default")
+        S7_ConfigLog("Default settings applied.", nil, "Settings", "Settings: Default")
     end
 end
 
@@ -74,7 +74,7 @@ Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings)
 --  STATE-OF-THE-ART LOGGER
 --  #######################
 
-function S7_DebugLog(...) --  Amped up DebugLog.
+function S7_ConfigLog(...) --  Amped up DebugLog.
     local logArgs = {...} --  Multiple Arguments stored in a table.
     local logMsg = logArgs[1] or "" --  The actual log message.
     local logType = logArgs[2] or "[Log]" --  logType tags - e.g. [Warning] or [Osiris] etc.
@@ -82,7 +82,7 @@ function S7_DebugLog(...) --  Amped up DebugLog.
     local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if empty.
 
     local logCat = logSource --  logCategory defaults to this file.
-    local printFunction = Ext.Print --  Default Print Function
+    local printFunction = Ext.Print --  Default Print Function.
 
     local luaState = ""
     if Ext.IsServer() then
@@ -114,7 +114,7 @@ function S7_DebugLog(...) --  Amped up DebugLog.
 
     local dialogLog = ""
 
-    if dialogVar ~= "" and dialogVar ~= nil then --  If associated dialogVar specified.
+    if dialogVar ~= "" and dialogVar ~= nil then --  If associated dialogVar is specified.
         toSetDialogVar[dialogVar] = dialogVal --  Queue dialogVar
         dialogLog = dialogVar .. "\t" .. dialogVal
     end
@@ -125,7 +125,6 @@ function S7_DebugLog(...) --  Amped up DebugLog.
         local logHistory = "" --  Initialize the log-History.
         if Ext.LoadFile("S7_ConfigLog.txt") == nil then --  if the file does not exist
             Ext.SaveFile("S7_ConfigLog.txt", "State\tLogType\tLog\tAssociated DialogVariable\tDialogValue\n") --  Save file with header column
-            S7_DebugLog("Creating new ConfigLog.txt", "[Warning]")
         end
         logHistory = Ext.LoadFile("S7_ConfigLog.txt") --  If file exists - load all data into logHistory
         logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog -- The compiled log history.
@@ -135,12 +134,12 @@ end
 
 --  =========================================================================================================================================
 if Ext.IsServer() then
-    Ext.NewCall(S7_DebugLog, "S7_DebugLog", "(STRING)_Log")
-    Ext.NewCall(S7_DebugLog, "S7_DebugLog", "(STRING)_Log, (STRING)_LogType")
-    Ext.NewCall(S7_DebugLog, "S7_DebugLog", "(STRING)_Log, (STRING)_LogType, (STRING)_LogDialogVar")
+    Ext.NewCall(S7_ConfigLog, "S7_ConfigLog", "(STRING)_Log")
+    Ext.NewCall(S7_ConfigLog, "S7_ConfigLog", "(STRING)_Log, (STRING)_LogType")
+    Ext.NewCall(S7_ConfigLog, "S7_ConfigLog", "(STRING)_Log, (STRING)_LogType, (STRING)_LogDialogVar")
     Ext.NewCall(
-        S7_DebugLog,
-        "S7_DebugLog",
+        S7_ConfigLog,
+        "S7_ConfigLog",
         "(STRING)_Log, (STRING)_LogType, (STRING)_LogDialogVar, (STRING)_LogDialogVal"
     )
 end
@@ -167,6 +166,9 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         ["ConfigData"] = "S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8",
         ["ConfigFile"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
     }
+
+    --  UPDATE DIALOG-VARS
+    --  ==================
 
     toSetDialogVar["ConfigFile"] = S7_ConfigSettings.ConfigFile
     toSetDialogVar["ConfigData"] = S7_ConfigSettings.StatsLoader.FileName
@@ -196,6 +198,9 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
     else
         toSetDialogVar["Settings"] = "Custom"
     end
+
+    --  SET DIALOG-VARS
+    --  ===============
 
     if type(next(toSetDialogVar)) ~= "nil" then --  dialogVar cache is not empty.
         for dialogVar, dialogVal in pairs(toSetDialogVar) do --  for entries in toSetDialogVar
@@ -238,7 +243,7 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
         SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
     end
     Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
-    S7_DebugLog("Stats exported to TSV file.", nil, "ExportStats")
+    S7_ConfigLog("Stats exported to TSV file.", nil, "ExportStats")
 end
 
 --  INSPECT SKILL
@@ -246,9 +251,9 @@ end
 
 local function S7_InspectStats(StatID, StatType) --  Recieves StatID and StatType from Osiris.
     local compareStat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
-    for name, content in pairs(compareStat) do --  Iterate over compareStat.
-        if content == StatID then
-            S7_DebugLog("Inspected: (" .. StatType .. "): " .. StatID)
+    for name, content in pairs(compareStat) do
+        if content == StatID then --  if StatID exists
+            S7_ConfigLog("Inspected: (" .. StatType .. "): " .. StatID)
         end
     end
 end

@@ -4,10 +4,15 @@
 
 ## [0.5.5.0] --- 10th June 2020 --- **_Rework Time_**
 
+### NEW
+
+* _Created_ `S7_Config_Inspect.txt`. Separated `Inspect` skill stuff from the `Mod-Menu`.
+
 ### CHANGED
 
+* _Renamed_ `S7_DebugLog()` to `S7_ConfigLog()`.
 * _Added_ Toggle option for `S7_ConfigLog`.    - cuz options.
-* _Changed_ how `S7_SafeToModify()` works.  - Well, more like, _fixed_ - as it probably never worked in the first place.
+* _Changed_ how `S7_SafeToModify()` works.  - Well, more like, _fixed_. as it probably never worked in the first place.
 * Localization pass.
 
 ### COMMENTS

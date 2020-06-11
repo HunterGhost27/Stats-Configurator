@@ -14,6 +14,17 @@ INITSECTION
 
 KBSECTION
 
+//  =================================
+//          REFRESH SETTINGS
+//  =================================
+
+IF
+GameStarted(_GameLevel, _)                      //  GameStarted
+AND
+IsGameLevel(_GameLevel, 1)                      //  Not in CharacterCreation level
+THEN
+GlobalSetFlag("S7_RefreshSettings");            //  Set flag to reload settings
+
 //  ==================
 //  UPDATE MOD VERSION
 //  ==================
@@ -26,7 +37,7 @@ THEN
 Proc_S7_Config_Updater();                                               //  Run Update Procedure.
 GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG.
 DB_S7_ModIdentifier("S7_Config", "0.5.5.0");                            //  Add the latest version in the DB.
-S7_DebugLog("S7_Config Updated to Version: 0.5.5.0", "[ModVersioning]", "ModID", "S7_Config, 0.5.5.0");
+S7_ConfigLog("S7_Config Updated to Version: 0.5.5.0", "[ModVersioning]", "ModID", "S7_Config, 0.5.5.0");
 
 //====================
 //REGION CHANGELOG
@@ -58,7 +69,7 @@ AND
 StringConcatenate(_ItemType, " added to player inventory.", _LogPlayerLog)
 THEN
 ItemTemplateAddTo(_LogItem, _Character, 1);                          //  Adds the Note and Changelog to the player's inventory.
-S7_DebugLog(_LogPlayerLog, "[ModVersioning]");
+S7_ConfigLog(_LogPlayerLog, "[ModVersioning]");
 
 
 //END_REGION

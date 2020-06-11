@@ -25,16 +25,17 @@ INITSECTION
 
 KBSECTION
 
-//  =================================
-//          REFRESH SETTINGS
-//  =================================
+//  ================
+//      MOD-MENU
+//  ================
 
 IF
-GameStarted(_GameLevel, _)                      //  GameStarted
+GlobalFlagSet(_Signal)                                                                  //  Flag set during ModMenu dialog or GameStart.
 AND
-IsGameLevel(_GameLevel, 1)                      //  Not in CharacterCreation level
+DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
 THEN
-GlobalSetFlag("S7_RefreshSettings");            //  Set flag to reload settings
+S7_Config_ModMenuRelay(_Signal);                                                        //  Signal Lua.
+GlobalClearFlag(_Signal);                                                               //  Clear Flag.
 
 //  =======================================
 //      GIVE ITEM TO THE HOST-CHARACTER
@@ -47,30 +48,30 @@ IsGameLevel(_GameLevel, 1)                                                      
 AND
 CharacterGetHostCharacter(_Character)                                                                               //  Only checks for host-character.
 AND
-NOT ItemTemplateIsInPartyInventory(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1, 1)    //  Host-character's party doesn't already have the inspector.
+NOT ItemTemplateIsInPartyInventory(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1, 1)    //  Host-character's party doesn't already have the configurator.
 THEN
 ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _Character, 1);                       //  Add inspector to host-character's inventory.
-S7_DebugLog("Inspector added to Host-Character's Inventory.", "[ModMenu]");
+S7_ConfigLog("Inspector added to Host-Character's Inventory.", "[ModMenu]");
 
 //=============================
 //REGION  START MOD-MENU DIALOG
 
-//  _________________________________
-//  Character Used The Stat-Inspector
-//  *********************************
+//  ____________________________________
+//  Character Used The Stat-Configurator
+//  ************************************
 
 IF                                      
-CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)        // Character used Inspector.
+CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)        // Character used configurator.
 AND
 CharacterGetHostCharacter(_Character)                                                                       //  Only allows the host-character          
 AND
 QRY_SpeakerIsAvailable(_Character)                                                                          //  Checks whether player can have a dialog.
 THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                                                       //  Starts the Mod-Menu dialog.
-S7_DebugLog("ModMenu activated by the host-character.", "[ModMenu]");
+S7_ConfigLog("ModMenu activated by the host-character.", "[ModMenu]");
 
 IF                                      
-CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)        // Character used Inspector.
+CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)        // Character used configurator.
 AND
 NOT CharacterGetHostCharacter(_Character)                                                                   //  Character is not the host.
 AND
@@ -80,90 +81,10 @@ QRY_SpeakerIsAvailable(_HostCharacter)                                          
 THEN
 S7_SetDialogVars();
 Proc_StartDialog(1, "S7_Config_ModMenu", _HostCharacter);                                                   //  Redirect Mod-Menu dialog to Host-Character.
-S7_DebugLog("ModMenu activated by Client. Redirecting dialog to Host-Character.", "[ModMenu]");
+S7_ConfigLog("ModMenu activated by Client. Redirecting dialog to Host-Character.", "[ModMenu]");
 
 //END_REGION
 //=============================
-
-IF
-GlobalFlagSet(_Signal)                                                                  //  Flag set during ModMenu dialog or GameStart.
-AND
-DB_S7_Config_ModMenu(_Signal)                                                           //  Fetch FlagName from DB.
-THEN
-S7_Config_ModMenuRelay(_Signal);                                                        //  Signal Lua.
-GlobalClearFlag(_Signal);                                                               //  Clear Flag.
-
-
-//  ===========================
-//REGION    INSPECT
-
-//  _______________________________
-//      Learn/Unlearn Inspect Skill
-//  *******************************
-
-IF
-GlobalFlagSet("S7_LearnInspect")                                                        //  Flag set by dialog.
-AND
-CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
-THEN
-CharacterAddSkill(_Character, "Target_S7_Config_Inspect", 1);                           //  Add Inspect Skill.
-S7_DebugLog("Host learned Inspect Spell.", "[ModMenu]");
-
-IF
-GlobalFlagCleared("S7_LearnInspect")                                                    //  Flag cleared by dialog.
-AND
-CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
-THEN
-CharacterRemoveSkill(_Character, "Target_S7_Config_Inspect");                           //  Remove Inspect Skill.
-S7_DebugLog("Host unlearned Inspect Spell.", "[ModMenu]");
-
-//  __________________________________
-//          Inspect Skill
-//  **********************************
-
-IF
-CharacterUsedSkillOnTarget(_Character, _Target, "Target_S7_Config_Inspect", _, _)       //  Character cast Inspect on Target.
-AND
-CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
-THEN
-Proc_S7_Config_Inspect(_Target);                                                        //  Procedure Call.
-
-PROC
-Proc_S7_Config_Inspect((GUIDSTRING)_Target)
-AND
-ObjectIsCharacter(_Target, 1)                                                           //  Inspect Target is a Character.
-THEN
-NRD_CharacterIterateSkills((CHARACTERGUID)_Target, "S7_Config_Inspect_TargetSkills");   //  Iterate Over Character's Skills
-NRD_IterateStatuses(_Target, "S7_Config_Inspect_TargetStatuses");                       //  Iterate Over Character's Active Statuses
-
-IF
-NRD_SkillIteratorEvent("S7_Config_Inspect_TargetSkills", _Target, _SkillID, _, _)       //  Skill-Iterator Event
-AND
-NRD_StatGetType(_SkillID, _SkillIDType)                                                 //  Gets StatType for the corresponding StatID
-THEN
-S7_InspectStats(_SkillID, _SkillIDType);                                                //  Passes info to Lua
-
-IF
-NRD_StatusIteratorEvent("S7_Config_Inspect_TargetStatuses", _Target, _StatusID, _)      //  Status Iterator Event
-AND
-NRD_StatGetType(_StatusID, _StatusIDType)                                               //  Gets StatType for the corresponding StatID
-THEN
-S7_InspectStats(_StatusID, _StatusIDType);                                              //  Passes info to Lua
-
-PROC
-Proc_S7_Config_Inspect((GUIDSTRING)_Target)
-AND
-ObjectIsItem(_Target, 1)                                                                //  Inspect Target is an item
-AND
-NRD_ItemGetStatsId((ITEMGUID)_Target, _TargetID)                                        //   Gets StatID for the corresponding item
-AND
-NRD_StatGetType(_TargetID, _TargetIDType)                                               //  Gets StatType for the corresponding StatID
-THEN
-S7_InspectStats(_TargetID, _TargetIDType);                                              //  Passes info to Lua
-
-
-//END_REGION
-//  ===========================
 
 EXITSECTION
 

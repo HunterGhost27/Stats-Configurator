@@ -1,0 +1,74 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+
+KBSECTION
+
+//  _______________________________
+//      Learn/Unlearn Inspect Skill
+//  *******************************
+
+IF
+GlobalFlagSet("S7_LearnInspect")                                                        //  Flag set by dialog.
+AND
+CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
+THEN
+CharacterAddSkill(_Character, "Target_S7_Config_Inspect", 1);                           //  Add Inspect Skill.
+S7_ConfigLog("Host learned Inspect Spell.", "[ModMenu]");
+
+IF
+GlobalFlagCleared("S7_LearnInspect")                                                    //  Flag cleared by dialog.
+AND
+CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
+THEN
+CharacterRemoveSkill(_Character, "Target_S7_Config_Inspect");                           //  Remove Inspect Skill.
+S7_ConfigLog("Host unlearned Inspect Spell.", "[ModMenu]");
+
+//  __________________________________
+//          Inspect Skill
+//  **********************************
+
+IF
+CharacterUsedSkillOnTarget(_Character, _Target, "Target_S7_Config_Inspect", _, _)       //  Character cast Inspect on Target.
+AND
+CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
+THEN
+Proc_S7_Config_Inspect(_Target);                                                        //  Procedure Call.
+
+PROC
+Proc_S7_Config_Inspect((GUIDSTRING)_Target)
+AND
+ObjectIsCharacter(_Target, 1)                                                           //  Inspect Target is a Character.
+THEN
+NRD_CharacterIterateSkills((CHARACTERGUID)_Target, "S7_Config_Inspect_TargetSkills");   //  Iterate Over Character's Skills
+NRD_IterateStatuses(_Target, "S7_Config_Inspect_TargetStatuses");                       //  Iterate Over Character's Active Statuses
+
+IF
+NRD_SkillIteratorEvent("S7_Config_Inspect_TargetSkills", _Target, _SkillID, _, _)       //  Skill-Iterator Event
+AND
+NRD_StatGetType(_SkillID, _SkillIDType)                                                 //  Gets StatType for the corresponding StatID
+THEN
+S7_InspectStats(_SkillID, _SkillIDType);                                                //  Passes info to Lua
+
+IF
+NRD_StatusIteratorEvent("S7_Config_Inspect_TargetStatuses", _Target, _StatusID, _)      //  Status Iterator Event
+AND
+NRD_StatGetType(_StatusID, _StatusIDType)                                               //  Gets StatType for the corresponding StatID
+THEN
+S7_InspectStats(_StatusID, _StatusIDType);                                              //  Passes info to Lua
+
+PROC
+Proc_S7_Config_Inspect((GUIDSTRING)_Target)
+AND
+ObjectIsItem(_Target, 1)                                                                //  Inspect Target is an item
+AND
+NRD_ItemGetStatsId((ITEMGUID)_Target, _TargetID)                                        //   Gets StatID for the corresponding item
+AND
+NRD_StatGetType(_TargetID, _TargetIDType)                                               //  Gets StatType for the corresponding StatID
+THEN
+S7_InspectStats(_TargetID, _TargetIDType);                                              //  Passes info to Lua
+
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "S7__Config_Initializer"
