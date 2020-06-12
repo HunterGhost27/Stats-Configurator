@@ -725,7 +725,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "1935;1548"}
+                                    "val" : {"type" : 23, "value" : "1615;1548"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -2406,7 +2406,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "1615;1548"}
+                                    "val" : {"type" : 23, "value" : "1295;1548"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -2502,7 +2502,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "1615;1767"}
+                                    "val" : {"type" : 23, "value" : "1295;1767"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -2867,7 +2867,7 @@
                         "speaker" : {"type" : 4, "value" : -666},
                         "stub" : {"type" : 19, "value" : 1},
                         "transitionmode" : {"type" : 1, "value" : 2},
-                        "waittime" : {"type" : 6, "value" : -1.0}
+                        "waittime" : {"type" : 6, "value" : 1.0}
                      },
                      {
                         "GameData" : [
@@ -2998,7 +2998,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "2255;1986"}
+                                    "val" : {"type" : 23, "value" : "1935;1986"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -3047,7 +3047,7 @@
                                                 "TagText" : {
                                                    "handle" : "hb2530e7bga8b7g4273g97e8g303edee4acd8",
                                                    "type" : 28,
-                                                   "value" : "<b>[Toggle ConfigLog] </b>Toggle to Enable/Disable the mod from logging to S7_ConfigLog.txt. The mod still prints to DebugConsole."
+                                                   "value" : "<b>[Toggle ConfigLog] </b>Toggle to Enable/Disable the mod from logging to S7_ConfigLog.tsv. The mod still prints to DebugConsole."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -3505,7 +3505,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "1935;1767"}
+                                    "val" : {"type" : 23, "value" : "1615;1767"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -4282,7 +4282,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "1615;1329"}
+                                    "val" : {"type" : 23, "value" : "1295;1329"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -4383,7 +4383,7 @@
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "position"},
-                                    "val" : {"type" : 23, "value" : "1935;1329"}
+                                    "val" : {"type" : 23, "value" : "1615;1329"}
                                  },
                                  {
                                     "key" : {"type" : 22, "value" : "sourcetemplate"},
@@ -4539,7 +4539,7 @@
                                                 "TagText" : {
                                                    "handle" : "h222e5f0fg0512g4227g8650g4b359c36799a",
                                                    "type" : 28,
-                                                   "value" : "<b> Please Wait.</b>"
+                                                   "value" : " Please Wait."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4833,7 +4833,7 @@
                         "speaker" : {"type" : 4, "value" : -666},
                         "stub" : {"type" : 19, "value" : 1},
                         "transitionmode" : {"type" : 1, "value" : 2},
-                        "waittime" : {"type" : 6, "value" : -1.0}
+                        "waittime" : {"type" : 6, "value" : 1.0}
                      },
                      {
                         "GameData" : [
@@ -5480,7 +5480,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 319}
+            "nextNodeId" : {"type" : 5, "value" : 334}
          }
       }
    }

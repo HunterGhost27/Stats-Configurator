@@ -2,6 +2,20 @@
 
 ----------
 
+## [0.5.6.0] --- 12th June 2020 --- **_Still Fixing Stuff_**
+
+### NEW
+
+* _Added_ `Ref_Enumerations.xml` and `Ref_StatObjectDefinitions.xml` for reference.
+
+### FIXED
+
+* _Fixed_ `S7_BuildConfigData()`.
+
+### COMMENT
+
+* When does all this stuff even break? - I'm stuck in a perpetual loop of bug-fixing.
+
 ## [0.5.5.0] --- 10th June 2020 --- **_Rework Time_**
 
 ### NEW

@@ -1,9 +1,9 @@
 --  #################################################################################################################################
 --  #########                                                STATS CONFIGURATOR                                             #########
 --  =================================================================================================================================
-logSource = "Lua:BootstrapServer"
 Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_StatsConfigurator.lua")
+logSource = "Lua:BootstrapServer"
 --  #################################################################################################################################
 
 --  #######################
@@ -25,6 +25,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         end
         S7_StatsConfigurator() --  Calls StatsConfigurator.
         S7_StatsSynchronize() --  Synchronize stats for all clients.
+        toConfigure = {}
         S7_ConfigLog("StatsConfiguration Finished.")
     end
 
@@ -46,9 +47,9 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  =================
 
     if Signal == "S7_BuildConfigData" then
-        local buildData = Ext.LoadFile(S7_ConfigSettings.ConfigFile)
-        S7_BuildConfigData(buildData)
-        S7_ConfigLog("Rebuilt " .. S7_ConfigSettings.StatsLoader.FileName .. "using " .. S7_ConfigSettings.ConfigFile)
+        local buildData = Ext.LoadFile(S7_ConfigSettings.ConfigFile) or ""
+        S7_BuildConfigData("S7_Config", buildData)
+        S7_ConfigLog("Rebuilt " .. S7_ConfigSettings.StatsLoader.FileName .. " using " .. S7_ConfigSettings.ConfigFile)
     end
 
     --  SEND ACTIVE CONFIG
@@ -164,11 +165,11 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ==========
 
     if Signal == "S7_ToggleConfigLog" then
-        if S7_ConfigSettings.ConfigLog == true then
-            S7_ConfigSettings.ConfigLog = false
+        if S7_ConfigSettings.ConfigLog.Enable == true then
+            S7_ConfigSettings.ConfigLog.Enable = false
             S7_ConfigLog("S7_ConfigLog: Disabled", "[Warning]")
         else
-            S7_ConfigSettings.ConfigLog = true
+            S7_ConfigSettings.ConfigLog.Enable = true
             S7_ConfigLog("S7_ConfigLog: Enabled", "[Warning]")
         end
     end

@@ -1,0 +1,1274 @@
+<root>
+  <enumerations>
+    <enumeration name="Penalty PreciseQualifier">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="-10"/>
+        <item index="2" value="-9.9"/>
+        <item index="3" value="-9.8"/>
+        <item index="4" value="-9.7"/>
+        <item index="5" value="-9.6"/>
+        <item index="6" value="-9.5"/>
+        <item index="7" value="-9.4"/>
+        <item index="8" value="-9.3"/>
+        <item index="9" value="-9.2"/>
+        <item index="10" value="-9.1"/>
+        <item index="11" value="-9"/>
+        <item index="12" value="-8.9"/>
+        <item index="13" value="-8.8"/>
+        <item index="14" value="-8.7"/>
+        <item index="15" value="-8.6"/>
+        <item index="16" value="-8.5"/>
+        <item index="17" value="-8.4"/>
+        <item index="18" value="-8.3"/>
+        <item index="19" value="-8.2"/>
+        <item index="20" value="-8.1"/>
+        <item index="21" value="-8"/>
+        <item index="22" value="-7.9"/>
+        <item index="23" value="-7.8"/>
+        <item index="24" value="-7.7"/>
+        <item index="25" value="-7.6"/>
+        <item index="26" value="-7.5"/>
+        <item index="27" value="-7.4"/>
+        <item index="28" value="-7.3"/>
+        <item index="29" value="-7.2"/>
+        <item index="30" value="-7.1"/>
+        <item index="31" value="-7"/>
+        <item index="32" value="-6.9"/>
+        <item index="33" value="-6.8"/>
+        <item index="34" value="-6.7"/>
+        <item index="35" value="-6.6"/>
+        <item index="36" value="-6.5"/>
+        <item index="37" value="-6.4"/>
+        <item index="38" value="-6.3"/>
+        <item index="39" value="-6.2"/>
+        <item index="40" value="-6.1"/>
+        <item index="41" value="-6"/>
+        <item index="42" value="-5.9"/>
+        <item index="43" value="-5.8"/>
+        <item index="44" value="-5.7"/>
+        <item index="45" value="-5.6"/>
+        <item index="46" value="-5.5"/>
+        <item index="47" value="-5.4"/>
+        <item index="48" value="-5.3"/>
+        <item index="49" value="-5.2"/>
+        <item index="50" value="-5.1"/>
+        <item index="51" value="-5"/>
+        <item index="52" value="-4.9"/>
+        <item index="53" value="-4.8"/>
+        <item index="54" value="-4.7"/>
+        <item index="55" value="-4.6"/>
+        <item index="56" value="-4.5"/>
+        <item index="57" value="-4.4"/>
+        <item index="58" value="-4.3"/>
+        <item index="59" value="-4.2"/>
+        <item index="60" value="-4.1"/>
+        <item index="61" value="-4"/>
+        <item index="62" value="-3.9"/>
+        <item index="63" value="-3.8"/>
+        <item index="64" value="-3.7"/>
+        <item index="65" value="-3.6"/>
+        <item index="66" value="-3.5"/>
+        <item index="67" value="-3.4"/>
+        <item index="68" value="-3.3"/>
+        <item index="69" value="-3.2"/>
+        <item index="70" value="-3.1"/>
+        <item index="71" value="-3"/>
+        <item index="72" value="-2.9"/>
+        <item index="73" value="-2.8"/>
+        <item index="74" value="-2.7"/>
+        <item index="75" value="-2.6"/>
+        <item index="76" value="-2.5"/>
+        <item index="77" value="-2.4"/>
+        <item index="78" value="-2.3"/>
+        <item index="79" value="-2.2"/>
+        <item index="80" value="-2.1"/>
+        <item index="81" value="-2"/>
+        <item index="82" value="-1.9"/>
+        <item index="83" value="-1.8"/>
+        <item index="84" value="-1.7"/>
+        <item index="85" value="-1.6"/>
+        <item index="86" value="-1.5"/>
+        <item index="87" value="-1.4"/>
+        <item index="88" value="-1.3"/>
+        <item index="89" value="-1.2"/>
+        <item index="90" value="-1.1"/>
+        <item index="91" value="-1"/>
+        <item index="92" value="-0.9"/>
+        <item index="93" value="-0.8"/>
+        <item index="94" value="-0.7"/>
+        <item index="95" value="-0.6"/>
+        <item index="96" value="-0.5"/>
+        <item index="97" value="-0.4"/>
+        <item index="98" value="-0.3"/>
+        <item index="99" value="-0.2"/>
+        <item index="100" value="-0.1"/>
+        <item index="101" value="0"/>
+        <item index="102" value="0.1"/>
+        <item index="103" value="0.2"/>
+        <item index="104" value="0.3"/>
+        <item index="105" value="0.4"/>
+        <item index="106" value="0.5"/>
+        <item index="107" value="0.6"/>
+        <item index="108" value="0.7"/>
+        <item index="109" value="0.8"/>
+        <item index="110" value="0.9"/>
+        <item index="111" value="1"/>
+        <item index="112" value="1.1"/>
+        <item index="113" value="1.2"/>
+        <item index="114" value="1.3"/>
+        <item index="115" value="1.4"/>
+        <item index="116" value="1.5"/>
+        <item index="117" value="1.6"/>
+        <item index="118" value="1.7"/>
+        <item index="119" value="1.8"/>
+        <item index="120" value="1.9"/>
+        <item index="121" value="2"/>
+        <item index="122" value="2.1"/>
+        <item index="123" value="2.2"/>
+        <item index="124" value="2.3"/>
+        <item index="125" value="2.4"/>
+        <item index="126" value="2.5"/>
+        <item index="127" value="2.6"/>
+        <item index="128" value="2.7"/>
+        <item index="129" value="2.8"/>
+        <item index="130" value="2.9"/>
+        <item index="131" value="3"/>
+        <item index="132" value="3.1"/>
+        <item index="133" value="3.2"/>
+        <item index="134" value="3.3"/>
+        <item index="135" value="3.4"/>
+        <item index="136" value="3.5"/>
+        <item index="137" value="3.6"/>
+        <item index="138" value="3.7"/>
+        <item index="139" value="3.8"/>
+        <item index="140" value="3.9"/>
+        <item index="141" value="4"/>
+        <item index="142" value="4.1"/>
+        <item index="143" value="4.2"/>
+        <item index="144" value="4.3"/>
+        <item index="145" value="4.4"/>
+        <item index="146" value="4.5"/>
+        <item index="147" value="4.6"/>
+        <item index="148" value="4.7"/>
+        <item index="149" value="4.8"/>
+        <item index="150" value="4.9"/>
+        <item index="151" value="5"/>
+        <item index="152" value="5.1"/>
+        <item index="153" value="5.2"/>
+        <item index="154" value="5.3"/>
+        <item index="155" value="5.4"/>
+        <item index="156" value="5.5"/>
+        <item index="157" value="5.6"/>
+        <item index="158" value="5.7"/>
+        <item index="159" value="5.8"/>
+        <item index="160" value="5.9"/>
+        <item index="161" value="6"/>
+        <item index="162" value="6.1"/>
+        <item index="163" value="6.2"/>
+        <item index="164" value="6.3"/>
+        <item index="165" value="6.4"/>
+        <item index="166" value="6.5"/>
+        <item index="167" value="6.6"/>
+        <item index="168" value="6.7"/>
+        <item index="169" value="6.8"/>
+        <item index="170" value="6.9"/>
+        <item index="171" value="7"/>
+        <item index="172" value="7.1"/>
+        <item index="173" value="7.2"/>
+        <item index="174" value="7.3"/>
+        <item index="175" value="7.4"/>
+        <item index="176" value="7.5"/>
+        <item index="177" value="7.6"/>
+        <item index="178" value="7.7"/>
+        <item index="179" value="7.8"/>
+        <item index="180" value="7.9"/>
+        <item index="181" value="8"/>
+        <item index="182" value="8.1"/>
+        <item index="183" value="8.2"/>
+        <item index="184" value="8.3"/>
+        <item index="185" value="8.4"/>
+        <item index="186" value="8.5"/>
+        <item index="187" value="8.6"/>
+        <item index="188" value="8.7"/>
+        <item index="189" value="8.8"/>
+        <item index="190" value="8.9"/>
+        <item index="191" value="9"/>
+        <item index="192" value="9.1"/>
+        <item index="193" value="9.2"/>
+        <item index="194" value="9.3"/>
+        <item index="195" value="9.4"/>
+        <item index="196" value="9.5"/>
+        <item index="197" value="9.6"/>
+        <item index="198" value="9.7"/>
+        <item index="199" value="9.8"/>
+        <item index="200" value="9.9"/>
+        <item index="201" value="10"/>
+      </items>
+    </enumeration>
+    <enumeration name="FormatStringColor">
+      <items>
+        <item index="0" value="White"/>
+        <item index="1" value="DarkGray"/>
+        <item index="2" value="Gray"/>
+        <item index="3" value="LightGray"/>
+        <item index="4" value="Red"/>
+        <item index="5" value="Blue"/>
+        <item index="6" value="DarkBlue"/>
+        <item index="7" value="LightBlue"/>
+        <item index="8" value="Green"/>
+        <item index="9" value="PoisonGreen"/>
+        <item index="10" value="Yellow"/>
+        <item index="11" value="Orange"/>
+        <item index="12" value="Pink"/>
+        <item index="13" value="Purple"/>
+        <item index="14" value="Brown"/>
+        <item index="15" value="Gold"/>
+        <item index="16" value="Black"/>
+        <item index="17" value="Normal"/>
+        <item index="18" value="StoryItem"/>
+        <item index="19" value="Blackrock"/>
+        <item index="20" value="Poison"/>
+        <item index="21" value="Earth"/>
+        <item index="22" value="Air"/>
+        <item index="23" value="Water"/>
+        <item index="24" value="Fire"/>
+        <item index="25" value="Source"/>
+        <item index="26" value="Decay"/>
+        <item index="27" value="Polymorph"/>
+        <item index="28" value="Ranger"/>
+        <item index="29" value="Rogue"/>
+        <item index="30" value="Summoner"/>
+        <item index="31" value="Void"/>
+        <item index="32" value="Warrior"/>
+        <item index="33" value="Special"/>
+        <item index="34" value="Healing"/>
+        <item index="35" value="Charm"/>
+      </items>
+    </enumeration>
+    <enumeration name="VampirismType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Vitality"/>
+        <item index="2" value="ArmorPhysical"/>
+        <item index="3" value="ArmorMagical"/>
+        <item index="4" value="ArmorAll"/>
+        <item index="5" value="Any"/>
+      </items>
+    </enumeration>
+    <enumeration name="YesNo">
+      <items>
+        <item index="0" value="No"/>
+        <item index="1" value="Yes"/>
+      </items>
+    </enumeration>
+    <enumeration name="Death Type">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Physical"/>
+        <item index="2" value="Piercing"/>
+        <item index="3" value="Arrow"/>
+        <item index="4" value="DoT"/>
+        <item index="5" value="Incinerate"/>
+        <item index="6" value="Acid"/>
+        <item index="7" value="Electrocution"/>
+        <item index="8" value="FrozenShatter"/>
+        <item index="9" value="PetrifiedShatter"/>
+        <item index="10" value="Explode"/>
+      </items>
+    </enumeration>
+    <enumeration name="Handedness">
+      <items>
+        <item index="0" value="Any"/>
+        <item index="1" value="1"/>
+        <item index="2" value="2"/>
+      </items>
+    </enumeration>
+    <enumeration name="PickingState">
+      <items>
+        <item index="0" value="Default"/>
+        <item index="1" value="Lying"/>
+        <item index="2" value="Sitting"/>
+        <item index="3" value="Dead"/>
+        <item index="4" value="MAX"/>
+        <item index="5" value="Sneaking"/>
+        <item index="6" value="Tombstone"/>
+      </items>
+    </enumeration>
+    <enumeration name="WeaponType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Sword"/>
+        <item index="2" value="Club"/>
+        <item index="3" value="Axe"/>
+        <item index="4" value="Staff"/>
+        <item index="5" value="Bow"/>
+        <item index="6" value="Crossbow"/>
+        <item index="7" value="Spear"/>
+        <item index="8" value="Knife"/>
+        <item index="9" value="Wand"/>
+        <item index="10" value="Arrow"/>
+      </items>
+    </enumeration>
+    <enumeration name="SkillAbility">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Warrior"/>
+        <item index="2" value="Ranger"/>
+        <item index="3" value="Rogue"/>
+        <item index="4" value="Source"/>
+        <item index="5" value="Fire"/>
+        <item index="6" value="Water"/>
+        <item index="7" value="Air"/>
+        <item index="8" value="Earth"/>
+        <item index="9" value="Death"/>
+        <item index="10" value="Summoning"/>
+        <item index="11" value="Polymorph"/>
+      </items>
+    </enumeration>
+    <enumeration name="StepsType">
+      <items>
+        <item index="0" value="Bare"/>
+        <item index="1" value="Bone"/>
+        <item index="2" value="Lizard"/>
+        <item index="3" value="Leather"/>
+        <item index="4" value="Metal"/>
+        <item index="5" value="Zombie"/>
+        <item index="6" value="Clawed"/>
+      </items>
+    </enumeration>
+    <enumeration name="InventoryTabs">
+      <items>
+        <item index="0" value="Auto"/>
+        <item index="1" value="Equipment"/>
+        <item index="2" value="Consumable"/>
+        <item index="3" value="Magical"/>
+        <item index="4" value="Ingredient"/>
+        <item index="5" value="Keys"/>
+        <item index="6" value="Misc"/>
+        <item index="7" value="Hidden"/>
+      </items>
+    </enumeration>
+    <enumeration name="Custom Properties">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="AlwaysBackstab"/>
+        <item index="2" value="Unbreakable"/>
+        <item index="3" value="CanBackstab"/>
+        <item index="4" value="AlwaysHighGround"/>
+      </items>
+    </enumeration>
+    <enumeration name="SavingThrow">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Burning"/>
+        <item index="2" value="Frozen"/>
+        <item index="3" value="Poison"/>
+        <item index="4" value="KnockDown"/>
+        <item index="5" value="Mute"/>
+        <item index="6" value="Stunned"/>
+        <item index="7" value="Fear"/>
+        <item index="8" value="Charm"/>
+        <item index="9" value="Bleeding"/>
+        <item index="10" value="Crippled"/>
+        <item index="11" value="Blind"/>
+        <item index="12" value="Cursed"/>
+        <item index="13" value="Weak"/>
+        <item index="14" value="Slowed"/>
+        <item index="15" value="Diseased"/>
+        <item index="16" value="InfectiousDiseased"/>
+        <item index="17" value="Petrified"/>
+        <item index="18" value="Drunk"/>
+        <item index="19" value="ShacklesOfPain"/>
+        <item index="20" value="AggroMarked"/>
+        <item index="21" value="Remorse"/>
+        <item index="22" value="DecayingTouch"/>
+        <item index="23" value="CrawlingInfestation"/>
+        <item index="24" value="MarkOfDeath"/>
+        <item index="25" value="Taunted"/>
+        <item index="26" value="Oiled"/>
+        <item index="27" value="Soulsap"/>
+        <item index="28" value="VampiricTouch"/>
+        <item index="29" value="NullResist"/>
+        <item index="30" value="DivineLight"/>
+        <item index="31" value="Drain"/>
+        <item index="32" value="Sleeping"/>
+        <item index="33" value="PhysicalArmor"/>
+        <item index="34" value="MagicArmor"/>
+      </items>
+    </enumeration>
+    <enumeration name="Surface Type">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Fire"/>
+        <item index="2" value="FireBlessed"/>
+        <item index="3" value="FireCursed"/>
+        <item index="4" value="FirePurified"/>
+        <item index="5" value="Water"/>
+        <item index="6" value="WaterElectrified"/>
+        <item index="7" value="WaterFrozen"/>
+        <item index="8" value="WaterBlessed"/>
+        <item index="9" value="WaterElectrifiedBlessed"/>
+        <item index="10" value="WaterFrozenBlessed"/>
+        <item index="11" value="WaterCursed"/>
+        <item index="12" value="WaterElectrifiedCursed"/>
+        <item index="13" value="WaterFrozenCursed"/>
+        <item index="14" value="WaterPurified"/>
+        <item index="15" value="WaterElectrifiedPurified"/>
+        <item index="16" value="WaterFrozenPurified"/>
+        <item index="17" value="Blood"/>
+        <item index="18" value="BloodElectrified"/>
+        <item index="19" value="BloodFrozen"/>
+        <item index="20" value="BloodBlessed"/>
+        <item index="21" value="BloodElectrifiedBlessed"/>
+        <item index="22" value="BloodFrozenBlessed"/>
+        <item index="23" value="BloodCursed"/>
+        <item index="24" value="BloodElectrifiedCursed"/>
+        <item index="25" value="BloodFrozenCursed"/>
+        <item index="26" value="BloodPurified"/>
+        <item index="27" value="BloodElectrifiedPurified"/>
+        <item index="28" value="BloodFrozenPurified"/>
+        <item index="29" value="Poison"/>
+        <item index="30" value="PoisonBlessed"/>
+        <item index="31" value="PoisonCursed"/>
+        <item index="32" value="PoisonPurified"/>
+        <item index="33" value="Oil"/>
+        <item index="34" value="OilBlessed"/>
+        <item index="35" value="OilCursed"/>
+        <item index="36" value="OilPurified"/>
+        <item index="37" value="Lava"/>
+        <item index="38" value="Source"/>
+        <item index="39" value="Web"/>
+        <item index="40" value="WebBlessed"/>
+        <item index="41" value="WebCursed"/>
+        <item index="42" value="WebPurified"/>
+        <item index="43" value="Deepwater"/>
+        <item index="44" value="FireCloud"/>
+        <item index="45" value="FireCloudBlessed"/>
+        <item index="46" value="FireCloudCursed"/>
+        <item index="47" value="FireCloudPurified"/>
+        <item index="48" value="WaterCloud"/>
+        <item index="49" value="WaterCloudElectrified"/>
+        <item index="50" value="WaterCloudBlessed"/>
+        <item index="51" value="WaterCloudElectrifiedBlessed"/>
+        <item index="52" value="WaterCloudCursed"/>
+        <item index="53" value="WaterCloudElectrifiedCursed"/>
+        <item index="54" value="WaterCloudPurified"/>
+        <item index="55" value="WaterCloudElectrifiedPurified"/>
+        <item index="56" value="BloodCloud"/>
+        <item index="57" value="BloodCloudElectrified"/>
+        <item index="58" value="BloodCloudBlessed"/>
+        <item index="59" value="BloodCloudElectrifiedBlessed"/>
+        <item index="60" value="BloodCloudCursed"/>
+        <item index="61" value="BloodCloudElectrifiedCursed"/>
+        <item index="62" value="BloodCloudPurified"/>
+        <item index="63" value="BloodCloudElectrifiedPurified"/>
+        <item index="64" value="PoisonCloud"/>
+        <item index="65" value="PoisonCloudBlessed"/>
+        <item index="66" value="PoisonCloudCursed"/>
+        <item index="67" value="PoisonCloudPurified"/>
+        <item index="68" value="SmokeCloud"/>
+        <item index="69" value="SmokeCloudBlessed"/>
+        <item index="70" value="SmokeCloudCursed"/>
+        <item index="71" value="SmokeCloudPurified"/>
+        <item index="72" value="ExplosionCloud"/>
+        <item index="73" value="FrostCloud"/>
+        <item index="74" value="Deathfog"/>
+        <item index="75" value="Sentinel"/>
+        <item index="76" value="ShockwaveCloud"/>
+      </items>
+    </enumeration>
+    <enumeration name="Damage Type">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Physical"/>
+        <item index="2" value="Piercing"/>
+        <item index="3" value="Corrosive"/>
+        <item index="4" value="Magic"/>
+        <item index="5" value="Chaos"/>
+        <item index="6" value="Fire"/>
+        <item index="7" value="Air"/>
+        <item index="8" value="Water"/>
+        <item index="9" value="Earth"/>
+        <item index="10" value="Poison"/>
+        <item index="11" value="Shadow"/>
+      </items>
+    </enumeration>
+    <enumeration name="Qualifier">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="0"/>
+        <item index="2" value="1"/>
+        <item index="3" value="2"/>
+        <item index="4" value="3"/>
+        <item index="5" value="4"/>
+        <item index="6" value="5"/>
+        <item index="7" value="6"/>
+        <item index="8" value="7"/>
+        <item index="9" value="8"/>
+        <item index="10" value="9"/>
+        <item index="11" value="10"/>
+      </items>
+    </enumeration>
+    <enumeration name="MaterialType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Overlay"/>
+        <item index="2" value="FadingOverlay"/>
+        <item index="3" value="Replacement"/>
+      </items>
+    </enumeration>
+    <enumeration name="SkillElement">
+      <items>
+        <item index="0" value="None"/>
+      </items>
+    </enumeration>
+    <enumeration name="AnimType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="OneHanded"/>
+        <item index="2" value="TwoHanded"/>
+        <item index="3" value="Bow"/>
+        <item index="4" value="DualWield"/>
+        <item index="5" value="Shield"/>
+        <item index="6" value="SmallWeapons"/>
+        <item index="7" value="PoleArms"/>
+        <item index="8" value="Unarmed"/>
+        <item index="9" value="CrossBow"/>
+        <item index="10" value="TwoHanded_Sword"/>
+        <item index="11" value="Sitting"/>
+        <item index="12" value="Lying"/>
+        <item index="13" value="DualWieldSmall"/>
+        <item index="14" value="Staves"/>
+        <item index="15" value="Wands"/>
+        <item index="16" value="DualWieldWands"/>
+        <item index="17" value="ShieldWands"/>
+      </items>
+    </enumeration>
+    <enumeration name="IngredientTransformType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Consume"/>
+        <item index="2" value="Transform"/>
+        <item index="3" value="Boost"/>
+        <item index="4" value="Poison"/>
+      </items>
+    </enumeration>
+    <enumeration name="Osiris Task">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Resurrect"/>
+      </items>
+    </enumeration>
+    <enumeration name="AtmosphereType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Rain"/>
+        <item index="2" value="Storm"/>
+      </items>
+    </enumeration>
+    <enumeration name="SkillRequirement">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="MeleeWeapon"/>
+        <item index="2" value="RangedWeapon"/>
+        <item index="3" value="StaffWeapon"/>
+        <item index="4" value="DaggerWeapon"/>
+        <item index="5" value="ShieldWeapon"/>
+        <item index="6" value="ArrowWeapon"/>
+      </items>
+    </enumeration>
+    <enumeration name="SkillTier">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Starter"/>
+        <item index="2" value="Novice"/>
+        <item index="3" value="Adept"/>
+        <item index="4" value="Master"/>
+      </items>
+    </enumeration>
+    <enumeration name="SkillTargetCondition">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Locked"/>
+        <item index="2" value="Ally"/>
+        <item index="3" value="Enemy"/>
+        <item index="4" value="Character"/>
+        <item index="5" value="Item"/>
+        <item index="6" value="Dead"/>
+        <item index="7" value="Summon"/>
+        <item index="8" value="NonSummon"/>
+        <item index="9" value="Self"/>
+        <item index="10" value="NonSelf"/>
+        <item index="11" value="Party"/>
+        <item index="12" value="LowHP"/>
+        <item index="13" value="Combat"/>
+        <item index="14" value="Tagged"/>
+        <item index="15" value="CanExplode"/>
+        <item index="16" value="CanGiveSP"/>
+        <item index="17" value="Grounded"/>
+        <item index="18" value="FacingMe"/>
+        <item index="19" value="AllowDead"/>
+        <item index="20" value="Player"/>
+        <item index="21" value="CanPickup"/>
+        <item index="22" value="Owner"/>
+        <item index="23" value="MySummon"/>
+        <item index="24" value="HasStatus"/>
+        <item index="25" value="InSurface"/>
+        <item index="26" value="Surface"/>
+        <item index="27" value="Spirit"/>
+        <item index="28" value="DamagedOnHeal"/>
+        <item index="29" value="Undead"/>
+        <item index="30" value="CanBeSabotaged"/>
+        <item index="31" value="PhysicalArmourUp"/>
+        <item index="32" value="MagicArmourUp"/>
+      </items>
+    </enumeration>
+    <enumeration name="HealValueType">
+      <items>
+        <item index="0" value="FixedValue"/>
+        <item index="1" value="Percentage"/>
+        <item index="2" value="Qualifier"/>
+        <item index="3" value="Shield"/>
+        <item index="4" value="TargetDependent"/>
+        <item index="5" value="DamagePercentage"/>
+      </items>
+    </enumeration>
+    <enumeration name="Surface Change">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Ignite"/>
+        <item index="2" value="Melt"/>
+        <item index="3" value="Freeze"/>
+        <item index="4" value="Electrify"/>
+        <item index="5" value="Bless"/>
+        <item index="6" value="Curse"/>
+        <item index="7" value="Condense"/>
+        <item index="8" value="Vaporize"/>
+        <item index="9" value="Bloodify"/>
+        <item index="10" value="Contaminate"/>
+        <item index="11" value="Oilify"/>
+        <item index="12" value="Shatter"/>
+      </items>
+    </enumeration>
+    <enumeration name="BigQualifier">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="1"/>
+        <item index="2" value="2"/>
+        <item index="3" value="3"/>
+        <item index="4" value="4"/>
+        <item index="5" value="5"/>
+        <item index="6" value="6"/>
+        <item index="7" value="7"/>
+        <item index="8" value="8"/>
+        <item index="9" value="9"/>
+        <item index="10" value="10"/>
+        <item index="11" value="11"/>
+        <item index="12" value="12"/>
+        <item index="13" value="13"/>
+        <item index="14" value="14"/>
+        <item index="15" value="15"/>
+        <item index="16" value="16"/>
+        <item index="17" value="17"/>
+        <item index="18" value="18"/>
+        <item index="19" value="19"/>
+        <item index="20" value="20"/>
+        <item index="21" value="21"/>
+        <item index="22" value="22"/>
+        <item index="23" value="23"/>
+        <item index="24" value="24"/>
+        <item index="25" value="25"/>
+        <item index="26" value="26"/>
+        <item index="27" value="27"/>
+        <item index="28" value="28"/>
+        <item index="29" value="29"/>
+        <item index="30" value="30"/>
+        <item index="31" value="31"/>
+        <item index="32" value="32"/>
+        <item index="33" value="33"/>
+        <item index="34" value="34"/>
+        <item index="35" value="35"/>
+        <item index="36" value="36"/>
+        <item index="37" value="37"/>
+        <item index="38" value="38"/>
+        <item index="39" value="39"/>
+        <item index="40" value="40"/>
+        <item index="41" value="41"/>
+        <item index="42" value="42"/>
+        <item index="43" value="43"/>
+        <item index="44" value="44"/>
+        <item index="45" value="45"/>
+        <item index="46" value="46"/>
+        <item index="47" value="47"/>
+        <item index="48" value="48"/>
+        <item index="49" value="49"/>
+        <item index="50" value="50"/>
+        <item index="51" value="51"/>
+        <item index="52" value="52"/>
+        <item index="53" value="53"/>
+        <item index="54" value="54"/>
+        <item index="55" value="55"/>
+        <item index="56" value="56"/>
+        <item index="57" value="57"/>
+        <item index="58" value="58"/>
+        <item index="59" value="59"/>
+        <item index="60" value="60"/>
+        <item index="61" value="61"/>
+        <item index="62" value="62"/>
+        <item index="63" value="63"/>
+        <item index="64" value="64"/>
+        <item index="65" value="65"/>
+        <item index="66" value="66"/>
+        <item index="67" value="67"/>
+        <item index="68" value="68"/>
+        <item index="69" value="69"/>
+        <item index="70" value="70"/>
+        <item index="71" value="71"/>
+        <item index="72" value="72"/>
+        <item index="73" value="73"/>
+        <item index="74" value="74"/>
+        <item index="75" value="75"/>
+        <item index="76" value="76"/>
+        <item index="77" value="77"/>
+        <item index="78" value="78"/>
+        <item index="79" value="79"/>
+        <item index="80" value="80"/>
+        <item index="81" value="81"/>
+        <item index="82" value="82"/>
+        <item index="83" value="83"/>
+        <item index="84" value="84"/>
+        <item index="85" value="85"/>
+        <item index="86" value="86"/>
+        <item index="87" value="87"/>
+        <item index="88" value="88"/>
+        <item index="89" value="89"/>
+        <item index="90" value="90"/>
+        <item index="91" value="91"/>
+        <item index="92" value="92"/>
+        <item index="93" value="93"/>
+        <item index="94" value="94"/>
+        <item index="95" value="95"/>
+        <item index="96" value="96"/>
+        <item index="97" value="97"/>
+        <item index="98" value="98"/>
+        <item index="99" value="99"/>
+        <item index="100" value="100"/>
+      </items>
+    </enumeration>
+    <enumeration name="DamageSourceType">
+      <items>
+        <item index="0" value="BaseLevelDamage"/>
+        <item index="1" value="AverageLevelDamge"/>
+        <item index="2" value="MonsterWeaponDamage"/>
+        <item index="3" value="SourceMaximumVitality"/>
+        <item index="4" value="SourceMaximumPhysicalArmor"/>
+        <item index="5" value="SourceMaximumMagicArmor"/>
+        <item index="6" value="SourceCurrentVitality"/>
+        <item index="7" value="SourceCurrentPhysicalArmor"/>
+        <item index="8" value="SourceCurrentMagicArmor"/>
+        <item index="9" value="SourceShieldPhysicalArmor"/>
+        <item index="10" value="TargetMaximumVitality"/>
+        <item index="11" value="TargetMaximumPhysicalArmor"/>
+        <item index="12" value="TargetMaximumMagicArmor"/>
+        <item index="13" value="TargetCurrentVitality"/>
+        <item index="14" value="TargetCurrentPhysicalArmor"/>
+        <item index="15" value="TargetCurrentMagicArmor"/>
+        <item index="16" value="TargetCurrentMagicArmor"/>
+      </items>
+    </enumeration>
+    <enumeration name="ProjectileType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Arrow"/>
+        <item index="2" value="Grenade"/>
+      </items>
+    </enumeration>
+    <enumeration name="ProjectileDistribution">
+      <items>
+        <item index="0" value="Random"/>
+        <item index="1" value="Normal"/>
+        <item index="2" value="Edge"/>
+        <item index="3" value="EdgeCenter"/>
+      </items>
+    </enumeration>
+    <enumeration name="StatusEvent">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="OnTurn"/>
+        <item index="2" value="OnSkillCast"/>
+        <item index="3" value="OnAttack"/>
+        <item index="4" value="OnApply"/>
+        <item index="5" value="OnRemove"/>
+        <item index="6" value="OnApplyAndTurn"/>
+      </items>
+    </enumeration>
+    <enumeration name="Act">
+      <items>
+        <item index="0" value="1"/>
+      </items>
+    </enumeration>
+    <enumeration name="Itemslot">
+      <items>
+        <item index="0" value="Helmet"/>
+        <item index="1" value="Breast"/>
+        <item index="2" value="Leggings"/>
+        <item index="3" value="Weapon"/>
+        <item index="4" value="Shield"/>
+        <item index="5" value="Ring"/>
+        <item index="6" value="Belt"/>
+        <item index="7" value="Boots"/>
+        <item index="8" value="Gloves"/>
+        <item index="9" value="Amulet"/>
+        <item index="10" value="Ring2"/>
+        <item index="11" value="Wings"/>
+        <item index="12" value="Horns"/>
+        <item index="13" value="Overhead"/>
+      </items>
+    </enumeration>
+    <enumeration name="AttributeFlag">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="FreezeImmunity"/>
+        <item index="2" value="BurnImmunity"/>
+        <item index="3" value="StunImmunity"/>
+        <item index="4" value="PoisonImmunity"/>
+        <item index="5" value="CharmImmunity"/>
+        <item index="6" value="FearImmunity"/>
+        <item index="7" value="KnockdownImmunity"/>
+        <item index="8" value="MuteImmunity"/>
+        <item index="9" value="ChilledImmunity"/>
+        <item index="10" value="WarmImmunity"/>
+        <item index="11" value="WetImmunity"/>
+        <item index="12" value="BleedingImmunity"/>
+        <item index="13" value="CrippledImmunity"/>
+        <item index="14" value="BlindImmunity"/>
+        <item index="15" value="CursedImmunity"/>
+        <item index="16" value="WeakImmunity"/>
+        <item index="17" value="SlowedImmunity"/>
+        <item index="18" value="DiseasedImmunity"/>
+        <item index="19" value="InfectiousDiseasedImmunity"/>
+        <item index="20" value="PetrifiedImmunity"/>
+        <item index="21" value="DrunkImmunity"/>
+        <item index="22" value="SlippingImmunity"/>
+        <item index="23" value="FreezeContact"/>
+        <item index="24" value="BurnContact"/>
+        <item index="25" value="StunContact"/>
+        <item index="26" value="PoisonContact"/>
+        <item index="27" value="ChillContact"/>
+        <item index="28" value="Torch"/>
+        <item index="29" value="Arrow"/>
+        <item index="30" value="Unbreakable"/>
+        <item index="31" value="Unrepairable"/>
+        <item index="32" value="Unstorable"/>
+        <item index="33" value="Grounded"/>
+        <item index="34" value="HastedImmunity"/>
+        <item index="35" value="TauntedImmunity"/>
+        <item index="36" value="SleepingImmunity"/>
+        <item index="37" value="AcidImmunity"/>
+        <item index="38" value="SuffocatingImmunity"/>
+        <item index="39" value="RegeneratingImmunity"/>
+        <item index="40" value="DisarmedImmunity"/>
+        <item index="41" value="DecayingImmunity"/>
+        <item index="42" value="ClairvoyantImmunity"/>
+        <item index="43" value="EnragedImmunity"/>
+        <item index="44" value="BlessedImmunity"/>
+        <item index="45" value="ProtectFromSummon"/>
+        <item index="46" value="Floating"/>
+        <item index="47" value="DeflectProjectiles"/>
+        <item index="48" value="IgnoreClouds"/>
+        <item index="49" value="MadnessImmunity"/>
+        <item index="50" value="ChickenImmunity"/>
+        <item index="51" value="IgnoreCursedOil"/>
+        <item index="52" value="ShockedImmunity"/>
+        <item index="53" value="WebImmunity"/>
+        <item index="54" value="LootableWhenEquipped"/>
+        <item index="55" value="PickpocketableWhenEquipped"/>
+        <item index="56" value="LoseDurabilityOnCharacterHit"/>
+        <item index="57" value="EntangledContact"/>
+        <item index="58" value="ShacklesOfPainImmunity"/>
+        <item index="59" value="ThrownImmunity"/>
+      </items>
+    </enumeration>
+	<!-- AttributeFlags completely repeats AttributeFlag enumeration: 
+		game expects AttributeFlags, otherwise upon compiling StatObjectDefinition.sod Glasses crashes --> 
+    <enumeration name="AttributeFlags">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="FreezeImmunity"/>
+        <item index="2" value="BurnImmunity"/>
+        <item index="3" value="StunImmunity"/>
+        <item index="4" value="PoisonImmunity"/>
+        <item index="5" value="CharmImmunity"/>
+        <item index="6" value="FearImmunity"/>
+        <item index="7" value="KnockdownImmunity"/>
+        <item index="8" value="MuteImmunity"/>
+        <item index="9" value="ChilledImmunity"/>
+        <item index="10" value="WarmImmunity"/>
+        <item index="11" value="WetImmunity"/>
+        <item index="12" value="BleedingImmunity"/>
+        <item index="13" value="CrippledImmunity"/>
+        <item index="14" value="BlindImmunity"/>
+        <item index="15" value="CursedImmunity"/>
+        <item index="16" value="WeakImmunity"/>
+        <item index="17" value="SlowedImmunity"/>
+        <item index="18" value="DiseasedImmunity"/>
+        <item index="19" value="InfectiousDiseasedImmunity"/>
+        <item index="20" value="PetrifiedImmunity"/>
+        <item index="21" value="DrunkImmunity"/>
+        <item index="22" value="SlippingImmunity"/>
+        <item index="23" value="FreezeContact"/>
+        <item index="24" value="BurnContact"/>
+        <item index="25" value="StunContact"/>
+        <item index="26" value="PoisonContact"/>
+        <item index="27" value="ChillContact"/>
+        <item index="28" value="Torch"/>
+        <item index="29" value="Arrow"/>
+        <item index="30" value="Unbreakable"/>
+        <item index="31" value="Unrepairable"/>
+        <item index="32" value="Unstorable"/>
+        <item index="33" value="Grounded"/>
+        <item index="34" value="HastedImmunity"/>
+        <item index="35" value="TauntedImmunity"/>
+        <item index="36" value="SleepingImmunity"/>
+        <item index="37" value="AcidImmunity"/>
+        <item index="38" value="SuffocatingImmunity"/>
+        <item index="39" value="RegeneratingImmunity"/>
+        <item index="40" value="DisarmedImmunity"/>
+        <item index="41" value="DecayingImmunity"/>
+        <item index="42" value="ClairvoyantImmunity"/>
+        <item index="43" value="EnragedImmunity"/>
+        <item index="44" value="BlessedImmunity"/>
+        <item index="45" value="ProtectFromSummon"/>
+        <item index="46" value="Floating"/>
+        <item index="47" value="DeflectProjectiles"/>
+        <item index="48" value="IgnoreClouds"/>
+        <item index="49" value="MadnessImmunity"/>
+        <item index="50" value="ChickenImmunity"/>
+        <item index="51" value="IgnoreCursedOil"/>
+        <item index="52" value="ShockedImmunity"/>
+        <item index="53" value="WebImmunity"/>
+        <item index="54" value="LootableWhenEquipped"/>
+        <item index="55" value="PickpocketableWhenEquipped"/>
+        <item index="56" value="LoseDurabilityOnCharacterHit"/>
+        <item index="57" value="EntangledContact"/>
+        <item index="58" value="ShacklesOfPainImmunity"/>
+        <item index="59" value="ThrownImmunity"/>
+        <item index="60" value="InvisibilityImmunity"/>
+      </items>
+    </enumeration>
+    <enumeration name="ArmorType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Cloth"/>
+        <item index="2" value="Leather"/>
+        <item index="3" value="Mail"/>
+        <item index="4" value="Plate"/>
+        <item index="5" value="Robe"/>
+      </items>
+    </enumeration>
+    <enumeration name="Ability">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="WarriorLore"/>
+        <item index="2" value="RangerLore"/>
+        <item index="3" value="RogueLore"/>
+        <item index="4" value="SingleHanded"/>
+        <item index="5" value="TwoHanded"/>
+        <item index="6" value="Reflection"/>
+        <item index="7" value="Ranged"/>
+        <item index="8" value="Shield"/>
+        <item index="9" value="Reflexes"/>
+        <item index="10" value="PhysicalArmorMastery"/>
+        <item index="11" value="Sourcery"/>
+        <item index="12" value="Telekinesis"/>
+        <item index="13" value="FireSpecialist"/>
+        <item index="14" value="WaterSpecialist"/>
+        <item index="15" value="AirSpecialist"/>
+        <item index="16" value="EarthSpecialist"/>
+        <item index="17" value="Necromancy"/>
+        <item index="18" value="Summoning"/>
+        <item index="19" value="Polymorph"/>
+        <item index="20" value="Repair"/>
+        <item index="21" value="Sneaking"/>
+        <item index="22" value="Pickpocket"/>
+        <item index="23" value="Thievery"/>
+        <item index="24" value="Loremaster"/>
+        <item index="25" value="Crafting"/>
+        <item index="26" value="Barter"/>
+        <item index="27" value="Charm"/>
+        <item index="28" value="Intimidate"/>
+        <item index="29" value="Reason"/>
+        <item index="30" value="Persuasion"/>
+        <item index="31" value="Leadership"/>
+        <item index="32" value="Luck"/>
+        <item index="33" value="DualWielding"/>
+        <item index="34" value="Wand"/>
+        <item index="35" value="MagicArmorMastery"/>
+        <item index="36" value="VitalityMastery"/>
+        <item index="37" value="Perseverance"/>
+        <item index="38" value="Runecrafting"/>
+        <item index="39" value="Brewmaster"/>
+      </items>
+    </enumeration>
+    <enumeration name="IngredientType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Object"/>
+        <item index="2" value="Category"/>
+        <item index="3" value="Property"/>
+      </items>
+    </enumeration>
+    <enumeration name="ActPart">
+      <items>
+        <item index="0" value="0"/>
+        <item index="1" value="1"/>
+        <item index="2" value="2"/>
+        <item index="3" value="3"/>
+        <item index="4" value="4"/>
+        <item index="5" value="5"/>
+        <item index="6" value="6"/>
+        <item index="7" value="7"/>
+        <item index="8" value="8"/>
+        <item index="9" value="9"/>
+        <item index="10" value="10"/>
+        <item index="11" value="11"/>
+        <item index="12" value="12"/>
+        <item index="13" value="13"/>
+        <item index="14" value="14"/>
+        <item index="15" value="15"/>
+        <item index="16" value="16"/>
+        <item index="17" value="17"/>
+        <item index="18" value="18"/>
+        <item index="19" value="19"/>
+        <item index="20" value="20"/>
+        <item index="21" value="21"/>
+        <item index="22" value="22"/>
+        <item index="23" value="23"/>
+        <item index="24" value="24"/>
+        <item index="25" value="25"/>
+        <item index="26" value="26"/>
+        <item index="27" value="27"/>
+        <item index="28" value="28"/>
+        <item index="29" value="29"/>
+        <item index="30" value="30"/>
+      </items>
+    </enumeration>
+    <enumeration name="PreciseQualifier">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="0"/>
+        <item index="2" value="0.1"/>
+        <item index="3" value="0.2"/>
+        <item index="4" value="0.3"/>
+        <item index="5" value="0.4"/>
+        <item index="6" value="0.5"/>
+        <item index="7" value="0.6"/>
+        <item index="8" value="0.7"/>
+        <item index="9" value="0.8"/>
+        <item index="10" value="0.9"/>
+        <item index="11" value="1"/>
+        <item index="12" value="1.1"/>
+        <item index="13" value="1.2"/>
+        <item index="14" value="1.3"/>
+        <item index="15" value="1.4"/>
+        <item index="16" value="1.5"/>
+        <item index="17" value="1.6"/>
+        <item index="18" value="1.7"/>
+        <item index="19" value="1.8"/>
+        <item index="20" value="1.9"/>
+        <item index="21" value="2"/>
+        <item index="22" value="2.1"/>
+        <item index="23" value="2.2"/>
+        <item index="24" value="2.3"/>
+        <item index="25" value="2.4"/>
+        <item index="26" value="2.5"/>
+        <item index="27" value="2.6"/>
+        <item index="28" value="2.7"/>
+        <item index="29" value="2.8"/>
+        <item index="30" value="2.9"/>
+        <item index="31" value="3"/>
+        <item index="32" value="3.1"/>
+        <item index="33" value="3.2"/>
+        <item index="34" value="3.3"/>
+        <item index="35" value="3.4"/>
+        <item index="36" value="3.5"/>
+        <item index="37" value="3.6"/>
+        <item index="38" value="3.7"/>
+        <item index="39" value="3.8"/>
+        <item index="40" value="3.9"/>
+        <item index="41" value="4"/>
+        <item index="42" value="4.1"/>
+        <item index="43" value="4.2"/>
+        <item index="44" value="4.3"/>
+        <item index="45" value="4.4"/>
+        <item index="46" value="4.5"/>
+        <item index="47" value="4.6"/>
+        <item index="48" value="4.7"/>
+        <item index="49" value="4.8"/>
+        <item index="50" value="4.9"/>
+        <item index="51" value="5"/>
+        <item index="52" value="5.1"/>
+        <item index="53" value="5.2"/>
+        <item index="54" value="5.3"/>
+        <item index="55" value="5.4"/>
+        <item index="56" value="5.5"/>
+        <item index="57" value="5.6"/>
+        <item index="58" value="5.7"/>
+        <item index="59" value="5.8"/>
+        <item index="60" value="5.9"/>
+        <item index="61" value="6"/>
+        <item index="62" value="6.1"/>
+        <item index="63" value="6.2"/>
+        <item index="64" value="6.3"/>
+        <item index="65" value="6.4"/>
+        <item index="66" value="6.5"/>
+        <item index="67" value="6.6"/>
+        <item index="68" value="6.7"/>
+        <item index="69" value="6.8"/>
+        <item index="70" value="6.9"/>
+        <item index="71" value="7"/>
+        <item index="72" value="7.1"/>
+        <item index="73" value="7.2"/>
+        <item index="74" value="7.3"/>
+        <item index="75" value="7.4"/>
+        <item index="76" value="7.5"/>
+        <item index="77" value="7.6"/>
+        <item index="78" value="7.7"/>
+        <item index="79" value="7.8"/>
+        <item index="80" value="7.9"/>
+        <item index="81" value="8"/>
+        <item index="82" value="8.1"/>
+        <item index="83" value="8.2"/>
+        <item index="84" value="8.3"/>
+        <item index="85" value="8.4"/>
+        <item index="86" value="8.5"/>
+        <item index="87" value="8.6"/>
+        <item index="88" value="8.7"/>
+        <item index="89" value="8.8"/>
+        <item index="90" value="8.9"/>
+        <item index="91" value="9"/>
+        <item index="92" value="9.1"/>
+        <item index="93" value="9.2"/>
+        <item index="94" value="9.3"/>
+        <item index="95" value="9.4"/>
+        <item index="96" value="9.5"/>
+        <item index="97" value="9.6"/>
+        <item index="98" value="9.7"/>
+        <item index="99" value="9.8"/>
+        <item index="100" value="9.9"/>
+        <item index="101" value="10"/>
+      </items>
+    </enumeration>
+    <enumeration name="RecipeCategory">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Weapons"/>
+        <item index="2" value="Potions"/>
+        <item index="3" value="Grenades"/>
+        <item index="4" value="Arrows"/>
+        <item index="5" value="Armour"/>
+        <item index="6" value="Food"/>
+        <item index="7" value="Objects"/>
+        <item index="8" value="Runes"/>
+        <item index="9" value="Grimoire"/>
+      </items>
+    </enumeration>
+    <enumeration name="Game Action">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Douse"/>
+        <item index="2" value="CreateSurface"/>
+        <item index="3" value="TargetCreateSurface"/>
+        <item index="4" value="CreateConeSurface"/>
+        <item index="5" value="Pickup"/>
+        <item index="6" value="SwapPlaces"/>
+        <item index="7" value="Equalize"/>
+      </items>
+    </enumeration>
+    <enumeration name="CraftingStationType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Anvil"/>
+        <item index="2" value="Oven"/>
+        <item index="3" value="Wetstone"/>
+        <item index="4" value="Well"/>
+        <item index="5" value="BoilingPot"/>
+        <item index="6" value="Beehive"/>
+        <item index="7" value="SpinningWheel"/>
+        <item index="8" value="Cauldron"/>
+        <item index="9" value="Misc1"/>
+        <item index="10" value="Misc2"/>
+        <item index="11" value="Misc3"/>
+        <item index="12" value="Misc4"/>
+      </items>
+    </enumeration>
+    <enumeration name="AIFlags">
+      <items>
+        <item index="0" value="CanNotUse"/>
+        <item index="1" value="IgnoreSelf"/>
+        <item index="2" value="IgnoreDebuff"/>
+        <item index="3" value="IgnoreBuff"/>
+        <item index="4" value="StatusIsSecondary"/>
+        <item index="5" value="IgnoreControl"/>
+        <item index="6" value="CanNotTargetFrozen"/>
+      </items>
+    </enumeration>
+    <enumeration name="Penalty Qualifier">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="-10"/>
+        <item index="2" value="-9"/>
+        <item index="3" value="-8"/>
+        <item index="4" value="-7"/>
+        <item index="5" value="-6"/>
+        <item index="6" value="-5"/>
+        <item index="7" value="-4"/>
+        <item index="8" value="-3"/>
+        <item index="9" value="-2"/>
+        <item index="10" value="-1"/>
+        <item index="11" value="0"/>
+        <item index="12" value="1"/>
+        <item index="13" value="2"/>
+        <item index="14" value="3"/>
+        <item index="15" value="4"/>
+        <item index="16" value="5"/>
+        <item index="17" value="6"/>
+        <item index="18" value="7"/>
+        <item index="19" value="8"/>
+        <item index="20" value="9"/>
+        <item index="21" value="10"/>
+		<item index="111" value="100"/>
+      </items>
+    </enumeration>
+    <enumeration name="ModifierType">
+      <items>
+        <item index="0" value="Item"/>
+        <item index="1" value="Charm"/>
+        <item index="2" value="Boost"/>
+        <item index="3" value="Skill"/>
+        <item index="4" value="Crystal"/>
+        <item index="5" value="Food"/>
+      </items>
+    </enumeration>
+    <enumeration name="StatusHealType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Vitality"/>
+        <item index="2" value="PhysicalArmor"/>
+        <item index="3" value="MagicArmor"/>
+        <item index="4" value="AllArmor"/>
+        <item index="5" value="All"/>
+        <item index="6" value="Source"/>
+      </items>
+    </enumeration>
+    <enumeration name="CastCheckType">
+      <items>
+        <item index="0" value="None"/>
+        <item index="1" value="Distance"/>
+        <item index="2" value="DamageType"/>
+        <item index="3" value="TargetSurfaceType"/>
+      </items>
+    </enumeration>
+  </enumerations>
+</root>

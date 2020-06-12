@@ -29,12 +29,9 @@ S7_DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
-    ["ExportStatIDtoTSV"] = {
-        ["FileName"] = "S7_Config_AllTheStats.tsv", --  FileName for ExportedStats. Configurable for configuration sake.
-        ["RestrictStatTypeTo"] = {} --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
-    },
+    ["ExportStatIDtoTSV"] = {["FileName"] = "S7_Config_AllTheStats.tsv", ["RestrictStatTypeTo"] = {}}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
-    ["ConfigLog"] = true --  The mod logs to an external file S7_ConfigLog.txt if true.
+    ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"} --  The mod logs to an external file if true.
 }
 
 S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
@@ -121,14 +118,15 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
 
     printFunction(log) --  prints log to Extender's Debug Console
 
-    if S7_ConfigSettings.ConfigLog == true then
+    if S7_ConfigSettings.ConfigLog.Enable == true then
         local logHistory = "" --  Initialize the log-History.
-        if Ext.LoadFile("S7_ConfigLog.txt") == nil then --  if the file does not exist
-            Ext.SaveFile("S7_ConfigLog.txt", "State\tLogType\tLog\tAssociated DialogVariable\tDialogValue\n") --  Save file with header column
+        if Ext.LoadFile(S7_ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
+            Ext.SaveFile(S7_ConfigSettings.ConfigLog.FileName, "State\tLogType\tLog\tDialogVariable\tDialogValue\n") --  Save file with header column
         end
-        logHistory = Ext.LoadFile("S7_ConfigLog.txt") --  If file exists - load all data into logHistory
-        logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog -- The compiled log history.
-        Ext.SaveFile("S7_ConfigLog.txt", logHistory) --  SaveLog in a txt file.
+        logHistory = Ext.LoadFile(S7_ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logHistory
+        logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog
+        -- The compiled log history.
+        Ext.SaveFile(S7_ConfigSettings.ConfigLog.FileName, logHistory) --  SaveLog in a file.
     end
 end
 
@@ -188,7 +186,7 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
     else
         toSetDialogVar["BypassSafetyCheck"] = "Deactivated."
     end
-    if S7_ConfigSettings.ConfigLog == true then
+    if S7_ConfigSettings.ConfigLog.Enable == true then
         toSetDialogVar["S7_ConfigLog"] = "Activated."
     else
         toSetDialogVar["S7_ConfigLog"] = "Deactivated."

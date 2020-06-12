@@ -1,8 +1,8 @@
 --  ###################################################################################################################################################
 --                                                                      STATS CONFIG AND SYNC
 --  ===================================================================================================================================================
-logSource = "Lua:S7_StatsConfigurator"
 Ext.Require("S7_ConfigAuxiliary.lua")
+logSource = "Lua:S7_StatsConfigurator"
 --  ###################################################################################################################################################
 
 --  ##################
@@ -30,6 +30,8 @@ function S7_StatsConfigurator()
                             if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
                                 S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                                 stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
+                            else
+                                S7_ConfigLog(key .. " is not a valid attribute for " .. name)
                             end
                         end
                     else
@@ -49,13 +51,13 @@ end
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = --  dont mess with these keys
-        "AoEConditions, TargetConditions, ForkingConditions, CycleConditions, SkillProperties, WinBoost, LoseBoost"
+        "AoEConditions, TargetConditions, ForkingConditions, CycleConditions, SkillProperties, WinBoost, LoseBoost, RootTemplate"
 
     if S7_ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
         return true --  S7_SafeToModify() returns true for everything.
     else -- Default Setting
         if string.match(dontFwith, key) then --  If key matches.
-            S7_ConfigLog(key .. ": Modification Prevented by S7_SafeToModify()", "[Warning]")
+            S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
             return false --  Stop it right there.
         else
             return true --  else continue.
@@ -90,15 +92,15 @@ end
 --  =================
 
 function S7_BuildConfigData(modID, buildData) --  Rebuilds/updates ConfigData file.
-    local configData = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) -- gets existing ConfigData
     local configTable = {}
-    if configData ~= nil then --  if ConfigData already existed
-        configTable = Ext.JsonParse(configData) --  Parse into table
-        configTable[modID] = buildData --  Update ConfigData
-        Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
+    local file = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName)
+    if file ~= nil and file ~= "" then
+        configTable = Ext.JsonParse(file) -- gets existing ConfigData
     else
         Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
     end
+    configTable[modID] = buildData --  Update ConfigData
+    Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
 end
 
 --  ####################################################################################################################################################
