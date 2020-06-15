@@ -2,6 +2,12 @@
 
 ----------
 
+## [0.6.0.0] --- 15th June 2020 --- **_Interfacing_**
+
+### NEW
+
+* _Added_ dialog option to print **registered Mods**.
+
 ## [0.5.6.0] --- 12th June 2020 --- **_Still Fixing Stuff_**
 
 ### NEW

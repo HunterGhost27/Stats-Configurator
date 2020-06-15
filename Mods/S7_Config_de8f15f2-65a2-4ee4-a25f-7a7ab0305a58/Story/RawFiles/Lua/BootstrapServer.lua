@@ -161,6 +161,30 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
     end
 
+    --  MOD-REGISTRY
+    --  ============
+
+    if Signal == "S7_PrintModRegistry" then
+        local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
+        S7_ConfigLog("Mods registered to Stats-Configurator")
+        S7_ConfigLog("======================================================")
+        local registeredMods = ""
+        for i, entry in ipairs(registry) do
+            local registeredModInfo = {
+                ["Name"] = "Unspecified",
+                ["Author"] = "Unspecified"
+            }
+            if entry[2] ~= nil then
+                registeredModInfo = Ext.GetModInfo(entry[2])
+            end
+            registeredMods =
+                registeredMods ..
+                "[" .. i .. "]" .. " - " .. registeredModInfo.Name .. " by " .. registeredModInfo.Author .. "\n"
+        end
+        S7_ConfigLog(registeredMods, nil, "RegisteredMods")
+        S7_ConfigLog("======================================================")
+    end
+
     --  TOGGLE LOG
     --  ==========
 
@@ -196,5 +220,35 @@ end
 --  ===========================================================================
 Ext.RegisterNetListener("S7_ValidateClientResponse", S7_ValidateClientResponse)
 --  ===========================================================================
+
+-- function S7_CS_BuildModData(modName)
+--     local database = Osi.DB_S7_Config_ModInterface:Get(modName, nil, nil, nil)
+--     local statList = {}
+--     local attributeList = {}
+--     for i, entry in ipairs(database) do
+--         statList[entry[2]] = 1
+--         attributeList[entry[3]] = 1
+--     end
+--     local statConfigData = {}
+--     local attributeConfigData = {}
+--     for skillName, i in pairs(statList) do
+--         for attributeName, j in pairs(attributeList) do
+--             local fetch = nil
+--             local fetchData = Osi.DB_S7_Config_ModInterface:Get(modName, skillName, attributeName, nil)
+--             if fetchData ~= nil then
+--                 for k, fetchVal in ipairs(fetchData) do
+--                     fetch = fetchVal[4]
+--                 end
+--             end
+--             attributeConfigData[attributeName] = fetch or Ext.StatGetAttribute(skillName, attributeName)
+--         end
+--         statConfigData[skillName] = S7_Rematerialize(attributeConfigData)
+--     end
+--     table.insert(toConfigure, {[modName] = Ext.JsonStringify(statConfigData)})
+--     S7_StatsConfigurator()
+--     S7_StatsSynchronize()
+--     toConfigure = {}
+--     S7_BuildConfigData(modName, Ext.JsonStringify(statConfigData))
+-- end
 
 --  ################################################################################################################################

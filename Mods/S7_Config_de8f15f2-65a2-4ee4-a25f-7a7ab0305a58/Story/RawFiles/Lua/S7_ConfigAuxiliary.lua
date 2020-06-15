@@ -160,6 +160,7 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
         ["ModAddedTo"] = "S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6",
         ["ModID"] = "S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa",
         ["ValidateClientConfig"] = "S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698",
+        ["RegisteredMods"] = "S7_RegisteredMods_4ff2880e-6a62-4ed3-9f6f-28eaa30165b1",
         ["S7_ConfigLog"] = "S7_ConfigLog_f7d055c6-0d9c-44e8-9959-21046cc33cb5",
         ["ConfigData"] = "S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8",
         ["ConfigFile"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"

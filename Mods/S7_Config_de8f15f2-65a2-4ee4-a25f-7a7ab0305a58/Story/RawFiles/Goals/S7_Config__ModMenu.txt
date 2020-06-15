@@ -11,6 +11,7 @@ INITSECTION
     DB_S7_Config_ModMenu("S7_BuildConfigData");
     DB_S7_Config_ModMenu("S7_ToggleConfigLog");
     DB_S7_Config_ModMenu("S7_RefreshSettings");
+    DB_S7_Config_ModMenu("S7_PrintModRegistry");
     DB_S7_Config_ModMenu("S7_StatsSynchronize");
     DB_S7_Config_ModMenu("S7_Config_CHANGELOG");
     DB_S7_Config_ModMenu("S7_StatsConfigurator");
