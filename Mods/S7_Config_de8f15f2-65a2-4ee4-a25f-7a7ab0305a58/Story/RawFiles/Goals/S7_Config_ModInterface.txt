@@ -10,16 +10,33 @@ INITSECTION
     DB_S7_Config_ModRegistry("S7_Config",           "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58",     "S7_Config_StatConfig");
 //  ====================================================================================================================
 
-//  ========================================================
+//  =========================================================
 //  DB_S7_Config_QuickMenuRelay((STRING)_Signal);
     DB_S7_Config_QuickMenuRelay("S7_Config_MoveToNextLevel");
-//  ========================================================
-
-DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints", 5);
-DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock", "Cooldown", 5);
-DB_S7_Config_ModInterface("S7_Config", "Shout_InspireStart", "Memory Cost", 4);
+//  =========================================================
 
 KBSECTION
+
+IF      GameStarted(_, _)
+THEN    Proc_S7_GameStartedYouFool();
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_StatConfig")
+THEN    DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_StatConfig");
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock", "Cooldown", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock", "Cooldown", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Shout_InspireStart", "Memory Cost", 4)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Shout_InspireStart", "Memory Cost", 4);
+
+
 //  ===================
 //      QUICK-MENU
 //  ===================

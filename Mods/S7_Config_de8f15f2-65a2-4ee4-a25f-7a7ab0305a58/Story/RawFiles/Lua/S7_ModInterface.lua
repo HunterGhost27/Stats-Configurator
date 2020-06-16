@@ -1,3 +1,9 @@
+--  ###################################################################################################################################################
+--                                                                      MOD INTERFACE
+--  ===================================================================================================================================================
+logSource = "Lua:S7_ModInterface"
+--  ###################################################################################################################################################
+
 local level = 1
 
 function S7_Config_QuickMenuRelay(signal)
@@ -25,28 +31,29 @@ end
 Ext.NewCall(S7_Config_QuickMenuRelay, "S7_Config_QuickMenuRelay", "(STRING)_SIGNAL")
 --  ================================================================================
 
-function S7_UpdateDynamicMenu(...)
-    local args = {...}
-    local level, modName = args[1], args[2]
-
+function S7_UpdateDynamicMenu(level, modName)
     local tempList, stageList = {}, {}
     local database = Osi.DB_S7_Config_ModInterface:Get(modName, nil, nil, nil)
     for i, entry in ipairs(database) do
         if level == 1 then
-            tempList[entry[2]] = 1
+            if tempList[entry[2]] == nil then
+                tempList[entry[2]] = i
+            end
         elseif level == 2 then
-            tempList[entry[3]] = 1
+            if tempList[entry[3]] == nil then
+                tempList[entry[3]] = i
+            end
         elseif level == 3 then
-            stageList = {
-                "Increase",
-                "Decrease",
-                "Set",
-                "Clear"
+            tempList = {
+                ["Increase"] = 1,
+                ["Decrease"] = 2,
+                ["Set"] = 3,
+                ["Clear"] = 4
             }
         end
     end
-    for entry, x in pairs(tempList) do
-        table.insert(stageList, entry)
+    for entry, pos in pairs(tempList) do
+        stageList[pos] = entry
     end
 
     local quickMenuDialogCase = {
@@ -58,9 +65,9 @@ function S7_UpdateDynamicMenu(...)
     }
 
     for i, case in ipairs(quickMenuDialogCase) do
-        for j, actor in ipairs(stageList) do
-            if i == j then
-                Osi.DialogSetVariableFixedString("S7_Config_QuickMenu", case, actor)
+        for pos, entry in ipairs(stageList) do
+            if i == pos then
+                Osi.DialogSetVariableFixedString("S7_Config_QuickMenu", case, entry)
                 Osi.GlobalSetFlag("S7_Config_AvailableOpt" .. i)
             else
                 Osi.GlobalClearFlag("S7_ConfigAvailableOpt" .. i)
