@@ -7,6 +7,8 @@
 ### NEW
 
 * _Added_ dialog option to print **registered Mods**.
+* _Added_ a flag `S7_ConfigActive` to notify that the mod is active.
+* _Created_ prototype dynamic MCM for dependancy free, quick-setup mod-integrations.
 
 ## [0.5.6.0] --- 12th June 2020 --- **_Still Fixing Stuff_**
 

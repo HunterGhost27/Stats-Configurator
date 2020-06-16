@@ -1,0 +1,49 @@
+Version 1
+SubGoalCombiner SGC_AND
+INITSECTION
+//  ====================================================================================================================================
+//  |                                                           MOD-INTERFACE                                                          |
+//  ====================================================================================================================================
+
+//  ====================================================================================================================
+//  DB_S7_Config_ModRegistry((STRING)_ModName,      (STRING)_ProjectUUID,                            (STRING)_FlagName);
+    DB_S7_Config_ModRegistry("S7_Config",           "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58",     "S7_Config_StatConfig");
+//  ====================================================================================================================
+
+//  ========================================================
+//  DB_S7_Config_QuickMenuRelay((STRING)_Signal);
+    DB_S7_Config_QuickMenuRelay("S7_Config_MoveToNextLevel");
+//  ========================================================
+
+DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints", 5);
+DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock", "Cooldown", 5);
+DB_S7_Config_ModInterface("S7_Config", "Shout_InspireStart", "Memory Cost", 4);
+
+KBSECTION
+//  ===================
+//      QUICK-MENU
+//  ===================
+
+IF
+GlobalFlagSet(_Signal)
+AND
+DB_S7_Config_QuickMenuRelay(_Signal)
+THEN
+S7_Config_QuickMenuRelay(_Signal);
+GlobalClearFlag(_Signal);
+
+//  =====================================================================
+
+IF
+CharacterUsedSkill(_Character, "Shout_InspireStart", _, _)
+AND
+CharacterGetHostCharacter(_Character)
+AND
+DB_IsPlayer(_Character)
+THEN
+S7_Config_QuickMenuRelay("S7_Config_StatConfig");
+
+EXITSECTION
+
+ENDEXITSECTION
+ParentTargetEdge "S7__Config_Initializer"

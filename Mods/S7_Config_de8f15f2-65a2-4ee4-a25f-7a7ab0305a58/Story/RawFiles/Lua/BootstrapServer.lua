@@ -3,6 +3,7 @@
 --  =================================================================================================================================
 Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_StatsConfigurator.lua")
+Ext.Require("S7_ModInterface.lua")
 logSource = "Lua:BootstrapServer"
 --  #################################################################################################################################
 
@@ -159,6 +160,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ===========
     if Signal == "S7_Config_CHANGELOG" then
         Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
+        Osi.GlobalSetFlag("S7_Config_StatConfig")
     end
 
     --  MOD-REGISTRY

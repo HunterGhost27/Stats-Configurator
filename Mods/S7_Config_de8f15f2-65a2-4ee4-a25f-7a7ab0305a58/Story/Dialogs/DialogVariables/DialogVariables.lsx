@@ -56,6 +56,41 @@
                 </node>
                 <node id="DialogVariable">
                     <attribute id="DefaultValue" value="" type="23" />
+                    <attribute id="Description" value="" type="23" />
+                    <attribute id="UUID" value="8523d721-fae5-4f64-81ee-749130f1c4eb" type="31" />
+                    <attribute id="name" value="S7_Config_Opt1" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="" type="23" />
+                    <attribute id="Description" value="" type="23" />
+                    <attribute id="UUID" value="aa949336-d705-4a20-b8ff-564b381583f6" type="31" />
+                    <attribute id="name" value="S7_Config_Opt2" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="" type="23" />
+                    <attribute id="Description" value="" type="23" />
+                    <attribute id="UUID" value="1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08" type="31" />
+                    <attribute id="name" value="S7_Config_Opt3" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="" type="23" />
+                    <attribute id="Description" value="" type="23" />
+                    <attribute id="UUID" value="d07ece22-c225-4d76-b6e3-e94498ade0ba" type="31" />
+                    <attribute id="name" value="S7_Config_Opt4" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="" type="23" />
+                    <attribute id="Description" value="" type="23" />
+                    <attribute id="UUID" value="19d98a3a-b117-4df4-b95d-9f937568ee35" type="31" />
+                    <attribute id="name" value="S7_Config_Opt5" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="Custom or Default settings in use." type="23" />
                     <attribute id="UUID" value="c02bc213-de0d-4f0f-b501-7b8913d146a6" type="31" />
                     <attribute id="name" value="S7_Config_Settings" type="22" />
