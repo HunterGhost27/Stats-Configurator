@@ -4,46 +4,81 @@
 logSource = "Lua:S7_ModInterface"
 --  ###################################################################################################################################################
 
-local level = 1
+function S7_RefreshQuickMenuVars()
+    quickMenuVars = {
+        ["level"] = 1,
+        ["modName"] = "",
+        ["modUUID"] = "",
+        ["database"] = {},
+        ["stageList"] = {},
+        ["selectedStat"] = "",
+        ["selectedAttribute"] = "",
+        ["selectedAction"] = "",
+        ["selectedInt"] = 1,
+        ["inDialog"] = false
+    }
+    S7_ConfigLog("Dynamic Quick-Menu Refreshed.")
+end
+
+S7_RefreshQuickMenuVars()
 
 function S7_Config_QuickMenuRelay(signal)
-    if signal == "S7_Config_MoveToNextLevel" then
-        if level < 3 then
-            level = level + 1
-            S7_UpdateDynamicMenu(level, modName)
-        end
-    else
+    S7_ConfigLog("Dynamic Quick-Menu: " .. signal .. "[inDialog: " .. tostring(quickMenuVars.inDialog) .. "]")
+    if quickMenuVars.inDialog ~= true then
         local modRegistry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, signal)
         if modRegistry ~= nil then
-            local modName = ""
-            for i, entry in ipairs(modRegistry) do
-                modName = entry[1]
-            end
-            level = 1
+            quickMenuVars.level = 1
+            quickMenuVars.modName = modRegistry[1][1]
+            quickMenuVars.modUUID = modRegistry[1][2]
+            quickMenuVars.database = Osi.DB_S7_Config_ModInterface:Get(quickMenuVars.modName, nil, nil, nil)
+            S7_ConfigLog("Start " .. quickMenuVars.modName .. " Dialog.")
             local character = Osi.CharacterGetHostCharacter()
-            S7_UpdateDynamicMenu(level, modName)
             Osi.Proc_StartDialog(1, "S7_Config_QuickMenu", character)
+            quickMenuVars.inDialog = true
+        end
+    else
+        local switchCase = {
+            "S7_Config_SetOpt1",
+            "S7_Config_SetOpt2",
+            "S7_Config_SetOpt3",
+            "S7_Config_SetOpt4",
+            "S7_Config_SetOpt5"
+        }
+        for i, switch in ipairs(switchCase) do
+            if signal == switch then
+                S7_DynamicAction(i, switch)
+            end
+        end
+
+        if signal == "S7_Config_MoveToNextLevel" then
+            if quickMenuVars.level < 3 then
+                quickMenuVars.level = quickMenuVars.level + 1
+            end
+        end
+
+        if signal == "S7_Config_ExitCleanUp" then
+            S7_RefreshQuickMenuVars()
         end
     end
+    S7_UpdateDynamicMenu()
 end
 
 --  ================================================================================
 Ext.NewCall(S7_Config_QuickMenuRelay, "S7_Config_QuickMenuRelay", "(STRING)_SIGNAL")
 --  ================================================================================
 
-function S7_UpdateDynamicMenu(level, modName)
-    local tempList, stageList = {}, {}
-    local database = Osi.DB_S7_Config_ModInterface:Get(modName, nil, nil, nil)
-    for i, entry in ipairs(database) do
-        if level == 1 then
+function S7_BuildStagedList()
+    local tempList = {}
+    for i, entry in ipairs(quickMenuVars.database) do
+        if quickMenuVars.level == 1 then
             if tempList[entry[2]] == nil then
                 tempList[entry[2]] = i
             end
-        elseif level == 2 then
+        elseif quickMenuVars.level == 2 then
             if tempList[entry[3]] == nil then
                 tempList[entry[3]] = i
             end
-        elseif level == 3 then
+        elseif quickMenuVars.level == 3 then
             tempList = {
                 ["Increase"] = 1,
                 ["Decrease"] = 2,
@@ -53,9 +88,41 @@ function S7_UpdateDynamicMenu(level, modName)
         end
     end
     for entry, pos in pairs(tempList) do
-        stageList[pos] = entry
+        quickMenuVars.stageList[pos] = entry
+    end
+end
+
+function S7_DynamicAction(i, switch)
+    S7_BuildStagedList()
+    quickMenuVars.selectedInt = Ext.StatGetAttribute(quickMenuVars.selectedStat, quickMenuVars.selectedAttribute)
+    if quickMenuVars.level == 1 then
+        quickMenuVars.selectedStat = quickMenuVars.stageList[i]
+    elseif quickMenuVars.level == 2 then
+        quickMenuVars.selectedAttribute = quickMenuVars.stageList[i]
+    elseif quickMenuVars.level == 3 then
+        quickMenuVars.selectedAction = quickMenuVars.stageList[i]
     end
 
+    if quickMenuVars.selectedAction == "Increase" then
+        quickMenuVars.selectedInt = quickMenuVars.selectedInt + 1
+    elseif quickMenuVars.selectedAction == "Decrease" then
+        quickMenuVars.selectedInt = quickMenuVars.selectedInt - 1
+    elseif quickMenuVars.selectedAction == "Set" then
+        local SendConfig = {
+            [quickMenuVars.selectedStat] = {[quickMenuVars.selectedAttribute] = quickMenuVars.selectedInt}
+        }
+        table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(SendConfig)})
+        S7_StatsConfigurator()
+        S7_StatsSynchronize()
+        toConfigure = {}
+        S7_BuildConfigData(quickMenuVars.modName, SendConfig)
+    elseif quickMenuVars.selectedAction == "Clear" then
+        quickMenuVars.selectedInt = Ext.StatGetAttribute(quickMenuVars.selectedStat, quickMenuVars.selectedAttribute)
+    end
+end
+
+function S7_UpdateDynamicMenu()
+    S7_BuildStagedList()
     local quickMenuDialogCase = {
         "S7_Config_Opt1_8523d721-fae5-4f64-81ee-749130f1c4eb",
         "S7_Config_Opt2_aa949336-d705-4a20-b8ff-564b381583f6",
@@ -65,7 +132,7 @@ function S7_UpdateDynamicMenu(level, modName)
     }
 
     for i, case in ipairs(quickMenuDialogCase) do
-        for pos, entry in ipairs(stageList) do
+        for pos, entry in ipairs(quickMenuVars.stageList) do
             if i == pos then
                 Osi.DialogSetVariableFixedString("S7_Config_QuickMenu", case, entry)
                 Osi.GlobalSetFlag("S7_Config_AvailableOpt" .. i)

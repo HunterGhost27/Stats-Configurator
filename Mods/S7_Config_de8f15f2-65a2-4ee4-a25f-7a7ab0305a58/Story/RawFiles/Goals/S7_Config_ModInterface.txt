@@ -13,6 +13,15 @@ INITSECTION
 //  =========================================================
 //  DB_S7_Config_QuickMenuRelay((STRING)_Signal);
     DB_S7_Config_QuickMenuRelay("S7_Config_MoveToNextLevel");
+    DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt1");
+    DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt2");
+    DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt3");
+    DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt4");
+    DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt5");
+    DB_S7_Config_QuickMenuRelay("S7_Config_NextPage");
+    DB_S7_Config_QuickMenuRelay("S7_Config_PrevPage");
+    DB_S7_Config_QuickMenuRelay("S7_Config_GoBack");
+    DB_S7_Config_QuickMenuRelay("S7_Config_ExitCleanUp");
 //  =========================================================
 
 KBSECTION
