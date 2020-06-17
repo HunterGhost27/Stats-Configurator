@@ -9,6 +9,7 @@
 * _Added_ dialog option to print **registered Mods**.
 * _Added_ a flag `S7_ConfigActive` to notify that the mod is active.
 * _Created_ prototype dynamic MCM for dependancy free, quick-setup mod-integrations.
+* QuickMenu accounts for multiple pages if there are more than 5 options.
 
 ## [0.5.6.0] --- 12th June 2020 --- **_Still Fixing Stuff_**
 

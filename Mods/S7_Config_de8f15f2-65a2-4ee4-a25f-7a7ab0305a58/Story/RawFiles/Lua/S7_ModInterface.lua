@@ -11,6 +11,8 @@ function S7_RefreshQuickMenuVars()
         ["modUUID"] = "",
         ["database"] = {},
         ["stageList"] = {},
+        ["page"] = 1,
+        ["maxPage"] = 1,
         ["selectedStat"] = "",
         ["selectedAttribute"] = "",
         ["selectedAction"] = "",
@@ -18,6 +20,10 @@ function S7_RefreshQuickMenuVars()
         ["inDialog"] = false
     }
     S7_ConfigLog("Dynamic Quick-Menu Refreshed.")
+end
+
+function S7_PrintAll()
+    Ext.Print(Ext.JsonStringify(quickMenuVars))
 end
 
 S7_RefreshQuickMenuVars()
@@ -53,6 +59,28 @@ function S7_Config_QuickMenuRelay(signal)
         if signal == "S7_Config_MoveToNextLevel" then
             if quickMenuVars.level < 3 then
                 quickMenuVars.level = quickMenuVars.level + 1
+                quickMenuVars.page = 1
+            end
+        end
+
+        if signal == "S7_Config_NextPage" then
+            if quickMenuVars.page < quickMenuVars.maxPage then
+                quickMenuVars.page = quickMenuVars.page + 1
+                Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
+            end
+        end
+
+        if signal == "S7_Config_PrevPage" then
+            if quickMenuVars.page > 1 then
+                quickMenuVars.page = quickMenuVars.page - 1
+                Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
+            end
+        end
+
+        if signal == "S7_Config_GoBack" then
+            if quickMenuVars.level > 1 then
+                quickMenuVars.level = quickMenuVars.level - 1
+                quickMenuVars.page = 1
             end
         end
 
@@ -61,6 +89,7 @@ function S7_Config_QuickMenuRelay(signal)
         end
     end
     S7_UpdateDynamicMenu()
+    S7_PrintAll()
 end
 
 --  ================================================================================
@@ -69,6 +98,10 @@ Ext.NewCall(S7_Config_QuickMenuRelay, "S7_Config_QuickMenuRelay", "(STRING)_SIGN
 
 function S7_BuildStagedList()
     local tempList = {}
+    for pos, entry in ipairs(quickMenuVars.stageList) do
+        quickMenuVars.stageList[pos] = nil
+    end
+
     for i, entry in ipairs(quickMenuVars.database) do
         if quickMenuVars.level == 1 then
             if tempList[entry[2]] == nil then
@@ -90,6 +123,12 @@ function S7_BuildStagedList()
     for entry, pos in pairs(tempList) do
         quickMenuVars.stageList[pos] = entry
     end
+
+    local count = 0
+    for pos, entry in ipairs(quickMenuVars.stageList) do
+        count = count + 1
+    end
+    quickMenuVars.maxPage = (math.floor(count / 5) + 1) or 0
 end
 
 function S7_DynamicAction(i, switch)
@@ -123,6 +162,18 @@ end
 
 function S7_UpdateDynamicMenu()
     S7_BuildStagedList()
+
+    if quickMenuVars.page == 1 and quickMenuVars.page ~= quickMenuVars.maxPage then
+        Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
+        Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
+    elseif quickMenuVars.page ~= 1 and quickMenuVars.page == quickMenuVars.maxPage then
+        Osi.GlobalClearFlag("S7_Config_NextPageAvailable")
+        Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
+    else
+        Osi.GlobalClearFlag("S7_Config_NextPageAvailable")
+        Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
+    end
+
     local quickMenuDialogCase = {
         "S7_Config_Opt1_8523d721-fae5-4f64-81ee-749130f1c4eb",
         "S7_Config_Opt2_aa949336-d705-4a20-b8ff-564b381583f6",
@@ -132,12 +183,17 @@ function S7_UpdateDynamicMenu()
     }
 
     for i, case in ipairs(quickMenuDialogCase) do
+        Osi.GlobalClearFlag("S7_Config_AvailableOpt" .. i)
         for pos, entry in ipairs(quickMenuVars.stageList) do
-            if i == pos then
-                Osi.DialogSetVariableFixedString("S7_Config_QuickMenu", case, entry)
-                Osi.GlobalSetFlag("S7_Config_AvailableOpt" .. i)
-            else
-                Osi.GlobalClearFlag("S7_ConfigAvailableOpt" .. i)
+            if (pos < (1 + 5 * quickMenuVars.page)) and (pos > (5 * (quickMenuVars.page - 1))) then
+                local relPos = pos % 5
+                if relPos == 0 then
+                    relPos = 5
+                end
+                if i == relPos then
+                    Osi.DialogSetVariableFixedString("S7_Config_QuickMenu", case, entry)
+                    Osi.GlobalSetFlag("S7_Config_AvailableOpt" .. i)
+                end
             end
         end
     end

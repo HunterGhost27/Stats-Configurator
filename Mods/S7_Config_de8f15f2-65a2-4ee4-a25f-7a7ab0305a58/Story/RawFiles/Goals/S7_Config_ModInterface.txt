@@ -34,12 +34,49 @@ AND NOT DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305
 THEN    DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_StatConfig");
 
 PROC    Proc_S7_GameStartedYouFool()
-AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints", 5)
-THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints", 5);
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints1", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_Fireball", "ActionPoints1", 5);
 
 PROC    Proc_S7_GameStartedYouFool()
-AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock", "Cooldown", 5)
-THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock", "Cooldown", 5);
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy", "ActionPoints2", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy", "ActionPoints2", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy2", "ActionPoints3", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy2", "ActionPoints3", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy3", "ActionPoints4", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy3", "ActionPoints4", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy4", "ActionPoints5", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy4", "ActionPoints5", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy5", "ActionPoints6", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_YesBoy5", "ActionPoints6", 5);
+
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock1", "Cooldown1", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock1", "Cooldown1", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock2", "Cooldown2", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock2", "Cooldown2", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock3", "Cooldown3", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock3", "Cooldown3", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock4", "Cooldown4", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock4", "Cooldown4", 5);
+
+PROC    Proc_S7_GameStartedYouFool()
+AND NOT DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock5", "Cooldown5", 5)
+THEN    DB_S7_Config_ModInterface("S7_Config", "Projectile_PyroclasticRock5", "Cooldown5", 5);
 
 PROC    Proc_S7_GameStartedYouFool()
 AND NOT DB_S7_Config_ModInterface("S7_Config", "Shout_InspireStart", "Memory Cost", 4)
