@@ -2,6 +2,16 @@
 
 ----------
 
+## [0.6.0.0] --- 25th June 2020 --- **_Finishing Quick-Menu_**
+
+## NEW
+
+* Dynamic Menu displays selected stat, attribute and value.
+
+## COMMENTS
+
+* Everytime I take a break and return, I swear none of this makes any sense to me.
+
 ## [0.6.0.0] --- 15th June 2020 --- **_Interfacing_**
 
 ### NEW

@@ -35,6 +35,13 @@
                 </node>
                 <node id="DialogVariable">
                     <attribute id="DefaultValue" value="" type="23" />
+                    <attribute id="Description" value="" type="23" />
+                    <attribute id="UUID" value="179ad34b-afc2-4d52-9c0d-3a925e8ee4f2" type="31" />
+                    <attribute id="name" value="S7_Config_DynamicQuickMenu" type="22" />
+                    <attribute id="type" value="FixedString" type="23" />
+                </node>
+                <node id="DialogVariable">
+                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="Export to TSV." type="23" />
                     <attribute id="UUID" value="e59ebc61-6f13-4e91-9200-36e474113c48" type="31" />
                     <attribute id="name" value="S7_Config_ExportedStats" type="22" />

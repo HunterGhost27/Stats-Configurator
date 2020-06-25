@@ -48,7 +48,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "[Next]"
+                                                   "value" : "[Next Page]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -161,10 +161,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "179ad34b-afc2-4d52-9c0d-3a925e8ee4f2"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Greetings."
+                                                   "value" : "[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -782,10 +787,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "179ad34b-afc2-4d52-9c0d-3a925e8ee4f2"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Welcome to dynamic Menu"
+                                                   "value" : "[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -881,7 +891,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Go Back"
+                                                   "value" : "[Go Back]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1105,10 +1115,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "179ad34b-afc2-4d52-9c0d-3a925e8ee4f2"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Next Level"
+                                                   "value" : "[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1335,7 +1350,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "[Prev]"
+                                                   "value" : "[Prev Page]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1448,10 +1463,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "179ad34b-afc2-4d52-9c0d-3a925e8ee4f2"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "Next Page."
+                                                   "value" : "[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1531,7 +1551,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 36}
+            "nextNodeId" : {"type" : 5, "value" : 37}
          }
       }
    }
