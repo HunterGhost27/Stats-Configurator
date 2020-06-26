@@ -24,6 +24,7 @@ function S7_RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) c
         ["selectedAction"] = "", --  selected action.
         ["selectedVal"] = nil, --  selected Value for modification.
         ["defaultVal"] = nil, -- current Value for the selected attribute.
+        ["configData"] = {}, -- Table holds the mods configuration.
         ["inDialog"] = false --  boolean. true if host-character is currently in dialog.
     }
     S7_ConfigLog("Dynamic Quick-Menu Refreshed.")
@@ -38,8 +39,6 @@ S7_RefreshQuickMenuVars() --  quickMenuVars initialization.
 --  ================
 
 function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Config_ModInterface.txt).
-    S7_ConfigLog("QuickMenu Signal: " .. signal)
-
     if quickMenuVars.inDialog ~= true then --  if there is no dialog session active.
         --  =====================
         --  DIALOG NOT IN SESSION
@@ -50,7 +49,11 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
             quickMenuVars.level = 1 --  Set session level to 1. (start)
             quickMenuVars.modName = modRegistry[1][1] --  set modName
             quickMenuVars.modUUID = modRegistry[1][2] --  set modUUID
-            quickMenuVars.database = Osi.DB_S7_Config_ModInterface:Get(quickMenuVars.modName, nil, nil, nil) --  fetch ModInterface data
+            for modName, content in pairs(Ext.JsonParse(Ext.LoadFile("S7_ConfigData.json") or "{}")) do
+                if modName == quickMenuVars.modName then
+                    quickMenuVars.configData = Ext.JsonParse(content)
+                end
+            end
 
             S7_ConfigLog("Start " .. quickMenuVars.modName .. "'s Dialog.")
             Osi.Proc_StartDialog(1, "S7_Config_QuickMenu", Osi.CharacterGetHostCharacter()) --  host-character starts dialog.
@@ -131,20 +134,30 @@ end
 Ext.NewCall(S7_Config_QuickMenuRelay, "S7_Config_QuickMenuRelay", "(STRING)_SIGNAL")
 --  ================================================================================
 
---  ###############################################################################################################################################
+--  ####################################################################################################################################################
 
 function S7_BuildStagedList() --  Builds the list of options for the current session, level and page.
     quickMenuVars.stageList = {} --  reinitialize stageList.
     local tempList = {}
 
+    if quickMenuVars.level == 1 then
+        quickMenuVars.database = Osi.DB_S7_Config_ModInterface:Get(quickMenuVars.modName, nil, nil)
+    elseif quickMenuVars.level == 2 then
+        quickMenuVars.database =
+            Osi.DB_S7_Config_ModInterface:Get(quickMenuVars.modName, quickMenuVars.selectedStat, nil)
+    end
+
+    local pos = 1
     for i, entry in ipairs(quickMenuVars.database) do
         if quickMenuVars.level == 1 then
             if tempList[entry[2]] == nil then
-                tempList[entry[2]] = i
+                tempList[entry[2]] = pos
+                pos = pos + 1
             end
         elseif quickMenuVars.level == 2 then
             if tempList[entry[3]] == nil then
-                tempList[entry[3]] = i
+                tempList[entry[3]] = pos
+                pos = pos + 1
             end
         elseif quickMenuVars.level == 3 then
             tempList = {
@@ -185,14 +198,23 @@ function S7_DynamicAction(i, switch)
     elseif quickMenuVars.selectedAction == "Decrease" then
         quickMenuVars.selectedVal = quickMenuVars.selectedVal - 1
     elseif quickMenuVars.selectedAction == "Set" then
-        local SendConfig = {
-            [quickMenuVars.selectedStat] = {[quickMenuVars.selectedAttribute] = quickMenuVars.selectedVal}
-        }
-        table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(SendConfig)})
+        if next(quickMenuVars.configData) ~= quickMenuVars.selectedStat then
+            quickMenuVars.configData[quickMenuVars.selectedStat] = {
+                [quickMenuVars.selectedAttribute] = quickMenuVars.selectedVal
+            }
+        else
+            for stat, content in pairs(quickMenuVars.configData) do
+                if stat == quickMenuVars.selectedStat then
+                    content[quickMenuVars.selectedAttribute] = quickMenuVars.selectedVal
+                end
+            end
+        end
+
+        table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(quickMenuVars.configData)})
         S7_StatsConfigurator()
         S7_StatsSynchronize()
         toConfigure = {}
-        S7_BuildConfigData(quickMenuVars.modName, Ext.JsonStringify(SendConfig))
+        S7_BuildConfigData(quickMenuVars.modName, Ext.JsonStringify(quickMenuVars.configData))
     elseif quickMenuVars.selectedAction == "Clear" then
         quickMenuVars.selectedVal = quickMenuVars.defaultVal
     end

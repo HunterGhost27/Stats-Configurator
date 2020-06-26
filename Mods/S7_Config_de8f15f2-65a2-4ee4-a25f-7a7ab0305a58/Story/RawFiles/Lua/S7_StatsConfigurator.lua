@@ -97,7 +97,7 @@ function S7_BuildConfigData(modID, buildData) --  Rebuilds/updates ConfigData fi
     if file ~= nil and file ~= "" then
         configTable = Ext.JsonParse(file) -- gets existing ConfigData
     else
-        Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
+        Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, "{}") --  if ConfigData doesn't exist, create empty file.
     end
     configTable[modID] = buildData --  Update ConfigData
     Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData

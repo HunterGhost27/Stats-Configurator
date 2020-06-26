@@ -4,11 +4,15 @@
 
 ## [0.6.0.0] --- 25th June 2020 --- **_Finishing Quick-Menu_**
 
-## NEW
+### NEW
 
 * Dynamic Menu displays selected stat, attribute and value.
 
-## COMMENTS
+### FIXES
+
+* `ModInterface.lua` required `S7_ConfigData.json` to exist before it did anything. Fixed.
+
+### COMMENTS
 
 * Everytime I take a break and return, I swear none of this makes any sense to me.
 
