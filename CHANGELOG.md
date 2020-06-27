@@ -2,6 +2,12 @@
 
 ----------
 
+## [0.6.0.0] --- 27th June 2020 --- **_Collections_**
+
+### NEW
+
+* _Created_ `S7_ConfigCollections.lua`.
+
 ## [0.6.0.0] --- 27th June 2020 --- **_Finishing Quick-Menu_**
 
 ### NEW

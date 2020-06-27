@@ -2,6 +2,7 @@
 --  #########                                                STATS CONFIGURATOR                                             #########
 --  =================================================================================================================================
 Ext.Require("S7_ConfigAuxiliary.lua")
+Ext.Require("S7_ConfigCollections.lua")
 Ext.Require("S7_StatsConfigurator.lua")
 Ext.Require("S7_ModInterface.lua")
 logSource = "Lua:BootstrapServer"
@@ -185,6 +186,13 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         end
         S7_ConfigLog(registeredMods, nil, "RegisteredMods")
         S7_ConfigLog("======================================================")
+    end
+
+    --  REBUILD COLLECTIONS
+    --  ===================
+
+    if Signal == "S7_RebuildCollections" then
+        S7_RebuildCollections()
     end
 
     --  TOGGLE LOG
