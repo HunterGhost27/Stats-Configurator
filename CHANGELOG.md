@@ -7,7 +7,7 @@
 ### NEW
 
 * _Created_ `S7_ConfigCollections.lua`.
-* _Added_ functionality to `S7_StatsConfigurator` to handle **Collections**. Not Very happy with `S7_StatsConfigurator`. Will refactor later.
+* _Added_ functionality to `S7_StatsConfigurator` to handle **Collections**. Not very happy with `S7_StatsConfigurator`. Will refactor later.
 
 ## [0.6.0.0] --- 27th June 2020 --- **_Finishing Quick-Menu_**
 
