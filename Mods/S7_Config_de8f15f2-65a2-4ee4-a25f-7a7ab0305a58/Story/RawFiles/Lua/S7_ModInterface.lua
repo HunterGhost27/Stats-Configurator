@@ -178,8 +178,10 @@ function S7_BuildStagedList() --  Builds the list of options for the current ses
             end
         elseif quickMenuVars.level == 2 then
             if tempList[entry[3]] == nil then --   if entry does not already exist.
-                tempList[entry[3]] = pos --  create entry at position pos.
-                pos = pos + 1 --  increase position index by 1.
+                if type(Ext.StatGetAttribute(quickMenuVars.selectedStat, entry[3])) == "number" then
+                    tempList[entry[3]] = pos --  create entry at position pos.
+                    pos = pos + 1 --  increase position index by 1.
+                end
             end
         elseif quickMenuVars.level == 3 then
             tempList = {
@@ -204,11 +206,8 @@ function S7_BuildStagedList() --  Builds the list of options for the current ses
     for pos, entry in ipairs(quickMenuVars.stageList) do
         count = count + 1
     end
-    if count <= 5 then
-        quickMenuVars.maxPage = 1
-    else
-        quickMenuVars.maxPage = math.floor(count / 5) --  determines the maximum number of pages for the current level. Each page has 5 entries.
-    end
+    quickMenuVars.maxPage = math.floor((count - 1) / 5) + 1
+    --  determines the maximum number of pages for the current level. Each page has 5 entries.
 end
 
 --  ####################################################################################################################################################
