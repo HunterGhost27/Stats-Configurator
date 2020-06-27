@@ -31,7 +31,8 @@ S7_DefaultSettings = {
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_Config_AllTheStats.tsv", ["RestrictStatTypeTo"] = {}}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
-    ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"} --  The mod logs to an external file if true.
+    ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
+    ["CustomCollections"] = {} --  Allows users to create custom collections.
 }
 
 S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.

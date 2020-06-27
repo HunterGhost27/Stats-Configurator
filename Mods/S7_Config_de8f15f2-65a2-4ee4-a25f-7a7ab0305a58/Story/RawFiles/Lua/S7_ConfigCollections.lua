@@ -36,12 +36,13 @@ configCollections = {}
 
 function S7_RebuildCollections()
     configCollections = S7_Rematerialize(defaultCollections)
+    if S7_ConfigSettings.CustomCollections ~= nil then
+        for key, value in pairs(S7_ConfigSettings.CustomCollections) do
+            configCollections[key] = S7_Rematerialize(value)
+        end
+    end
 end
 
-S7_RebuildCollections()
-
---  ===============================================================
-if Ext.IsServer() then
-    Ext.NewCall(S7_RebuildCollections, "S7_RebuildCollections", "")
-end
---  ===============================================================
+--  ============================================================
+Ext.RegisterListener("ModuleLoadStarted", S7_RebuildCollections)
+--  ============================================================
