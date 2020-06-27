@@ -8,6 +8,7 @@
 
 * _Created_ `S7_ConfigCollections.lua`.
 * _Added_ functionality to `S7_StatsConfigurator` to handle **Collections**. Not very happy with `S7_StatsConfigurator`. Will refactor later.
+* _Added_ the ability to `CREATE` new stats in `S7_Config.json`. Once created stats can be exported to `S7_ConfigData.json`.
 
 ## [0.6.0.0] --- 27th June 2020 --- **_Finishing Quick-Menu_**
 

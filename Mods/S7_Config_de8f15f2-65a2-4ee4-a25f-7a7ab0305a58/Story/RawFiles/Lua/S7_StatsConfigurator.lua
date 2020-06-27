@@ -22,7 +22,7 @@ function S7_StatsConfigurator()
                 S7_ConfigLog(modID .. " loaded. Applying Configuration Profile.")
                 S7_ConfigLog("=============================================================")
                 for keyName, content in pairs(JSONborne) do --  Iterate over JSONborne.
-                    nameList = S7_Rematerialize(S7_DetermineKey(keyName))
+                    nameList = S7_Rematerialize(S7_DetermineKey(keyName, content))
                     for name, _ in pairs(nameList) do
                         S7_ConfigLog(name)
                         S7_ConfigLog("-------------------------------------------------------------")
@@ -53,13 +53,22 @@ function S7_StatsConfigurator()
     end
 end
 
-function S7_DetermineKey(keyName)
+function S7_DetermineKey(keyName, content)
     local returnNameList = {}
     if string.match(keyName, "COLLECTION") then
         for substring in string.gmatch(keyName, "[^%s]+") do
             if substring ~= "COLLECTION" then
                 for subcollection, _ in pairs(configCollections[substring]) do
                     returnNameList[subcollection] = 1
+                end
+            end
+        end
+    elseif string.match(keyName, "CREATE") and Ext.IsServer() then
+        for substring in string.gmatch(keyName, "[^%s]+") do
+            if substring ~= "CREATE" then
+                if content.Using ~= nil or content.Using ~= "" then
+                    Ext.CreateStat(substring, Osi.NRD_StatGetType(content.Using), content.Using)
+                    returnNameList[substring] = 1
                 end
             end
         end
