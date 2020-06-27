@@ -1,5 +1,5 @@
 --  ###################################################################################################################################################
---                                                                      MOD INTERFACE
+--  #                                                                   MOD INTERFACE                                                                 #
 --  ===================================================================================================================================================
 --  dialog file = "S7_Config_QuickMenu.lsj"
 logSource = "Lua:S7_ModInterface"
@@ -164,7 +164,8 @@ function S7_BuildStagedList() --  Builds the list of options for the current ses
                 ["Increase"] = 1,
                 ["Decrease"] = 2,
                 ["Set"] = 3,
-                ["Clear"] = 4
+                ["Confirm"] = 4,
+                ["Clear"] = 5
             }
         end
     end
@@ -176,7 +177,11 @@ function S7_BuildStagedList() --  Builds the list of options for the current ses
     for pos, entry in ipairs(quickMenuVars.stageList) do
         count = count + 1
     end
-    quickMenuVars.maxPage = (math.floor(count / 5) + 1) or 1 --  determines the maximum number of pages for the current level. Each page has 5 entries.
+    if count <= 5 then
+        quickMenuVars.maxPage = 1
+    else
+        quickMenuVars.maxPage = math.floor(count / 5) --  determines the maximum number of pages for the current level. Each page has 5 entries.
+    end
 end
 
 function S7_DynamicAction(i, switch)
@@ -185,9 +190,13 @@ function S7_DynamicAction(i, switch)
 
     if quickMenuVars.level == 1 then
         quickMenuVars.selectedStat = quickMenuVars.stageList[pos]
+        if quickMenuVars.configData[quickMenuVars.selectedStat] == nil then
+            quickMenuVars.configData[quickMenuVars.selectedStat] = {}
+        end
     elseif quickMenuVars.level == 2 then
         quickMenuVars.selectedAttribute = quickMenuVars.stageList[pos]
         quickMenuVars.defaultVal = Ext.StatGetAttribute(quickMenuVars.selectedStat, quickMenuVars.selectedAttribute)
+        quickMenuVars.configData[quickMenuVars.selectedStat][quickMenuVars.selectedAttribute] = quickMenuVars.defaultVal
     elseif quickMenuVars.level == 3 then
         quickMenuVars.selectedAction = quickMenuVars.stageList[pos]
         quickMenuVars.selectedVal = quickMenuVars.selectedVal or quickMenuVars.defaultVal
@@ -198,18 +207,9 @@ function S7_DynamicAction(i, switch)
     elseif quickMenuVars.selectedAction == "Decrease" then
         quickMenuVars.selectedVal = quickMenuVars.selectedVal - 1
     elseif quickMenuVars.selectedAction == "Set" then
-        if next(quickMenuVars.configData) ~= quickMenuVars.selectedStat then
-            quickMenuVars.configData[quickMenuVars.selectedStat] = {
-                [quickMenuVars.selectedAttribute] = quickMenuVars.selectedVal
-            }
-        else
-            for stat, content in pairs(quickMenuVars.configData) do
-                if stat == quickMenuVars.selectedStat then
-                    content[quickMenuVars.selectedAttribute] = quickMenuVars.selectedVal
-                end
-            end
-        end
-
+        quickMenuVars.configData[quickMenuVars.selectedStat][quickMenuVars.selectedAttribute] =
+            quickMenuVars.selectedVal
+    elseif quickMenuVars.selectedAction == "Confirm" then
         table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(quickMenuVars.configData)})
         S7_StatsConfigurator()
         S7_StatsSynchronize()
@@ -283,7 +283,7 @@ function S7_UpdateDynamicMenu()
         displayMessage =
             displayMessage ..
             "Selected Value: " ..
-                tostring(quickMenuVars.selectedVal) .. "(Current Value: " .. tostring(quickMenuVars.defaultVal) .. ")"
+                tostring(quickMenuVars.selectedVal) .. " (Current Value: " .. tostring(quickMenuVars.defaultVal) .. ")"
     end
 
     Osi.DialogSetVariableFixedString(

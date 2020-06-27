@@ -11,6 +11,7 @@
 ### FIXES
 
 * `ModInterface.lua` required `S7_ConfigData.json` to exist before it did anything. Fixed.
+* `quickMenuVars.selectedStat` selection was overwriting `quickMenuVars.configData`'s entries. Fixed.
 
 ### COMMENTS
 
