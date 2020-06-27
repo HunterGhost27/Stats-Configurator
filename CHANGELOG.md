@@ -7,6 +7,7 @@
 ### NEW
 
 * Dynamic Menu displays selected stat, attribute and value.
+* Extensive commentary on `S7_ModInterface.lua`
 
 ### FIXES
 
