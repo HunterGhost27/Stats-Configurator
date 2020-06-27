@@ -2,12 +2,13 @@
 
 ----------
 
-## [0.6.0.0] --- 25th June 2020 --- **_Finishing Quick-Menu_**
+## [0.6.0.0] --- 27th June 2020 --- **_Finishing Quick-Menu_**
 
 ### NEW
 
 * Dynamic Menu displays selected stat, attribute and value.
-* Extensive commentary on `S7_ModInterface.lua`
+* Extensive commentary on `S7_ModInterface.lua`.
+* `displayMessage` now reflects important `quickMenuVars.selectedActions`.
 
 ### FIXES
 

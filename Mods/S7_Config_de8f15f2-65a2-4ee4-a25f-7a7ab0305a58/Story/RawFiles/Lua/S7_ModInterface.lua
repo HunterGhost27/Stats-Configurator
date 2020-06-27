@@ -105,6 +105,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
             if quickMenuVars.level > 1 then
                 quickMenuVars.level = quickMenuVars.level - 1
                 quickMenuVars.page = 1 --  Resets page index to 1.
+                quickMenuVars.selectedAction = nil
             end
         end
 
@@ -218,7 +219,7 @@ end
 
 function S7_DynamicAction(option, switch)
     S7_BuildStagedList()
-    local pos = (quickMenuVars.page - 1) * 5 + i --  Retrieve absolute position of entry.
+    local pos = (quickMenuVars.page - 1) * 5 + option --  Retrieve absolute position of entry.
 
     if quickMenuVars.level == 1 then
         quickMenuVars.selectedStat = quickMenuVars.stageList[pos]
@@ -322,7 +323,7 @@ function S7_UpdateDynamicMenu()
         tostring(modInfo.Name) ..
             " by " ..
                 tostring(modInfo.Author) ..
-                    "\nCurrent Page: " ..
+                    " | Current Page: " ..
                         "(" .. tostring(quickMenuVars.page) .. "/" .. tostring(quickMenuVars.maxPage) .. ")\n"
 
     if quickMenuVars.level > 1 and quickMenuVars.selectedStat ~= nil and quickMenuVars.selectedStat ~= "" then
@@ -338,7 +339,16 @@ function S7_UpdateDynamicMenu()
         displayMessage =
             displayMessage ..
             "Selected Value: " ..
-                tostring(quickMenuVars.selectedVal) .. " (Current Value: " .. tostring(quickMenuVars.defaultVal) .. ")"
+                tostring(quickMenuVars.selectedVal) ..
+                    " (Current Value: " .. tostring(quickMenuVars.defaultVal) .. ")\n"
+    end
+
+    if quickMenuVars.selectedAction == "Set" then
+        displayMessage = displayMessage .. "Value Set."
+    elseif quickMenuVars.selectedAction == "Confirm" then
+        displayMessage = displayMessage .. "Confirmed."
+    elseif quickMenuVars.selectedAction == "Clear" then
+        displayMessage = displayMessage .. "Selected Value Reset."
     end
 
     Osi.DialogSetVariableFixedString(
