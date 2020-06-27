@@ -40,6 +40,8 @@ end
 
 S7_RebuildCollections()
 
---  ===========================================================
-Ext.NewCall(S7_RebuildCollections, "S7_RebuildCollections", "")
---  ===========================================================
+--  ===============================================================
+if Ext.IsServer() then
+    Ext.NewCall(S7_RebuildCollections, "S7_RebuildCollections", "")
+end
+--  ===============================================================

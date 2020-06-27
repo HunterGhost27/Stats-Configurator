@@ -2,6 +2,7 @@
 --                                                                      STATS CONFIG AND SYNC
 --  ===================================================================================================================================================
 Ext.Require("S7_ConfigAuxiliary.lua")
+Ext.Require("S7_ConfigCollections.lua")
 logSource = "Lua:S7_StatsConfigurator"
 --  ###################################################################################################################################################
 
@@ -20,25 +21,28 @@ function S7_StatsConfigurator()
 
                 S7_ConfigLog(modID .. " loaded. Applying Configuration Profile.")
                 S7_ConfigLog("=============================================================")
-                for name, content in pairs(JSONborne) do --  Iterate over JSONborne.
-                    S7_ConfigLog(name)
-                    S7_ConfigLog("-------------------------------------------------------------")
+                for keyName, content in pairs(JSONborne) do --  Iterate over JSONborne.
+                    nameList = S7_Rematerialize(S7_DetermineKey(keyName))
+                    for name, _ in pairs(nameList) do
+                        S7_ConfigLog(name)
+                        S7_ConfigLog("-------------------------------------------------------------")
 
-                    local stat = Ext.GetStat(name) --  Gets original stat-entry.
-                    if stat ~= nil then
-                        for key, value in pairs(content) do
-                            if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
-                                S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                                stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
-                            else
-                                S7_ConfigLog(key .. " is not a valid attribute for " .. name)
+                        local stat = Ext.GetStat(name) --  Gets original stat-entry.
+                        if stat ~= nil then
+                            for key, value in pairs(content) do
+                                if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
+                                    S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                                    stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
+                                else
+                                    S7_ConfigLog(key .. " is not a valid attribute for " .. name)
+                                end
                             end
+                        else
+                            S7_ConfigLog("Error 404 - " .. name .. " not found!", "[Error]")
                         end
-                    else
-                        S7_ConfigLog("Error 404 - " .. name .. " not found!", "[Error]")
+                        S7_ConfigLog("_____________________________________________________________")
+                        table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
                     end
-                    S7_ConfigLog("_____________________________________________________________")
-                    table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
                 end
                 S7_ConfigLog("=============================================================")
                 S7_ConfigLog("Configuration Profile Active.", nil, "StatsConfigurator")
@@ -47,6 +51,22 @@ function S7_StatsConfigurator()
             end
         end
     end
+end
+
+function S7_DetermineKey(keyName)
+    local returnNameList = {}
+    if string.match(keyName, "COLLECTION") then
+        for substring in string.gmatch(keyName, "[^%s]+") do
+            if substring ~= "COLLECTION" then
+                for subcollection, _ in pairs(configCollections[substring]) do
+                    returnNameList[subcollection] = 1
+                end
+            end
+        end
+    else
+        returnNameList[keyName] = 1
+    end
+    return returnNameList
 end
 
 function S7_SafeToModify(key) --  Checks if key is safe to modify.
