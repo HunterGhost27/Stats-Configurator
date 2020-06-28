@@ -78,18 +78,6 @@ S7_ConfigLog(_LogPlayerLog, "[ModVersioning]");
 //====================
 //REGION UPDATER
 
-//  _____________________________________
-//  FUNCTION ---    PROMPT MESSAGEBOX
-//  *************************************
-//  Try to unify Prompt Messages for all my mods? -- Queue updates in a database, show on game-load and clear database?
-PROC
-Proc_S7_Config_Updater()
-AND
-CharacterGetHostCharacter(_Character)                                               //  Get Host Character
-THEN
-OpenMessageBox(_Character, "Stats Configurator Updated to Version: 0.6.2.0");       //  Inform Player about the update.
-
-
 //  __________________________________________________
 //  FUNCTION ---       Clears Mod-Identifier
 //  **************************************************

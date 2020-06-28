@@ -16,7 +16,7 @@ IF
 GameEventSet("GAMEEVENT_GameStarted")
 THEN
 GlobalSetFlag("S7_Config_ModAddedTo_NewGame");
-GlobalSetFlag("S7_ConfigActive");               //  S7_Config is up and running
+GlobalSetFlag("S7_ConfigActive");
 S7_ConfigLog("Parent Goal Initialized. Mod added to a new game.", "[Initializer]", "ModAddedTo", "NewGame");
 GoalCompleted;
 
@@ -29,7 +29,7 @@ SavegameLoaded(_, _, _, _)
 AND
 DB_StoryStarted(_)
 THEN
-GlobalSetFlag("S7_ConfigActive");               //  S7_Config is up and running
+GlobalSetFlag("S7_ConfigActive");
 S7_ConfigLog("Parent Goal Initialized. Story was already initialized. Mod added to an existing save-file.", "[Initializer]", "ModAddedTo", "ExistingSave");
 GoalCompleted;
 
