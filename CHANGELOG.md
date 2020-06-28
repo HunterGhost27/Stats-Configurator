@@ -2,6 +2,13 @@
 
 ----------
 
+## [0.6.1.0] --- 28th June 2020 --- **_Console Commanders_**
+
+### NEW
+
+* _Created_ `S7_AddSkill` console command.
+* _Created_ `S7_RemoveSkill` console command.
+
 ## [0.6.0.0] --- 27th June 2020 --- **_Collections_**
 
 ### NEW

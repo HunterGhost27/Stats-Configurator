@@ -9,17 +9,17 @@
                     <children>
                         <node id="ModuleShortDesc">
                             <attribute id="Folder" value="DivinityOrigins_1301db3d-1f54-4e98-9be5-5094030916e4" type="30" />
-                            <attribute id="MD5" value="8c08a78e11b3c02215cdf0982d8c0981" type="23" />
+                            <attribute id="MD5" value="73d13f95607b70c953cc32e56d62b7d7" type="23" />
                             <attribute id="Name" value="Divinity: Original Sin 2" type="22" />
                             <attribute id="UUID" value="1301db3d-1f54-4e98-9be5-5094030916e4" type="22" />
-                            <attribute id="Version" value="372645092" type="4" />
+                            <attribute id="Version" value="373234071" type="4" />
                         </node>
                         <node id="ModuleShortDesc">
                             <attribute id="Folder" value="DOS2_Arena" type="30" />
                             <attribute id="MD5" value="ba12b04eb34b2bcac60bb3edcceb7c5e" type="23" />
                             <attribute id="Name" value="Arena" type="22" />
                             <attribute id="UUID" value="a99afe76-e1b0-43a1-98c2-0fd1448c223b" type="22" />
-                            <attribute id="Version" value="271981796" type="4" />
+                            <attribute id="Version" value="272570775" type="4" />
                         </node>
                         <node id="ModuleShortDesc">
                             <attribute id="Folder" value="GameMaster" type="30" />
@@ -48,7 +48,7 @@
                     <attribute id="Tags" value="" type="30" />
                     <attribute id="Type" value="Add-on" type="22" />
                     <attribute id="UUID" value="de8f15f2-65a2-4ee4-a25f-7a7ab0305a58" type="22" />
-                    <attribute id="Version" value="84279296" type="4" />
+                    <attribute id="Version" value="100728832" type="4" />
                     <children>
                         <node id="PublishVersion">
                             <attribute id="Version" value="909321303" type="4" />
