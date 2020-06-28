@@ -7,7 +7,7 @@
 ### NEW
 
 * ~~Version updates now prompt a **message-box** for the host player, informing them about the update. I'll try to bind all mod-updates to a single prompt if possible in the future.~~ Will handle separately in `S7_Foundations` mod.
-* Results of `S7_InspectStats` are also shown in a **message-box** prompt.
+* ~~Results of `S7_InspectStats` are also shown in a **message-box** prompt.~~ Forgot how stupid implementation of `S7_InspectStats` was. Reverted.
 
 ### CHANGED
 
