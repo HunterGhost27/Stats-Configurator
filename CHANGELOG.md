@@ -2,16 +2,26 @@
 
 ----------
 
+## [0.6.2.0] --- 28th June 2020 --- **_Rework Time!_**
+
+### CHANGED
+
+* _Renamed_ `S7_ActiveConfig` broadcast channel to `S7_ConfigData`.
+
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 
 ### NEW
 
 * ~~Version updates now prompt a **message-box** for the host player, informing them about the update. I'll try to bind all mod-updates to a single prompt if possible in the future.~~ Will handle separately in `S7_Foundations` mod.
-* ~~Results of `S7_InspectStats` are also shown in a **message-box** prompt.~~ Forgot how stupid implementation of `S7_InspectStats` was. Reverted.
+* ~~Results of `S7_InspectStats` are also shown in a **message-box** prompt.~~ Forgot how stupid the implementation of `S7_InspectStats` was. Reverted.
 
 ### CHANGED
 
 * _Moved_ `S7_ConfigActive` flag from `S7_Config_ModVersioning` to `S7_Config_Initializer`. Needs to happen only once.
+
+### COMMENTS
+
+* Forget to create a new branch and all hell breaks loose.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Console Commanders_**
 

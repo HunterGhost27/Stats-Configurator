@@ -20,9 +20,9 @@ INITSECTION
     DB_S7_Config_ModMenu("S7_ToggleStatsLoader");
     DB_S7_Config_ModMenu("S7_SetDefaultSettings");
     DB_S7_Config_ModMenu("S7_RebuildCollections");
+    DB_S7_Config_ModMenu("S7_BroadcastConfigData");
     DB_S7_Config_ModMenu("S7_ValidateClientConfig");
     DB_S7_Config_ModMenu("S7_ExportCurrentSettings");
-    DB_S7_Config_ModMenu("S7_BroadcastActiveConfig");
     DB_S7_Config_ModMenu("S7_ToggleSyncStatPersistence");
 //  ======================================================
 

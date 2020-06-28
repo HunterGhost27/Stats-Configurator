@@ -1,5 +1,5 @@
 --  #################################################################################################################################
---  #########                                                STATS CONFIGURATOR                                             #########
+--  #########                                       STATS CONFIGURATOR - BOOTSTRAPCLIENT                                    #########
 --  =================================================================================================================================
 Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_ConfigCollections.lua")
@@ -8,8 +8,12 @@ Ext.Require("S7_ConsoleCommander.lua")
 logSource = "Lua:BootstrapClient"
 --  #################################################################################################################################
 
+--  ===============
+--  CATCH BROADCAST
+--  ===============
+
 local function S7_CatchBroadcast(channel, payload) --  Listens for broadcasts from the Server.
-    if channel == "S7_ActiveConfig" then --  if broadcast channel is S7_ActiveConfig.
+    if channel == "S7_ConfigData" then --  if broadcast channel is S7_ConfigData.
         S7_ConfigLog("Client recieved Active Configuration. Saving File: " .. S7_ConfigSettings.StatsLoader.FileName)
         Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, payload) --  Save stringified json.
     end
@@ -25,7 +29,7 @@ local function S7_CatchBroadcast(channel, payload) --  Listens for broadcasts fr
 end
 
 --  =================================================================
-Ext.RegisterNetListener("S7_ActiveConfig", S7_CatchBroadcast)
+Ext.RegisterNetListener("S7_ConfigData", S7_CatchBroadcast)
 Ext.RegisterNetListener("S7_ValidateClientConfig", S7_CatchBroadcast)
 --  =================================================================
 

@@ -55,13 +55,13 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         S7_ConfigLog("Rebuilt " .. S7_ConfigSettings.StatsLoader.FileName .. " using " .. S7_ConfigSettings.ConfigFile)
     end
 
-    --  SEND ACTIVE CONFIG
-    --  ==================
+    --  SEND CONFIG DATA
+    --  ================
 
-    if Signal == "S7_BroadcastActiveConfig" then
+    if Signal == "S7_BroadcastConfigData" then
         local broadcast = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName) or ""
         if type(broadcast) == "string" and broadcast ~= "" and broadcast ~= nil then --  if file exists and is not empty
-            Ext.BroadcastMessage("S7_ActiveConfig", broadcast) --  broadcast Server's configFile
+            Ext.BroadcastMessage("S7_ConfigData", broadcast) --  broadcast Server's configFile
             S7_ConfigLog("Server broadcasts Active Configuration Profile.")
         else
             S7_ConfigLog("Failed to broadcast Active Configuration Profile", "[Error]")
