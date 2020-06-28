@@ -4,6 +4,7 @@
 Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_ConfigCollections.lua")
 Ext.Require("S7_StatsConfigurator.lua")
+Ext.Require("S7_ConsoleCommander.lua")
 logSource = "Lua:BootstrapClient"
 --  #################################################################################################################################
 

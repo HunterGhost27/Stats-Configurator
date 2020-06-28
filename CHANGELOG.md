@@ -7,8 +7,8 @@
 ### NEW
 
 * _Created_ `S7_ConfigCollections.lua`.
-* _Added_ functionality to `S7_StatsConfigurator` to handle **Collections**. Not very happy with `S7_StatsConfigurator`. Will refactor later.
-* _Added_ the ability to `CREATE` new stats in `S7_Config.json`. Once created stats can be exported to `S7_ConfigData.json`.
+* _Added_ functionality to `S7_StatsConfigurator` to handle **collections**. Not very happy with `S7_StatsConfigurator`. Will refactor later.
+* _Added_ the ability to *create* new stats in `S7_Config.json`. Once created stats can be exported to `S7_ConfigData.json`.
 
 ## [0.6.0.0] --- 27th June 2020 --- **_Finishing Quick-Menu_**
 
@@ -231,7 +231,7 @@
 
 * _Removed_ **BootstrapClient.lua**. It was just sitting there doing nothing at all.
 
-## [0.3.0.0] --- 24th May 2020 --- **_Stats, Sync U_**
+## [0.3.0.0] --- 24th May 2020 --- **_Stats Sync Up_**
 
 ### NEW
 
