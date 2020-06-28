@@ -7,7 +7,7 @@ INITSECTION
 
 //  =========================================================
 //  DB_S7_Config_QuickMenuRelay((STRING)_Signal);
-    DB_S7_Config_QuickMenuRelay("S7_Config_MoveToNextLevel");
+    DB_S7_Config_QuickMenuRelay("S7_Config_GoBack");
     DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt1");
     DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt2");
     DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt3");
@@ -15,8 +15,8 @@ INITSECTION
     DB_S7_Config_QuickMenuRelay("S7_Config_SetOpt5");
     DB_S7_Config_QuickMenuRelay("S7_Config_NextPage");
     DB_S7_Config_QuickMenuRelay("S7_Config_PrevPage");
-    DB_S7_Config_QuickMenuRelay("S7_Config_GoBack");
     DB_S7_Config_QuickMenuRelay("S7_Config_ExitCleanUp");
+    DB_S7_Config_QuickMenuRelay("S7_Config_MoveToNextLevel");
 //  =========================================================
 
 KBSECTION
@@ -26,12 +26,12 @@ KBSECTION
 //  ===================
 
 IF
-GlobalFlagSet(_Signal)
+GlobalFlagSet(_Signal)                  //  Flag set duing Quick-Menu Dialog.
 AND
-DB_S7_Config_QuickMenuRelay(_Signal)
+DB_S7_Config_QuickMenuRelay(_Signal)    //  Flag exists in database.
 THEN
-S7_Config_QuickMenuRelay(_Signal);
-GlobalClearFlag(_Signal);
+S7_Config_QuickMenuRelay(_Signal);      //  Relay Signal to Lua.
+GlobalClearFlag(_Signal);               //  Clear Flag.
 
 EXITSECTION
 

@@ -251,11 +251,18 @@ end
 
 local function S7_InspectStats(StatID, StatType) --  Recieves StatID and StatType from Osiris.
     local compareStat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
-    for name, content in pairs(compareStat) do
-        if content == StatID then --  if StatID exists
-            S7_ConfigLog("Inspected: (" .. StatType .. "): " .. StatID)
+
+    local displayString = "Inspected Stats:\n"
+    displayString = displayString .. "=====================\n"
+    for _, value in pairs(compareStat) do
+        if value == StatID then --  if StatID exists
+            displayString = displayString .. "(" .. StatType .. "): " .. StatID .. "\n"
         end
     end
+    displayString = displayString .. "=====================\n"
+
+    S7_ConfigLog(displayString)
+    Osi.OpenMessageBox(Osi.CharacterGetHostCharacter(), displayString)
 end
 
 --  =====================================================================================

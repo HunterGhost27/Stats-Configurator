@@ -2,6 +2,17 @@
 
 ----------
 
+## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
+
+### NEW
+
+* Version updates now prompt a **message-box** for the host player, informing them about the update. I'll try to bind all mod-updates to a single prompt if possible in the future.
+* Results of `S7_InspectStats` are also shown in a **message-box** prompt.
+
+### CHANGED
+
+* _Moved_ `S7_ConfigActive` flag from `S7_Config_ModVersioning` to `S7_Config_Initializer`. Needs to happen only once.
+
 ## [0.6.1.0] --- 28th June 2020 --- **_Console Commanders_**
 
 ### NEW

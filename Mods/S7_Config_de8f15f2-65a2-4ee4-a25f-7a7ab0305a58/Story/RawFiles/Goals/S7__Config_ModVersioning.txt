@@ -3,7 +3,7 @@ SubGoalCombiner SGC_AND
 INITSECTION
 
 //  ==================================    MOD VERSION (NAME, CURRENT VERSION)    ========================================
-//  DB_S7_ModIdentifier("S7_Config", "0.6.0.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
+//  DB_S7_ModIdentifier("S7_Config", "0.6.2.0");        //  When changing Mod-Version, replace all occurrences. (Ctrl+F2) 
 //  =====================================================================================================================
 
 //  =====================================================================================================================
@@ -24,7 +24,6 @@ AND
 IsGameLevel(_GameLevel, 1)                      //  Not in CharacterCreation level
 THEN
 GlobalSetFlag("S7_RefreshSettings");            //  Set flag to reload settings
-GlobalSetFlag("S7_ConfigActive");               //  S7_Config is up and running
 
 //  ==================
 //  UPDATE MOD VERSION
@@ -33,12 +32,12 @@ GlobalSetFlag("S7_ConfigActive");               //  S7_Config is up and running
 IF
 GameStarted(_, _)
 AND
-NOT DB_S7_ModIdentifier("S7_Config", "0.6.0.0")                         //  Latest-Version does not exist.
+NOT DB_S7_ModIdentifier("S7_Config", "0.6.2.0")                         //  Latest-Version does not exist.
 THEN
 Proc_S7_Config_Updater();                                               //  Run Update Procedure.
 GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG.
-DB_S7_ModIdentifier("S7_Config", "0.6.0.0");                            //  Add the latest version in the DB.
-S7_ConfigLog("S7_Config Updated to Version: 0.6.0.0", "[ModVersioning]", "ModID", "S7_Config, 0.6.0.0");
+DB_S7_ModIdentifier("S7_Config", "0.6.2.0");                            //  Add the latest version in the DB.
+S7_ConfigLog("S7_Config Updated to Version: 0.6.2.0", "[ModVersioning]", "ModID", "S7_Config, 0.6.2.0");
 
 //====================
 //REGION CHANGELOG
@@ -79,6 +78,18 @@ S7_ConfigLog(_LogPlayerLog, "[ModVersioning]");
 //====================
 //REGION UPDATER
 
+//  _____________________________________
+//  FUNCTION ---    PROMPT MESSAGEBOX
+//  *************************************
+//  Try to unify Prompt Messages for all my mods? -- Queue updates in a database, show on game-load and clear database?
+PROC
+Proc_S7_Config_Updater()
+AND
+CharacterGetHostCharacter(_Character)                                               //  Get Host Character
+THEN
+OpenMessageBox(_Character, "Stats Configurator Updated to Version: 0.6.2.0");       //  Inform Player about the update.
+
+
 //  __________________________________________________
 //  FUNCTION ---       Clears Mod-Identifier
 //  **************************************************
@@ -88,7 +99,7 @@ Proc_S7_Config_Updater()
 AND
 DB_S7_ModIdentifier("S7_Config", _ModVersion)                           //  Gets all facts from the ModIdentifier.
 AND
-_ModVersion != "0.6.0.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
+_ModVersion != "0.6.2.0"                                                //  Filters the latest fact out, if it exists. - it shouldn't though
 THEN
 NOT DB_S7_ModIdentifier("S7_Config", _ModVersion);                      //  Removes all older facts from DB.
 
