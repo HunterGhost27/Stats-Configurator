@@ -67,10 +67,12 @@ Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings) --  Try removing t
 --  ################
 --  USER INFORMATION
 --  ################
+
 userInfo = {
     ["clientCharacters"] = {},
     ["hostCharacter"] = {}
 }
+
 function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
     --  CLIENT CHARACTERS
     --  =================
