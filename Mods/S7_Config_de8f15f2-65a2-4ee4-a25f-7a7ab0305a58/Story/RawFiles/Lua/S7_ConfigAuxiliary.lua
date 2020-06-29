@@ -67,34 +67,41 @@ Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings) --  Try removing t
 --  ################
 --  USER INFORMATION
 --  ################
-
-clientCharacters = {}
-hostCharacter = {}
-
-local function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
+userInfo = {
+    ["clientCharacters"] = {},
+    ["hostCharacter"] = {}
+}
+function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
     --  CLIENT CHARACTERS
     --  =================
     local tempUsers = {} --  Temporary table.
-    local userCount = 1 --  for testing. TODO: Remove
-    for i, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do --  Extract Player CharacterGUIDs
+    local count = 1
+    for _, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do --  Extract Player CharacterGUIDs
         tempUsers[count] = Osi.CharacterGetReservedUserID(player) --  Get UserIDs
-        count = count + 1 -- for testing. TODO: Remove.
+        count = count + 1
     end
-    for j, user in ipairs(tempUsers) do
-        userName = Osi.GetUserName(user) --  Get Profile Name
-        userProfileID = Osi.GetUserProfileID(user) --   Get Profile UUID
-        clientCharacters[userProfileID] = {["userName"] = userName, ["userID"] = user} -- Build ClientCharacter table.
+    for _, user in ipairs(tempUsers) do
+        local userName = Osi.GetUserName(user) --  Get Profile Name
+        local userProfileID = Osi.GetUserProfileID(user) --   Get Profile UUID
+        userInfo.clientCharacters[userProfileID] = {
+            -- Build ClientCharacter table.
+            ["userProfileID"] = userProfileID,
+            ["userName"] = userName,
+            ["userID"] = user
+        }
     end
 
     --  HOST CHARACTER
     --  ==============
     local hostUserID = Osi.CharacterGetReservedUserID(Osi.CharacterGetHostCharacter()) -- Get Host Character's UserID
-    hostCharacter = {
+    userInfo.hostCharacter = {
         --   Build Host Character's table.
         ["hostUserID"] = hostUserID,
         ["hostProfileID"] = Osi.GetUserProfileID(hostUserID),
         ["hostUserName"] = Osi.GetUserName(hostUserID)
     }
+
+    Ext.SaveFile("S7_TempDump.json", Ext.JsonStringify(userInfo))
 end
 
 --  ############################################################################################################################################
