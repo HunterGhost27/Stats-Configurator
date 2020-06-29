@@ -4,6 +4,10 @@
 
 ## [0.6.2.0] --- 29th June 2020 --- **_Rework Time!_**
 
+### NEW
+
+* _Created_ a console command `S7_StatSearch` to search statIDs.
+
 ### CHANGED
 
 * _Renamed_ `S7_ActiveConfig` broadcast channel to `S7_ConfigData`.

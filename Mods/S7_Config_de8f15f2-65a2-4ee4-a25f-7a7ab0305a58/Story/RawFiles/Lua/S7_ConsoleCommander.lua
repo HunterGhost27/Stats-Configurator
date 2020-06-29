@@ -60,4 +60,37 @@ Ext.RegisterConsoleCommand("S7_AddSkill", S7_AddSkill)
 Ext.RegisterConsoleCommand("S7_RemoveSkill", S7_RemoveSkill)
 --  ========================================================
 
+--  ===========
+--  STAT SEARCH
+--  ===========
+
+local function S7_StatSearch(...)
+    args = {...}
+    command = args[1] or ""
+    search = args[2] or ""
+    type = args[3] or ""
+    if command == "S7_StatSearch" then
+        if search ~= nil and search ~= "" then
+            local allStat = {}
+            if type ~= "" and type ~= nil then
+                allStat = Ext.GetStatEntries(type)
+            else
+                allStat = Ext.GetStatEntries()
+            end
+
+            for i, stat in ipairs(allStat) do
+                if string.match(stat, search) then
+                    S7_ConfigLog("Search Result:" .. stat)
+                end
+            end
+        else
+            S7_ConfigLog("Search String Empty")
+        end
+    end
+end
+
+--  ======================================================
+Ext.RegisterConsoleCommand("S7_StatSearch", S7_StatSearch)
+--  ======================================================
+
 --  #####################################################################################################################################################

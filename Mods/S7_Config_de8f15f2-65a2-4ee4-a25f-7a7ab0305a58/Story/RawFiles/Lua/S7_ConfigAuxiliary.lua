@@ -269,9 +269,9 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
     if type(next(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo)) == "nil" then --  No restrictions in settings.
         allStat = Ext.GetStatEntries() --  Get All Stat Entries
     else
-        for i, statType in ipairs(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo) do --  Only selected statTypes are loaded.
+        for _, statType in ipairs(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo) do --  Only selected statTypes are loaded.
             local limitedStats = Ext.GetStatEntries(statType)
-            for j, stats in ipairs(limitedStats) do
+            for _, stats in ipairs(limitedStats) do
                 table.insert(allStat, stats) --  appends selected stat-type entries to allStat.
             end
         end
@@ -295,11 +295,11 @@ local function S7_InspectStats(StatID) --  Recieves StatID from Osiris.
     end
 end
 
---  ===========================================================================
+--  ==================================================================
 if Ext.IsServer() then
     Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID")
 end
---  ===========================================================================
+--  ==================================================================
 
 --  ===============
 --      HELPERS
