@@ -46,6 +46,7 @@ helpMessage =
     RemoveSkill <SkillID>       <Character|Optional>     --  Removes skill (skillID) to character (character-key).  RemoveSkill Shout_InspireStart
     StatsSearch <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
     ======================================================================================================================================================
+    * Resize the console window if this doesn't fit properly.
 ]]
 
 --  ===============================================================
