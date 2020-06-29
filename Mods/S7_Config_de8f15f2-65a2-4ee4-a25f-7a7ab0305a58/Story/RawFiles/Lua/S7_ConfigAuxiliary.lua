@@ -48,7 +48,7 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
     end
 
     local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") or "" --  Load CustomSettings json file.
-    if S7_ValidJSONFile(JSONsetting) then --  if json file exists and is not empty.
+    if ValidJSONFile(JSONsetting) then --  if json file exists and is not empty.
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
         for setting, value in pairs(DefaultSettings) do --  Iterate for every key in DefaultSettings.
@@ -102,8 +102,6 @@ function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
         ["hostProfileID"] = Osi.GetUserProfileID(hostUserID),
         ["hostUserName"] = Osi.GetUserName(hostUserID)
     }
-
-    Ext.SaveFile("S7_TempDump.json", Ext.JsonStringify(userInfo))
 end
 
 --  ############################################################################################################################################
@@ -310,7 +308,7 @@ end
 --      HELPERS
 --  ===============
 
-function S7_ValidJSONFile(File) --  Checks if File is a string, is not nil and is not empty.
+function ValidJSONFile(File) --  Checks if File is a string, is not nil and is not empty.
     if type(File) == "string" and File ~= nil and File ~= "" and File ~= "{}" and File ~= "[]" then
         return true
     else

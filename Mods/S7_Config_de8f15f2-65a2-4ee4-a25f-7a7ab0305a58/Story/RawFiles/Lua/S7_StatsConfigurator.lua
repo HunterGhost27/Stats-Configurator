@@ -16,7 +16,7 @@ toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 function S7_StatsConfigurator()
     for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
-            if S7_ValidJSON(JSONstring) then --  if json exists and is not empty.
+            if ValidJSONFile(JSONstring) then --  if json exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
                 S7_ConfigLog(modID .. " loaded. Applying Configuration Profile.")

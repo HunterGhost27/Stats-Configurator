@@ -16,7 +16,7 @@ local function StatsLoader() --  Loads stats-configuration json after StatsLoade
     if ConfigSettings.StatsLoader.Enable == true then --  StatsLoader enabled in settings.
         S7_ConfigLog("Loading " .. ConfigSettings.StatsLoader.FileName)
         local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
-        if S7_ValidJSON(file) then --  if configData file exists and is not empty.
+        if ValidJSONFile(file) then --  if configData file exists and is not empty.
             local configData = Ext.JsonParse(file) --  Parse into table.
             for modID, content in pairs(configData) do --  for each mod's configData
                 table.insert(toConfigure, {[modID] = content}) --  Queue files for configuration.
@@ -39,7 +39,7 @@ Ext.RegisterListener("StatsLoaded", StatsLoader)
 --  CATCH BROADCAST
 --  ===============
 
-local function S7_CatchBroadcast(channel, payload) --  Listens for broadcasts from the Server.
+local function CatchBroadcast(channel, payload) --  Listens for broadcasts from the Server.
     if channel == "S7_ConfigData" then --  if broadcast channel is S7_ConfigData.
         S7_ConfigLog("Client recieved Active Configuration. Saving File: " .. ConfigSettings.StatsLoader.FileName)
         Ext.SaveFile(ConfigSettings.StatsLoader.FileName, payload) --  Save stringified json.
@@ -55,9 +55,9 @@ local function S7_CatchBroadcast(channel, payload) --  Listens for broadcasts fr
     end
 end
 
---  =================================================================
-Ext.RegisterNetListener("S7_ConfigData", S7_CatchBroadcast)
-Ext.RegisterNetListener("S7_ValidateClientConfig", S7_CatchBroadcast)
---  =================================================================
+--  ==============================================================
+Ext.RegisterNetListener("S7_ConfigData", CatchBroadcast)
+Ext.RegisterNetListener("S7_ValidateClientConfig", CatchBroadcast)
+--  ==============================================================
 
 --  ##################################################################################################################################
