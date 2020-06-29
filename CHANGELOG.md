@@ -15,6 +15,7 @@
 * _Moved_ user information stuff in `S7_ConfigAuxiliary.lua` from `S7_ConsoleCommander.lua`.
 * `S7_InspectStats` **Reborn**.
 * `S7_ExportStatIDtoTSV` simplified.
+* _Dropped_ prefix from `table ConfigSettings`, `table DefaultSettings` and `func StatsLoader`
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 

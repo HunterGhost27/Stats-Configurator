@@ -22,7 +22,7 @@ end
 --  Default Settings
 --  ================
 
-S7_DefaultSettings = {
+DefaultSettings = {
     ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
@@ -33,7 +33,7 @@ S7_DefaultSettings = {
     ["CustomCollections"] = {} --  Allows users to create custom collections.
 }
 
-S7_ConfigSettings = S7_Rematerialize(S7_DefaultSettings) --  just to initialize S7_ConfigSettings.
+ConfigSettings = S7_Rematerialize(DefaultSettings) --  just to initialize ConfigSettings.
 
 --  Import Custom Settings
 --  ======================
@@ -43,7 +43,7 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
         if settingsOverride[setting] == false then --  If a settingsOverride setting has boolean false.
             return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skip settingsOverride.
         else
-            return S7_Rematerialize(settingsOverride[setting]) or S7_Rematerialize(S7_DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
+            return S7_Rematerialize(settingsOverride[setting]) or S7_Rematerialize(DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
         end
     end
 
@@ -51,8 +51,8 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
     if S7_ValidJSONFile(JSONsetting) then --  if json file exists and is not empty.
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
-        for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in DefaultSettings.
-            S7_ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default if override omitted.
+        for setting, value in pairs(DefaultSettings) do --  Iterate for every key in DefaultSettings.
+            ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default if override omitted.
         end
         S7_ConfigLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
     else
@@ -159,15 +159,15 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
 
     printFunction(log) --  prints log to Extender's Debug Console
 
-    if S7_ConfigSettings.ConfigLog.Enable == true then
+    if ConfigSettings.ConfigLog.Enable == true then
         local logHistory = "" --  Initialize the log-History.
-        if Ext.LoadFile(S7_ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
-            Ext.SaveFile(S7_ConfigSettings.ConfigLog.FileName, "State\tLogType\tLog\tDialogVariable\tDialogValue\n") --  Save file with header column
+        if Ext.LoadFile(ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
+            Ext.SaveFile(ConfigSettings.ConfigLog.FileName, "State\tLogType\tLog\tDialogVariable\tDialogValue\n") --  Save file with header column
         end
-        logHistory = Ext.LoadFile(S7_ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logHistory
+        logHistory = Ext.LoadFile(ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logHistory
         logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog
         -- The compiled log history.
-        Ext.SaveFile(S7_ConfigSettings.ConfigLog.FileName, logHistory) --  SaveLog in a file.
+        Ext.SaveFile(ConfigSettings.ConfigLog.FileName, logHistory) --  SaveLog in a file.
     end
 end
 
@@ -212,30 +212,30 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
     --  UPDATE DIALOG-VARS
     --  ==================
 
-    toSetDialogVar["ConfigFile"] = S7_ConfigSettings.ConfigFile
-    toSetDialogVar["ConfigData"] = S7_ConfigSettings.StatsLoader.FileName
+    toSetDialogVar["ConfigFile"] = ConfigSettings.ConfigFile
+    toSetDialogVar["ConfigData"] = ConfigSettings.StatsLoader.FileName
 
-    if S7_ConfigSettings.StatsLoader.Enable == true then
+    if ConfigSettings.StatsLoader.Enable == true then
         toSetDialogVar["StatsLoader"] = "Activated."
     else
         toSetDialogVar["StatsLoader"] = "Deactivated."
     end
-    if S7_ConfigSettings.SyncStatPersistence == true then
+    if ConfigSettings.SyncStatPersistence == true then
         toSetDialogVar["SyncStatPersistence"] = "Activated."
     else
         toSetDialogVar["SyncStatPersistence"] = "Deactivated."
     end
-    if S7_ConfigSettings.BypassSafetyCheck == true then
+    if ConfigSettings.BypassSafetyCheck == true then
         toSetDialogVar["BypassSafetyCheck"] = "Activated."
     else
         toSetDialogVar["BypassSafetyCheck"] = "Deactivated."
     end
-    if S7_ConfigSettings.ConfigLog.Enable == true then
+    if ConfigSettings.ConfigLog.Enable == true then
         toSetDialogVar["S7_ConfigLog"] = "Activated."
     else
         toSetDialogVar["S7_ConfigLog"] = "Deactivated."
     end
-    if Ext.JsonStringify(S7_ConfigSettings) == Ext.JsonStringify(S7_DefaultSettings) then
+    if Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) then
         toSetDialogVar["Settings"] = "Default"
     else
         toSetDialogVar["Settings"] = "Custom"
@@ -271,22 +271,22 @@ end
 --  ===================
 
 function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV.
-    Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, "") --  Creates an empty TSV or Overwrites the existing one.
+    Ext.SaveFile(ConfigSettings.ExportStatIDtoTSV.FileName, "") --  Creates an empty TSV or Overwrites the existing one.
     local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column.
 
     local allStat = Ext.GetStatEntries() --  Get All Stat Entries
     for key, value in ipairs(allStat) do --  Iterate over allStat
         local type = NRD_StatGetType(value)
-        if string.match(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo, type) then
+        if string.match(ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo, type) then
             SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
         elseif
-            S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo == "" or
-                S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo == nil
+            ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo == "" or
+                ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo == nil
          then
             SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
         end
     end
-    Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
+    Ext.SaveFile(ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
     S7_ConfigLog("Stats exported to TSV file.", nil, "ExportStats")
 end
 

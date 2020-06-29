@@ -87,8 +87,8 @@ function S7_RebuildCollections()
     end
     --  CUSTOM-COLLECTIONS
     --  ==================
-    if S7_ConfigSettings.CustomCollections ~= nil then
-        for key, value in pairs(S7_ConfigSettings.CustomCollections) do
+    if ConfigSettings.CustomCollections ~= nil then
+        for key, value in pairs(ConfigSettings.CustomCollections) do
             configCollections[key] = S7_Rematerialize(value)
         end
     end

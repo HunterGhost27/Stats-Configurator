@@ -16,7 +16,7 @@ toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 function S7_StatsConfigurator()
     for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
-            if (type(JSONstring) == "string") and (JSONstring ~= "") and (JSONstring ~= nil) then --  if json exists and is not empty.
+            if S7_ValidJSON(JSONstring) then --  if json exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
                 S7_ConfigLog(modID .. " loaded. Applying Configuration Profile.")
@@ -82,7 +82,7 @@ function S7_SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = --  dont mess with these keys
         "AoEConditions, TargetConditions, ForkingConditions, CycleConditions, SkillProperties, WinBoost, LoseBoost, RootTemplate"
 
-    if S7_ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
+    if ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
         return true --  S7_SafeToModify() returns true for everything.
     else -- Default Setting
         if string.match(dontFwith, key) then --  If key matches.
@@ -100,13 +100,13 @@ end
 function S7_StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified. toSync is not empty.
         S7_ConfigLog(
-            "Synchronizing Stats [Savegame-Persistence: " .. tostring(S7_ConfigSettings.SyncStatPersistence) .. "]",
+            "Synchronizing Stats [Savegame-Persistence: " .. tostring(ConfigSettings.SyncStatPersistence) .. "]",
             "[Lua]"
         )
         S7_ConfigLog("=============================================================")
 
         for i, name in ipairs(toSync) do
-            Ext.SyncStat(name, S7_ConfigSettings.SyncStatPersistence) --  Sync
+            Ext.SyncStat(name, ConfigSettings.SyncStatPersistence) --  Sync
             S7_ConfigLog("Synchronized Stat: " .. name)
             toSync[i] = nil --  Clears out toSync entry.
         end
@@ -122,14 +122,14 @@ end
 
 function S7_BuildConfigData(modID, buildData) --  Rebuilds/updates ConfigData file.
     local configTable = {}
-    local file = Ext.LoadFile(S7_ConfigSettings.StatsLoader.FileName)
+    local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName)
     if file ~= nil and file ~= "" then
         configTable = Ext.JsonParse(file) -- gets existing ConfigData
     else
-        Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, "{}") --  if ConfigData doesn't exist, create empty file.
+        Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "{}") --  if ConfigData doesn't exist, create empty file.
     end
     configTable[modID] = buildData --  Update ConfigData
-    Ext.SaveFile(S7_ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
+    Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
 end
 
 --  ####################################################################################################################################################
