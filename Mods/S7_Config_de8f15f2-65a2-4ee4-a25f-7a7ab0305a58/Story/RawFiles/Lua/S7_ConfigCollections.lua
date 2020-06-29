@@ -58,10 +58,21 @@ function S7_RebuildCollections()
     --  DYNAMIC-COLLECTIONS
     --  ===================
 
-    local allStat = Ext.GetStatEntries()
-    for _, stat in ipairs(allStat) do
-        local statType = Osi.NRD_StatGetType(stat)
-        if statType ~= "" and statType ~= nil then
+    local statTypeTable = {
+        "Armor",
+        "Character",
+        "Crime",
+        "Object",
+        "Potion",
+        "Shield",
+        "SkillData",
+        "StatusData",
+        "Weapon"
+    }
+
+    for _, statType in ipairs(statTypeTable) do
+        local allStat = Ext.GetStatEntries(statType)
+        for _, stat in ipairs(allStat) do
             if statType == "Character" then
                 if configCollections["PlayerCharacters"][stat] == nil then
                     if configCollections["NonPlayerCharacters"][stat] == nil then
@@ -74,7 +85,6 @@ function S7_RebuildCollections()
             end
         end
     end
-
     --  CUSTOM-COLLECTIONS
     --  ==================
     if S7_ConfigSettings.CustomCollections ~= nil then
@@ -82,10 +92,8 @@ function S7_RebuildCollections()
             configCollections[key] = S7_Rematerialize(value)
         end
     end
-
-    Ext.SaveFile("S7_TempDump.json", Ext.JsonStringify(configCollections))
 end
 
---  ============================================================
-Ext.RegisterListener("ModuleLoadStarted", S7_RebuildCollections)
---  ============================================================
+--  ======================================================
+Ext.RegisterListener("StatsLoaded", S7_RebuildCollections)
+--  ======================================================

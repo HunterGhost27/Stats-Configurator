@@ -27,7 +27,7 @@ S7_DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
-    ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = {}}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
+    ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
     ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
     ["CustomCollections"] = {} --  Allows users to create custom collections.
@@ -265,21 +265,17 @@ function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV
     Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, "") --  Creates an empty TSV or Overwrites the existing one.
     local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column.
 
-    local allStat = {} --  Initialize temporary table.
-    if type(next(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo)) == "nil" then --  No restrictions in settings.
-        allStat = Ext.GetStatEntries() --  Get All Stat Entries
-    else
-        for _, statType in ipairs(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo) do --  Only selected statTypes are loaded.
-            local limitedStats = Ext.GetStatEntries(statType)
-            for _, stats in ipairs(limitedStats) do
-                table.insert(allStat, stats) --  appends selected stat-type entries to allStat.
-            end
-        end
-    end
-
+    local allStat = Ext.GetStatEntries() --  Get All Stat Entries
     for key, value in ipairs(allStat) do --  Iterate over allStat
-        local type = NRD_StatGetType(value) --  Didn't I just filter stats by statType? - this is what happens when you return to old code with new ideas.
-        SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
+        local type = NRD_StatGetType(value)
+        if string.match(S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo, type) then
+            SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
+        elseif
+            S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo == "" or
+                S7_ConfigSettings.ExportStatIDtoTSV.RestrictStatTypeTo == nil
+         then
+            SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
+        end
     end
     Ext.SaveFile(S7_ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
     S7_ConfigLog("Stats exported to TSV file.", nil, "ExportStats")
