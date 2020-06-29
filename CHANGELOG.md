@@ -2,11 +2,13 @@
 
 ----------
 
-## [0.6.2.0] --- 28th June 2020 --- **_Rework Time!_**
+## [0.6.2.0] --- 29th June 2020 --- **_Rework Time!_**
 
 ### CHANGED
 
 * _Renamed_ `S7_ActiveConfig` broadcast channel to `S7_ConfigData`.
+* _Moved_ user information stuff in `S7_ConfigAuxiliary.lua` from `S7_ConsoleCommander.lua`.
+* `S7_InspectStats` **Reborn**.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 

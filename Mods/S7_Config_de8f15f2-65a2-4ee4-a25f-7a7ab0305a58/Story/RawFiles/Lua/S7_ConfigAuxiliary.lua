@@ -15,8 +15,6 @@ end
 
 --  ###################################################################################################################################################
 
-toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
-
 --  ##################
 --       SETTINGS
 --  ##################
@@ -29,7 +27,7 @@ S7_DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
-    ["ExportStatIDtoTSV"] = {["FileName"] = "S7_Config_AllTheStats.tsv", ["RestrictStatTypeTo"] = {}}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
+    ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = {}}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses S7_SafeToModify() and allow modification of unsupported or problematic keys.
     ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
     ["CustomCollections"] = {} --  Allows users to create custom collections.
@@ -50,7 +48,7 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
     end
 
     local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") or "" --  Load CustomSettings json file.
-    if (type(JSONsetting) == "string") and (JSONsetting ~= "") and (JSONsetting ~= nil) then --  if json file exists and is not empty.
+    if S7_ValidJSONFile(JSONsetting) then --  if json file exists and is not empty.
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
         for setting, value in pairs(S7_DefaultSettings) do --  Iterate for every key in DefaultSettings.
@@ -63,8 +61,41 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
 end
 
 --  =========================================================
-Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings)
+Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings) --  Try removing this maybe?
 --  =========================================================
+
+--  ################
+--  USER INFORMATION
+--  ################
+
+clientCharacters = {}
+hostCharacter = {}
+
+local function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
+    --  CLIENT CHARACTERS
+    --  =================
+    local tempUsers = {} --  Temporary table.
+    local userCount = 1 --  for testing. TODO: Remove
+    for i, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do --  Extract Player CharacterGUIDs
+        tempUsers[count] = Osi.CharacterGetReservedUserID(player) --  Get UserIDs
+        count = count + 1 -- for testing. TODO: Remove.
+    end
+    for j, user in ipairs(tempUsers) do
+        userName = Osi.GetUserName(user) --  Get Profile Name
+        userProfileID = Osi.GetUserProfileID(user) --   Get Profile UUID
+        clientCharacters[userProfileID] = {["userName"] = userName, ["userID"] = user} -- Build ClientCharacter table.
+    end
+
+    --  HOST CHARACTER
+    --  ==============
+    local hostUserID = Osi.CharacterGetReservedUserID(Osi.CharacterGetHostCharacter()) -- Get Host Character's UserID
+    hostCharacter = {
+        --   Build Host Character's table.
+        ["hostUserID"] = hostUserID,
+        ["hostProfileID"] = Osi.GetUserProfileID(hostUserID),
+        ["hostUserName"] = Osi.GetUserName(hostUserID)
+    }
+end
 
 --  ############################################################################################################################################
 
@@ -146,6 +177,8 @@ end
 
 --  #########################################################################################################################################
 
+toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
+
 --  SET DIALOG VARIABLES
 --  ====================
 
@@ -219,6 +252,12 @@ if Ext.IsServer() then
 end
 --  =====================================================
 
+--  ########################################################################################################################################
+
+--  #####################
+--      MISCELLANEOUS
+--  #####################
+
 --  EXPORT STATS TO TSV
 --  ===================
 
@@ -249,19 +288,29 @@ end
 --  INSPECT SKILL
 --  =============
 
-local function S7_InspectStats(StatID, StatType) --  Recieves StatID and StatType from Osiris.
-    local compareStat = Ext.GetStatEntries(StatType) --  Retrieves all stat entries of corresponding stat-type for comparison.
-    for name, content in pairs(compareStat) do
-        if content == StatID then --  if StatID exists
-            S7_ConfigLog("Inspected: (" .. StatType .. "): " .. StatID)
-        end
+local function S7_InspectStats(StatID) --  Recieves StatID from Osiris.
+    if Osi.NRD_StatExists(StatID) then --  Check if stat exists.
+        local StatType = Osi.NRD_StatGetType(StatID) --  Get StatType
+        S7_ConfigLog("Inspected: (" .. StatType .. "): " .. StatID)
     end
 end
 
---  =====================================================================================
+--  ===========================================================================
 if Ext.IsServer() then
-    Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID, (STRING)_StatType")
+    Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID")
 end
---  =====================================================================================
+--  ===========================================================================
+
+--  ===============
+--      HELPERS
+--  ===============
+
+function S7_ValidJSONFile(File) --  Checks if File is a string, is not nil and is not empty.
+    if type(File) == "string" and File ~= nil and File ~= "" and File ~= "{}" and File ~= "[]" then
+        return true
+    else
+        return false
+    end
+end
 
 --  ###########################################################################################################################################################
