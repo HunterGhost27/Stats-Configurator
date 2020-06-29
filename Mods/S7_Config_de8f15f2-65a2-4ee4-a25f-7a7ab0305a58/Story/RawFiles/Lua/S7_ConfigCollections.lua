@@ -35,18 +35,55 @@ local defaultCollections = {
         ["Player_Sebille"] = true,
         ["Player_Beast"] = true,
         ["Player_Fane"] = true
-    }
+    },
+    ["NonPlayerCharacters"] = {},
+    ["Armor"] = {},
+    ["Character"] = {},
+    ["Crime"] = {},
+    ["Object"] = {},
+    ["Potion"] = {},
+    ["Shield"] = {},
+    ["SkillData"] = {},
+    ["StatusData"] = {},
+    ["Weapon"] = {}
 }
 
 configCollections = {}
 
 function S7_RebuildCollections()
+    --  RE-INITIALIZE CONFIG-COLLECTIONS
+    --  ================================
     configCollections = S7_Rematerialize(defaultCollections)
+
+    --  DYNAMIC-COLLECTIONS
+    --  ===================
+
+    local allStat = Ext.GetStatEntries()
+    for _, stat in ipairs(allStat) do
+        local statType = Osi.NRD_StatGetType(stat)
+        if statType ~= "" and statType ~= nil then
+            if statType == "Character" then
+                if configCollections["PlayerCharacters"][stat] == nil then
+                    if configCollections["NonPlayerCharacters"][stat] == nil then
+                        configCollections["NonPlayerCharacters"][stat] = true
+                    end
+                end
+            end
+            if configCollections[statType][stat] == nil then
+                configCollections[statType][stat] = true
+            end
+        end
+    end
+
+    --  CUSTOM-COLLECTIONS
+    --  ==================
     if S7_ConfigSettings.CustomCollections ~= nil then
         for key, value in pairs(S7_ConfigSettings.CustomCollections) do
             configCollections[key] = S7_Rematerialize(value)
         end
     end
+
+    Ext.SaveFile("S7_TempDump.json", Ext.JsonStringify(configCollections))
 end
 
 --  ============================================================

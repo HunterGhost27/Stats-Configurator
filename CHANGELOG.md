@@ -7,6 +7,7 @@
 ### NEW
 
 * _Created_ a console command `S7_StatSearch` to search statIDs.
+* New **Stat-Collections** for all-characters, npcs and statTypes.
 
 ### CHANGED
 
