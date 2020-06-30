@@ -22,7 +22,7 @@ function StatsConfigurator()
                 S7_ConfigLog(modID .. " loaded. Applying configuration profile.")
                 S7_ConfigLog("=============================================================")
                 for keyName, content in pairs(JSONborne) do --  Iterate over JSONborne.
-                    nameList = S7_Rematerialize(S7_DetermineKey(keyName, content))
+                    nameList = Rematerialize(DetermineKey(keyName, content))
                     for name, _ in pairs(nameList) do
                         S7_ConfigLog(name)
                         S7_ConfigLog("-------------------------------------------------------------")
@@ -30,9 +30,9 @@ function StatsConfigurator()
                         local stat = Ext.GetStat(name) --  Gets original stat-entry.
                         if stat ~= nil then
                             for key, value in pairs(content) do
-                                if S7_SafeToModify(key) == true then --  Checks if key is safe to modify
+                                if SafeToModify(key) == true then --  Checks if key is safe to modify
                                     S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                                    stat[key] = S7_Rematerialize(value) --  Sets new value for Name[Attribute]
+                                    stat[key] = Rematerialize(value) --  Sets new value for Name[Attribute]
                                 else
                                     S7_ConfigLog(key .. " is not a valid attribute for " .. name)
                                 end
@@ -53,7 +53,7 @@ function StatsConfigurator()
     end
 end
 
-function S7_DetermineKey(keyName, content)
+function DetermineKey(keyName, content)
     local returnNameList = {}
     if string.match(keyName, "COLLECTION") then
         for substring in string.gmatch(keyName, "[^%s]+") do
@@ -78,12 +78,12 @@ function S7_DetermineKey(keyName, content)
     return returnNameList
 end
 
-function S7_SafeToModify(key) --  Checks if key is safe to modify.
+function SafeToModify(key) --  Checks if key is safe to modify.
     local dontFwith = --  dont mess with these keys
         "AoEConditions, TargetConditions, ForkingConditions, CycleConditions, SkillProperties, WinBoost, LoseBoost, RootTemplate"
 
     if ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
-        return true --  S7_SafeToModify() returns true for everything.
+        return true --  SafeToModify() returns true for everything.
     else -- Default Setting
         if string.match(dontFwith, key) then --  If key matches.
             S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
