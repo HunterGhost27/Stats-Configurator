@@ -73,7 +73,7 @@ userInfo = {
     ["hostCharacter"] = {}
 }
 
-function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
+function FetchPlayers() --  Rebuilds Client and Host Character Information.
     --  CLIENT CHARACTERS
     --  =================
     local tempUsers = {} --  Temporary table.
@@ -83,24 +83,29 @@ function S7_FetchPlayers() --  Rebuilds Client and Host Character Information.
         count = count + 1
     end
     for _, user in ipairs(tempUsers) do
-        local userName = Osi.GetUserName(user) --  Get Profile Name
-        local userProfileID = Osi.GetUserProfileID(user) --   Get Profile UUID
+        local userProfileID = Osi.GetUserProfileID(user)
+        local _, characterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(user))
         userInfo.clientCharacters[userProfileID] = {
             -- Build ClientCharacter table.
-            ["userProfileID"] = userProfileID,
-            ["userName"] = userName,
-            ["userID"] = user
+            ["userID"] = user,
+            ["userName"] = Osi.GetUserName(user), --  Get Profile Name,
+            ["userProfileID"] = Osi.GetUserProfileID(user), --   Get Profile UUID
+            ["currentCharacter"] = Osi.GetCurrentCharacter(user),
+            ["currentCharacterName"] = characterName
         }
     end
 
     --  HOST CHARACTER
     --  ==============
     local hostUserID = Osi.CharacterGetReservedUserID(Osi.CharacterGetHostCharacter()) -- Get Host Character's UserID
+    local _, hostCharacterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(hostUserID))
     userInfo.hostCharacter = {
         --   Build Host Character's table.
         ["hostUserID"] = hostUserID,
+        ["hostUserName"] = Osi.GetUserName(hostUserID),
         ["hostProfileID"] = Osi.GetUserProfileID(hostUserID),
-        ["hostUserName"] = Osi.GetUserName(hostUserID)
+        ["currentCharacter"] = Osi.GetCurrentCharacter(hostUserID),
+        ["currentCharacterName"] = hostUserID
     }
 end
 
@@ -146,7 +151,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
         end
     end
 
-    local log = "[S7_Config" .. " - " .. logCat .. "] --- " .. logMsg --  The compiled log message.
+    local log = "[S7_Config" .. "|" .. logCat .. "] --- " .. logMsg --  The compiled log message.
 
     local dialogLog = ""
 

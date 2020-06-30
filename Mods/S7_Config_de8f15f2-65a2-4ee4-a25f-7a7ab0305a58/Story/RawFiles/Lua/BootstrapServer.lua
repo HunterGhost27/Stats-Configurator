@@ -59,12 +59,12 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ================
 
     if Signal == "S7_BroadcastConfigData" then
-        local broadcast = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or ""
-        if type(broadcast) == "string" and broadcast ~= "" and broadcast ~= nil then --  if file exists and is not empty
+        local broadcast = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load configData file.
+        if ValidJSONFile(broadcast) then --  if file exists and is not empty
             Ext.BroadcastMessage("S7_ConfigData", broadcast) --  broadcast Server's configFile
             S7_ConfigLog("Server broadcasts Active Configuration Profile.")
         else
-            S7_ConfigLog("Failed to broadcast Active Configuration Profile", "[Error]")
+            S7_ConfigLog("Failed to broadcast Active Configuration Profile.", "[Error]")
         end
     end
 
@@ -73,9 +73,20 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_ValidateClientConfig" then
         local compare = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Loads server's config
-        if type(compare) == "string" and compare ~= "" and compare ~= nil then -- if file exists and is not empty
-            Ext.BroadcastMessage("S7_ValidateClientConfig", compare) -- broadcast server's config file to all clients.
-            S7_ConfigLog("Validating Client Config.")
+        if ValidJSONFile(compare) then -- if file exists and is not empty
+            FetchPlayers() --  Rebuild user-information. UserID is volatile.
+            for userProfileID, _ in pairs(userInfo.clientCharacters) do
+                local clientID =
+                    userInfo.clientCharacters[userProfileID]["currentCharacterName"] ..
+                    " (" .. userInfo.clientCharacters[userProfileID]["userName"] .. ")"
+                local payload = {[clientID] = compare}
+                Ext.PostMessageToClient(
+                    userInfo.clientCharacters[userProfileID]["currentCharacter"],
+                    "S7_ValidateClientConfig",
+                    Ext.JsonStringify(payload)
+                ) -- broadcast server's config file to all clients.
+            end
+            S7_ConfigLog("Validating Client Config...")
         else
             S7_ConfigLog(
                 "Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName,
@@ -219,11 +230,11 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 function S7_ValidateClientResponse(channel, payload) --  Recieves client response.
     local validateClients = {}
     table.insert(validateClients, payload) --  Store client responses in table.
-    for i, clientResponse in ipairs(validateClients) do --  Process client responses.
-        if payload == "Config Mismatch Detected." then --  if Client responded with ConfigMismatch.
-            S7_ConfigLog("Client Response: " .. tostring(payload), "[Warning]") --  Warn Player.
-        else
-            S7_ConfigLog("Client Response: " .. tostring(payload))
+    for _, clientResponse in ipairs(validateClients) do --  Process client responses.
+        if string.match(clientResponse, "Active configuration mismatch detected.") then --  if Client responded with ConfigMismatch.
+            S7_ConfigLog("Client Response: " .. tostring(clientResponse), "[Warning]") --  Warn Player.
+        elseif string.match(clientResponse, "Active configuration profile verified.") then
+            S7_ConfigLog("Client Response: " .. tostring(clientResponse))
         end
     end
 end
@@ -231,35 +242,5 @@ end
 --  ===========================================================================
 Ext.RegisterNetListener("S7_ValidateClientResponse", S7_ValidateClientResponse)
 --  ===========================================================================
-
--- function S7_CS_BuildModData(modName)
---     local database = Osi.DB_S7_Config_ModInterface:Get(modName, nil, nil, nil)
---     local statList = {}
---     local attributeList = {}
---     for i, entry in ipairs(database) do
---         statList[entry[2]] = 1
---         attributeList[entry[3]] = 1
---     end
---     local statConfigData = {}
---     local attributeConfigData = {}
---     for skillName, i in pairs(statList) do
---         for attributeName, j in pairs(attributeList) do
---             local fetch = nil
---             local fetchData = Osi.DB_S7_Config_ModInterface:Get(modName, skillName, attributeName, nil)
---             if fetchData ~= nil then
---                 for k, fetchVal in ipairs(fetchData) do
---                     fetch = fetchVal[4]
---                 end
---             end
---             attributeConfigData[attributeName] = fetch or Ext.StatGetAttribute(skillName, attributeName)
---         end
---         statConfigData[skillName] = S7_Rematerialize(attributeConfigData)
---     end
---     table.insert(toConfigure, {[modName] = Ext.JsonStringify(statConfigData)})
---     StatsConfigurator()
---     S7_StatsSynchronize()
---     toConfigure = {}
---     S7_BuildConfigData(modName, Ext.JsonStringify(statConfigData))
--- end
 
 --  ################################################################################################################################

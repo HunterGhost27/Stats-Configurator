@@ -61,7 +61,7 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 
 function S7_AddSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
-        S7_FetchPlayers()
+        FetchPlayers()
         if character == "" or character == nil then
             for i, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do
                 Osi.CharacterAddSkill(player, skillName, 1)
@@ -88,7 +88,7 @@ end
 
 function S7_RemoveSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
-        S7_FetchPlayers()
+        FetchPlayers()
         if character == "" or character == nil then
             for i, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do
                 Osi.CharacterRemoveSkill(player, skillName)
