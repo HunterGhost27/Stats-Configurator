@@ -121,7 +121,6 @@ end
 --  =================
 
 function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates ConfigData file.
-    local modUUID = modUUID or "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58"
     local modName = modName or "Unassigned"
     if modUUID ~= nil then
         local configTable = {} --  temporary table.
