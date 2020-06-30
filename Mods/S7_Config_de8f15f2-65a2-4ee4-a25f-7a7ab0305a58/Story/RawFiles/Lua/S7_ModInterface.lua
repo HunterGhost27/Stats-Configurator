@@ -2,14 +2,14 @@
 --  ####                                                                MOD INTERFACE                                                              ####
 --  ===================================================================================================================================================
 --  dialog file = "S7_Config_QuickMenu.lsj"
-logSource = "Lua:S7_ModInterface"
+logSource = "Lua:ModInterface"
 --  ###################################################################################################################################################
 
 --  ============================
 --  REFRESH QUICK-MENU VARIABLES
 --  ============================
 
-function S7_RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) conditions.
+function RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) conditions.
     quickMenuVars = {
         --  Global Table to hold data relevant to the current QuickMenu session.
         ["level"] = 1, --  level indicates how far the user is along the dialog session. level 1 - statIDs, level 2 - attributes, level 3 - action.
@@ -30,7 +30,7 @@ function S7_RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) c
     S7_ConfigLog("Dynamic Quick-Menu Refreshed.")
 end
 
-S7_RefreshQuickMenuVars() --  quickMenuVars initialization.
+RefreshQuickMenuVars() --  quickMenuVars initialization.
 
 --  ####################################################################################################################################################
 
@@ -87,7 +87,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
         }
         for option, switch in ipairs(optionSwitchCase) do
             if signal == switch then
-                S7_DynamicAction(option, switch) --  if signal matches any dynamic set-options then relay it(again!) to S7_DynamicAction()
+                DynamicAction(option, switch) --  if signal matches any dynamic set-options then relay it(again!) to S7_DynamicAction()
             end
         end
 
@@ -129,7 +129,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
 
         if signal == "S7_Config_ExitCleanUp" then --  Called upon dialog exit. Cleans up quickMenuVars for the next session.
             S7_ConfigLog(quickMenuVars.modName .. " dialog ends.")
-            S7_RefreshQuickMenuVars() --  Resets quickMenuVars.
+            RefreshQuickMenuVars() --  Resets quickMenuVars.
         end
     end
 
@@ -137,7 +137,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
     --  ==========================
 
     if signal ~= "S7_Config_ExitCleanUp" then --  Prevents update when player has quit the dialog session.
-        S7_UpdateDynamicMenu() --  Updates Dynamic Quick-Menu.
+        UpdateDynamicMenu() --  Updates Dynamic Quick-Menu.
     end
 end
 
@@ -151,7 +151,7 @@ Ext.NewCall(S7_Config_QuickMenuRelay, "S7_Config_QuickMenuRelay", "(STRING)_SIGN
 --      STAGED LIST
 --  ###################
 
-function S7_BuildStagedList() --  Builds the list of options for the current session, level and page.
+function BuildStagedList() --  Builds the list of options for the current session, level and page.
     quickMenuVars.stageList = {} --  reinitialize stageList.
 
     --  FILTER MOD-INTERFACE DATABASE
@@ -216,8 +216,8 @@ end
 --      DYNAMIC ACTIONS
 --  #######################
 
-function S7_DynamicAction(option, switch)
-    S7_BuildStagedList()
+function DynamicAction(option, switch)
+    BuildStagedList()
     local pos = (quickMenuVars.page - 1) * 5 + option --  Retrieve absolute position of entry.
 
     if quickMenuVars.level == 1 then
@@ -260,8 +260,8 @@ end
 --      UPDATE DYNAMIC MENU
 --  ###########################
 
-function S7_UpdateDynamicMenu()
-    S7_BuildStagedList()
+function UpdateDynamicMenu()
+    BuildStagedList()
 
     --  PAGE CONTROL OPTIONS VISIBILITY
     --  ===============================

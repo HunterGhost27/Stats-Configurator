@@ -17,19 +17,19 @@ function S7_Config_ConsoleCommander(...)
         --  =========
         local skillName = args[3] or ""
         local character = args[4] or ""
-        S7_AddSkill(skillName, character)
+        AddSkill(skillName, character)
     elseif command == "RemoveSkill" then
         --  REMOVE SKILL
         --  ============
         local skillName = args[3] or ""
         local character = args[4] or ""
-        S7_RemoveSkill(skillName, character)
+        RemoveSkill(skillName, character)
     elseif command == "StatSearch" then
         --  STAT SEARCH
         --  ===========
         local search = args[3] or ""
         local searchsearchType = args[4] or ""
-        S7_StatSearch(search, searchsearchType)
+        StatSearch(search, searchsearchType)
     elseif command == "Help" or command == "" then
         --  HELP
         --  ====
@@ -59,7 +59,7 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 --  ADD OR REMOVE SKILL
 --  ===================
 
-function S7_AddSkill(skillName, character)
+function AddSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
         FetchPlayers()
         if character == "" or character == nil then
@@ -86,7 +86,7 @@ function S7_AddSkill(skillName, character)
     end
 end
 
-function S7_RemoveSkill(skillName, character)
+function RemoveSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
         FetchPlayers()
         if character == "" or character == nil then
@@ -117,7 +117,7 @@ end
 --  STAT SEARCH
 --  ===========
 
-function S7_StatSearch(search, searchType)
+function StatSearch(search, searchType)
     if search ~= nil and search ~= "" then
         local allStat = {}
         if searchType ~= "" and searchType ~= nil then

@@ -9,7 +9,7 @@ logSource = "Lua:S7_ConfigAuxiliary"
 --      REMATERIALIZE
 --  ######################
 
-function S7_Rematerialize(Entity) --  Created for immediate translation of tables without the excessive for-loop spam.
+function Rematerialize(Entity) --  Created for immediate translation of tables without the excessive for-loop spam.
     return Ext.JsonParse(Ext.JsonStringify(Entity)) --  Works maybe definitely.
 end
 
@@ -27,23 +27,24 @@ DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
+    ["CreateStats"] = false, -- dictates whether new stats should be created or not.
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.
     ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
     ["CustomCollections"] = {} --  Allows users to create custom collections.
 }
 
-ConfigSettings = S7_Rematerialize(DefaultSettings) --  just to initialize ConfigSettings.
+ConfigSettings = Rematerialize(DefaultSettings) --  just to initialize ConfigSettings.
 
 --  Import Custom Settings
 --  ======================
 
-function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
+function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
     local function S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides ConfigSettings. CustomSettings given priority over Default.
         if settingsOverride[setting] == false then --  If a settingsOverride setting has boolean false.
             return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skip settingsOverride.
         else
-            return S7_Rematerialize(settingsOverride[setting]) or S7_Rematerialize(DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
+            return Rematerialize(settingsOverride[setting]) or Rematerialize(DefaultSettings[setting]) --  Return settingsOverride (if not nil) or DefaultSettings(if settingsOverride is nil).
         end
     end
 
@@ -60,9 +61,9 @@ function S7_RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted 
     end
 end
 
---  =========================================================
-Ext.RegisterListener("ModuleLoadStarted", S7_RefreshSettings) --  Try removing this maybe?
---  =========================================================
+--  ======================================================
+Ext.RegisterListener("ModuleLoadStarted", RefreshSettings) --  Try removing this maybe?
+--  ======================================================
 
 --  ################
 --  USER INFORMATION
@@ -273,7 +274,7 @@ end
 --  EXPORT STATS TO TSV
 --  ===================
 
-function S7_StatsExportTSV() --  Fetches literally every stat and exports to TSV.
+function StatsExportTSV() --  Fetches literally every stat and exports to TSV.
     Ext.SaveFile(ConfigSettings.ExportStatIDtoTSV.FileName, "") --  Creates an empty TSV or Overwrites the existing one.
     local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column.
 

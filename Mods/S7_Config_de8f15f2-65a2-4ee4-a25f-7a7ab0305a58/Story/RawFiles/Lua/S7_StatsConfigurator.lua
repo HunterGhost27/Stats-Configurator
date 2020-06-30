@@ -13,6 +13,9 @@ logSource = "Lua:StatsConfigurator"
 toConfigure = {} -- holds a list of stringified-jsons that need to be configured.
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
+--  STATS CONFIGURATOR
+--  ==================
+
 function StatsConfigurator()
     for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
@@ -22,15 +25,22 @@ function StatsConfigurator()
                 S7_ConfigLog(modID .. " loaded. Applying configuration profile.")
                 S7_ConfigLog("=============================================================")
                 for keyName, content in pairs(JSONborne) do --  Iterate over JSONborne.
-                    nameList = Rematerialize(DetermineKey(keyName, content))
+                    nameList = Rematerialize(UnpackCollection(keyName, content))
                     for name, _ in pairs(nameList) do
                         S7_ConfigLog(name)
                         S7_ConfigLog("-------------------------------------------------------------")
 
                         local stat = Ext.GetStat(name) --  Gets original stat-entry.
-                        if stat ~= nil then
+                        if Ext.IsServer() and stat == nil and ConfigSettings.CreateStats == true then
+                            if content.Using ~= nil and Osi.NRD_StatExists(content.Using) then
+                                Ext.CreateStat(name, Osi.NRD_StatGetType(content.Using), content.Using)
+                                S7_ConfigLog("Created stat: " .. name .. " using " .. content.Using)
+                            else
+                                S7_ConfigLog("Can't create stat: " .. name .. " : (using) template not specified.")
+                            end
+                        elseif stat ~= nil then
                             for key, value in pairs(content) do
-                                if SafeToModify(key) == true then --  Checks if key is safe to modify
+                                if SafeToModify(key) then --  Checks if key is safe to modify
                                     S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                                     stat[key] = Rematerialize(value) --  Sets new value for Name[Attribute]
                                 else
@@ -53,22 +63,13 @@ function StatsConfigurator()
     end
 end
 
-function DetermineKey(keyName, content)
+function UnpackCollection(keyName, content)
     local returnNameList = {}
     if string.match(keyName, "COLLECTION") then
         for substring in string.gmatch(keyName, "[^%s]+") do
             if substring ~= "COLLECTION" then
                 for subcollection, _ in pairs(configCollections[substring]) do
                     returnNameList[subcollection] = 1
-                end
-            end
-        end
-    elseif string.match(keyName, "CREATE") and Ext.IsServer() then
-        for substring in string.gmatch(keyName, "[^%s]+") do
-            if substring ~= "CREATE" then
-                if content.Using ~= nil or content.Using ~= "" then
-                    Ext.CreateStat(substring, Osi.NRD_StatGetType(content.Using), content.Using)
-                    returnNameList[substring] = 1
                 end
             end
         end

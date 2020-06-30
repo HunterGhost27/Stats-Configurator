@@ -1,7 +1,7 @@
 --  ###################################################################################################################################################
 --                                                                      COLLECTIONS
 --  ===================================================================================================================================================
-logSource = "Lua:S7_ConfigCollections"
+logSource = "Lua:ConfigCollections"
 --  ###################################################################################################################################################
 
 local defaultCollections = {
@@ -50,10 +50,10 @@ local defaultCollections = {
 
 configCollections = {}
 
-function S7_RebuildCollections()
+function RebuildCollections()
     --  RE-INITIALIZE CONFIG-COLLECTIONS
     --  ================================
-    configCollections = S7_Rematerialize(defaultCollections)
+    configCollections = Rematerialize(defaultCollections)
 
     --  DYNAMIC-COLLECTIONS
     --  ===================
@@ -89,11 +89,11 @@ function S7_RebuildCollections()
     --  ==================
     if ConfigSettings.CustomCollections ~= nil then
         for key, value in pairs(ConfigSettings.CustomCollections) do
-            configCollections[key] = S7_Rematerialize(value)
+            configCollections[key] = Rematerialize(value)
         end
     end
 end
 
---  ======================================================
-Ext.RegisterListener("StatsLoaded", S7_RebuildCollections)
---  ======================================================
+--  ===================================================
+Ext.RegisterListener("StatsLoaded", RebuildCollections)
+--  ===================================================

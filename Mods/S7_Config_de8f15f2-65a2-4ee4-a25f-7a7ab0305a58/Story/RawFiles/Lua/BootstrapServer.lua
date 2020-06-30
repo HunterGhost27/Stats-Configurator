@@ -139,7 +139,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ======================
 
     if Signal == "S7_SetDefaultSettings" then --  Resets ConfigSettings to Default Values.
-        ConfigSettings = S7_Rematerialize(DefaultSettings)
+        ConfigSettings = Rematerialize(DefaultSettings)
         S7_ConfigLog("Using default settings.")
     end
 
@@ -147,7 +147,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ==================
 
     if Signal == "S7_RefreshSettings" then
-        S7_RefreshSettings() --  Reload settings.
+        RefreshSettings() --  Reload settings.
         S7_ConfigLog("Settings refreshed.")
     end
 
@@ -158,7 +158,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         local exportSettings = Ext.JsonStringify(ConfigSettings) --  stringifies the current ConfigSettings.
         Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
         S7_ConfigLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
-        S7_RefreshSettings() --  Reload settings.
+        RefreshSettings() --  Reload settings.
         S7_ConfigLog("Custom Settings Exported and Refreshed.")
     end
 
@@ -166,7 +166,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ==========================
 
     if Signal == "S7_StatsExportTSV" then
-        S7_StatsExportTSV() --  Logs statIDs in an external TSV file for reference
+        StatsExportTSV() --  Logs statIDs in an external TSV file for reference
         S7_ConfigLog("Exporting StatIDs to " .. ConfigSettings.ExportStatIDtoTSV.FileName)
     end
 
