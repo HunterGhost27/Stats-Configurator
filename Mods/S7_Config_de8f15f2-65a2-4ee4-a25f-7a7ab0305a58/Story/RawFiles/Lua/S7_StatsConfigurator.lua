@@ -97,7 +97,7 @@ end
 --  STATS-SYNCHRONIZE
 --  =================
 
-function S7_StatsSynchronize()
+function StatsSynchronize()
     if type(next(toSync)) ~= "nil" then --  Stats were modified. toSync is not empty.
         S7_ConfigLog(
             "Synchronizing Stats [Savegame-Persistence: " .. tostring(ConfigSettings.SyncStatPersistence) .. "]",

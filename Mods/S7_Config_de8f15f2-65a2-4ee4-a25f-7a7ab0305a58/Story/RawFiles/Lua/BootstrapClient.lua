@@ -54,9 +54,9 @@ local function CatchBroadcast(channel, payload) --  Listens for broadcasts from 
 
     if channel == "S7_ValidateClientConfig" then --  if broadcast channel is S7_ValidateClientConfig
         local verify = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --    Load local ActiveConfiguration if available.
-        for clientID, compare in pairs(Ext.JsonParse(payload)) do
+        for clientID, compare in pairs(Ext.JsonParse(payload)) do --  seperate client-info and the actual compare-string
             local message = clientID .. " : "
-            if ValidJSONFile(verify) and compare == verify then
+            if ValidJSONFile(verify) and compare == verify then --  compare strings
                 message = message .. "Active configuration profile verified."
                 Ext.PostMessageToServer("S7_ValidateClientResponse", message)
             else

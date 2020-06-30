@@ -27,7 +27,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
             Ext.SaveFile(ConfigSettings.ConfigFile, "")
         end
         StatsConfigurator() --  Calls StatsConfigurator.
-        S7_StatsSynchronize() --  Synchronize stats for all clients.
+        StatsSynchronize() --  Synchronize stats for all clients.
         toConfigure = {}
         S7_ConfigLog("StatsConfiguration Finished.")
     end
@@ -42,15 +42,15 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
                 table.insert(toSync, stats) --  insert stats into toSync queue.
             end
         end
-        S7_StatsSynchronize() --  Call StatsSynchronize.
-        S7_ConfigLog("StatsSynchronization Finished.")
+        StatsSynchronize() --  Call StatsSynchronize.
+        S7_ConfigLog("Stats-Synchronization Finished.")
     end
 
     --  BUILD CONFIG-DATA
     --  =================
 
     if Signal == "S7_BuildConfigData" then
-        local buildData = Ext.LoadFile(ConfigSettings.ConfigFile) or ""
+        local buildData = Ext.LoadFile(ConfigSettings.ConfigFile) or "" --  Load ConfigFile.
         S7_BuildConfigData("S7_Config", buildData)
         S7_ConfigLog("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
     end
@@ -80,6 +80,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
                     userInfo.clientCharacters[userProfileID]["currentCharacterName"] ..
                     " (" .. userInfo.clientCharacters[userProfileID]["userName"] .. ")"
                 local payload = {[clientID] = compare}
+
                 Ext.PostMessageToClient(
                     userInfo.clientCharacters[userProfileID]["currentCharacter"],
                     "S7_ValidateClientConfig",
@@ -227,7 +228,7 @@ end
 Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  ============================================================================
 
-function S7_ValidateClientResponse(channel, payload) --  Recieves client response.
+function ValidateClientResponse(channel, payload) --  Recieves client response.
     local validateClients = {}
     table.insert(validateClients, payload) --  Store client responses in table.
     for _, clientResponse in ipairs(validateClients) do --  Process client responses.
@@ -239,8 +240,8 @@ function S7_ValidateClientResponse(channel, payload) --  Recieves client respons
     end
 end
 
---  ===========================================================================
-Ext.RegisterNetListener("S7_ValidateClientResponse", S7_ValidateClientResponse)
---  ===========================================================================
+--  ========================================================================
+Ext.RegisterNetListener("S7_ValidateClientResponse", ValidateClientResponse)
+--  ========================================================================
 
 --  ################################################################################################################################

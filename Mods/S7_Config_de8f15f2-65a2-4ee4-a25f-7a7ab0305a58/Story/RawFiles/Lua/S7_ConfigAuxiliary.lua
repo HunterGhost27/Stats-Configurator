@@ -309,9 +309,9 @@ if Ext.IsServer() then
 end
 --  ==================================================================
 
---  ===============
---      HELPERS
---  ===============
+--  ==========================
+--      VALIDATE JSON FILE
+--  ==========================
 
 function ValidJSONFile(File) --  Checks if File is a string, is not nil and is not empty.
     if type(File) == "string" and File ~= nil and File ~= "" and File ~= "{}" and File ~= "[]" then

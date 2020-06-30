@@ -246,7 +246,7 @@ function S7_DynamicAction(option, switch)
         --  Call Stats Configurator
         table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(quickMenuVars.configData)})
         StatsConfigurator()
-        S7_StatsSynchronize()
+        StatsSynchronize()
         toConfigure = {}
         S7_BuildConfigData(quickMenuVars.modName, Ext.JsonStringify(quickMenuVars.configData))
     elseif quickMenuVars.selectedAction == "Clear" then
