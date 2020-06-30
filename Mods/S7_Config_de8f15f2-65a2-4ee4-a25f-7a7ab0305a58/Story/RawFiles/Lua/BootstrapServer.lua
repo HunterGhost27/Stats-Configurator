@@ -19,14 +19,14 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_StatsConfigurator" then
         local file = Ext.LoadFile(ConfigSettings.ConfigFile) or "" --  Load file.
-        if type(file) == "string" and file ~= nil and file ~= "" then --  if file exists and is not empty.
+        if ValidJSONFile(file) then --  if file exists and is not empty.
             S7_ConfigLog("Loading: " .. ConfigSettings.ConfigFile)
             table.insert(toConfigure, {["S7_Config"] = file}) -- Queue json for Configuration.
         else
             S7_ConfigLog(ConfigSettings.ConfigFile .. " not found. Creating empty file.", "[Error]")
             Ext.SaveFile(ConfigSettings.ConfigFile, "")
         end
-        S7_StatsConfigurator() --  Calls StatsConfigurator.
+        StatsConfigurator() --  Calls StatsConfigurator.
         S7_StatsSynchronize() --  Synchronize stats for all clients.
         toConfigure = {}
         S7_ConfigLog("StatsConfiguration Finished.")
@@ -144,7 +144,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_ExportCurrentSettings" then --  Exports the current ConfigSettings to ConfigSettings.json file.
         local exportSettings = Ext.JsonStringify(ConfigSettings) --  stringifies the current ConfigSettings.
-        Ext.SaveFile("ConfigSettings.json", exportSettings) --  Save json file.
+        Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
         S7_ConfigLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
         S7_RefreshSettings() --  Reload settings.
         S7_ConfigLog("Custom Settings Exported and Refreshed.")
@@ -256,7 +256,7 @@ Ext.RegisterNetListener("S7_ValidateClientResponse", S7_ValidateClientResponse)
 --         statConfigData[skillName] = S7_Rematerialize(attributeConfigData)
 --     end
 --     table.insert(toConfigure, {[modName] = Ext.JsonStringify(statConfigData)})
---     S7_StatsConfigurator()
+--     StatsConfigurator()
 --     S7_StatsSynchronize()
 --     toConfigure = {}
 --     S7_BuildConfigData(modName, Ext.JsonStringify(statConfigData))

@@ -1,9 +1,9 @@
 --  ###################################################################################################################################################
---                                                                      STATS CONFIG AND SYNC
+--                                                                      STATS CONFIGURATOR
 --  ===================================================================================================================================================
 Ext.Require("S7_ConfigAuxiliary.lua")
 Ext.Require("S7_ConfigCollections.lua")
-logSource = "Lua:S7_StatsConfigurator"
+logSource = "Lua:StatsConfigurator"
 --  ###################################################################################################################################################
 
 --  ##################
@@ -13,13 +13,13 @@ logSource = "Lua:S7_StatsConfigurator"
 toConfigure = {} -- holds a list of stringified-jsons that need to be configured.
 toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat()
 
-function S7_StatsConfigurator()
+function StatsConfigurator()
     for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
             if ValidJSONFile(JSONstring) then --  if json exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
 
-                S7_ConfigLog(modID .. " loaded. Applying Configuration Profile.")
+                S7_ConfigLog(modID .. " loaded. Applying configuration profile.")
                 S7_ConfigLog("=============================================================")
                 for keyName, content in pairs(JSONborne) do --  Iterate over JSONborne.
                     nameList = S7_Rematerialize(S7_DetermineKey(keyName, content))

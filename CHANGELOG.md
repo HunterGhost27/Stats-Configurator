@@ -8,6 +8,7 @@
 
 * _Created_ a console command `S7_StatSearch` to search statIDs.
 * New **Stat-Collections** for all-characters, npcs and statTypes.
+* `StatsLoader` now respects **Load-Order**.
 
 ### CHANGED
 
@@ -15,7 +16,7 @@
 * _Moved_ user information stuff in `S7_ConfigAuxiliary.lua` from `S7_ConsoleCommander.lua`.
 * `S7_InspectStats` **Reborn**.
 * `S7_ExportStatIDtoTSV` simplified.
-* _Dropped_ prefix from `table ConfigSettings`, `table DefaultSettings` and `func StatsLoader`
+* _Dropped_ prefix from `table ConfigSettings`, `table DefaultSettings`, `func StatsLoader`, `func CatchBroadcast`, `func ValidJSONFile`.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 

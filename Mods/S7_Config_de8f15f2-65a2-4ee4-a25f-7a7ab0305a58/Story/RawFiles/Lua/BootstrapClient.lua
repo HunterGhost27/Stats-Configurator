@@ -18,14 +18,21 @@ local function StatsLoader() --  Loads stats-configuration json after StatsLoade
         local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
         if ValidJSONFile(file) then --  if configData file exists and is not empty.
             local configData = Ext.JsonParse(file) --  Parse into table.
-            for modID, content in pairs(configData) do --  for each mod's configData
-                table.insert(toConfigure, {[modID] = content}) --  Queue files for configuration.
+            local modLoadOrder = Ext.GetModLoadOrder() --  Get Load order
+            local pos = 1 --  position index
+            for i, modUUID in ipairs(modLoadOrder) do --  Iterate over loadOrder.
+                if configData[modUUID] ~= nil and configData[modUUID]["ModUUID"] == modUUID then --  if ModUUID matches.
+                    toConfigure[pos] = {[configData[modUUID]["ModName"]] = configData[modUUID]["Content"]} --  Queue files for configuration.
+                    pos = pos + 1 --  Increment position index.
+                end
             end
+            StatsConfigurator() --  Configure Stats
+            toConfigure = {} -- flush config queue
+            toSync = {} --  flush Sync queue
+            S7_ConfigLog("StatsLoading Completed.")
+        else
+            S7_ConfigLog("Failed to load " .. ConfigSettings.StatsLoader.FileName, "[Error]")
         end
-        S7_StatsConfigurator() --  Configure Stats
-        toConfigure = {} -- flush config queue
-        toSync = {} --  flush Sync queue
-        S7_ConfigLog("StatsLoading Completed.")
     else --  if StatsLoader disabled in settings.
         S7_ConfigLog("StatsLoader is disabled.", "[Warning]")
     end

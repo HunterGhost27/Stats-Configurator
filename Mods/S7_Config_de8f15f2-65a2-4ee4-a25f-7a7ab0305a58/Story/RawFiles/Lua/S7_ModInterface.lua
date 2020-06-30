@@ -245,7 +245,7 @@ function S7_DynamicAction(option, switch)
     elseif quickMenuVars.selectedAction == "Confirm" then
         --  Call Stats Configurator
         table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(quickMenuVars.configData)})
-        S7_StatsConfigurator()
+        StatsConfigurator()
         S7_StatsSynchronize()
         toConfigure = {}
         S7_BuildConfigData(quickMenuVars.modName, Ext.JsonStringify(quickMenuVars.configData))
