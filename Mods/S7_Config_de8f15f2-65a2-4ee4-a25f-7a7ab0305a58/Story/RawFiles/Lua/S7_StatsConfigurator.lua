@@ -120,16 +120,27 @@ end
 --  BUILD CONFIG-DATA
 --  =================
 
-function S7_BuildConfigData(modID, buildData) --  Rebuilds/updates ConfigData file.
-    local configTable = {}
-    local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName)
-    if file ~= nil and file ~= "" then
-        configTable = Ext.JsonParse(file) -- gets existing ConfigData
+function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates ConfigData file.
+    local modUUID = modUUID or "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58"
+    local modName = modName or "Unassigned"
+    if modUUID ~= nil then
+        local configTable = {} --  temporary table.
+        local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Load existing file.
+        if ValidJSONFile(file) then
+            configTable = Ext.JsonParse(file) -- gets existing ConfigData.
+        else
+            Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
+        end
+
+        configTable[modUUID] = {
+            ["ModUUID"] = modUUID,
+            ["ModName"] = modName,
+            ["Content"] = buildData
+        }
+        Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
     else
-        Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "{}") --  if ConfigData doesn't exist, create empty file.
+        S7_ConfigLog("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName, "[Error]")
     end
-    configTable[modID] = buildData --  Update ConfigData
-    Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
 end
 
 --  ####################################################################################################################################################

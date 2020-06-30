@@ -51,7 +51,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_BuildConfigData" then
         local buildData = Ext.LoadFile(ConfigSettings.ConfigFile) or "" --  Load ConfigFile.
-        S7_BuildConfigData("S7_Config", buildData)
+        BuildConfigData(buildData, "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config")
         S7_ConfigLog("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
     end
 

@@ -248,7 +248,7 @@ function S7_DynamicAction(option, switch)
         StatsConfigurator()
         StatsSynchronize()
         toConfigure = {}
-        S7_BuildConfigData(quickMenuVars.modName, Ext.JsonStringify(quickMenuVars.configData))
+        BuildConfigData(Ext.JsonStringify(quickMenuVars.configData), quickMenuVars.modUUID, quickMenuVars.modName)
     elseif quickMenuVars.selectedAction == "Clear" then
         quickMenuVars.selectedVal = quickMenuVars.defaultVal
     end

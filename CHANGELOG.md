@@ -18,6 +18,7 @@
 * `S7_ExportStatIDtoTSV` simplified.
 * _Dropped_ prefix from `table ConfigSettings`, `table DefaultSettings`, `func StatsLoader`, `func CatchBroadcast`, `func ValidJSONFile` and more. You get the idea.
 * _Revamped_ networking.
+* _Rebuilt_ `BuildConfigData()`.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 
