@@ -107,8 +107,10 @@ function StatsSynchronize()
         S7_ConfigLog("=============================================================")
 
         for i, name in ipairs(toSync) do
-            Ext.SyncStat(name, ConfigSettings.SyncStatPersistence) --  Sync
-            S7_ConfigLog("Synchronized Stat: " .. name)
+            if Osi.NRD_StatExists(name) then
+                Ext.SyncStat(name, ConfigSettings.SyncStatPersistence) --  Sync
+                S7_ConfigLog("Synchronized Stat: " .. name)
+            end
             toSync[i] = nil --  Clears out toSync entry.
         end
         S7_ConfigLog("=============================================================")

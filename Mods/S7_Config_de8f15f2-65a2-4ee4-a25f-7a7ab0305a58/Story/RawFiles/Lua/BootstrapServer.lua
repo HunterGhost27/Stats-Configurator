@@ -205,7 +205,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ===================
 
     if Signal == "S7_RebuildCollections" then
-        S7_RebuildCollections()
+        RebuildCollections()
     end
 
     --  TOGGLE LOG
