@@ -40,7 +40,7 @@ ConfigSettings = Rematerialize(DefaultSettings) --  just to initialize ConfigSet
 --  ======================
 
 function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
-    local function S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides ConfigSettings. CustomSettings given priority over Default.
+    local function CustomOrDefaultSettings(settingsOverride, setting) --  Overrides ConfigSettings. CustomSettings given priority over Default.
         if settingsOverride[setting] == false then --  If a settingsOverride setting has boolean false.
             return false -- Prevents the function from returning DefaultSettings when false is a valid return value. Only nil should skip settingsOverride.
         else
@@ -53,7 +53,7 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
         for setting, value in pairs(DefaultSettings) do --  Iterate for every key in DefaultSettings.
-            ConfigSettings[setting] = S7_CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default if override omitted.
+            ConfigSettings[setting] = CustomOrDefaultSettings(settingsOverride, setting) --  Overrides the changes, pulls the rest from Default if override omitted.
         end
         S7_ConfigLog("Custom settings applied.", nil, "Settings", "Settings: Custom")
     else
