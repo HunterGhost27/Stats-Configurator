@@ -175,27 +175,14 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
     end
 end
 
---  =========================================================================================================================================
-if Ext.IsServer() then
-    Ext.NewCall(S7_ConfigLog, "S7_ConfigLog", "(STRING)_Log")
-    Ext.NewCall(S7_ConfigLog, "S7_ConfigLog", "(STRING)_Log, (STRING)_LogType")
-    Ext.NewCall(S7_ConfigLog, "S7_ConfigLog", "(STRING)_Log, (STRING)_LogType, (STRING)_LogDialogVar")
-    Ext.NewCall(
-        S7_ConfigLog,
-        "S7_ConfigLog",
-        "(STRING)_Log, (STRING)_LogType, (STRING)_LogDialogVar, (STRING)_LogDialogVal"
-    )
-end
---  =========================================================================================================================================
-
 --  #########################################################################################################################################
 
-toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by S7_SetDialogVars()
+toSetDialogVar = {} --  Will hold a queue of pending dialog-variable changes. DialogVars are set and subsequently cleared by SetDialogVars()
 
 --  SET DIALOG VARIABLES
 --  ====================
 
-function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). Isn't called instantly so changes are applied when Osiris is available.
+function SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). Isn't called instantly so changes are applied when Osiris is available.
     local dialogCase = {
         ["StatsLoader"] = "S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37",
         ["StatsConfigurator"] = "S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb",
@@ -259,12 +246,6 @@ function S7_SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). I
     end
 end
 
---  =====================================================
-if Ext.IsServer() then
-    Ext.NewCall(S7_SetDialogVars, "S7_SetDialogVars", "")
-end
---  =====================================================
-
 --  ########################################################################################################################################
 
 --  #####################
@@ -297,18 +278,12 @@ end
 --  INSPECT SKILL
 --  =============
 
-local function S7_InspectStats(StatID) --  Recieves StatID from Osiris.
+function InspectStats(StatID) --  Recieves StatID from Osiris.
     if Osi.NRD_StatExists(StatID) then --  Check if stat exists.
         local StatType = Osi.NRD_StatGetType(StatID) --  Get StatType
         S7_ConfigLog("Inspected: (" .. StatType .. "): " .. StatID)
     end
 end
-
---  ==================================================================
-if Ext.IsServer() then
-    Ext.NewCall(S7_InspectStats, "S7_InspectStats", "(STRING)_StatID")
-end
---  ==================================================================
 
 --  ==========================
 --      VALIDATE JSON FILE

@@ -2,7 +2,7 @@
 
 ---
 
-## [0.6.2.0] --- 29th June 2020 --- **_Rework Time!_**
+## [0.6.2.0] --- 1st July 2020 --- **_Rework Time!_**
 
 ### NEW
 
@@ -20,6 +20,8 @@
 - _Dropped_ prefix from `table ConfigSettings`, `table DefaultSettings`, `func StatsLoader`, `func CatchBroadcast`, `func ValidJSONFile` and more. You get the idea.
 - _Revamped_ networking.
 - _Rebuilt_ `BuildConfigData()`.
+- _Changed_ `S7_ConfigLog`, `S7_InspectStats` and `S7_SetDialogVars` to `NRD_ModCall`.
+- _Dropped_ prefixes from `InspectStats` and `SetDialogVars`.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 

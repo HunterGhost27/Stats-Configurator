@@ -221,7 +221,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         end
     end
 
-    S7_SetDialogVars() --  Request dialogVar update everytime ModMenu relays a signal.
+    SetDialogVars() --  Request dialogVar update everytime ModMenu relays a signal.
 end
 
 --  ============================================================================

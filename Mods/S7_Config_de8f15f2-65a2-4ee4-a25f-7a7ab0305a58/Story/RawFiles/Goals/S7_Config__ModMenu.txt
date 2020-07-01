@@ -54,7 +54,7 @@ AND
 NOT ItemTemplateIsInPartyInventory(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1, 1)    //  Host-character's party doesn't already have the configurator.
 THEN
 ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _Character, 1);                       //  Add inspector to host-character's inventory.
-S7_ConfigLog("Inspector added to Host-Character's Inventory.", "[ModMenu]");
+NRD_ModCall("S7_Config", "S7_ConfigLog", "Inspector added to Host-Character's Inventory.", "[ModMenu]");
 
 //=============================
 //REGION  START MOD-MENU DIALOG
@@ -71,7 +71,7 @@ AND
 QRY_SpeakerIsAvailable(_Character)                                                                          //  Checks whether player can have a dialog.
 THEN
 Proc_StartDialog(1, "S7_Config_ModMenu", _Character);                                                       //  Starts the Mod-Menu dialog.
-S7_ConfigLog("ModMenu activated by the host-character.", "[ModMenu]");
+NRD_ModCall("S7_Config", "S7_ConfigLog", "ModMenu activated by the host-character.", "[ModMenu]");
 
 IF                                      
 CharacterUsedItemTemplate(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _)        // Character used configurator.
@@ -82,9 +82,9 @@ CharacterGetHostCharacter(_HostCharacter)                                       
 AND
 QRY_SpeakerIsAvailable(_HostCharacter)                                                                      //  Check if host-character is available for dialog.
 THEN
-S7_SetDialogVars();
+NRD_ModCall("S7_Config", "SetDialogVars");
 Proc_StartDialog(1, "S7_Config_ModMenu", _HostCharacter);                                                   //  Redirect Mod-Menu dialog to Host-Character.
-S7_ConfigLog("ModMenu activated by Client. Redirecting dialog to Host-Character.", "[ModMenu]");
+NRD_ModCall("S7_Config", "S7_ConfigLog", "ModMenu activated by Client. Redirecting dialog to Host-Character.", "[ModMenu]");
 
 //END_REGION
 //=============================
