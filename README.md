@@ -1,8 +1,10 @@
-# **Stats Configurator** for Divinity: Original Sin 2 - Definitive Edition
+# **Stats Configurator**
+
+## Divinity Original Sin 2: Definitive Edition
 
 ----------
 
-The **Stats Configurator** allows you to modify and customize stats. It's a tool for users to make changes to stat-entries based on user-created config files. It also allows other mods to interface with its functionality to achieve the same. Through configuration files, you can change attributes like action-points cost, cooldown, gold-value, display-name, damage-values and resistances, memory cost and many more.
+The **Stats Configurator** allows you to modify and customize stats. It's a tool for users to make changes to stat-entries by creating config files. It also allows other mods to interface with its functionality to achieve the same. Through configuration files, you can change attributes like action-points cost, cooldown, gold-value, display-name, damage-values and resistances, memory cost and many more.
 
 ## Releases
 
@@ -13,22 +15,22 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 
 * ***[Script-Extender](https://github.com/Norbyte/ositools)***
 
-## Features
+## Mod at a Glance
 
-* Dynamic editing and creation of stats.
-* Groups of stats can be configured together as a **Collection**.
-* Users can create their own collections.
-* Share your config-data with your peers (in-game!). So everyone's on the same page.
-* Allows stat-overrides to be saved persistently in the save-file.
-* A suite of utilities to make stat-editing process easier.
-* Export a list of every single stat-entry for reference.
-* An Inspect Skill that allows you to print relevent stat-entries of a target.
-* Comprehensive in-game diagnostics, changelogs and instructions.
-* Can interface with other mods.
-* Dependency-free integration allows quick setup of mod-config-menus for your mod with some basic functionality.
-* For more advanced control, the mod's functionality is available using Lua.
-* Console commands! - Add or Remove Skills, Search for stats.
-* Highly configurable. :)
+* **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit.
+* _Edit_ a group of stats at the same time with **collections**. Use the **presets** or **create your own**.
+* _Share_ your **config-data** with your **peers**. So everyone's on the same page.
+* _Save_ your stat-overrides **persistently** in the save-file, or change them up each session.
+* _Export_ a list of every single stat-entry for reference.
+* _Use_ the _Inspect Skill_ to print stat-entries relevent to a target.
+* Comprehensive _in-game_ diagnostics, changelogs and instructions.
+* Can _interface_ with **other mods** and provide them the same power. Create **MCMs** for your mods!
+* Dependency-free integration allows **quick setup** of mod-config-menus for your mod with some basic functionality.
+* For more _advanced control_, the mod's functionality is available through **Lua**.
+* Hate fiddling with _menus_ and _UI_. Use **console commands!** - Add or Remove Skills, Search for stats, and more.
+* The mod is **highly configurable**. :)
+
+## Features
 
 ----------
 
