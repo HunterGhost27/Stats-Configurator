@@ -452,7 +452,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[ModRegistry]</b>"
+                                                   "value" : "<b>[ModRegistry] </b>List all mods currently registered to the Stats-Configurator."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2754,7 +2754,7 @@
                                                 "TagText" : {
                                                    "handle" : "ls::TranslatedStringRepository::s_HandleUnknown",
                                                    "type" : 28,
-                                                   "value" : "<b>[Rebuild Collections]</b>"
+                                                   "value" : "<b>[Rebuild Collections]</b> Recreate stat-collections from presets and custom settings."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -3361,7 +3361,7 @@
                                                 "TagText" : {
                                                    "handle" : "hb2530e7bga8b7g4273g97e8g303edee4acd8",
                                                    "type" : 28,
-                                                   "value" : "<b>[Toggle ConfigLog] </b>Toggle to Enable/Disable the mod from logging to S7_ConfigLog.tsv. The mod still prints to DebugConsole."
+                                                   "value" : "<b>[Toggle ConfigLog] </b>Toggle logging capability to S7_ConfigLog.tsv. The mod still prints to DebugConsole."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -5991,7 +5991,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 364}
+            "nextNodeId" : {"type" : 5, "value" : 374}
          }
       }
    }

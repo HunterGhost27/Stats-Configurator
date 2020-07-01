@@ -25,6 +25,8 @@
 - _Changed_ `S7_ConfigLog`, `S7_InspectStats` and `S7_SetDialogVars` to `NRD_ModCall`.
 - _Dropped_ prefixes from `InspectStats` and `SetDialogVars`.
 - _Reworked_ existing console commands to make use of client and host information.
+- _Fake_ `DB_S7_Config_ModRegistry` entry. Just so its not empty.
+- `ConfigLog` is disabled by default now.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 

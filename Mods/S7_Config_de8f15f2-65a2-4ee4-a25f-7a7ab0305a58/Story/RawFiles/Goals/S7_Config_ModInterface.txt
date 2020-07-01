@@ -33,6 +33,13 @@ THEN
 S7_Config_QuickMenuRelay(_Signal);      //  Relay Signal to Lua.
 GlobalClearFlag(_Signal);               //  Clear Flag.
 
+IF
+GameStarted(_, _)
+AND
+NOT DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_DONOTUSE_Signal")
+THEN
+DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_DONOTUSE_Signal");
+
 EXITSECTION
 
 ENDEXITSECTION

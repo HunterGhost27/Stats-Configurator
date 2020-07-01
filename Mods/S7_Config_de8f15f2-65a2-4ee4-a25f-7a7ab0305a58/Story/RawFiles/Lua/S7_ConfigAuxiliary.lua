@@ -30,7 +30,7 @@ DefaultSettings = {
     ["CreateStats"] = false, -- dictates whether new stats should be created or not.
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.
-    ["ConfigLog"] = {["Enable"] = true, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
+    ["ConfigLog"] = {["Enable"] = false, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
     ["CustomCollections"] = {} --  Allows users to create custom collections.
 }
 
