@@ -2,6 +2,12 @@
 
 ---
 
+## [0.6.3.0] --- 1st July 2020 --- **_What's up doc?_**
+
+### NEW
+
+- _Started_ working on **documentation**. - I hate this shit.
+
 ## [0.6.2.0] --- 1st July 2020 --- **_Rework Time!_**
 
 ### NEW
@@ -12,6 +18,7 @@
 - **Stat-Creation** is back. Only works under specific conditions.
 - console commands can pass signals to `S7_Config_ModMenuRelay()`.
 - _Created_ help message for `Relay` console command.
+- Github and Discord integration.
 
 ### CHANGED
 

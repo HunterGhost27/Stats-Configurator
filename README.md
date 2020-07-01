@@ -4,7 +4,7 @@
 
 ----------
 
-The **Stats Configurator** allows you to modify and customize stats. It's a tool for users to make changes to stat-entries by creating config files. It also allows other mods to interface with its functionality to achieve the same. Through configuration files, you can change attributes like action-points cost, cooldown, gold-value, display-name, damage-values and resistances, memory cost and many more.
+The **Stats Configurator** allows you to modify and customize stats. It's a tool for users to make changes to stat-entries by creating config files. It also allows other mods to interface with its functionality to achieve the same. Through configuration files, you can change attributes like action-points cost, cooldown, gold-value, display-name, damage-values and resistances, memory cost, item-color and many more.
 
 ## Releases
 
@@ -32,47 +32,15 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 
 ## Features
 
-### Configuration
+For Extensive Documentation >>>GO HERE<<<
 
-Let's create a file in `Osiris Data` folder called `S7_Config.json` with the following content.
+### Configure to your heart's desire
 
-```json
-{
-    "Projectile_Fireball": {
-        "ActionPoints": 4,
-        "Cooldown": 7,
-        "ExplodeRadius": 10,
-        "DisplayName": "BOOMER"
-    },
-    "COLLECTION NonPlayerCharacters": {
-        "Initiative": 10,
-        "Constitution": 7,
-        "Armor": 75,
-        "MagicArmor": 75,
-        "Vitality": 150
-    },
-    "COLLECTION PlayerCharacters": {
-        "Accuracy": 75,
-        "APMaximum": 4
-    },
-    "CON_Food_Pie_Apple_A": {
-        "Value": "9001",
-        "IsConsumable": "No",
-        "Barter": 2
-    },
-    "ARM_UNIQUE_TeleportationGloves": {
-        "Telekinesis": 5,
-        "ItemColor": "Gold",
-        "AirSpecialist": 2
-    }
-}
-```
+### Share your configurations
 
-* The **Fireball** skill will now be called **BOOMER**, cost 4**AP** and have a 7-turn **cooldown**. It will also **explode** with a 10m radius.
-* All **NPCs** will get 10 **initiative**, a level appropriate **constitution** based (weighted on 0 to 10 scale). Reduces **Physical** and **Magic Armors** by 25% but increases **Vitality** by 50%.
-* **Accuracy** of all **Player-characters** is reduced to 75% (down from the vanilla 95%) and restricts the **maximum AP** to 4. No more AP abuse.
-* **Apple-Pies** are now **unconsumable** and grant 2 **Barter** on-consumption (makes perfect sense, trust me). It's **value** is now **over 9000**.
-* **Teleportation gloves** are now **gold** in color, grant 2 **aerotheurge** and 5 **telekinesis**.
+### Mod-Integration
+
+### Console-Commands
 
 ----------
 
