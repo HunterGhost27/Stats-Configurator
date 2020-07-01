@@ -28,7 +28,7 @@ local function StatsLoader() --  Loads stats-configuration json after StatsLoade
             end
             StatsConfigurator() --  Configure Stats
             toConfigure = {} -- flush config queue
-            toSync = {} --  flush Sync queue
+            toSync = {} --  flush Sync queue, since StatsSynchronize() isn't called here.
             S7_ConfigLog("StatsLoading completed.")
         else
             S7_ConfigLog("Failed to load " .. ConfigSettings.StatsLoader.FileName, "[Error]")

@@ -30,6 +30,15 @@ function S7_Config_ConsoleCommander(...)
         local search = args[3] or ""
         local searchsearchType = args[4] or ""
         StatSearch(search, searchsearchType)
+    elseif command == "Relay" then
+        --  SEND SIGNAL TO MOD-MENU RELAY
+        --  =============================
+        local signal = args[3] or ""
+        if signal == "" or signal == "Help" then
+            S7_ConfigLog("\n" .. relayHelpMessage, "[Warning]")
+        else
+            S7_Config_ModMenuRelay(signal)
+        end
     elseif command == "Help" or command == "" then
         --  HELP
         --  ====
@@ -42,10 +51,37 @@ helpMessage =
     ======================================================================================================================================================
     Command     Argument1       Argument2                --  COMMENTS                                               EXAMPLE
     ======================================================================================================================================================
+    Help        -               -                        --  Prints a helpful list of commands.                     Help
     AddSkill    <SkillID>       <Character|Optional>     --  Adds skill (skillID) to character (character-key).     AddSkill Projectile_Fireball Host
     RemoveSkill <SkillID>       <Character|Optional>     --  Removes skill (skillID) to character (character-key).  RemoveSkill Shout_InspireStart
     StatsSearch <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
+    Relay       <Signal>        -                        --  Relay signal to ModMenu. Relay Help for more info.     Relay S7_BroadcastConfigData
     ======================================================================================================================================================
+    * Resize the console window if this doesn't fit properly.
+]]
+
+relayHelpMessage =
+    [[
+    =================================================================================================================
+    Signals                         Purpose
+    =================================================================================================================
+    S7_StatsConfigurator            Loads and applies configuration-profile. (default: S7_Config.json)
+    S7_StatsSynchronize             Synchronizes stats specified in ConfigSettings or toSync queue.
+    S7_BuildConfigData              Builds ConfigData file using configuration-profile (default: S7_Config.json)
+    S7_BroadcastConfigData          Broadcasts serialized ConfigData to all active clients.
+    S7_ValidateClientConfig         Calls for client ConfigData validation. Check response in debug-console.
+    S7_ToggleStatsLoader            Toggle StatsLoader setting. Responsible for loading ConfigData on ModuleLoad.
+    S7_ToggleSyncStatPersistence    Toggles Sync-Stat Persistence. Stat-edits will be saved persistently if enabled.
+    S7_ToggleSafetyCheck            Toggles safe-to-modify attribute check. Will prevent modification of certain keys.
+    S7_SetDefaultSettings           Reset ConfigSettings to default values. Export to save persistently.
+    S7_ExportCurrentSettings        Export current ConfigSettings. Saves settings in a json file in OsirisData.
+    S7_RefreshSettings              Reloads settings from OsirisData folder. if unavailable, loads defaults.
+    S7_StatsExportTSV               Export a list of all stat-entries to a TSV file in OsirisData folder.
+    S7_Config_CHANGELOG             Request in-game changelog and instruction manual.
+    S7_PrintModRegistry             Prints a list of all mods registered to Stats-Configurator.
+    S7_RebuildCollections           Rebuilds collections using presets and custom settings.
+    S7_ToggleConfigLog              Toggles logging to external file.
+    ==================================================================================================================
     * Resize the console window if this doesn't fit properly.
 ]]
 
@@ -62,22 +98,19 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 function AddSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
         FetchPlayers()
-        if character == "" or character == nil then
-            for i, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do
-                Osi.CharacterAddSkill(player, skillName, 1)
-                S7_ConfigLog("Skill: " .. skillName .. " added to " .. player)
+        if character == "" or character == nil or character == "Clients" then
+            for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
+                S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
             end
         elseif character == "Host" then
-            Osi.CharacterAddSkill(Osi.CharacterGetHostCharacter(), skillName, 1)
-            S7_ConfigLog("Skill: " .. skillName .. " added to " .. Osi.CharacterGetHostCharacter())
+            Osi.CharacterAddSkill(userInfo.hostCharacter["currentCharacter"], skillName, 1)
+            S7_ConfigLog("Skill: " .. skillName .. " added to " .. userInfo.hostCharacter["currentCharacterName"])
         else
-            for userProfile, content in pairs(players) do
-                if players[userProfile]["userName"] == character then
-                    Osi.CharacterAddSkill(Osi.GetCurrentCharacter(players[userProfile]["userID"]), skillName, 1)
-                    S7_ConfigLog(
-                        "Skill: " ..
-                            skillName .. " added to " .. Osi.GetCurrentCharacter(players[userProfile]["userID"])
-                    )
+            for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                if contents["currentCharacterName"] == character then
+                    Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
+                    S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                 end
             end
         end
@@ -89,22 +122,19 @@ end
 function RemoveSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
         FetchPlayers()
-        if character == "" or character == nil then
-            for i, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do
-                Osi.CharacterRemoveSkill(player, skillName)
-                S7_ConfigLog("Skill: " .. skillName .. " added to " .. player)
+        if character == "" or character == nil or character == "Clients" then
+            for userProfileID, contents in ipairs(userInfo.clientCharacters) do
+                Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
+                S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
             end
         elseif character == "Host" then
-            Osi.CharacterRemoveSkill(Osi.CharacterGetHostCharacter(), skillName)
-            S7_ConfigLog("Skill: " .. skillName .. " added to " .. Osi.CharacterGetHostCharacter())
+            Osi.CharacterRemoveSkill(userInfo.hostCharacter["currentCharacter"], skillName)
+            S7_ConfigLog("Skill: " .. skillName .. " removed from " .. userInfo.hostCharacter["currentCharacterName"])
         else
-            for userProfile, content in pairs(players) do
-                if players[userProfile]["userName"] == character then
-                    Osi.CharacterRemoveSkill(Osi.GetCurrentCharacter(players[userProfile]["userID"]), skillName)
-                    S7_ConfigLog(
-                        "Skill: " ..
-                            skillName .. " added to " .. Osi.GetCurrentCharacter(players[userProfile]["userID"])
-                    )
+            for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                if contents["currentCharacterName"] == character then
+                    Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
+                    S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
             end
         end
@@ -134,7 +164,7 @@ function StatSearch(search, searchType)
         end
         S7_ConfigLog("=================================================")
     else
-        S7_ConfigLog("Search String Empty", "[Warning]")
+        S7_ConfigLog("Search String Empty. Try something like Projectile_Fire", "[Warning]")
     end
 end
 

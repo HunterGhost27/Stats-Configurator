@@ -10,6 +10,8 @@
 - New **Stat-Collections** for all-characters, npcs and statTypes.
 - `StatsLoader` now respects **Load-Order**.
 - **Stat-Creation** is back. Only works under specific conditions.
+- console commands can pass signals to `S7_Config_ModMenuRelay()`.
+- _Created_ help message for `Relay` console command.
 
 ### CHANGED
 
@@ -22,6 +24,7 @@
 - _Rebuilt_ `BuildConfigData()`.
 - _Changed_ `S7_ConfigLog`, `S7_InspectStats` and `S7_SetDialogVars` to `NRD_ModCall`.
 - _Dropped_ prefixes from `InspectStats` and `SetDialogVars`.
+- _Reworked_ existing console commands to make use of client and host information.
 
 ## [0.6.1.0] --- 28th June 2020 --- **_Message-Boxes!_**
 

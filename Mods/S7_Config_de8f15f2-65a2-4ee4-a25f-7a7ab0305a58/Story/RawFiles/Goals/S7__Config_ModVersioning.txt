@@ -65,11 +65,8 @@ AND
 DB_S7_ChangeLogs("S7_Config", _ItemType, _LogItem)                   //  Gets the Note and Log from the DB.
 AND
 NOT ItemTemplateIsInPartyInventory(_Character, _LogItem, 1, 1)       //  Checks if player doesn't already have those items in inventory.
-AND
-StringConcatenate(_ItemType, " added to player inventory.", _LogPlayerLog)
 THEN
 ItemTemplateAddTo(_LogItem, _Character, 1);                          //  Adds the Note and Changelog to the player's inventory.
-NRD_ModCall("S7_ConfigLog", "S7_ConfigLog", _LogPlayerLog, "[ModVersioning]");
 
 
 //END_REGION
