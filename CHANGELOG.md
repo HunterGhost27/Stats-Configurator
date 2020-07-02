@@ -6,7 +6,7 @@
 
 ### NEW
 
-- _Started_ working on **documentation**. - I hate this shit.
+- _Started_ working on **documentation**. - I hate this stuff.
 - _Updated_ the mod's description in `meta.lsx`.
 
 ## [0.6.2.0] --- 1st July 2020 --- **_Rework Time!_**
@@ -281,7 +281,7 @@
 
 ### CHANGED
 
-- Loading JSON files is done by the ModMenu functions. Moving this out of `S7_StatsConfigurator()` allows other mods to pass a **_stringified JSON (JSONstring)_** to the function.
+- Loading JSON files is done by the ModMenu functions. Moving this out of `S7_StatsConfigurator()` allows other mods to pass a **_stringified JSON_** to the function.
 
 ### REMOVED
 
@@ -310,7 +310,7 @@
 
 ### NEW
 
-- _Created_ `Initializer` and `ModVersioning` scripts.
+- _Created_ `Initializer` and `ModVersioning` story-scripts.
 
 ## [0.1.0.0] --- 24th May 2020 --- **_Initial Commit_**
 
