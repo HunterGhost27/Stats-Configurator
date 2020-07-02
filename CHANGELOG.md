@@ -7,6 +7,7 @@
 ### NEW
 
 - _Started_ working on **documentation**. - I hate this shit.
+- _Updated_ the mod's description in `meta.lsx`.
 
 ## [0.6.2.0] --- 1st July 2020 --- **_Rework Time!_**
 
