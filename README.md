@@ -43,6 +43,10 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 
 ### Console-Commands
 
+## Support and Contribute
+
+* [Help improve this project on GitHub](CONTRIBUTING.md)
+
 ----------
 
 ## My Other Mods

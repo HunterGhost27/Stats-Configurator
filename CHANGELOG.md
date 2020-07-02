@@ -8,6 +8,7 @@
 
 - _Started_ working on **documentation**. - I hate this stuff.
 - _Updated_ the mod's description in `meta.lsx`.
+- _Created_ `CONTRIBUTING.md` file.
 
 ## [0.6.2.0] --- 1st July 2020 --- **_Rework Time!_**
 
