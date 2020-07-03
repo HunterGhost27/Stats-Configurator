@@ -97,7 +97,7 @@ The mod comes with a suite of console-commands for a variety of purposes. Here a
 
 The mod-settings can allow you to fine tune your experience and provide greater control over the mod's functionality. You can export your settings as a json file and edit them externally, or create the file yourself (default: `S7_ConfigSettings.json`). This is what it looks like
 
-```json
+```lua
 {
     ["ConfigFile"] = "S7_Config.json",
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"},
