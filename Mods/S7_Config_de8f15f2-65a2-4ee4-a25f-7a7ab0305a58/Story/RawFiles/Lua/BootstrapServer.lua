@@ -222,6 +222,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     end
 
     SetDialogVars() --  Request dialogVar update everytime ModMenu relays a signal.
+    ExportLog() -- Exports logs to TSV file if ConfigLog is enabled.
 end
 
 --  ============================================================================
