@@ -42,14 +42,12 @@ Users can make their own stat-overrides by creating json files with the followin
 ```json
 {
     "StatName": {
-        "AttributeName": Value,
-        "AttributeName": Value,
-        ...
+        "AttributeName": "Value",
+        "AttributeName": "Value",
     },
     "StatName": {
-        "AttributeName": Value
+        "AttributeName": "Value"
     },
-    ...
 }
 ```
 
@@ -58,7 +56,7 @@ For example, Let's create `S7_Config.json` (default filename) in `Osiris Data` f
 ```json
 {
     "Projectile_Fireball: {
-        "ActionPoints" 4,
+        "ActionPoints": 4,
         "Cooldown": 7,
         "ExplodeRadius": 10,
         "DisplayName": "BOOMER"
