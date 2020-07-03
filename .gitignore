@@ -43,7 +43,7 @@ story.debugInfo
 *.bullet
 *.dds
 *.tga
-*.png
+# *.png
 *.ttf
 *.lsb
 *.lsf
