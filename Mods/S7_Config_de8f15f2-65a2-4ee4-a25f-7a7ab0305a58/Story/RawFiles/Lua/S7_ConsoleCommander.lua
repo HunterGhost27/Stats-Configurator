@@ -44,6 +44,8 @@ function S7_Config_ConsoleCommander(...)
         --  ====
         S7_ConfigLog("\n" .. helpMessage, "[Warning]")
     end
+
+    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 helpMessage =

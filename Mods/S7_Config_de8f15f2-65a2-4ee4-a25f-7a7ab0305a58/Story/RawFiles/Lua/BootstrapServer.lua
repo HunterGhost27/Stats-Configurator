@@ -239,6 +239,8 @@ function ValidateClientResponse(channel, payload) --  Recieves client response.
             S7_ConfigLog("Client Response: " .. tostring(clientResponse))
         end
     end
+
+    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ========================================================================

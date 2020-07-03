@@ -36,6 +36,7 @@ local function StatsLoader() --  Loads stats-configuration json after StatsLoade
     else --  if StatsLoader disabled in settings.
         S7_ConfigLog("StatsLoader is disabled.", "[Warning]")
     end
+    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ============================================
@@ -65,6 +66,8 @@ local function CatchBroadcast(channel, payload) --  Listens for broadcasts from 
             end
         end
     end
+
+    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ==============================================================
