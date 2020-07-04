@@ -144,6 +144,7 @@ function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates Confi
             ["ModName"] = modName,
             ["Content"] = buildData
         }
+
         Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
     else
         S7_ConfigLog("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName, "[Error]")

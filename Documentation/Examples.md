@@ -15,7 +15,7 @@
     "Projectile_Fireball": {
         "ActionPoints": 4,
         "Cooldown": 7,
-        "ExplosionRadius": 10,
+        "ExplodeRadius": 10,
         "DisplayName": "BOOMER"
     }
 }
@@ -44,6 +44,7 @@ Every **Non-Player-Character** will have their **Physical** and **Magic Armor** 
     "COLLECTION Character": {
         "Accuracy": 65,
         "APMaximum": 2,
+        "APStart": 2,
         "APRecovery": 2
     },
     "COLLECTION SkillData": {
