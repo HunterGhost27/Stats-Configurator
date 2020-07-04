@@ -58,6 +58,8 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
     else
         S7_ConfigLog("Default settings applied.", nil, "Settings", "Settings: Default")
     end
+
+    RebuildCollections()
 end
 
 --  ======================================================

@@ -7,6 +7,7 @@
 ### CHANGED
 
 - _Removed_ Manual Synchronization options from settings and Mod-Menu. Now a console-command.
+- `RebuildCollections()` is called along `RefreshSettings()`. Will hopefully keep it always up-to-sync.
 
 ## [0.6.4.0] --- 3rd July 2020 --- **Logging Performance Improvement**
 
