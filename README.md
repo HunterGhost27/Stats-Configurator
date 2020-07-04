@@ -103,7 +103,6 @@ The mod-settings can allow you to fine tune your experience and provide greater 
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"},
     ["ConfigLog"] = {["Enable"] = false, ["FileName"] = "S7_ConfigLog.tsv"},
     ["CreateStats"] = false,
-    ["ManuallySynchronize"] = {},
     ["SyncStatPersistence"] = false,
     ["BypassSafetyCheck"] = false,
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""},

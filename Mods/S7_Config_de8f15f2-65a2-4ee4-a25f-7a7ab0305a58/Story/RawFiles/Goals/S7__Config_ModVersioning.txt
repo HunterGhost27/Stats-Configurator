@@ -24,6 +24,7 @@ AND
 IsGameLevel(_GameLevel, 1)                      //  Not in CharacterCreation level
 THEN
 GlobalSetFlag("S7_RefreshSettings");            //  Set flag to reload settings
+GlobalSetFlag("S7_RebuildCollections");         //  Set flag to rebuild collections
 
 //  ==================
 //  UPDATE MOD VERSION

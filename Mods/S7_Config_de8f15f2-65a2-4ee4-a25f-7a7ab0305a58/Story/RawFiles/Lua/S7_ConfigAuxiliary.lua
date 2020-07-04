@@ -26,7 +26,6 @@ DefaultSettings = {
     ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
-    ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["CreateStats"] = false, -- dictates whether new stats should be created or not.
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.
@@ -59,6 +58,8 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
     else
         S7_ConfigLog("Default settings applied.", nil, "Settings", "Settings: Default")
     end
+
+    RebuildCollections()
 end
 
 --  ======================================================
@@ -116,6 +117,8 @@ end
 --  STATE-OF-THE-ART LOGGER
 --  #######################
 
+logHistory = "" -- Initialize logHistory
+
 function S7_ConfigLog(...) --  Amped up DebugLog.
     local logArgs = {...} --  Multiple Arguments stored in a table.
     local logMsg = logArgs[1] or "" --  The actual log message.
@@ -123,7 +126,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
     local dialogVar = logArgs[3] or "" --  Associated DialogVars (if any).
     local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if empty.
 
-    local logCat = logSource --  logCategory defaults to this file.
+    local logCat = logSource
     local printFunction = Ext.Print --  Default Print Function.
 
     local luaState = ""
@@ -152,7 +155,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
         end
     end
 
-    local log = "[S7_Config" .. "|" .. logCat .. "] --- " .. logMsg --  The compiled log message.
+    local log = "[S7_Config" .. ":" .. logCat .. "] - " .. logMsg --  The compiled log message.
 
     local dialogLog = ""
 
@@ -163,15 +166,19 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
 
     printFunction(log) --  prints log to Extender's Debug Console
 
+    logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog
+end
+
+function ExportLog()
     if ConfigSettings.ConfigLog.Enable == true then
-        local logHistory = "" --  Initialize the log-History.
         if Ext.LoadFile(ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
             Ext.SaveFile(ConfigSettings.ConfigLog.FileName, "State\tLogType\tLog\tDialogVariable\tDialogValue\n") --  Save file with header column
         end
-        logHistory = Ext.LoadFile(ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logHistory
-        logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog
+        local logFile = Ext.LoadFile(ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logFile
+        logFile = logFile .. logHistory
+        logHistory = ""
         -- The compiled log history.
-        Ext.SaveFile(ConfigSettings.ConfigLog.FileName, logHistory) --  SaveLog in a file.
+        Ext.SaveFile(ConfigSettings.ConfigLog.FileName, logFile) --  SaveLog in a file.
     end
 end
 

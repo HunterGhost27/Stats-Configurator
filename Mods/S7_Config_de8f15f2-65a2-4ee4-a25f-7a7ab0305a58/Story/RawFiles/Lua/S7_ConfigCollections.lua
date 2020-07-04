@@ -92,8 +92,6 @@ function RebuildCollections()
             configCollections[key] = Rematerialize(value)
         end
     end
-end
 
---  ===================================================
-Ext.RegisterListener("StatsLoaded", RebuildCollections)
---  ===================================================
+    S7_ConfigLog("Collections rebuilt.")
+end

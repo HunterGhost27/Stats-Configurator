@@ -32,20 +32,6 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         S7_ConfigLog("StatsConfiguration Finished.")
     end
 
-    --  STATS-SYNCHRONIZE
-    -- ===================
-
-    if Signal == "S7_StatsSynchronize" then
-        S7_ConfigLog("Synchronizing stats at Player's request.")
-        if ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
-            for i, stats in ipairs(ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
-                table.insert(toSync, stats) --  insert stats into toSync queue.
-            end
-        end
-        StatsSynchronize() --  Call StatsSynchronize.
-        S7_ConfigLog("Stats-Synchronization Finished.")
-    end
-
     --  BUILD CONFIG-DATA
     --  =================
 
@@ -222,6 +208,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     end
 
     SetDialogVars() --  Request dialogVar update everytime ModMenu relays a signal.
+    ExportLog() -- Exports logs to TSV file if ConfigLog is enabled.
 end
 
 --  ============================================================================
@@ -238,6 +225,8 @@ function ValidateClientResponse(channel, payload) --  Recieves client response.
             S7_ConfigLog("Client Response: " .. tostring(clientResponse))
         end
     end
+
+    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ========================================================================

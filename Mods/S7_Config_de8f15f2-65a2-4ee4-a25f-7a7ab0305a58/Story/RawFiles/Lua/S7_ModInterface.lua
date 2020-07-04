@@ -139,6 +139,8 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
     if signal ~= "S7_Config_ExitCleanUp" then --  Prevents update when player has quit the dialog session.
         UpdateDynamicMenu() --  Updates Dynamic Quick-Menu.
     end
+ 
+    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ================================================================================

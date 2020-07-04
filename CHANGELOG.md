@@ -2,6 +2,23 @@
 
 ---
 
+## [0.6.5.0] --- 4th July 2020 --- **_Reworks_**
+
+### CHANGED
+
+- _Removed_ Manual Synchronization options from settings and Mod-Menu. Now a console-command.
+- `RebuildCollections()` is called along `RefreshSettings()`. Will hopefully keep it always up-to-sync.
+
+## [0.6.4.0] --- 3rd July 2020 --- **Logging Performance Improvement**
+
+### NEW
+
+- _Added_ `ExportLog()` at the end of independent functions. Should cover all cases.
+
+### CHANGED
+
+- `S7_ConfigLog()` only exports to the TSV file on function call `ExportLog()`. So it doesn't spam `Ext.LoadFile()` and `Ext.SaveFile()` 4 million times in a loop. Still hogs performance but nowhere nearly as much. - Will strategically place `ExportLog()` throughout the program later.
+
 ## [0.6.3.0] --- 1st July 2020 --- **_What's up doc?_**
 
 ### NEW
