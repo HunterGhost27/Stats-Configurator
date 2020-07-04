@@ -3,8 +3,8 @@
 ---
 
 - **[Fireball Modification](#Fireball-Modification)**
-- **[Less Armor, More Vitality](#Less-Armor,-More-Vitality)**
-- **[That's-XCOM-Baby](#That's-XCOM-Baby)**
+- **[Less Armor, More Vitality](#Less-Armor-More-Vitality)**
+- **[That's-XCOM-Baby](#Thats-XCOM-Baby)**
 
 ---
 
