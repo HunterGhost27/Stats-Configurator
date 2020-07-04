@@ -4,6 +4,10 @@
 
 ## [0.6.5.0] --- 4th July 2020 --- **_Reworks_**
 
+### NEW
+
+- Clients rebuild collections before loading stats.
+
 ### CHANGED
 
 - _Removed_ Manual Synchronization options from settings and Mod-Menu. Now a console-command.

@@ -4,7 +4,7 @@
 logSource = "Lua:ConfigCollections"
 --  ###################################################################################################################################################
 
-local defaultCollections = {
+defaultCollections = {
     ["PlayerCharacters"] = {
         --  Thanks to LaughingLeader. table taken from https://gist.github.com/LaughingLeader/3d4d23540852679260b988936799c1fe
         ["_Hero"] = true,

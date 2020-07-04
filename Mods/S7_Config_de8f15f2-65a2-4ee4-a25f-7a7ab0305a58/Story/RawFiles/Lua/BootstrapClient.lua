@@ -13,6 +13,7 @@ logSource = "Lua:BootstrapClient"
 --  ============
 
 local function StatsLoader() --  Loads stats-configuration json after StatsLoaded Event.
+    RebuildCollections()
     if ConfigSettings.StatsLoader.Enable == true then --  StatsLoader enabled in settings.
         S7_ConfigLog("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName)
         local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
