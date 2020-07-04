@@ -125,6 +125,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
     local dialogVar = logArgs[3] or "" --  Associated DialogVars (if any).
     local dialogVal = logArgs[4] or logMsg or "" --  Value for the corresponding dialog-var. uses logMsg if empty.
 
+    local logCat = logSource
     local printFunction = Ext.Print --  Default Print Function.
 
     local luaState = ""
@@ -144,7 +145,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
     for switch, case in pairs(switchCase) do --  Surrogate SwitchCase
         if logType == switch then --  logType match
             if type(case) == "string" then
-                logSource = case --  update logSource if logType points to a string
+                logCat = case --  update logSource if logType points to a string
                 break
             elseif type(case) == "function" then
                 printFunction = case --  update printFunction if logType points to a function
@@ -153,7 +154,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
         end
     end
 
-    local log = "[S7_Config" .. ":" .. logSource .. "] - " .. logMsg --  The compiled log message.
+    local log = "[S7_Config" .. ":" .. logCat .. "] - " .. logMsg --  The compiled log message.
 
     local dialogLog = ""
 
@@ -163,7 +164,7 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
     end
 
     printFunction(log) --  prints log to Extender's Debug Console
-    
+
     logHistory = logHistory .. "\n" .. luaState .. "\t" .. logType .. "\t" .. log .. "\t" .. dialogLog
 end
 
