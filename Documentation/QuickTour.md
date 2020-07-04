@@ -5,7 +5,7 @@
 ## Pre-requisites
 
 * ***[Norbyte's Script-Extender](https://github.com/Norbyte/ositools)***
-* ***[Stats-Configurator](#ReleasesLink)***
+* ***[Stats-Configurator](https://github.com/Shresht7/Stats-Configurator)***
 
 ## Quick-Start
 
@@ -33,7 +33,7 @@ json files/objects are just **key-value pairs**. You can nest key-value pairs in
 2. `"Cooldown": 7` . Cooldown is the key and 7 is the value.
 
 Enough about json :P
-The block of code is pretty self-explanatory. We want the skill `Projectile_Fireball` to have an `ActionPoints` cost of 4 and a `Cooldown` of 7 turns. `Projectile_Fireball` is the internal name of the skill **"Fireball"**, as are `ActionPoints` and `Cooldown`. I've provided a few tools to display stat-names and such for your **reference**, please read ***[Extended Documentation](Documentation/Extended-Documentation.md)*** for more details.
+The block of code is pretty self-explanatory. We want the skill `Projectile_Fireball` to have an `ActionPoints` cost of 4 and a `Cooldown` of 7 turns. `Projectile_Fireball` is the internal name of the skill **"Fireball"**, as are `ActionPoints` and `Cooldown`. I've provided a few tools to display stat-names and such for your **reference**, please read ***[Extended Documentation](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)*** for more details.
 
 Let's go back in the game, but before we load this configuration-file, let's see what the **original values** of this skill's attributes are. The script-extender comes with a `Debug Console` which opens up automatically as you open the game. It looks like this:
 
@@ -77,8 +77,8 @@ If you're unsure if everyone has the same config-data, or if you think one of yo
 
 ## Settings
 
-The **settings menu** is where you can tweak the various parameters that affect the functioning of this mod. You can also export a more detailed settings menu as a json file to `Osiris Data`. For more details read the [Extensive Documentation](#Extensive-DocumentationLink).
+The **settings menu** is where you can tweak the various parameters that affect the functioning of this mod. You can also export a more detailed settings menu as a json file to `Osiris Data`. For more details read the ***[Extensive Documentation](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)***.
 
 ---
 
-That's pretty much it. That's all you need to know to get started with this mod. I'll urge you to read the ***[extensive documentation](#ExtensiveDocumentation)*** to learn more about this mod. Take a look at ***[Examples](#ExamplesLink)*** for more ideas.
+That's pretty much it. That's all you need to know to get started with this mod. I'll urge you to read the ***[extensive documentation](#https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)*** to learn more about this mod. Take a look at some ***[examples](#https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Examples.md)*** for more ideas.

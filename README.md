@@ -10,6 +10,7 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 
 * ***[Steam Workshop](#SteamWorkshop)***
 * ***[Nexus](#NexusMods)***
+* ***[Github](https://github.com/Shresht7/Stats-Configurator)***
 
 ## Requirements
 
@@ -31,7 +32,7 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 
 ===============================
 
-***[GO HERE FOR EXTENSIVE DOCUMENTATION](#GithubDocumentationLink)***
+***[GO HERE FOR EXTENSIVE DOCUMENTATION](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)***
 
 ===============================
 
@@ -68,7 +69,7 @@ For example, Let's create `S7_Config.json` (default filename) in `Osiris Data` f
 
 When we load this configuration in the game, it will override `Projectile_Fireball` (**Fireball**'s internal name). The **Fireball** skill will now cost ***4 ActionPoints***, have a ***7 turn Cooldown***, _explode_ in a ***10m radius*** and will be called ***BOOMER***.
 
-Take a look at [QuickTour](#QuickTourLink) and examples. Read the docs to see all that this mod has to offer.
+Take a look at [QuickTour](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/QuickTour.md) and [Examples](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Examples.md). Read the docs to see all that this mod has to offer.
 
 ### Share your configurations
 
@@ -82,7 +83,7 @@ While primarily created for end-users, the mod doesn't actually care where it ge
 
 The mod also comes with a dynamic-quick-menu that can create basic MCMs for you! You need just register your mod with a `Global Flag` to listen for and create a `Database` with the stats you want the MCM for. Done. Your mod now has a basic MCM. It'll launch whenever that flag is set.
 
-For proper documentation visit [Mod-Integration](#ModIntegrationLink).
+For proper documentation visit [Mod-Integration](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md#ModIntegration).
 
 ### Console-Commands
 
@@ -114,7 +115,7 @@ A lot of these settings can be toggled on or off from the Mod-Menu too, or the c
 
 ## Support and Contribute
 
-* [Help improve this project on GitHub](CONTRIBUTING.md)
+* [Help improve this project on GitHub](https://github.com/Shresht7/Stats-Configurator/blob/master/CONTRIBUTING.md)
 
 ----------
 
