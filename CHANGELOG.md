@@ -2,6 +2,12 @@
 
 ---
 
+## [0.6.5.0] --- 4th July 2020 --- **_Reworks_**
+
+### CHANGED
+
+- _Removed_ Manual Synchronization options from settings and Mod-Menu. Now a console-command.
+
 ## [0.6.4.0] --- 3rd July 2020 --- **Logging Performance Improvement**
 
 ### NEW

@@ -30,6 +30,17 @@ function S7_Config_ConsoleCommander(...)
         local search = args[3] or ""
         local searchsearchType = args[4] or ""
         StatSearch(search, searchsearchType)
+    elseif command == "StatSync" then
+        --  SYNCHRONIZE STAT
+        --  ================
+        local statName = args[3] or ""
+        local statPersistence = args[4] or false
+        if Osi.NRD_StatExists(statName) then -- if stat-exists.
+            Ext.SyncStat(statName, statPersistence) --  Sync
+            S7_ConfigLog("Synchronized Stat: " .. statName)
+        else
+            S7_ConfigLog("Stat: " .. statName .. "does not exist!", "[Warning]")
+        end
     elseif command == "Relay" then
         --  SEND SIGNAL TO MOD-MENU RELAY
         --  =============================
@@ -56,7 +67,8 @@ helpMessage =
     Help        -               -                        --  Prints a helpful list of commands.                     Help
     AddSkill    <SkillID>       <Character|Optional>     --  Adds skill (skillID) to character (character-key).     AddSkill Projectile_Fireball Host
     RemoveSkill <SkillID>       <Character|Optional>     --  Removes skill (skillID) to character (character-key).  RemoveSkill Shout_InspireStart
-    StatsSearch <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
+    StatSearch  <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
+    StatSync    <StatID>        <Persistence|Optional>   --  Synchronize (StatID) for all clients.                  StatSync Projectile_PyroclasticRock
     Relay       <Signal>        -                        --  Relay signal to ModMenu. Relay Help for more info.     Relay S7_BroadcastConfigData
     ======================================================================================================================================================
     * Resize the console window if this doesn't fit properly.

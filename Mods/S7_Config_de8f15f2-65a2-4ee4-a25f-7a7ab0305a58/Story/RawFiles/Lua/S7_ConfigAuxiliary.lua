@@ -26,7 +26,6 @@ DefaultSettings = {
     ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
-    ["ManuallySynchronize"] = {}, --  statIDs listed here can be manually synchronized using diagnostics-option. Pretty useless all-in-all.
     ["CreateStats"] = false, -- dictates whether new stats should be created or not.
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.

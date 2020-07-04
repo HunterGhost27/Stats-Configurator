@@ -119,13 +119,6 @@
                 </node>
                 <node id="DialogVariable">
                     <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="SyncStat Status" type="23" />
-                    <attribute id="UUID" value="7506390a-9fa8-4300-8abd-5dc476e6b917" type="31" />
-                    <attribute id="name" value="S7_Config_SyncStat" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="4ff2880e-6a62-4ed3-9f6f-28eaa30165b1" type="31" />
                     <attribute id="name" value="S7_RegisteredMods" type="22" />

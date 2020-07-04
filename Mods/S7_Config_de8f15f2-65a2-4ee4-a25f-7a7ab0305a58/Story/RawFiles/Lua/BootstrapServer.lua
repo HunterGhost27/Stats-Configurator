@@ -32,20 +32,6 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         S7_ConfigLog("StatsConfiguration Finished.")
     end
 
-    --  STATS-SYNCHRONIZE
-    -- ===================
-
-    if Signal == "S7_StatsSynchronize" then
-        S7_ConfigLog("Synchronizing stats at Player's request.")
-        if ConfigSettings.ManuallySynchronize ~= nil then --  Checks if player wants to manually synchronize certain stats.
-            for i, stats in ipairs(ConfigSettings.ManuallySynchronize) do --  Iterate over manually selected stats.
-                table.insert(toSync, stats) --  insert stats into toSync queue.
-            end
-        end
-        StatsSynchronize() --  Call StatsSynchronize.
-        S7_ConfigLog("Stats-Synchronization Finished.")
-    end
-
     --  BUILD CONFIG-DATA
     --  =================
 
