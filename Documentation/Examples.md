@@ -24,7 +24,7 @@
 
 The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points** and has a **7 turn Cooldown**. It explodes in a **10m Radius**.
 
-![Fireball-Example](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Fireball-Example.png)
+![Fireball-Example](Documentation/Images/Fireball-Example.png)
 
 ## Less Armor, More Vitality
 
@@ -40,7 +40,7 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 
 Every **Non-Player-Character** will have their **Physical** and **Magic Armor** _reduced_ by **25%** and their **Vitality** _increased_ by **100%**. (**Note:** This affects **Max-Vitality**. Characters that have already been loaded in-game will be wounded. Do this before starting a game.)
 
-![Dallis-Armor-Config](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Dallis-Armor-Config.jpg)
+![Dallis-Armor-Config](Documentation/Images/Dallis-Armor-Config.jpg)
 
 ## Fashionista
 
@@ -54,7 +54,7 @@ Every **Non-Player-Character** will have their **Physical** and **Magic Armor** 
 
 This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. **NOTE**: `ItemColor` names can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.
 
-![Item-Color-Config](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Item-Color-Config.jpg)
+![Item-Color-Config](Documentation/Images/Item-Color-Config.jpg)
 
 ## That's XCOM Baby
 
@@ -73,4 +73,4 @@ This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**.
 
 All **Characters** have their base **Accuracy** set at **65%** and they _recover_ **2AP per turn** upto **2AP Maximum**. All Skill cost **2AP**.
 
-![Accuracy-AP-Config](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Accuracy-AP-Config.png)
+![Accuracy-AP-Config](Documentation/Images/Accuracy-AP-Config.png)

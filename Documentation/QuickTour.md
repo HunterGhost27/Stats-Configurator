@@ -14,7 +14,7 @@ It's time to get your feet wet, so let's get started. Once you've installed and 
 |||
 |-|-|
 |Configurator Item| Stats-Configurator Mod Menu|
-|![Stats-Configurator-Item](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Stats-Configurator-Item.png?raw=true)|![Stats-Configurator-Mod-Menu](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Stats-Configurator-Mod-Menu.png?raw=true)|
+|![Stats-Configurator-Item](Documentation/Images/Stats-Configurator-Item.png?raw=true)|![Stats-Configurator-Mod-Menu](Documentation/Images/Stats-Configurator-Mod-Menu.png?raw=true)|
 |||
 
 Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the script-extender reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor (VSCode, Sublime, Notepad++, or regular Notepad).
@@ -33,11 +33,11 @@ json files/objects are just **key-value pairs**. You can nest key-value pairs in
 2. `"Cooldown": 7` . Cooldown is the key and 7 is the value.
 
 Enough about json :P
-The block of code is pretty self-explanatory. We want the skill `Projectile_Fireball` to have an `ActionPoints` cost of 4 and a `Cooldown` of 7 turns. `Projectile_Fireball` is the internal name of the skill **"Fireball"**, as are `ActionPoints` and `Cooldown`. I've provided a few tools to display stat-names and such for your **reference**, please read ***[Extended Documentation](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)*** for more details.
+The block of code is pretty self-explanatory. We want the skill `Projectile_Fireball` to have an `ActionPoints` cost of 4 and a `Cooldown` of 7 turns. `Projectile_Fireball` is the internal name of the skill **"Fireball"**, as are `ActionPoints` and `Cooldown`. I've provided a few tools to display stat-names and such for your **reference**, please read ***[Extended Documentation](Documentation/Extensive-Documentation.md)*** for more details.
 
 Let's go back in the game, but before we load this configuration-file, let's see what the **original values** of this skill's attributes are. The script-extender comes with a `Debug Console` which opens up automatically as you open the game. It looks like this:
 
-![DebugConsole](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Script-Extender-Debug-Console.png?raw=true)
+![DebugConsole](Documentation/Images/Script-Extender-Debug-Console.png)
 
 This is where this mod outputs a lot of **useful information**. This is also where you can input ***console-commands***. Stats-Configurator comes with a suite of ***console-commands*** to make your life easier. Right now, we want to add `Projectile_Fireball` to our character (if you don't have the skill already).
 We will use the `AddSkill` console command for this purpose.
@@ -45,7 +45,7 @@ We will use the `AddSkill` console command for this purpose.
 Pressing `enter` on the debug console will allow you to enter console-commands. Write `!S7_Config AddSkill Projectile_Fireball` and hit enter. Type `exit` and press enter to exit the console-command view. This will add `Projectile_Fireball` to all ***client*** characters.
 ***Pro-tip:*** use `!S7_Config Help` for a helpful guide on console-commands in this mod.
 
-![Console-Command-Image](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Console-Command-Image.gif?raw=true)
+![Console-Command-Image](Documentation/Images/Console-Command-Image.gif)
 
 Now that your characters have the *original*, *unmodified* `Projectile_Fireball`. Take note of its **attributes**. `ActionPoints` and `Cooldown` specifically.
 
@@ -55,7 +55,7 @@ Now for the fun part, open the stats-configurator mod-menu and open `1.[configur
 
 Now have a look at `Projectile_Fireball` again. It's `ActionPoints` and `Cooldown` have changed to the values **you** set in the config-file. Watch the magic happen in the debug console.
 
-![Debug-Console-Output](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Images/Debug-Console-Output.png?raw=true)
+![Debug-Console-Output](Documentation/Images/Debug-Console-Output.png)
 
 ## Config-Data
 
@@ -77,8 +77,8 @@ If you're unsure if everyone has the same config-data, or if you think one of yo
 
 ## Settings
 
-The **settings menu** is where you can tweak the various parameters that affect the functioning of this mod. You can also export a more detailed settings menu as a json file to `Osiris Data`. For more details read the ***[Extensive Documentation](https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)***.
+The **settings menu** is where you can tweak the various parameters that affect the functioning of this mod. You can also export a more detailed settings menu as a json file to `Osiris Data`. For more details read the ***[Extensive Documentation](Documentation/Extensive-Documentation.md)***.
 
 ---
 
-That's pretty much it. That's all you need to know to get started with this mod. I'll urge you to read the ***[extensive documentation](#https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Extensive-Documentation.md)*** to learn more about this mod. Take a look at some ***[examples](#https://github.com/Shresht7/Stats-Configurator/blob/master/Documentation/Examples.md)*** for more ideas.
+That's pretty much it. That's all you need to know to get started with this mod. I'll urge you to read the ***[extensive documentation](Documentation/Extensive-Documentation.md)*** to learn more about this mod. Take a look at some ***[examples](Documentation/Examples.md)*** for more ideas.
