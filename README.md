@@ -103,7 +103,7 @@ The mod-settings can allow you to fine tune your experience and provide greater 
     "CreateStats": false,
     "SyncStatPersistence": false,
     "BypassSafetyCheck": false,
-    "ExportStatIDtoTSV": {"FileName": "S7_AllTheStats.tsv" "RestrictStatTypeTo": ""},
+    "ExportStatIDtoTSV": {"FileName": "S7_AllTheStats.tsv", "RestrictStatTypeTo": ""},
     "CustomCollections": {}
 }
 ```
