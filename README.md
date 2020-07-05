@@ -19,7 +19,6 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 ## Mod at a Glance
 
 * **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit.
-* _Edit_ a group of stats at the same time as **collections**. Use the **presets** collections or **create your own**.
 * _Share_ your **config-data** with your **friends** and **peers**. So everyone is on the same page.
 * _Save_ your stat-overrides **persistently** in the save-file, or change them up each session.
 * _Export_ a list of every single stat-entry for reference. or _Use_ the _Inspect Skill_ to print stat-entries relevent to a specific target.
@@ -52,7 +51,7 @@ Users can make their own stat-overrides by creating json files with the followin
 }
 ```
 
-For example, Let's create `S7_Config.json` (default filename) in `Osiris Data` folder with the following content:
+For example:
 
 ```json
 {
@@ -65,17 +64,15 @@ For example, Let's create `S7_Config.json` (default filename) in `Osiris Data` f
 }
 ```
 
-**NOTE:** The `Osiris Data` folder is here ---> `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data`
-
 When we load this configuration in the game, it will override `Projectile_Fireball` (**Fireball**'s internal name). The **Fireball** skill will now cost ***4 ActionPoints***, have a ***7 turn Cooldown***, _explode_ in a ***10m radius*** and will be called ***BOOMER***.
 
-Take a look at [QuickTour](Documentation/QuickTour.md) and [Examples](Documentation/Examples.md). Read the docs to see all that this mod has to offer.
+Take a look at the [Quick-Tour](Documentation/QuickTour.md) and/or the [Examples](Documentation/Examples.md). Read the [docs](Documentation/Extensive-Documentation.md) to see all that this mod has to offer.
 
 ### Share your configurations
 
-All configuration-profiles, user-created or mod-created, are compiled into a single ConfigData file (default: `S7_ConfigData.json`). This file is read during `ModuleLoading` where it applies the stat-modifications. Since this operation takes place locally on the `client-side`, all peers connected to the same game-session must have the same ConfigData file loaded. Having different ConfigData will mean that every client sees different stats. For stats to be synchronized between all your peers it is recommended that everyone has the same ConfigData file.
+All configuration-profiles, user-created or mod-created, are compiled into a single **ConfigData** file (default: `S7_ConfigData.json`). This file is read during `ModuleLoading` where it applies the _stat-modifications_. Since this operation takes place locally on the `client-side`, **all peers** _connected_ to the same game-session must have the same ConfigData file loaded. Having different ConfigData will mean that every client sees different stats. For stats to be _synchronized_ between all clients, it is recommended that everyone loads the same ConfigData file.
 
-You can manually share this file with your friends or send it to them from the in-game Mod-Menu. You can also verify if everyone in your session has the same ConfigData or not from the ModMenu (if you're afraid one of your friends is cheating).
+You can manually share this file with your friends or send it to them from the in-game Mod-Menu.
 
 ### Mod-Integration
 
@@ -83,11 +80,11 @@ While primarily created for end-users, the mod doesn't actually care where it ge
 
 The mod also comes with a dynamic-quick-menu that can create basic MCMs for you! You need just register your mod with a `Global Flag` to listen for and create a `Database` with the stats you want the MCM for. Done. Your mod now has a basic MCM. It'll launch whenever that flag is set.
 
-For proper documentation visit [Mod-Integration](Documentation/Extensive-Documentation.md#ModIntegration).
+For proper documentation, please visit [Mod-Integration](Documentation/Extensive-Documentation.md#ModIntegration).
 
 ### Console-Commands
 
-The mod comes with a suite of console-commands for a variety of purposes. Here are some examples:
+The mod comes with a suite of [console-commands](Documentation/Extensive-Documentation.md#Diagnostics) for a variety of purposes. Here are some examples:
 
 * `!S7_Config AddSkill Projectile_Fireball` --- Adds Fireball skill to all clients.
 * `!S7_Config RemoveSkill Projectile_Fireball Host` --- Removes Fireball from the host character.
@@ -98,20 +95,20 @@ The mod comes with a suite of console-commands for a variety of purposes. Here a
 
 The mod-settings can allow you to fine tune your experience and provide greater control over the mod's functionality. You can export your settings as a json file and edit them externally, or create the file yourself (default: `S7_ConfigSettings.json`). This is what it looks like
 
-```lua
+```json
 {
-    ["ConfigFile"] = "S7_Config.json",
-    ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"},
-    ["ConfigLog"] = {["Enable"] = false, ["FileName"] = "S7_ConfigLog.tsv"},
-    ["CreateStats"] = false,
-    ["SyncStatPersistence"] = false,
-    ["BypassSafetyCheck"] = false,
-    ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""},
-    ["CustomCollections"] = {}
+    "ConfigFile": "S7_Config.json",
+    "StatsLoader": {"Enable": true, "FileName": "S7_ConfigData.json"},
+    "ConfigLog": {"Enable": false, "FileName": "S7_ConfigLog.tsv"},
+    "CreateStats": false,
+    "SyncStatPersistence": false,
+    "BypassSafetyCheck": false,
+    "ExportStatIDtoTSV": {"FileName": "S7_AllTheStats.tsv" "RestrictStatTypeTo": ""},
+    "CustomCollections": {}
 }
 ```
 
-A lot of these settings can be toggled on or off from the Mod-Menu too, or the console-commands.
+A lot of these settings can be toggled on or off from the Mod-Menu too, or the console-commands. For a detailed explanation, visit [Settings](Documentation/Extensive-Documentation.md#Settings)
 
 ## Support and Contribute
 
