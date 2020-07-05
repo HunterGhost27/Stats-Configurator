@@ -9,7 +9,7 @@
 
 ## Quick-Start
 
-It's time to get your feet wet, so let's get started. Once you've installed and activated the mod open up the game and load into a save. The *stats-configurator* item will be added to your inventory automatically. Using it will open up the **Mod-Menu** - from here, you can access most of the important functions of this mod.
+It's time to get your feet wet, so let's get started. Once you've installed and activated the mod, open up the game and load into a save. The *stats-configurator* item will be added to your inventory automatically. Using it will open up the **Mod-Menu** - from here, you can access most of the important functions of this mod.
 
 |||
 |-|-|

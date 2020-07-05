@@ -1,5 +1,7 @@
 # Example Configurations
 
+Here are a few examples to show you what's possible using the **stats-configurator**. This list is by no means exhaustive and the mod is capable of a whole lot more. Take the [Quick-Tour](Documentation/QuickTour.md) if you're new to the mod or read the [extensive-documentation](Documentation/Extensive-Documentation.md) to get into the nitty gritty. Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configurations with me and the community.
+
 ---
 
 - **[Fireball Modification](#Fireball-Modification)**
@@ -38,7 +40,7 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 }
 ```
 
-Every **Non-Player-Character** will have their **Physical** and **Magic Armor** _reduced_ by **25%** and their **Vitality** _increased_ by **100%**. (**Note:** This affects **Max-Vitality**. Characters that have already been loaded in-game will be wounded. Do this before starting a game.)
+Every **Non-Player-Character** will have their **Physical** and **Magic Armor** _reduced_ by **25%** and their **Vitality** _increased_ by **100%**. (**Note:** This affects **Max-Vitality**. Characters that have already been _"loaded"_ in-game will be wounded. Do this before starting a game or use a mod that heals partially-wounded NPCs.)
 
 ![Dallis-Armor-Config](https://imgur.com/DBhUcSK.png)
 
