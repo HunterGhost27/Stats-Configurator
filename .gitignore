@@ -43,7 +43,7 @@ story.debugInfo
 *.bullet
 *.dds
 *.tga
-# *.png
+*.png
 *.ttf
 *.lsb
 *.lsf
@@ -122,3 +122,4 @@ Thumbs.db
 
 .markdownlint.json
 *.code-workspace
+Documentation/Images/
