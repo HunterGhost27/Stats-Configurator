@@ -80,7 +80,6 @@ relayHelpMessage =
     Signals                         Purpose
     =================================================================================================================
     S7_StatsConfigurator            Loads and applies configuration-profile. (default: S7_Config.json)
-    S7_StatsSynchronize             Synchronizes stats specified in ConfigSettings or toSync queue.
     S7_BuildConfigData              Builds ConfigData file using configuration-profile (default: S7_Config.json)
     S7_BroadcastConfigData          Broadcasts serialized ConfigData to all active clients.
     S7_ValidateClientConfig         Calls for client ConfigData validation. Check response in debug-console.

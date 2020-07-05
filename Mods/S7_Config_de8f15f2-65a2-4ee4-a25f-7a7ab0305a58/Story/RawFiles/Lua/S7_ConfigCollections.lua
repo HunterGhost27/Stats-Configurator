@@ -92,6 +92,4 @@ function RebuildCollections()
             configCollections[key] = Rematerialize(value)
         end
     end
-
-    S7_ConfigLog("Collections rebuilt.")
 end
