@@ -40,7 +40,7 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 }
 ```
 
-Every **Non-Player-Character** will have their **Physical** and **Magic Armor** _reduced_ by **25%** and their **Vitality** _increased_ by **100%**. (**Note:** This affects **Max-Vitality**. Characters that have already been _"loaded"_ in-game will be wounded. Do this before starting a game or use a mod that heals partially-wounded NPCs.)
+Every **Non-Player-Character** will have their **Physical** and **Magic Armor** _reduced_ by **25%** and their **Vitality** _increased_ by **100%**. (**Note:** **Vitality** affects **Maximum-Vitality**. Characters that have already been _"loaded"_ in-game will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.)
 
 ![Dallis-Armor-Config](https://imgur.com/DBhUcSK.png)
 
