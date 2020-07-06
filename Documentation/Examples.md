@@ -1,6 +1,6 @@
 # Example Configurations
 
-Here are a few examples to show you what's possible using the **stats-configurator**. This list is by no means exhaustive and the mod is capable of a whole lot more. Take the [Quick-Tour](Documentation/QuickTour.md) if you're new to the mod or read the [extensive-documentation](Documentation/Extensive-Documentation.md) to get into the nitty gritty. Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configurations with me and the community.
+Here are a few examples to show you what's possible using the **stats-configurator**. This list is by no means exhaustive and the mod is capable of a whole lot more. Take the [quick-tour](Documentation/QuickTour.md) if you're new to the mod or read the [extensive-documentation](Documentation/Extensive-Documentation.md) to get into the nitty gritty. Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configurations with me and the community.
 
 ---
 
