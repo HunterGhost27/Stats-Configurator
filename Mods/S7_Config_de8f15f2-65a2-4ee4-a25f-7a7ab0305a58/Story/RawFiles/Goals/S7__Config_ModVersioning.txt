@@ -9,7 +9,6 @@ INITSECTION
 //  =====================================================================================================================
 //  DB_S7_ChangeLogs((STRING)_ModName,  (STRING)_Type,                                              (ITEMGUID)_ITEMGUID);
     DB_S7_ChangeLogs("S7_Config",       "Log",               "S7_Config_CHANGELOG_7b4a334e-7613-4ab9-bc21-a724519d6e6e");
-    DB_S7_ChangeLogs("S7_Config",       "Book",   "S7_BOOK_StatsConfiguratorHowTo_36f4a82d-bd13-416e-a8a9-409df4773914");
 //  =====================================================================================================================
 
 KBSECTION

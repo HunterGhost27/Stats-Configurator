@@ -2,6 +2,20 @@
 
 ---
 
+## [0.6.6.0] --- 7th July 2020 --- **_Slow March_**
+
+### CHANGED
+
+- _Renamed_ `CHANGELOG` to `Changelog`.
+
+### REMOVED
+
+- _Removed_ in-game instructions manual. Too many instructions!
+
+### COMMENTS
+
+- The ***Slow March*** through documentation, to victory!
+
 ## [0.6.5.0] --- 4th July 2020 --- **_Reworks_**
 
 ### NEW

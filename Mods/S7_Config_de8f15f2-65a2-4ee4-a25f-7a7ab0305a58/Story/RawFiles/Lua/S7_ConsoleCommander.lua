@@ -90,7 +90,7 @@ relayHelpMessage =
     S7_ExportCurrentSettings        Export current ConfigSettings. Saves settings in a json file in OsirisData.
     S7_RefreshSettings              Reloads settings from OsirisData folder. if unavailable, loads defaults.
     S7_StatsExportTSV               Export a list of all stat-entries to a TSV file in OsirisData folder.
-    S7_Config_CHANGELOG             Request in-game changelog and instruction manual.
+    S7_Config_CHANGELOG             Request in-game changelog.
     S7_PrintModRegistry             Prints a list of all mods registered to Stats-Configurator.
     S7_RebuildCollections           Rebuilds collections using presets and custom settings.
     S7_ToggleConfigLog              Toggles logging to external file.
