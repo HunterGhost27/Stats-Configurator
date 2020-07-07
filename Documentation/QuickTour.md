@@ -17,7 +17,7 @@ It's time to get your feet wet, so let's get started. Once you've installed and 
 |![Stats-Configurator-Item](https://imgur.com/BagN95a.png)|![Stats-Configurator-Mod-Menu](https://imgur.com/sADorrm.png)|
 |||
 
-Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the script-extender reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor (VSCode, Sublime, Notepad++, or regular Notepad).
+Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the ***script-extender*** reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor (VSCode, Sublime, Notepad++, or regular Notepad).
 
 Inside `S7_Config.json` write the following content:
 
