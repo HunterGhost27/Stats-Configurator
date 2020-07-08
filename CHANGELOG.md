@@ -2,6 +2,12 @@
 
 ---
 
+## [0.6.6.0] --- 8th July 2020 --- **_Slow March_**
+
+### NEW
+
+- _Added_ console command to start the Mod-Menu dialog.
+
 ## [0.6.6.0] --- 7th July 2020 --- **_Slow March_**
 
 ### CHANGED

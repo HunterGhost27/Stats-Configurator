@@ -12,7 +12,15 @@ function S7_Config_ConsoleCommander(...)
     local args = {...}
     local command = args[2] or ""
 
-    if command == "AddSkill" then
+    if command == "StartModMenu" then
+        --  START MOD-MENU
+        --  ==============
+        local hostCharacter = Osi.CharacterGetHostCharacter()
+        if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
+            Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
+            S7_ConfigLog("ModMenu activated by the host-character.")
+        end
+    elseif command == "AddSkill" then
         --  ADD SKILL
         --  =========
         local skillName = args[3] or ""
@@ -62,14 +70,15 @@ end
 helpMessage =
     [[
     ======================================================================================================================================================
-    Command     Argument1       Argument2                --  COMMENTS                                               EXAMPLE
+    Command         Argument1       Argument2                --  COMMENTS                                               EXAMPLE
     ======================================================================================================================================================
-    Help        -               -                        --  Prints a helpful list of commands.                     Help
-    AddSkill    <SkillID>       <Character|Optional>     --  Adds skill (skillID) to character (character-key).     AddSkill Projectile_Fireball Host
-    RemoveSkill <SkillID>       <Character|Optional>     --  Removes skill (skillID) to character (character-key).  RemoveSkill Shout_InspireStart
-    StatSearch  <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
-    StatSync    <StatID>        <Persistence|Optional>   --  Synchronize (StatID) for all clients.                  StatSync Projectile_PyroclasticRock
-    Relay       <Signal>        -                        --  Relay signal to ModMenu. Relay Help for more info.     Relay S7_BroadcastConfigData
+    Help            -               -                        --  Prints a helpful list of commands.                     Help
+    StartModMenu    -               -                        --  Starts the Mod-Menu Dialog.                            StartModMenu
+    AddSkill        <SkillID>       <Character|Optional>     --  Adds skill (skillID) to character (character-key).     AddSkill Projectile_Fireball Host
+    RemoveSkill     <SkillID>       <Character|Optional>     --  Removes skill (skillID) to character (character-key).  RemoveSkill Shout_InspireStart
+    StatSearch      <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
+    StatSync        <StatID>        <Persistence|Optional>   --  Synchronize (StatID) for all clients.                  StatSync Projectile_PyroclasticRock
+    Relay           <Signal>        -                        --  Relay signal to ModMenu. Relay Help for more info.     Relay S7_BroadcastConfigData
     ======================================================================================================================================================
     * Resize the console window if this doesn't fit properly.
 ]]
