@@ -6,6 +6,12 @@ This document is a ***work-in-progress***.
 
 ---
 
+## Osiris Data
+
+The [script-extender](https://github.com/Norbyte/ositools) reads from and writes files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be located in this folder. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
+
+Throughout this document, `Osiris Data` will refer to `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
+
 ## Stats-Configurator
 
 ### Stats-Configurator Items
@@ -79,9 +85,11 @@ By default, `SyncStatPersistence` is disabled. This essentially means that all c
 }
 ```
 
-These are the **default** settings the mod loads with. The user can override these settings by creating `S7_ConfigSettings.json` in `Osiris Data`. Settings overriden in this file will take precedence over the default values. You can **reapply custom-settings** or **revert to default settings** from the **mod-menu**.
+These are the mod's **default** settings. The user can override these settings in `S7_ConfigSettings.json` in `Osiris Data`. Changes made in this file (`S7_ConfigSettings.json`) will take precedence over the default values when the mod loads. You can **Reapply Custom Settings** or **Reset To Default** from the stats-configurator **mod-menu**.
 
 ### Setting Details
+
+Here's a quick summary of all the settings:
 
 |Setting|Default Value|Purpose|
 |-------|-------------|-------|
@@ -89,17 +97,17 @@ These are the **default** settings the mod loads with. The user can override the
 |`StatsLoader.Enable`|`true`|StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.|
 |`StatsLoader.FileName`|`S7_ConfigData.json`|Name of the mod-created **ConfigData** file. This is the compiled configuration profile.|
 |`ConfigLog.Enable`|`false`|Enables logging to an external tsv file in `Osiris Data`. Useful for diagnostics and record-keeping. [Use with care](Documentation/Extensive-Documentation.md#ConfigLog)|
-|`ConfigLog.FileName`|`S7_ConfigLog.tsv`|Name of said external tsv file.|
+|`ConfigLog.FileName`|`S7_ConfigLog.tsv`|Name of said tsv file.|
 |`CreateStats`|`false`|Enables stat-creation if `true`. Stat-creation only happens in the `server` context.|
 |`SyncStatPersistence`|`false`|Stat-edits will be saved **persistently** in the savefile if `true`.|
 |`BypassSafetyCheck`|`false`|The mod prevents the modification of certain stats and keys. `BypassSafetyCheck` will allow unrestricted modification of these keys if `true`.|
 |`ExportStatIDtoTSV.FileName`|`S7_AllTheStats.tsv`|Name of the tsv file to which `StatID`s are exported.|
-|`ExportStatIDtoTSV.RestrictStatTypeTo`|`""`|Stats of only these types will be exported.|
-|`CustomCollections`|`{}`|Allows users to create custom-collections.|
+|`ExportStatIDtoTSV.RestrictStatTypeTo`|`""`|Export will be restricted to the specified stat-types.|
+|`CustomCollections`|`{}`|Loads custom-collections created by the user.|
 
 ### Custom Settings
 
-Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If that file doesn't exist, you can create one manually or **export current-settings** from the mod-menu. Custom settings are applied automatically when the game loads, but can be reapplied whenever the host-user wants, using the modmenu. The mod-menu shows whether you're using **default** settings or **custom** ones. Some simple settings can be toggled from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands).
+Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If that file doesn't exist, you can create one manually or **Export Current Settings** from the **mod-menu**. Custom settings are applied automatically when the game loads, but can be reapplied whenever the host-user wants, using the modmenu. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands). For settings that aren't just toggles, you'll need manual-editing in the `S7_ConfigSettings.json` file.
 
 ## Mod-Integration
 
@@ -107,7 +115,7 @@ Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If t
 
 ### ConfigLog
 
-Everything the mod prints to the _debug-console_, it can log to an _external tsv file_ aswell. This is extremely helpful if you are **diagnosing problems** or just trying to keep a **history** of the config-changes you've made. However, the file can get ridiculously large (and cause performance issues), thus it is `disabled` by default. I encourage you keep it disabled unless you absoulutely need it to diagnose a problem or keep a persistent-record of changes (especially if `SyncStatPersistence` is `true`). If you do this, I'd advise you to manually backup ConfigLogs somewhere else and empty the file or change its name every now-and-then. Keeping the file size small will prevent a lot of issues.
+Everything the mod prints to the _debug-console_, it can log to an _external tsv file_ aswell. This is extremely helpful if you are **diagnosing problems** or just trying to keep a **history** of the config-changes you've made. However, the file can get ridiculously large (and cause performance issues), thus it is `disabled` by default. I encourage you keep it disabled unless you absoulutely need it to diagnose a problem or keep a persistent-record of changes (especially if `SyncStatPersistence` is `true`). If you do this, I'd advise you to manually backup ConfigLogs somewhere else and empty the file or change its name every now-and-then. Keeping the file size small will prevent a lot of headache. You can toggle the logging functionality using the mod-menu, console-commands or custom-settings. You can also change the name of the tsv file using custom-settings.
 
 ### Inspect Skill
 
