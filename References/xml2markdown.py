@@ -73,19 +73,19 @@ statObjectDefsMarkdownContent += "\n---\n\n"
 for index, content in statObjectDefsDataFrame.iterrows():
     statObjectDefsMarkdownContent += "## " + \
         content["@category"] + ": " + content["@name"] + "\n\n"
-    FieldDefsDataFrame = pandas.DataFrame.from_dict(
+    fieldDefsDataFrame = pandas.DataFrame.from_dict(
         content["field_definitions"]["field_definition"])
-    FieldDefsDataFrame = FieldDefsDataFrame.drop(
+    fieldDefsDataFrame = fieldDefsDataFrame.drop(
         columns=["@display_name", "@export_name"])
-    FieldDefsDataFrame = FieldDefsDataFrame.dropna(how="all")
-    FieldDefsDataFrame = FieldDefsDataFrame.fillna("")
-    cols = list(FieldDefsDataFrame.columns.values)
+    fieldDefsDataFrame = fieldDefsDataFrame.dropna(how="all")
+    fieldDefsDataFrame = fieldDefsDataFrame.fillna("")
+    cols = list(fieldDefsDataFrame.columns.values)
     if "@description" in cols:
         cols.pop(cols.index("@description"))
-        FieldDefsDataFrame = FieldDefsDataFrame[cols + ["@description"]]
+        fieldDefsDataFrame = fieldDefsDataFrame[cols + ["@description"]]
 
     statObjectDefsMarkdownContent += pandas.DataFrame.to_markdown(
-        FieldDefsDataFrame) + "\n\n"
+        fieldDefsDataFrame) + "\n\n"
 
 #   ===================
 #   WRITE MARKDOWN FILE
