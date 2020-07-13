@@ -77,6 +77,12 @@ for index, content in SODsDataFrame.iterrows():
     FieldDefsDataFrame = FieldDefsDataFrame.drop(
         columns=["@display_name", "@export_name"])
     FieldDefsDataFrame = FieldDefsDataFrame.dropna(how="all")
+    FieldDefsDataFrame = FieldDefsDataFrame.fillna("")
+    cols = list(FieldDefsDataFrame.columns.values)
+    if "@description" in cols:
+        cols.pop(cols.index("@description"))
+        FieldDefsDataFrame = FieldDefsDataFrame[cols + ["@description"]]
+
     SODsMarkdownContent += pandas.DataFrame.to_markdown(
         FieldDefsDataFrame) + "\n\n"
 
