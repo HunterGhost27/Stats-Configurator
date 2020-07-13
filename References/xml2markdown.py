@@ -76,8 +76,8 @@ for i in xmlDictEnumerations["root"]["enumerations"]["enumeration"]:
 
 SODsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n## Table of Contents\n\n"
 
-nameAndCategory = SODsDataFrame[["@name", "@category"]]
-for index, content in nameAndCategory.iterrows():
+SODsDataFrame = SODsDataFrame[["@name", "@category", "field_definitions"]]
+for index, content in SODsDataFrame.iterrows():
     text = content["@category"] + ": " + content["@name"]
     SODsMarkdownContent += "- [" + text + \
         "](#" + text.replace(" ", "-") + ")\n"
@@ -86,28 +86,16 @@ SODsMarkdownContent += "\n---\n\n"
 #       Markdown Content
 #       ----------------
 
-for i in xmlDictSODs["root"]["stat_object_definitions"]["stat_object_definition"]:
-    dictionaryList = []
-    fieldDictList = [
-        "@name",
-        # "@display_name",
-        # "@export_name",
-        "@type",
-        "@enumeration_type_name",
-        "@description"]
-    for j in i["field_definitions"]["field_definition"]:
-        tempDict = {}
-        for k in fieldDictList:
-            try:
-                tempDict[k] = j[k]
-            except KeyError:
-                tempDict[k] = ""
-        dictionaryList.append(tempDict)
-
+for index, content in SODsDataFrame.iterrows():
     SODsMarkdownContent += "## " + \
-        i["@category"] + ": " + i["@name"] + "\n\n"
-    SODsMarkdownContentTable = Tomark.table(dictionaryList)
-    SODsMarkdownContent += SODsMarkdownContentTable + "\n"
+        content["@category"] + ": " + content["@name"] + "\n\n"
+    FieldDefsDataFrame = pandas.DataFrame.from_dict(
+        content["field_definitions"]["field_definition"])
+    FieldDefsDataFrame = FieldDefsDataFrame.drop(
+        columns=["@display_name", "@export_name"])
+    FieldDefsDataFrame = FieldDefsDataFrame.dropna(how="all")
+    SODsMarkdownContent += pandas.DataFrame.to_markdown(
+        FieldDefsDataFrame) + "\n\n"
 
 #   ===================
 #   WRITE MARKDOWN FILE
