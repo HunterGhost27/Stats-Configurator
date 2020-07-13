@@ -16,8 +16,8 @@ import pandas_read_xml as pdx   # To convert XML to dataframes.
 enumerationsDataFrame = pdx.read_xml(
     "Ref_Enumerations.xml", ["root", "enumerations", "enumeration"])
 
-SODsDataFrame = pdx.read_xml("Ref_StatObjectDefinitions.xml", [
-                             "root", "stat_object_definitions", "stat_object_definition"])
+statObjectDefsDataFrame = pdx.read_xml("Ref_StatObjectDefinitions.xml", [
+    "root", "stat_object_definitions", "stat_object_definition"])
 
 #   ======================
 #   CREATE MARKDOWN TABLES
@@ -57,20 +57,21 @@ for index, content in enumerationsDataFrame.iterrows():
 #       Table of Contents
 #       -----------------
 
-SODsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n## Table of Contents\n\n"
+statObjectDefsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n## Table of Contents\n\n"
 
-SODsDataFrame = SODsDataFrame[["@name", "@category", "field_definitions"]]
-for index, content in SODsDataFrame.iterrows():
+statObjectDefsDataFrame = statObjectDefsDataFrame[[
+    "@name", "@category", "field_definitions"]]
+for index, content in statObjectDefsDataFrame.iterrows():
     text = content["@category"] + ": " + content["@name"]
-    SODsMarkdownContent += "- [" + text + \
+    statObjectDefsMarkdownContent += "- [" + text + \
         "](#" + text.replace(" ", "-") + ")\n"
-SODsMarkdownContent += "\n---\n\n"
+statObjectDefsMarkdownContent += "\n---\n\n"
 
 #       Markdown Content
 #       ----------------
 
-for index, content in SODsDataFrame.iterrows():
-    SODsMarkdownContent += "## " + \
+for index, content in statObjectDefsDataFrame.iterrows():
+    statObjectDefsMarkdownContent += "## " + \
         content["@category"] + ": " + content["@name"] + "\n\n"
     FieldDefsDataFrame = pandas.DataFrame.from_dict(
         content["field_definitions"]["field_definition"])
@@ -83,7 +84,7 @@ for index, content in SODsDataFrame.iterrows():
         cols.pop(cols.index("@description"))
         FieldDefsDataFrame = FieldDefsDataFrame[cols + ["@description"]]
 
-    SODsMarkdownContent += pandas.DataFrame.to_markdown(
+    statObjectDefsMarkdownContent += pandas.DataFrame.to_markdown(
         FieldDefsDataFrame) + "\n\n"
 
 #   ===================
@@ -91,14 +92,14 @@ for index, content in SODsDataFrame.iterrows():
 #   ===================
 
 enumerationsMarkdownContent = enumerationsMarkdownContent.rstrip() + "\n"
-SODsMarkdownContent = SODsMarkdownContent.rstrip() + "\n"
+statObjectDefsMarkdownContent = statObjectDefsMarkdownContent.rstrip() + "\n"
 
 with open("Enumerations.md", "w") as markdownFileEnumerations:
     markdownFileEnumerations.write(enumerationsMarkdownContent)
 markdownFileEnumerations.close()
 
-with open("StatObjectDefinitions.md", "w") as markdownFileSODs:
-    markdownFileSODs.write(SODsMarkdownContent)
-markdownFileSODs.close()
+with open("StatObjectDefinitions.md", "w") as markdownFilestatObjectDefs:
+    markdownFilestatObjectDefs.write(statObjectDefsMarkdownContent)
+markdownFilestatObjectDefs.close()
 
 #   ########################################################################################################################################
