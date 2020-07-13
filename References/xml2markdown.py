@@ -33,6 +33,9 @@ with open("Ref_StatObjectDefinitions.xml") as xmlFileSODs:
     xmlDictSODs = xmltodict.parse(xmlFileSODs.read())
 xmlFileSODs.close()
 
+SODsDataFrame = pdx.read_xml("Ref_StatObjectDefinitions.xml", [
+                             "root", "stat_object_definitions", "stat_object_definition"])
+
 #   ======================
 #   CREATE MARKDOWN TABLES
 #   ======================
@@ -47,7 +50,7 @@ enumerationsMarkdownContent = "# Reference: Enumerations\n\n---\n\n## Table of C
 
 for name in enumerationsDataFrame["@name"].sort_values():
     enumerationsMarkdownContent += "- [" + name + "]"
-    enumerationsMarkdownContent += "(#" + name.replace(" ", "-") + ")" + "\n"
+    enumerationsMarkdownContent += "(#" + name.replace(" ", "-") + ")\n"
 enumerationsMarkdownContent += "\n---\n\n"
 
 #       Markdown Content
@@ -71,33 +74,40 @@ for i in xmlDictEnumerations["root"]["enumerations"]["enumeration"]:
 #       Table of Contents
 #       -----------------
 
-SODsMarkdown = "# Reference: Stat Object Definitions\n\n---\n\n## Table of Contents\n\n"
+SODsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n## Table of Contents\n\n"
+
+nameAndCategory = SODsDataFrame[["@name", "@category"]]
+for index, content in nameAndCategory.iterrows():
+    text = content["@category"] + ": " + content["@name"]
+    SODsMarkdownContent += "- [" + text + \
+        "](#" + text.replace(" ", "-") + ")\n"
+SODsMarkdownContent += "\n---\n\n"
 
 #       Markdown Content
 #       ----------------
 
-for i in xmlDictSODs["root"]["stat_object_definitions"]:
-    for j in xmlDictSODs["root"]["stat_object_definitions"][i]:
-        dictionaryList = []
-        fieldDictList = [
-            "@name",
-            # "@display_name",
-            # "@export_name",
-            "@type",
-            "@enumeration_type_name",
-            "@description"]
-        for k in j["field_definitions"]["field_definition"]:
-            tempDict = {}
-            for l in fieldDictList:
-                try:
-                    tempDict[l] = k[l]
-                except KeyError:
-                    tempDict[l] = ""
-            dictionaryList.append(tempDict)
+for i in xmlDictSODs["root"]["stat_object_definitions"]["stat_object_definition"]:
+    dictionaryList = []
+    fieldDictList = [
+        "@name",
+        # "@display_name",
+        # "@export_name",
+        "@type",
+        "@enumeration_type_name",
+        "@description"]
+    for j in i["field_definitions"]["field_definition"]:
+        tempDict = {}
+        for k in fieldDictList:
+            try:
+                tempDict[k] = j[k]
+            except KeyError:
+                tempDict[k] = ""
+        dictionaryList.append(tempDict)
 
-        SODsMarkdown += "## " + j["@category"] + ": " + j["@name"] + "\n\n"
-        SODsMarkdownTable = Tomark.table(dictionaryList)
-        SODsMarkdown += SODsMarkdownTable + "\n"
+    SODsMarkdownContent += "## " + \
+        i["@category"] + ": " + i["@name"] + "\n\n"
+    SODsMarkdownContentTable = Tomark.table(dictionaryList)
+    SODsMarkdownContent += SODsMarkdownContentTable + "\n"
 
 #   ===================
 #   WRITE MARKDOWN FILE
@@ -108,7 +118,7 @@ with open("Enumerations.md", "w") as markdownFileEnumerations:
 markdownFileEnumerations.close()
 
 with open("StatObjectDefinitions.md", "w") as markdownFileSODs:
-    markdownFileSODs.write(SODsMarkdown)
+    markdownFileSODs.write(SODsMarkdownContent)
 markdownFileSODs.close()
 
 #   ########################################################################################################################################
