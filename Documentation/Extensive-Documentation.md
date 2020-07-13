@@ -4,13 +4,33 @@
 
 This document is a ***work-in-progress***.
 
+- [Extensive-Documentation](#extensive-documentation)
+  - [Osiris Data](#osiris-data)
+  - [Stats-Configurator](#stats-configurator)
+    - [Stats-Configurator Items](#stats-configurator-items)
+    - [Applying Configurations](#applying-configurations)
+    - [StatsLoader](#statsloader)
+      - [StatLoader Settings](#statloader-settings)
+      - [StatsLoader and Load-Order](#statsloader-and-load-order)
+    - [Stat Persistence](#stat-persistence)
+  - [Settings](#settings)
+    - [Default Settings](#default-settings)
+    - [Setting Details](#setting-details)
+    - [Custom Settings](#custom-settings)
+  - [Mod-Integration](#mod-integration)
+  - [Diagnostics](#diagnostics)
+    - [ConfigLog](#configlog)
+    - [Inspect Skill](#inspect-skill)
+    - [Export StatIDs for Reference](#export-statids-for-reference)
+  - [Console-Commands](#console-commands)
+
 ---
 
 ## Osiris Data
 
 The [script-extender](https://github.com/Norbyte/ositools) reads from and writes files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be located in this folder. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
 
-Throughout this document, `Osiris Data` will refer to `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
+Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
 
 ## Stats-Configurator
 
@@ -91,19 +111,19 @@ These are the mod's **default** settings. The user can override these settings i
 
 Here's a quick summary of all the settings:
 
-|Setting|Default Value|Purpose|
-|-------|-------------|-------|
-|`ConfigFile`|`S7_Config.json`|Name of the user-created configuration file. This is the file that users will write their configurations in.|
-|`StatsLoader.Enable`|`true`|StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.|
-|`StatsLoader.FileName`|`S7_ConfigData.json`|Name of the mod-created **ConfigData** file. This is the compiled configuration profile.|
-|`ConfigLog.Enable`|`false`|Enables logging to an external tsv file in `Osiris Data`. Useful for diagnostics and record-keeping. [Use with care](Documentation/Extensive-Documentation.md#ConfigLog)|
-|`ConfigLog.FileName`|`S7_ConfigLog.tsv`|Name of said tsv file.|
-|`CreateStats`|`false`|Enables stat-creation if `true`. Stat-creation only happens in the `server` context.|
-|`SyncStatPersistence`|`false`|Stat-edits will be saved **persistently** in the savefile if `true`.|
-|`BypassSafetyCheck`|`false`|The mod prevents the modification of certain stats and keys. `BypassSafetyCheck` will allow unrestricted modification of these keys if `true`.|
-|`ExportStatIDtoTSV.FileName`|`S7_AllTheStats.tsv`|Name of the tsv file to which `StatID`s are exported.|
-|`ExportStatIDtoTSV.RestrictStatTypeTo`|`""`|Export will be restricted to the specified stat-types.|
-|`CustomCollections`|`{}`|Loads custom-collections created by the user.|
+| Setting                                | Default Value        | Purpose                                                                                                                                                                  |
+| -------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ConfigFile`                           | `S7_Config.json`     | Name of the user-created configuration file. This is the file that users will write their configurations in.                                                             |
+| `StatsLoader.Enable`                   | `true`               | StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.                                                                                      |
+| `StatsLoader.FileName`                 | `S7_ConfigData.json` | Name of the mod-created **ConfigData** file. This is the compiled configuration profile.                                                                                 |
+| `ConfigLog.Enable`                     | `false`              | Enables logging to an external tsv file in `Osiris Data`. Useful for diagnostics and record-keeping. [Use with care](Documentation/Extensive-Documentation.md#ConfigLog) |
+| `ConfigLog.FileName`                   | `S7_ConfigLog.tsv`   | Name of said tsv file.                                                                                                                                                   |
+| `CreateStats`                          | `false`              | Enables stat-creation if `true`. Stat-creation only happens in the `server` context.                                                                                     |
+| `SyncStatPersistence`                  | `false`              | Stat-edits will be saved **persistently** in the savefile if `true`.                                                                                                     |
+| `BypassSafetyCheck`                    | `false`              | The mod prevents the modification of certain stats and keys. `BypassSafetyCheck` will allow unrestricted modification of these keys if `true`.                           |
+| `ExportStatIDtoTSV.FileName`           | `S7_AllTheStats.tsv` | Name of the tsv file to which `StatID`s are exported.                                                                                                                    |
+| `ExportStatIDtoTSV.RestrictStatTypeTo` | `""`                 | Export will be restricted to the specified stat-types.                                                                                                                   |
+| `CustomCollections`                    | `{}`                 | Loads custom-collections created by the user.                                                                                                                            |
 
 ### Custom Settings
 
