@@ -12,7 +12,7 @@ from tomark import Tomark       # To convert dictionaries to Markdown tables.
 #   =============
 
 with open("Ref_Enumerations.xml") as xmlFileEnumerations:
-    xmlDictEnumerations = xmltodict.parse(xmlFileEnumeration.read())
+    xmlDictEnumerations = xmltodict.parse(xmlFileEnumerations.read())
 xmlFileEnumerations.close()
 
 with open("Ref_StatObjectDefinitions.xml") as xmlFileSODs:
@@ -48,7 +48,13 @@ SODsMarkdown = "# Reference: Stat Object Definitions\n\n---\n\n"
 for i in xmlDictSODs["root"]["stat_object_definitions"]:
     for j in xmlDictSODs["root"]["stat_object_definitions"][i]:
         dictionaryList = []
-        fieldDictList = ["@name", "@display_name", "@export_name", "@type", "@enumeration_type_name", "@description"]
+        fieldDictList = [
+            "@name", 
+            #"@display_name", 
+            #"@export_name", 
+            "@type", 
+            "@enumeration_type_name", 
+            "@description"]
         for k in j["field_definitions"]["field_definition"]:
             tempDict = {}
             for l in fieldDictList:
@@ -72,7 +78,7 @@ with open("Enumerations.md", "w") as markdownFileEnumerations:
 markdownFileEnumerations.close()
 
 with open("StatObjectDefinitions.md", "w") as markdownFileSODs:
-    markdownFileSODs.write(SODMarkdown)
+    markdownFileSODs.write(SODsMarkdown)
 markdownFileSODs.close()
 
 
