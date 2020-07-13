@@ -2,6 +2,16 @@
 
 ---
 
+## [0.6.6.0] --- 13th July 2020 --- **_Slow March_**
+
+### NEW
+
+- _Created_ a python script to convert xml data into markdown files.
+
+### CHANGED
+
+- _Reinitialized_ **References** folder.
+
 ## [0.6.6.0] --- 8th July 2020 --- **_Slow March_**
 
 ### NEW

@@ -120,7 +120,6 @@ Thumbs.db
 #        HUNTER-GHOST-27
 #    #######################
 
-.markdownlint.json
 *.code-workspace
+.markdownlint.json
 Documentation/Images/
-References/
