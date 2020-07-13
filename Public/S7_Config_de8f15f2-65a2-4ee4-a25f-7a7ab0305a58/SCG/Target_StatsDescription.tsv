@@ -1,2 +1,2 @@
 Key	Content	Handle
-Target_S7_Config_Inspect_StatsDescription	Prints statIDs to the Debug-Console.	hf84f20fbg840fg489cg9791gbc6370dc8c66
+Target_S7_Config_Inspect_StatsDescription	Prints statIDs to the script-extender's debug-console.	hf84f20fbg840fg489cg9791gbc6370dc8c66

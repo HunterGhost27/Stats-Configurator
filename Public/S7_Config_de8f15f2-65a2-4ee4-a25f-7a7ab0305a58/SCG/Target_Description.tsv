@@ -1,2 +1,2 @@
 Key	Content	Handle
-Target_S7_Config_Inspect_Description	Inspect the target. Prints statsIDs to the Debug-Console.	h218ffacag4ac2g43c0gbee3gac4beb0ff1dc
+Target_S7_Config_Inspect_Description	Inspect the target's active skills and statuses. Prints their statsIDs to the script-extender's debug-console.	h218ffacag4ac2g43c0gbee3gac4beb0ff1dc
