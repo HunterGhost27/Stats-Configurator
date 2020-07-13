@@ -3483,4 +3483,3 @@
 |   42 | IsResistingDeath             | Enumeration      | nan                                                                                                       | YesNo                  | nan                |
 |   43 | LoseControl                  | Enumeration      | nan                                                                                                       | YesNo                  | nan                |
 |   44 | Skills                       | String           | nan                                                                                                       | nan                    | nan                |
-

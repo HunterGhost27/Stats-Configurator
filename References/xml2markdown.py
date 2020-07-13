@@ -6,9 +6,6 @@
 #   LIBRARIES
 #   =========
 
-import xmltodict                # To convert XML to dictionaries.
-from tomark import Tomark       # To convert dictionaries to Markdown tables.
-
 import pandas                   # For fancy dataframes.
 import pandas_read_xml as pdx   # To convert XML to dataframes.
 
@@ -16,22 +13,8 @@ import pandas_read_xml as pdx   # To convert XML to dataframes.
 #   READ XML FILE
 #   =============
 
-#   Ref_Enumerations.xml
-#   --------------------
-
-with open("Ref_Enumerations.xml") as xmlFileEnumerations:
-    xmlDictEnumerations = xmltodict.parse(xmlFileEnumerations.read())
-xmlFileEnumerations.close()
-
 enumerationsDataFrame = pdx.read_xml(
     "Ref_Enumerations.xml", ["root", "enumerations", "enumeration"])
-
-#   Ref_StatObjectDefinitions.xml
-#   -----------------------------
-
-with open("Ref_StatObjectDefinitions.xml") as xmlFileSODs:
-    xmlDictSODs = xmltodict.parse(xmlFileSODs.read())
-xmlFileSODs.close()
 
 SODsDataFrame = pdx.read_xml("Ref_StatObjectDefinitions.xml", [
                              "root", "stat_object_definitions", "stat_object_definition"])
@@ -48,25 +31,25 @@ enumerationsMarkdownContent = "# Reference: Enumerations\n\n---\n\n## Table of C
 #       Table of Contents
 #       -----------------
 
-for name in enumerationsDataFrame["@name"].sort_values():
-    enumerationsMarkdownContent += "- [" + name + "]"
-    enumerationsMarkdownContent += "(#" + name.replace(" ", "-") + ")\n"
+for index, content in enumerationsDataFrame.iterrows():
+    enumerationsMarkdownContent += "- [" + content["@name"] + "]"
+    enumerationsMarkdownContent += "(#" + \
+        content["@name"].replace(" ", "-") + ")\n"
 enumerationsMarkdownContent += "\n---\n\n"
 
 #       Markdown Content
 #       ----------------
 
-for i in xmlDictEnumerations["root"]["enumerations"]["enumeration"]:
-    dictionaryList = []
-    if isinstance(i["items"]["item"], list):
-        for j in i["items"]["item"]:
-            dictionaryList.append(j)
-    else:
-        dictionaryList.append(i["items"]["item"])
+for index, content in enumerationsDataFrame.iterrows():
+    try:
+        itemDataFrame = pandas.DataFrame.from_dict(
+            content["items"]["item"])
+    except ValueError:
+        itemDataFrame = pandas.DataFrame([{"@index": 0, "@value": 1}])
 
-    enumerationsMarkdownContent += "## " + i["@name"] + "\n\n"
-    markdownTable = Tomark.table(dictionaryList)
-    enumerationsMarkdownContent += markdownTable + "\n"
+    enumerationsMarkdownContent += "## " + content["@name"] + "\n\n"
+    enumerationsMarkdownContent += pandas.DataFrame.to_markdown(
+        itemDataFrame) + "\n\n"
 
 #   StatObjectDefinitions.md
 #   ------------------------
@@ -100,6 +83,9 @@ for index, content in SODsDataFrame.iterrows():
 #   ===================
 #   WRITE MARKDOWN FILE
 #   ===================
+
+enumerationsMarkdownContent = enumerationsMarkdownContent.rstrip() + "\n"
+SODsMarkdownContent = SODsMarkdownContent.rstrip() + "\n"
 
 with open("Enumerations.md", "w") as markdownFileEnumerations:
     markdownFileEnumerations.write(enumerationsMarkdownContent)
