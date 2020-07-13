@@ -11,6 +11,7 @@
 ### CHANGED
 
 - _Reinitialized_ **References** folder.
+- _Renamed_ `xml2json.py` to `xml2markdown.py` to better represent its purpose. Infact, the file has nothing to do with jsons anymore!
 
 ## [0.6.6.0] --- 8th July 2020 --- **_Slow March_**
 
