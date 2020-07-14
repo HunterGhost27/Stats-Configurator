@@ -643,37 +643,37 @@
 
 ## TreasureTable: TreasureTable
 
-|      | @name             | @type       | @export_type       | @enumeration_type_name         | @is_internal |
-| ---: | :---------------- | :---------- | :----------------- | :----------------------------- | :----------- |
-|    0 | Name              | Name        | TreasureTableField |                                |              |
-|    1 | CanMerge          | Enumeration | TreasureTableField | [YesNo](Enumerations.md#YesNo) |              |
-|    2 | MinLevelDiff      | Integer     | TreasureTableField |                                |              |
-|    3 | MaxLevelDiff      | Integer     | TreasureTableField |                                |              |
-|    4 | IgnoreLevelDiff   | Enumeration | TreasureTableField | [YesNo](Enumerations.md#YesNo) |              |
-|    5 | UseTreasureGroups | Enumeration | TreasureTableField | [YesNo](Enumerations.md#YesNo) |              |
-|    6 | StartLevel        | Integer     | SubTableField      |                                |              |
-|    7 | EndLevel          | Integer     | SubTableField      |                                |              |
-|    8 | DropCount         | String      | SubTableField      |                                |              |
-|    9 | ObjectCategory    | String      | SubTableField      |                                |              |
-|   10 | Frequency         | Integer     | SubTableField      |                                |              |
-|   11 | Common            | Integer     | ItemType           |                                |              |
-|   12 | Uncommon          | Integer     | ItemType           |                                |              |
-|   13 | Rare              | Integer     | ItemType           |                                |              |
-|   14 | Epic              | Integer     | ItemType           |                                |              |
-|   15 | Legendary         | String      | ItemType           |                                |              |
-|   16 | Divine            | Integer     | ItemType           |                                |              |
-|   17 | Unique            | Integer     | ItemType           |                                |              |
-|   18 | Comment           | Comment     |                    |                                |              |
-|   19 | Using             | BaseClass   |                    |                                | true         |
+|      | @name             | @type       | @export_type       | @enumeration_type_name         |
+| ---: | :---------------- | :---------- | :----------------- | :----------------------------- |
+|    0 | Name              | Name        | TreasureTableField |                                |
+|    1 | CanMerge          | Enumeration | TreasureTableField | [YesNo](Enumerations.md#YesNo) |
+|    2 | MinLevelDiff      | Integer     | TreasureTableField |                                |
+|    3 | MaxLevelDiff      | Integer     | TreasureTableField |                                |
+|    4 | IgnoreLevelDiff   | Enumeration | TreasureTableField | [YesNo](Enumerations.md#YesNo) |
+|    5 | UseTreasureGroups | Enumeration | TreasureTableField | [YesNo](Enumerations.md#YesNo) |
+|    6 | StartLevel        | Integer     | SubTableField      |                                |
+|    7 | EndLevel          | Integer     | SubTableField      |                                |
+|    8 | DropCount         | String      | SubTableField      |                                |
+|    9 | ObjectCategory    | String      | SubTableField      |                                |
+|   10 | Frequency         | Integer     | SubTableField      |                                |
+|   11 | Common            | Integer     | ItemType           |                                |
+|   12 | Uncommon          | Integer     | ItemType           |                                |
+|   13 | Rare              | Integer     | ItemType           |                                |
+|   14 | Epic              | Integer     | ItemType           |                                |
+|   15 | Legendary         | String      | ItemType           |                                |
+|   16 | Divine            | Integer     | ItemType           |                                |
+|   17 | Unique            | Integer     | ItemType           |                                |
+|   18 | Comment           | Comment     |                    |                                |
+|   19 | Using             | BaseClass   |                    |                                |
 
 ## SkillData: SkillSet
 
-|      | @name   | @type         | @is_internal |
-| ---: | :------ | :------------ | :----------- |
-|    0 | Name    | Name          |              |
-|    1 | Skills  | StatReference |              |
-|    2 | Comment | Comment       |              |
-|    3 | Using   | BaseClass     | true         |
+|      | @name   | @type         |
+| ---: | :------ | :------------ |
+|    0 | Name    | Name          |
+|    1 | Skills  | StatReference |
+|    2 | Comment | Comment       |
+|    3 | Using   | BaseClass     |
 
 ## Equipment: Equipment
 
@@ -744,16 +744,16 @@
 
 ## ItemCombos: ItemComboProperties
 
-|      | @name          | @type            | @export_type       | @table_name      | @is_internal |
-| ---: | :------------- | :--------------- | :----------------- | :--------------- | :----------- |
-|    0 | Name           | Name             | PropertyField      |                  |              |
-|    1 | PreviewIcon    | String           | PropertyField      |                  |              |
-|    2 | PreviewTooltip | TranslatedString | PropertyField      | ItemCombinations |              |
-|    3 | ObjectID       | String           | PropertyEntryField |                  |              |
-|    4 | Type           | String           | PropertyEntryField |                  |              |
-|    5 | Result         | String           | PropertyEntryField |                  |              |
-|    6 | Comment        | Comment          | PropertyEntryField |                  |              |
-|    7 | Using          | BaseClass        | PropertyEntryField |                  | true         |
+|      | @name          | @type            | @export_type       | @table_name      |
+| ---: | :------------- | :--------------- | :----------------- | :--------------- |
+|    0 | Name           | Name             | PropertyField      |                  |
+|    1 | PreviewIcon    | String           | PropertyField      |                  |
+|    2 | PreviewTooltip | TranslatedString | PropertyField      | ItemCombinations |
+|    3 | ObjectID       | String           | PropertyEntryField |                  |
+|    4 | Type           | String           | PropertyEntryField |                  |
+|    5 | Result         | String           | PropertyEntryField |                  |
+|    6 | Comment        | Comment          | PropertyEntryField |                  |
+|    7 | Using          | BaseClass        | PropertyEntryField |                  |
 
 ## ItemCombos: ObjectCategoriesItemComboPreviewData
 
@@ -778,19 +778,19 @@
 
 ## ItemProgression: ItemProgressionVisuals
 
-|      | @name        | @type        | @is_internal |
-| ---: | :----------- | :----------- | :----------- |
-|    0 | Name         | Name         |              |
-|    1 | MinLevel     | Integer      |              |
-|    2 | MaxLevel     | Integer      |              |
-|    3 | Rarity       | String       |              |
-|    4 | RootTemplate | RootTemplate |              |
-|    5 | ItemColor    | String       |              |
-|    6 | NameGroup    | String       |              |
-|    7 | AffixType    | String       |              |
-|    8 | Icon         | String       |              |
-|    9 | Comment      | Comment      |              |
-|   10 | Using        | BaseClass    | true         |
+|      | @name        | @type        |
+| ---: | :----------- | :----------- |
+|    0 | Name         | Name         |
+|    1 | MinLevel     | Integer      |
+|    2 | MaxLevel     | Integer      |
+|    3 | Rarity       | String       |
+|    4 | RootTemplate | RootTemplate |
+|    5 | ItemColor    | String       |
+|    6 | NameGroup    | String       |
+|    7 | AffixType    | String       |
+|    8 | Icon         | String       |
+|    9 | Comment      | Comment      |
+|   10 | Using        | BaseClass    |
 
 ## ExtraData: Requirements
 
@@ -802,35 +802,35 @@
 
 ## Crimes: Crimes
 
-|      | @name                    | @type       | @export_type     | @enumeration_type_name         | @is_internal |
-| ---: | :----------------------- | :---------- | :--------------- | :----------------------------- | :----------- |
-|    0 | Name                     | Name        | CrimeField       |                                |              |
-|    1 | TensionWeight            | Integer     | CrimeField       |                                |              |
-|    2 | Lifetime                 | Integer     | CrimeField       |                                |              |
-|    3 | DetectionRange           | Integer     | CrimeField       |                                |              |
-|    4 | AudibleRange             | Integer     | CrimeField       |                                |              |
-|    5 | Audible                  | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |              |
-|    6 | Continuous               | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |              |
-|    7 | ContinuousDelayTimer     | Integer     | CrimeField       |                                |              |
-|    8 | CreatesCrimescene        | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |              |
-|    9 | CanRaiseAlarm            | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |              |
-|   10 | CanMerge                 | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |              |
-|   11 | MaxInvestigators         | Integer     | CrimeField       |                                |              |
-|   12 | InterrogateDialog        | String      | CrimeField       |                                |              |
-|   13 | SoundEvent               | String      | CrimeField       |                                |              |
-|   14 | ReactionCategory_Tag     | String      | CrimeActionField |                                |              |
-|   15 | Tension                  | String      | CrimeActionField |                                |              |
-|   16 | Priority                 | String      | CrimeActionField |                                |              |
-|   17 | DisableInvestigate       | String      | CrimeActionField |                                |              |
-|   18 | StopsAndInterruptsCrimes | String      | CrimeActionField |                                |              |
-|   19 | VictimReaction           | String      | CrimeActionField |                                |              |
-|   20 | VictimDialog             | String      | CrimeActionField |                                |              |
-|   21 | Dialog                   | String      | CrimeActionField |                                |              |
-|   22 | PrimarySensibleAction    | String      | CrimeActionField |                                |              |
-|   23 | SecondarySensibleAction  | String      | CrimeActionField |                                |              |
-|   24 | NoticedAD                | String      | CrimeActionField |                                |              |
-|   25 | Comment                  | Comment     |                  |                                |              |
-|   26 | Using                    | BaseClass   |                  |                                | true         |
+|      | @name                    | @type       | @export_type     | @enumeration_type_name         |
+| ---: | :----------------------- | :---------- | :--------------- | :----------------------------- |
+|    0 | Name                     | Name        | CrimeField       |                                |
+|    1 | TensionWeight            | Integer     | CrimeField       |                                |
+|    2 | Lifetime                 | Integer     | CrimeField       |                                |
+|    3 | DetectionRange           | Integer     | CrimeField       |                                |
+|    4 | AudibleRange             | Integer     | CrimeField       |                                |
+|    5 | Audible                  | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |
+|    6 | Continuous               | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |
+|    7 | ContinuousDelayTimer     | Integer     | CrimeField       |                                |
+|    8 | CreatesCrimescene        | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |
+|    9 | CanRaiseAlarm            | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |
+|   10 | CanMerge                 | Enumeration | CrimeField       | [YesNo](Enumerations.md#YesNo) |
+|   11 | MaxInvestigators         | Integer     | CrimeField       |                                |
+|   12 | InterrogateDialog        | String      | CrimeField       |                                |
+|   13 | SoundEvent               | String      | CrimeField       |                                |
+|   14 | ReactionCategory_Tag     | String      | CrimeActionField |                                |
+|   15 | Tension                  | String      | CrimeActionField |                                |
+|   16 | Priority                 | String      | CrimeActionField |                                |
+|   17 | DisableInvestigate       | String      | CrimeActionField |                                |
+|   18 | StopsAndInterruptsCrimes | String      | CrimeActionField |                                |
+|   19 | VictimReaction           | String      | CrimeActionField |                                |
+|   20 | VictimDialog             | String      | CrimeActionField |                                |
+|   21 | Dialog                   | String      | CrimeActionField |                                |
+|   22 | PrimarySensibleAction    | String      | CrimeActionField |                                |
+|   23 | SecondarySensibleAction  | String      | CrimeActionField |                                |
+|   24 | NoticedAD                | String      | CrimeActionField |                                |
+|   25 | Comment                  | Comment     |                  |                                |
+|   26 | Using                    | BaseClass   |                  |                                |
 
 ## TreasureTable: TreasureGroups
 
@@ -848,22 +848,22 @@
 
 ## DeltaModifier: DeltaModifier
 
-|      | @name        | @type     | @export_type | @is_internal |
-| ---: | :----------- | :-------- | :----------- | :----------- |
-|    0 | Name         | Name      |              |              |
-|    1 | BoostType    | String    |              |              |
-|    2 | MinLevel     | Integer   |              |              |
-|    3 | MaxLevel     | Integer   |              |              |
-|    4 | Frequency    | Integer   |              |              |
-|    5 | ModifierType | String    |              |              |
-|    6 | SlotType     | String    |              |              |
-|    7 | ArmorType    | String    |              |              |
-|    8 | WeaponType   | String    |              |              |
-|    9 | Handedness   | Integer   |              |              |
-|   10 | Boost        | String    | BoostField   |              |
-|   11 | Multiplier   | Integer   | BoostField   |              |
-|   12 | Comment      | Comment   |              |              |
-|   13 | Using        | BaseClass |              | true         |
+|      | @name        | @type     | @export_type |
+| ---: | :----------- | :-------- | :----------- |
+|    0 | Name         | Name      |              |
+|    1 | BoostType    | String    |              |
+|    2 | MinLevel     | Integer   |              |
+|    3 | MaxLevel     | Integer   |              |
+|    4 | Frequency    | Integer   |              |
+|    5 | ModifierType | String    |              |
+|    6 | SlotType     | String    |              |
+|    7 | ArmorType    | String    |              |
+|    8 | WeaponType   | String    |              |
+|    9 | Handedness   | Integer   |              |
+|   10 | Boost        | String    | BoostField   |
+|   11 | Multiplier   | Integer   | BoostField   |
+|   12 | Comment      | Comment   |              |
+|   13 | Using        | BaseClass |              |
 
 ## ItemColor: ItemColor
 
@@ -877,14 +877,14 @@
 
 ## ItemProgression: ItemProgressionNames
 
-|      | @name       | @type            | @table_name     | @is_internal |
-| ---: | :---------- | :--------------- | :-------------- | :----------- |
-|    0 | Name        | Name             |                 |              |
-|    1 | ItemName    | TranslatedString | ItemProgression |              |
-|    2 | NameCool    | TranslatedString | ItemProgression |              |
-|    3 | Description | TranslatedString | ItemProgression |              |
-|    4 | Comment     | Comment          |                 |              |
-|    5 | Using       | BaseClass        |                 | true         |
+|      | @name       | @type            | @table_name     |
+| ---: | :---------- | :--------------- | :-------------- |
+|    0 | Name        | Name             |                 |
+|    1 | ItemName    | TranslatedString | ItemProgression |
+|    2 | NameCool    | TranslatedString | ItemProgression |
+|    3 | Description | TranslatedString | ItemProgression |
+|    4 | Comment     | Comment          |                 |
+|    5 | Using       | BaseClass        |                 |
 
 ## ExtraData: Data
 
@@ -896,31 +896,31 @@
 
 ## ItemTypes: ItemTypes
 
-|      | @name               | @type     | @export_type | @is_internal |
-| ---: | :------------------ | :-------- | :----------- | :----------- |
-|    0 | Name                | Name      |              |              |
-|    1 | Color               | String    |              |              |
-|    2 | OverlayTexture      | String    |              |              |
-|    3 | ValueMultiplier     | Float     |              |              |
-|    4 | FirstItemTypeShift  | String    |              |              |
-|    5 | SecondItemTypeShift | String    |              |              |
-|    6 | UIBorderID          | String    |              |              |
-|    7 | MinLevel            | Integer   |              |              |
-|    8 | RowChance           | Integer   |              |              |
-|    9 | BoostTypes          | String    | BoostField   |              |
-|   10 | BoostType 2         | String    | BoostField   |              |
-|   11 | BoostType 3         | String    | BoostField   |              |
-|   12 | BoostType 4         | String    | BoostField   |              |
-|   13 | BoostType 5         | String    | BoostField   |              |
-|   14 | BoostType 6         | String    | BoostField   |              |
-|   15 | BoostType 7         | String    | BoostField   |              |
-|   16 | BoostType 8         | String    | BoostField   |              |
-|   17 | BoostType 9         | String    | BoostField   |              |
-|   18 | BoostType 10        | String    | BoostField   |              |
-|   19 | BoostType 11        | String    | BoostField   |              |
-|   20 | BoostType 12        | String    | BoostField   |              |
-|   21 | Comment             | Comment   |              |              |
-|   22 | Using               | BaseClass |              | true         |
+|      | @name               | @type     | @export_type |
+| ---: | :------------------ | :-------- | :----------- |
+|    0 | Name                | Name      |              |
+|    1 | Color               | String    |              |
+|    2 | OverlayTexture      | String    |              |
+|    3 | ValueMultiplier     | Float     |              |
+|    4 | FirstItemTypeShift  | String    |              |
+|    5 | SecondItemTypeShift | String    |              |
+|    6 | UIBorderID          | String    |              |
+|    7 | MinLevel            | Integer   |              |
+|    8 | RowChance           | Integer   |              |
+|    9 | BoostTypes          | String    | BoostField   |
+|   10 | BoostType 2         | String    | BoostField   |
+|   11 | BoostType 3         | String    | BoostField   |
+|   12 | BoostType 4         | String    | BoostField   |
+|   13 | BoostType 5         | String    | BoostField   |
+|   14 | BoostType 6         | String    | BoostField   |
+|   15 | BoostType 7         | String    | BoostField   |
+|   16 | BoostType 8         | String    | BoostField   |
+|   17 | BoostType 9         | String    | BoostField   |
+|   18 | BoostType 10        | String    | BoostField   |
+|   19 | BoostType 11        | String    | BoostField   |
+|   20 | BoostType 12        | String    | BoostField   |
+|   21 | Comment             | Comment   |              |
+|   22 | Using               | BaseClass |              |
 
 ## SkillData: Projectile
 

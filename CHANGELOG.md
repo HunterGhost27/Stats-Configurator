@@ -6,7 +6,8 @@
 
 ### NEW
 
-- _Created_ a python script to convert xml data into markdown files.
+- _Created_ a python script (`xml2markdown.py`) to convert xml data into markdown files.
+- _Created_ another python script (`xml2lua.py`) to write lua-table files from the same xml data.
 
 ### CHANGED
 

@@ -87,21 +87,24 @@ for index, content in statObjectDefsDataFrame.iterrows():
     #   Markdown table-title
     statObjectDefsMarkdownContent += "## " + \
         content["@category"] + ": " + content["@name"] + "\n\n"
+
     #   Extract data as data-frame
     fieldDefsDataFrame = pandas.DataFrame.from_dict(
         content["field_definitions"]["field_definition"])
     #   Clean dataframe
     fieldDefsDataFrame = fieldDefsDataFrame.drop(
         columns=["@display_name", "@export_name"])
+
     fieldDefsDataFrame = fieldDefsDataFrame.dropna(how="all")
+
+    cols = list(fieldDefsDataFrame.columns.values)
+    ignore_cols = ["stat_descriptions", "local_sub_category", "@is_internal"]
+    for ignore in ignore_cols:
+        if ignore in cols:
+            fieldDefsDataFrame = fieldDefsDataFrame.drop(columns=ignore)
+
     fieldDefsDataFrame = fieldDefsDataFrame.fillna("")
 
-    #   Modify dataframe
-    cols = list(fieldDefsDataFrame.columns.values)
-    #   Remove wierd stat-descriptions column
-    if "stat_descriptions" in cols:
-        fieldDefsDataFrame = fieldDefsDataFrame.drop(
-            columns="stat_descriptions")
     #   Add links to Enumerations.md
     if "@enumeration_type_name" in cols:
         fieldDefsDataFrame["@enumeration_type_name"] = "[" + fieldDefsDataFrame["@enumeration_type_name"] + \
