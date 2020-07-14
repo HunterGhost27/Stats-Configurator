@@ -31,7 +31,7 @@ statObjectDefsDataFrame = pdx.read_xml(
 #       Markdown header
 #       ---------------
 
-enumerationsMarkdownContent = "# Reference: Enumerations\n\n---\n\n## Table of Contents\n\n"
+enumerationsMarkdownContent = "# Reference: Enumerations\n\n---\n\n"
 
 #       Table of Contents
 #       -----------------
@@ -63,7 +63,7 @@ for index, content in enumerationsDataFrame.iterrows():
 #       Markdown header
 #       ---------------
 
-statObjectDefsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n## Table of Contents\n\n"
+statObjectDefsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n"
 
 #       Table of Contents
 #       -----------------

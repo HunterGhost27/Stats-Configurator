@@ -2,10 +2,7 @@
 
 ---
 
-## Table of Contents
-
 - [Reference: Stat Object Definitions](#reference-stat-object-definitions)
-  - [Table of Contents](#table-of-contents)
   - [Stats: Character](#stats-character)
   - [Stats: Potion](#stats-potion)
   - [Stats: Armor](#stats-armor)

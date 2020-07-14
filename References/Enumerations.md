@@ -2,10 +2,7 @@
 
 ---
 
-## Table of Contents
-
 - [Reference: Enumerations](#reference-enumerations)
-  - [Table of Contents](#table-of-contents)
   - [Penalty PreciseQualifier](#penalty-precisequalifier)
   - [FormatStringColor](#formatstringcolor)
   - [VampirismType](#vampirismtype)

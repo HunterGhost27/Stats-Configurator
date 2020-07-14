@@ -23,14 +23,15 @@ This document is a ***work-in-progress***.
     - [Inspect Skill](#inspect-skill)
     - [Export StatIDs for Reference](#export-statids-for-reference)
   - [Console-Commands](#console-commands)
+  - [References](#references)
 
 ---
 
 ## Osiris Data
 
-The [script-extender](https://github.com/Norbyte/ositools) reads from and writes files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be located in this folder. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
+The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be located in this folder. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
 
-Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
+>**NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
 
 ## Stats-Configurator
 
@@ -162,3 +163,12 @@ If you just wish to know the stat-names for a certain **skill** or **status** a 
 You can also use the [console-command](Documentation/Extensive-Documentation.md#Console-Commands) `!S7_Config StatSearch YourSearchQueryHere OptionalTypeRestriction`. This will search any stats that have `YourSearchQueryHere` in their name. The optional argument `OptionalTypeRestriction` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config StatSearch Dallis` will search all stat-entries for the string `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config StatSearch Dallis Character` will only search for the string `Dallis` in stat-entries of the `Character` type.
 
 ## Console-Commands
+
+## References
+
+If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess how to write the config-files. Therefore, the following reference sheets are provided for your convenience.
+
+- [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
+- [**Enumerations**](../References/Enumerations.md)
+
+---
