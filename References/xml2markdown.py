@@ -97,6 +97,11 @@ for index, content in statObjectDefsDataFrame.iterrows():
     fieldDefsDataFrame = fieldDefsDataFrame.fillna("")
 
     #   Modify dataframe
+    cols = list(fieldDefsDataFrame.columns.values)
+    #   Remove wierd stat-descriptions column
+    if "stat_descriptions" in cols:
+        fieldDefsDataFrame = fieldDefsDataFrame.drop(
+            columns="stat_descriptions")
     #   Add links to Enumerations.md
     if "@enumeration_type_name" in cols:
         fieldDefsDataFrame["@enumeration_type_name"] = "[" + fieldDefsDataFrame["@enumeration_type_name"] + \
@@ -106,7 +111,6 @@ for index, content in statObjectDefsDataFrame.iterrows():
     #   Remove bad-links
     fieldDefsDataFrame = fieldDefsDataFrame.replace("[](Enumerations.md#)", "")
     #   Move @description column to the end
-    cols = list(fieldDefsDataFrame.columns.values)
     if "@description" in cols:
         cols.pop(cols.index("@description"))
         fieldDefsDataFrame = fieldDefsDataFrame[cols + ["@description"]]

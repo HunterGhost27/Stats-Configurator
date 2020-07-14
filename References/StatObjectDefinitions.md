@@ -668,39 +668,39 @@
 
 ## SkillData: SkillSet
 
-|      | @name   | @type         | stat_descriptions                                                          | @is_internal |
-| ---: | :------ | :------------ | :------------------------------------------------------------------------- | :----------- |
-|    0 | Name    | Name          |                                                                            |              |
-|    1 | Skills  | StatReference | OrderedDict([('description', OrderedDict([('@stat_type', 'SkillData')]))]) |              |
-|    2 | Comment | Comment       |                                                                            |              |
-|    3 | Using   | BaseClass     |                                                                            | true         |
+|      | @name   | @type         | @is_internal |
+| ---: | :------ | :------------ | :----------- |
+|    0 | Name    | Name          |              |
+|    1 | Skills  | StatReference |              |
+|    2 | Comment | Comment       |              |
+|    3 | Using   | BaseClass     | true         |
 
 ## Equipment: Equipment
 
-|      | @name   | @type         | stat_descriptions                                                                                                                                                                                                                                                                        |
-| ---: | :------ | :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    0 | Name    | Name          |                                                                                                                                                                                                                                                                                          |
-|    1 | 1       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    2 | 2       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    3 | 3       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    4 | 4       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    5 | 5       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    6 | 6       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    7 | 7       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    8 | 8       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|    9 | 9       | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   10 | 10      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   11 | 11      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   12 | 12      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   13 | 13      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   14 | 14      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   15 | 15      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   16 | 16      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   17 | 17      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   18 | 18      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   19 | 19      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   20 | 20      | StatReference | OrderedDict([('description', [OrderedDict([('@stat_type', 'Armor')]), OrderedDict([('@stat_type', 'Character')]), OrderedDict([('@stat_type', 'Object')]), OrderedDict([('@stat_type', 'Potion')]), OrderedDict([('@stat_type', 'Shield')]), OrderedDict([('@stat_type', 'Weapon')])])]) |
-|   21 | Comment | Comment       |                                                                                                                                                                                                                                                                                          |
+|      | @name   | @type         |
+| ---: | :------ | :------------ |
+|    0 | Name    | Name          |
+|    1 | 1       | StatReference |
+|    2 | 2       | StatReference |
+|    3 | 3       | StatReference |
+|    4 | 4       | StatReference |
+|    5 | 5       | StatReference |
+|    6 | 6       | StatReference |
+|    7 | 7       | StatReference |
+|    8 | 8       | StatReference |
+|    9 | 9       | StatReference |
+|   10 | 10      | StatReference |
+|   11 | 11      | StatReference |
+|   12 | 12      | StatReference |
+|   13 | 13      | StatReference |
+|   14 | 14      | StatReference |
+|   15 | 15      | StatReference |
+|   16 | 16      | StatReference |
+|   17 | 17      | StatReference |
+|   18 | 18      | StatReference |
+|   19 | 19      | StatReference |
+|   20 | 20      | StatReference |
+|   21 | Comment | Comment       |
 
 ## ItemCombos: ItemCombos
 
