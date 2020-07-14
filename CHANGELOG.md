@@ -14,6 +14,8 @@
 - _Reinitialized_ **References** folder.
 - _Renamed_ `xml2json.py` to `xml2markdown.py` to better represent its purpose. Infact, the file has nothing to do with jsons anymore!
 - _Removed_ all `NaN`s and moved `@description` to the end of tables.
+- _Changed_ toSync is not flushed automatically. Allows users to SyncStat as many times as needed before exiting the game.
+- Minor fixes.
 
 ## [0.6.6.0] --- 8th July 2020 --- **_Slow March_**
 

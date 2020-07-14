@@ -128,7 +128,7 @@ Here's a quick summary of all the settings:
 
 ### Custom Settings
 
-Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If that file doesn't exist, you can create one manually or **Export Current Settings** from the **mod-menu**. Custom settings are applied automatically when the game loads, but can be reapplied whenever the host-user wants, using the modmenu. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands). For settings that aren't just toggles, you'll need manual-editing in the `S7_ConfigSettings.json` file.
+Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If that file doesn't exist, you can create one manually or **Export Current Settings** from the **mod-menu**. Custom settings are applied automatically when `ModuleLoadStarted` event triggers, but can be reapplied whenever the host-user wants, using the modmenu. Collections are automatically rebuilt everytime settings are refreshed. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands). For settings that aren't just toggles, you'll need manual-editing in the `S7_ConfigSettings.json` file.
 
 ## Mod-Integration
 

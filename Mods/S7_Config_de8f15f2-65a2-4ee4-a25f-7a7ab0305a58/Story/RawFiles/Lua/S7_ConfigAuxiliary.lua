@@ -2,7 +2,7 @@
 --                                                                 AUXILIARY FUNCTIONS
 --  ===================================================================================================================================================
 modInfo = Ext.GetModInfo("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58") --  {"ProjectName": "S7_Config","ProjectUUID": "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58"}
-logSource = "Lua:S7_ConfigAuxiliary"
+logSource = "Lua:ConfigAuxiliary"
 --  ###################################################################################################################################################
 
 --  ######################
@@ -147,10 +147,8 @@ function S7_ConfigLog(...) --  Amped up DebugLog.
         if logType == switch then --  logType match
             if type(case) == "string" then
                 logCat = case --  update logSource if logType points to a string
-                break
             elseif type(case) == "function" then
                 printFunction = case --  update printFunction if logType points to a function
-                break
             end
         end
     end

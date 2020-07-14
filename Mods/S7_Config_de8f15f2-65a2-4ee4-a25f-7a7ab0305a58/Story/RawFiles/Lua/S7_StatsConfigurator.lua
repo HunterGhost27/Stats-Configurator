@@ -11,7 +11,7 @@ logSource = "Lua:StatsConfigurator"
 --  ##################
 
 toConfigure = {} -- holds a list of stringified-jsons that need to be configured.
-toSync = {} --  will hold a list of stats that were modified. for Ext.SyncStat().
+toSync = {} --  will hold a list of stats that were modified for Ext.SyncStat().
 
 --  STATS CONFIGURATOR
 --  ==================
@@ -36,22 +36,25 @@ function StatsConfigurator()
                                 Ext.CreateStat(name, Osi.NRD_StatGetType(content.Using), content.Using)
                                 S7_ConfigLog("Created stat: " .. name .. " using " .. content.Using)
                             else
-                                S7_ConfigLog("Can't create stat: " .. name .. " : (using) template not specified.")
+                                S7_ConfigLog(
+                                    "Can't create stat: " .. name .. " : (using) template not specified.",
+                                    "[Warning]"
+                                )
                             end
                         elseif stat ~= nil then -- Stat already exists.
                             for key, value in pairs(content) do
                                 if SafeToModify(key) then --  Checks if attribute key is safe to modify.
                                     S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                                    stat[key] = Rematerialize(value) --  Sets new value for Name[Attribute]
+                                    Ext.StatSetAttribute(name, key, Rematerialize(value))
                                 else
-                                    S7_ConfigLog(key .. " is not a valid attribute for " .. name)
+                                    S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
                                 end
                             end
                         else
                             S7_ConfigLog("Error 404 - " .. name .. " not found!", "[Error]")
                         end
                         S7_ConfigLog("_____________________________________________________________")
-                        table.insert(toSync, name) --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
+                        toSync[name] = 1 --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
                     end
                 end
                 S7_ConfigLog("=============================================================")
@@ -111,12 +114,11 @@ function StatsSynchronize()
         )
         S7_ConfigLog("=============================================================")
 
-        for i, name in ipairs(toSync) do --  Iterate over toSync queue.
+        for name, i in pairs(toSync) do --  Iterate over toSync queue.
             if Osi.NRD_StatExists(name) then -- if stat-exists.
                 Ext.SyncStat(name, ConfigSettings.SyncStatPersistence) --  Sync
                 S7_ConfigLog("Synchronized Stat: " .. name)
             end
-            toSync[i] = nil --  Clears out toSync entry.
         end
         S7_ConfigLog("=============================================================")
         S7_ConfigLog("Synchronization Complete.", nil, "SyncStat")
