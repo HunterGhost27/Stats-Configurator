@@ -95,11 +95,22 @@ for index, content in statObjectDefsDataFrame.iterrows():
         columns=["@display_name", "@export_name"])
     fieldDefsDataFrame = fieldDefsDataFrame.dropna(how="all")
     fieldDefsDataFrame = fieldDefsDataFrame.fillna("")
-    #   Move description column to the end
+
+    #   Modify dataframe
+    #   Add links to Enumerations.md
+    if "@enumeration_type_name" in cols:
+        fieldDefsDataFrame["@enumeration_type_name"] = "[" + fieldDefsDataFrame["@enumeration_type_name"] + \
+            "](Enumerations.md#" + \
+            fieldDefsDataFrame["@enumeration_type_name"].str.replace(
+                " ", "-") + ")"
+    #   Remove bad-links
+    fieldDefsDataFrame = fieldDefsDataFrame.replace("[](Enumerations.md#)", "")
+    #   Move @description column to the end
     cols = list(fieldDefsDataFrame.columns.values)
     if "@description" in cols:
         cols.pop(cols.index("@description"))
         fieldDefsDataFrame = fieldDefsDataFrame[cols + ["@description"]]
+
     #   Create markdown table
     statObjectDefsMarkdownContent += pandas.DataFrame.to_markdown(
         fieldDefsDataFrame) + "\n\n"
