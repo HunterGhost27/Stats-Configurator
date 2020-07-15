@@ -13,6 +13,7 @@ This document is a ***work-in-progress***.
       - [StatLoader Settings](#statloader-settings)
       - [StatsLoader and Load-Order](#statsloader-and-load-order)
     - [Stat Persistence](#stat-persistence)
+  - [Collections](#collections)
   - [Settings](#settings)
     - [Default Settings](#default-settings)
     - [Setting Details](#setting-details)
@@ -88,6 +89,39 @@ The StatsLoader loads config-data from mods in accordance to the load-order. i.e
 Stat-overrides can be saved persistently in the save-file so that those overrides are baked into the game-session. This will make sure those changes are always active for the server and the client. Norbyte did tell me this has hidden caveats but I forgot to ask for details.
 
 By default, `SyncStatPersistence` is disabled. This essentially means that all configs must be reloaded every game session. StatsLoader can do this automatically for you.
+
+## Collections
+
+Trying to edit stats en-masse with the same values is both a redundant and time-consuming process. To solve this issue, stats can be grouped in a **collection** and configurations can be applied to all of them in-tandem. A collection is basically a list of stat-names/statIDs; whenever you apply stat-modifications to a collection, the modifications are applied to all stat-entries associated with the collection. For e.g.
+
+```json
+"COLLECTION Shield" {
+  "Blocking": 15,
+  "Physical": 25,
+  "Piercing": 25
+}
+```
+
+This config will give **all** shields 15% chance to block an attack along with 25% resistance to both Physical and Piercing Damage.
+
+The mod comes with the following preset collections:
+| CollectionName      | Comments                                                          | Example Stats                                                |
+| ------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------ |
+| PlayerCharacters    | A collection of all playable characters (origin and customs).     | Fane, Beast                                                  |
+| NonPlayerCharacters | A collection of all non-playable characters.                      | Dallis, Gareth, Trader Bree                                  |
+| Character           | A collection of stats of the `Character` type. Includes everyone. | Lohse, Malady                                                |
+| Armor               | A collection of stats of the `Armor` type.                        | Generic and Unique Armors, Boots, Gloves                     |
+| Weapon              | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| Shield              | A collection of stats of the `Shield` type.                       | Generic and Unique shields.                                  |
+| Object              | A collection of stats of the `Object` type.                       | Miscellaneous Items like crafting-ingredients                |
+| Crime               | A collection of stats of the `Crime` type.                        | _Don't know anything about Crime Stats_, sorry               |
+| Potion              | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
+| StatusData          | A collection of stats of the `StatusData` type.                   | Status effects like BURNING, HEALING, BLINDED                |
+| SkillData           | A collection of stats of the `SkillData` type                     | Pretty much all skills.                                      |
+
+To use this feature, you just need the keyName to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
+
+Users can create and define their own collections using the settings.json.
 
 ## Settings
 
