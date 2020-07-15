@@ -2,7 +2,7 @@
 
 ---
 
-This document is a ***work-in-progress***.
+This document is a ***work-in-progress*** and will probably be that way for a while. I think I've covered the most important aspects of the mod that a user might need and will try to add to it as and when I muster the motivation.
 
 - [Extensive-Documentation](#extensive-documentation)
   - [Osiris Data](#osiris-data)
@@ -198,11 +198,27 @@ You can also use the [console-command](Documentation/Extensive-Documentation.md#
 
 ## Console-Commands
 
+The mod comes with a suite of console-commands for a variety of purposes. Console-commands are inputted through the script-extender's debug-console window. Press enter while the debug-console is in focus to initiate the command-line. Here you can enter any Lua code and hit enter to run the code-chunk.
+
+All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up a list of useful commands in the debug-console window.
+
+| Command      | Argument 1   | Argument 2           | Comments                                              | Examples                                           |
+| ------------ | ------------ | -------------------- | ----------------------------------------------------- | -------------------------------------------------- |
+| Help         |              |                      | Prints a helpful list of commands.                    | `!S7_Config Help`                                  |
+| StartModMenu |              |                      | Starts the Mod-Menu Dialog.                           | `!S7_Config StartModMenu`                          |
+| AddSkill     | SkillID      | Character-Optional   | Adds skill (skillID) to character (character-key).    | `!S7_Config AddSkill Projectile_Fireball Host`     |
+| RemoveSkill  | SkillID      | Character-Optional   | Removes skill (skillID) to character (character-key). | `!S7_Config RemoveSkill Shout_InspireStart`        |
+| StatSearch   | SearchString | StatType-Optional    | Search for (SearchString) in category (StatType).     | `!S7_Config StatSearch Summon_Incarnate SkillData` |
+| StatSync     | StatID       | Persistence-Optional | Synchronize (StatID) for all clients.                 | `!S7_Config StatSync Projectile_PyroclasticRock`   |
+| Relay        | Signal       |                      | Relay to ModMenu. `!S7_Config Relay Help` for more.   | `!S7_Config Relay S7_BroadcastConfigData`          |
+
 ## References
 
 If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess how to write the config-files. Therefore, the following reference sheets are provided for your convenience.
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
+
+The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by Larian. The reference sheet may seem incomplete, so feel free to ask if you are still unsure about something.
 
 ---
