@@ -2,8 +2,6 @@
 
 ---
 
-This document is a ***work-in-progress*** and will probably be that way for a while. I think I've covered the most important aspects of the mod that a user might need and will try to add to it as and when I muster the motivation.
-
 - [Extensive-Documentation](#extensive-documentation)
   - [Osiris Data](#osiris-data)
   - [Stats-Configurator](#stats-configurator)
@@ -198,7 +196,7 @@ You can also use the [console-command](Documentation/Extensive-Documentation.md#
 
 ## Console-Commands
 
-The mod comes with a suite of console-commands for a variety of purposes. Console-commands are inputted through the script-extender's debug-console window. Press enter while the debug-console is in focus to initiate the command-line. Here you can enter any Lua code and hit enter to run the code-chunk.
+The mod comes with a suite of console-commands for a variety of purposes. Console-commands can allow the user to bypass the clunky mod-menu entirely. Console-commands are inputted through the script-extender's debug-console window. Press enter while the debug-console is in focus to initiate the command-line.
 
 All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up a list of useful commands in the debug-console window.
 
@@ -214,7 +212,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 
 ## References
 
-If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess how to write the config-files. Therefore, the following reference sheets are provided for your convenience.
+If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess what to write in the config-files. Therefore, the following reference sheets are provided for your convenience.
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)

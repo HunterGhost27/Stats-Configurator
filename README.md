@@ -108,10 +108,6 @@ The mod-settings can allow you to fine tune your experience and provide greater 
 
 A lot of these settings can be toggled on or off from the mod-menu or by using the [console-commands](Documentation/Extensive-Documentation.md#Console-Commands). For a detailed explanation, visit [Settings](Documentation/Extensive-Documentation.md#Settings).
 
-## Support and Contribute
-
-* [Help improve this project on GitHub](CONTRIBUTING.md)
-
 ----------
 
 ## My Other Mods
