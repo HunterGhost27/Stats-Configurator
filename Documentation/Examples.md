@@ -42,7 +42,7 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 
 Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** reduced by **50%** and their **Vitality** increased by **100%**. (**Note:** this affects **Maximum-Vitality**. Characters that have already been _"loaded"_ in-game will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.)
 
-![Dallis-Armor-Config](https://imgur.com/i6uw3Ky)
+![Dallis-Armor-Config](https://imgur.com/i6uw3Ky.png)
 
 ## Fashionista
 
@@ -56,7 +56,7 @@ Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** 
 
 This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: [ItemColor](../References/StatObjectDefinitions.md#ItemColor) names can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
 
-![Item-Color-Config](https://imgur.com/hvb9DYM)
+![Item-Color-Config](https://imgur.com/hvb9DYM.png)
 
 ## That's XCOM Baby
 
@@ -75,4 +75,4 @@ This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**.
 
 All **Characters** have their base **Accuracy** set at **65%** and they recover **2AP per turn** upto **2AP Maximum**. All Skill now cost **2AP**.
 
-![Accuracy-AP-Config](https://imgur.com/glX91qP)
+![Accuracy-AP-Config](https://imgur.com/glX91qP.png)
