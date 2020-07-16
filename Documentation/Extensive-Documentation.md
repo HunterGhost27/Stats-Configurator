@@ -182,6 +182,11 @@ The idea is this:
 - Passes the json to the stats-configurator and rebuilds the user's ConfigData.
 - Profit???
 
+You can check whether the player has the mod installed or not using the extender or by checking for the flag `S7_ConfigActive`. You need to register your mod to the stats configurator by providing the modName and modUUID. This info is required to display information to the user and also check your mod against the load-order. You can register you mod by adding a DB entry in Osiris like `DB_S7_Config_ModRegistry("My_ModName", "1mod2uuid3-65a2-X2gx-a25f-7a7ab0305a58", "My_ModSignal");`.
+This will register `My_ModName` with modUUID `1mod2uuid3-65a2-X2gx-a25f-7a7ab0305a58` to the stats-configurator. The third parameter is flagName that the stats-configurator will listen to to start the dynamic-quick-menu.
+
+Once registered, you need to specify the stats and attributes you want the quick-menu to list as options. You do this by registering them to `DB_S7_Config_ModInterface((STRING)_ModName, (STRING)_StatName, (STRING)_AttributeName).`
+
 ### Quick-Menu
 
 The mod comes with a dynamic-MCM that allows modders to setup a dependency-free integration. Modders just need to provide the modName, modUUID, globalFlagName along with the set of stats and attributes they want to be able to configure using the MCM through Osiris Databases. The stats-configurator will create a dynamic MCM for you! The mod will listen for the globalFlagName you provided and start the MCM as soon as it is set.
