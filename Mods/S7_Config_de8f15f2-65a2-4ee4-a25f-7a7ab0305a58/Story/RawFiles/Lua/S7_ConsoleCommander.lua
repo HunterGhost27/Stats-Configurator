@@ -58,6 +58,10 @@ function S7_Config_ConsoleCommander(...)
         else
             S7_Config_ModMenuRelay(signal)
         end
+    elseif command == "SnapshotVars" then
+        --  SNAPSHOT VARIABLES
+        --  ==================
+        SnapshotVars()
     elseif command == "Help" or command == "" then
         --  HELP
         --  ====
@@ -79,6 +83,7 @@ helpMessage =
     StatSearch      <SearchString>  <StatType |Optional>     --  Search for (SearchString) in category (StatType).      StatSearch Summon_Incarnate SkillData
     StatSync        <StatID>        <Persistence|Optional>   --  Synchronize (StatID) for all clients.                  StatSync Projectile_PyroclasticRock
     Relay           <Signal>        -                        --  Relay signal to ModMenu. Relay Help for more info.     Relay S7_BroadcastConfigData
+    SnapshotVars    -               -                        --  Prints every relevant variable to the console.         SnapshotVars
     ======================================================================================================================================================
     * Resize the console window if this doesn't fit properly.
 ]]
@@ -187,6 +192,71 @@ function StatSearch(search, searchType)
         S7_ConfigLog("=================================================")
     else
         S7_ConfigLog("Search String Empty. Try something like Projectile_Fire", "[Warning]")
+    end
+end
+
+--  =====================
+--      SNAPSHOT VARS
+--  =====================
+
+function SnapshotVars()
+    local varList = {
+        ["data"] = {
+            ["modInfo"] = modInfo,
+            ["ConfigSettings"] = ConfigSettings,
+            ["userInfo"] = userInfo,
+            ["configCollections"] = configCollections,
+            ["quickMenuVars"] = quickMenuVars,
+            ["toConfigure"] = toConfigure,
+            ["toSync"] = toSync
+        },
+        ["Files"] = {
+            ["Settings"] = Ext.LoadFile("S7_ConfigSettings.json") or DefaultSettings,
+            ["ConfigFile"] = Ext.LoadFile(ConfigSettings.ConfigFile) or "",
+            ["ConfigData"] = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or ""
+        },
+        ["Flags"] = {
+            [1] = "S7_ConfigActive",
+            [2] = "S7_Config_ModAddedTo_NewGame",
+            [3] = "S7_StatsExportTSV",
+            [4] = "S7_BuildConfigData",
+            [5] = "S7_ToggleConfigLog",
+            [6] = "S7_RefreshSettings",
+            [7] = "S7_PrintModRegistry",
+            [8] = "S7_Config_CHANGELOG",
+            [9] = "S7_StatsConfigurator",
+            [10] = "S7_ToggleSafetyCheck",
+            [11] = "S7_ToggleStatsLoader",
+            [12] = "S7_SetDefaultSettings",
+            [13] = "S7_RebuildCollections",
+            [14] = "S7_BroadcastConfigData",
+            [15] = "S7_ValidateClientConfig",
+            [16] = "S7_ExportCurrentSettings",
+            [17] = "S7_ToggleSyncStatPersistence",
+            [18] = "S7_LearnInspect",
+            [19] = "S7_Config_GoBack",
+            [20] = "S7_Config_SetOpt1",
+            [21] = "S7_Config_SetOpt2",
+            [22] = "S7_Config_SetOpt3",
+            [23] = "S7_Config_SetOpt4",
+            [24] = "S7_Config_SetOpt5",
+            [25] = "S7_Config_NextPage",
+            [26] = "S7_Config_PrevPage",
+            [27] = "S7_Config_ExitCleanUp",
+            [28] = "S7_Config_MoveToNextLevel"
+        }
+    }
+
+    for type, content in pairs(varList) do
+        if type == "Flags" then
+            for key, value in ipairs(content) do
+                S7_ConfigLog(type .. " : " .. value .. " : " .. Osi.GlobalGetFlag(value))
+            end
+        else
+            for key, value in pairs(content) do
+                S7_ConfigLog("\n" .. type .. " : " .. key .. " : " .. Ext.JsonStringify(value))
+            end
+        end
     end
 end
 

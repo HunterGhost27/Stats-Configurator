@@ -4,6 +4,10 @@
 
 ## [0.6.7.0] --- 16th July 2020 --- **_Slow March_**
 
+### ADDED
+
+- _Created_ a console-command to print out every (relevant) variable at once.
+
 ### CHANGED
 
 - _Removed_ inspect stat function from Lua. Now implemented completely in Osiris.

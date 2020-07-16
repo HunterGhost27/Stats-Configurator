@@ -250,6 +250,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | StatSearch   | SearchString | StatType-Optional    | Search for (SearchString) in category (StatType).     | `!S7_Config StatSearch Summon_Incarnate SkillData` |
 | StatSync     | StatID       | Persistence-Optional | Synchronize (StatID) for all clients.                 | `!S7_Config StatSync Projectile_PyroclasticRock`   |
 | Relay        | Signal       |                      | Relay to ModMenu. `!S7_Config Relay Help` for more.   | `!S7_Config Relay S7_BroadcastConfigData`          |
+| SnapshotVars |              |                      | Prints every relevant variable to the debug-console.  | `!S7_Config SnapshotVars`                          |
 
 ## References
 
