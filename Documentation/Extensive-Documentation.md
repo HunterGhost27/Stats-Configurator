@@ -17,6 +17,9 @@
     - [Setting Details](#setting-details)
     - [Custom Settings](#custom-settings)
   - [Mod-Integration](#mod-integration)
+    - [Quick-Menu](#quick-menu)
+    - [Advanced Control](#advanced-control)
+    - [Other Possibilities](#other-possibilities)
   - [Diagnostics](#diagnostics)
     - [ConfigLog](#configlog)
     - [Inspect Skill](#inspect-skill)
@@ -28,27 +31,27 @@
 
 ## Osiris Data
 
-The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be located in this folder. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
+The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be in this location. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
 
->**NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
+**NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
 
 ## Stats-Configurator
 
 ### Stats-Configurator Items
 
-The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. The mod-menu allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or toggling certain [settings](#Settings). This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
+The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. The mod-menu allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
 
-Since most of these functions require the `server` context, only the **host-character** is allowed to interact with the item. Any attempts to use the item will redirect the dialog to the host-character.
+Since most of these functions require the `server` context, only the **host-character** is allowed to interact with the item. Any attempts, by the clients, to use the item will redirect the dialog to the host-character.
 
-Along with the titular item, the player is also provided with an in-game **changelog** whenever the mod updates. This is only meant to notify the player about significant changes and will not record every minor detail. It is **not** a substitute for the proper Changelogs. Players can safely discard this item if they wish, as it serves no other purpose. They can get another copy from the mod-menu should they need it again.
+Along with the titular item, the player is also provided with an in-game **changelog** whenever the mod updates. This is only meant to notify the player about significant changes and will not record every minor detail. It is **not** a substitute for the proper [Changelogs](../CHANGELOG.md). Players can safely discard this item if they wish, as it serves no other purpose. They can get another copy from the mod-menu should they need it again.
 
 ### Applying Configurations
 
-Users create their configs in a `json` file separate from the ConfigData file. This file's configs can be loaded-in at any time by the host-character using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their ConfigData file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a save-and-reload cycle, but for the most part, you can load these configurations dynamically without ever exiting the game. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (recommended) or loading the configuration when `SyncStatPersistence` is enabled.
+Users create their configs in a `json` file (separate from the ConfigData file). This file's configs can be loaded-in at any time by the host-character using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their **ConfigData** file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a save-and-reload cycle, but for the most part, you can load these configurations dynamically without ever exiting the game. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (recommended) or loading the configuration when `SyncStatPersistence` is enabled.
 
-Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using [console-commands](#Console-Commands).
+Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using [console-commands](#Console-Commands). Edited stats remain in memory till the game is closed, allowing you to synchronize all of them at will.
 
-Applying configurations this way is great for **prototyping** or making **temporary changes**. But otherwise, instead of re-applying configurations every session or making irreversible changes to your save-file (using `SyncStatPersistence`), you should export the configs to ConfigData. This will allow the StatsLoader(Read more below) to apply those edits automatically when the game loads.
+Applying configurations this way is great for **prototyping** or making **temporary changes**. But otherwise, instead of re-applying configurations every session or making irreversible changes to your save-file (using `SyncStatPersistence`), you should export the configs to **ConfigData**. This will allow the StatsLoader(Read more below) to apply those edits automatically when the game loads.
 
 ### StatsLoader
 
@@ -66,7 +69,7 @@ You can stop the StatsLoader from applying _any_ stat-modification through the [
 }
 ```
 
-or by using the `ToggleStatsLoader` option in the Mod-Menu's setting page, or through console-commands (`!S7_Config ToggleStatsLoader`). This will completely disable the **StatsLoader**.
+or by using the `ToggleStatsLoader` option in the Mod-Menu's setting page, or through console-commands (`!S7_Config ToggleStatsLoader`). Setting this to `false` will completely disable the **StatsLoader**.
 
 There can be only one **ConfigData** file but its name can be changed to whatever you like using the [settings](#Custom-Settings).
 
@@ -80,7 +83,7 @@ This can be useful if you are playing with different groups and want to seperate
 
 #### StatsLoader and Load-Order
 
-The StatsLoader loads config-data from mods in accordance to the load-order. i.e. stat-modifications from mods higher up in the load-order are loaded before mods at the bottom. Stat-edits that come from mods loaded late in the load-order override the previous stat-edits (if any). This information is crucial for conflict-resolution. If two mods edit the same stat, the mod that's placed lower in the load-order will win the conflict. This let's you exercise some degree of control over the outcome, but Ideally, modder should avoid conflicts if possible. Keep in mind that dependencies are always loaded before that mod, even if the dependency is technically lower in the load-order. Thus, any mod will always override their dependencies. I advise everyone to put this mod, **Stats-Configurator**, as low in their load order as they can. This mod will only hold config-data that's created by the user. As such, those changes are probably meant to be final. Putting this mod at the bottom will ensure that user-created configs always win.
+The StatsLoader loads config-data from mods in accordance to the load-order. i.e. stat-modifications from mods higher up in the load-order are loaded before mods at the bottom. Stat-edits that come from mods loaded late in the load-order override the previous stat-edits (if any). This information is crucial for conflict-resolution. If two mods edit the same stat, the mod that's placed lower in the load-order will win the conflict. This let's you exercise some degree of control over the outcome, but Ideally, modder should avoid conflicts if possible. Keep in mind that dependencies are always loaded before that mod, even if the dependency is technically lower in the load-order. Thus, any mod will always override their dependencies. I advise everyone to put this mod, **Stats-Configurator**, as low in their load order as they can. This mod will only hold config-data that's created by the user. As such, those changes are probably meant to be final. Putting this mod at the bottom will ensure that user-created configs always win the conflict.
 
 ### Stat Persistence
 
@@ -117,7 +120,7 @@ The mod comes with the following preset collections:
 | StatusData          | A collection of stats of the `StatusData` type.                   | Status effects like BURNING, HEALING, BLINDED                |
 | SkillData           | A collection of stats of the `SkillData` type                     | Pretty much all skills.                                      |
 
-To use this feature, you just need the keyName to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
+To use this feature, you just need the key to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
 
 Users can create and define their own collections using the settings.json.
 
@@ -163,6 +166,33 @@ Here's a quick summary of all the settings:
 Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If that file doesn't exist, you can create one manually or **Export Current Settings** from the **mod-menu**. Custom settings are applied automatically when `ModuleLoadStarted` event triggers, but can be reapplied whenever the host-user wants, using the modmenu. Collections are automatically rebuilt everytime settings are refreshed. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands). For settings that aren't just toggles, you'll need manual-editing in the `S7_ConfigSettings.json` file.
 
 ## Mod-Integration
+
+The mod reads serialized jsons for configuration. But the source of these configurations need not always be the user; Other mods can interface with the stats-configurator aswell. They need only pass the serialized json and rebuild the ConfigData file. Mod-created configs are kept separate from user-created configs (and one another) so as to not overwrite them. These configs are loaded during the `ModuleLoading` event in accordance with the Mod Load-Order. This functionality exists because I wanted some sort of framework to create Mod-Config-Menus for my other mods and did not want to write the same code 14 billion times. So while the Mod-Interface is something I created primarily for myself, technically any mod can use to delegate the stat-overriding tasks.
+
+The idea is this:
+
+- A mod creates logic for a bunch of stat-overrides.
+- The mod creates a serialized json representing said overrides.
+- Passes the json to the stats-configurator and rebuilds the user's ConfigData.
+- Profit???
+
+### Quick-Menu
+
+The mod comes with a dynamic-MCM that allows modders to setup a dependency-free integration. Modders just need to provide the modName, modUUID, globalFlagName along with the set of stats and attributes they want to be able to configure using the MCM through Osiris Databases. The stats-configurator will create a dynamic MCM for you! The mod will listen for the globalFlagName you provided and start the MCM as soon as it is set.
+
+### Advanced Control
+
+The dynamic-quick-menu is just me being lazy. I did not want to make a MCM each and everytime I make a mod. For more flexibility and options, you may want to create your own. If for some reason you absolutely hate coding in Lua and/or just want to assert dominance by string-concatenating a json from the ground up in osiris, you can make use of this mod's Lua functions instead. 
+
+### Other Possibilities
+
+MCM aren't the only thing that you can create. You can try to:
+
+- Create static stat-adjustments. Like change all Geomancer skills to deal Physical damage. Create your own overhauls basically.
+- Adjust character stats based on player performance in combat. Dynamic-Difficulty Adjustments.
+- Create a crafting custom-stat and increase the potency of crafted gear.
+
+You obviously don't need this mod to implement any of these. But you can use it if you wish.
 
 ## Diagnostics
 
