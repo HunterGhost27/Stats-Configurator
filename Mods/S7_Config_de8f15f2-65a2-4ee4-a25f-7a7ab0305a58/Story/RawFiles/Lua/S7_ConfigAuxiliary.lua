@@ -63,7 +63,7 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
 end
 
 --  ======================================================
-Ext.RegisterListener("ModuleLoadStarted", RefreshSettings) --  Try removing this maybe?
+Ext.RegisterListener("ModuleLoadStarted", RefreshSettings)
 --  ======================================================
 
 --  ################
@@ -84,6 +84,7 @@ function FetchPlayers() --  Rebuilds Client and Host Character Information.
         tempUsers[count] = Osi.CharacterGetReservedUserID(player) --  Get UserIDs
         count = count + 1
     end
+
     for _, user in ipairs(tempUsers) do
         local userProfileID = Osi.GetUserProfileID(user)
         local _, characterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(user))
@@ -172,6 +173,7 @@ function ExportLog()
         if Ext.LoadFile(ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
             Ext.SaveFile(ConfigSettings.ConfigLog.FileName, "State\tLogType\tLog\tDialogVariable\tDialogValue\n") --  Save file with header column
         end
+
         local logFile = Ext.LoadFile(ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logFile
         logFile = logFile .. logHistory
         logHistory = ""
@@ -278,16 +280,6 @@ function StatsExportTSV() --  Fetches literally every stat and exports to TSV.
     end
     Ext.SaveFile(ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
     S7_ConfigLog("Stats exported to TSV file.", nil, "ExportStats")
-end
-
---  INSPECT SKILL
---  =============
-
-function InspectStats(StatID) --  Recieves StatID from Osiris.
-    if Osi.NRD_StatExists(StatID) then --  Check if stat exists.
-        local StatType = Osi.NRD_StatGetType(StatID) --  Get StatType
-        S7_ConfigLog("Inspected: (" .. StatType .. "): " .. StatID)
-    end
 end
 
 --  ==========================

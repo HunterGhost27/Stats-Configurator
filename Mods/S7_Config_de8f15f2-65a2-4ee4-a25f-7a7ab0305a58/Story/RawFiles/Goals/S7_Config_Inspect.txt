@@ -50,12 +50,12 @@ NRD_IterateStatuses(_Target, "S7_Config_Inspect_TargetStatuses");               
 IF
 NRD_SkillIteratorEvent("S7_Config_Inspect_TargetSkills", _Target, _SkillID, _, _)       //  Skill-Iterator Event
 THEN
-NRD_ModCall("S7_Config", "InspectStats", _SkillID);                                  //  Passes info to Lua
+Proc_S7_InspectStat(_SkillID);
 
 IF
 NRD_StatusIteratorEvent("S7_Config_Inspect_TargetStatuses", _Target, _StatusID, _)      //  Status Iterator Event
 THEN
-NRD_ModCall("S7_Config", "InspectStats", _StatusID);                                 //  Passes info to Lua
+Proc_S7_InspectStat(_StatusID);
 
 PROC
 Proc_S7_Config_Inspect((GUIDSTRING)_Target)
@@ -64,7 +64,24 @@ ObjectIsItem(_Target, 1)                                                        
 AND
 NRD_ItemGetStatsId((ITEMGUID)_Target, _TargetID)                                        //   Gets StatID for the corresponding item
 THEN
-NRD_ModCall("S7_Config", "InspectStats", _TargetID);                                //  Passes info to Lua
+Proc_S7_InspectStat(_TargetID);
+
+PROC
+Proc_S7_InspectStat((STRING)_StatID)
+AND
+NRD_StatExists(_StatID)
+AND
+NRD_StatGetType(_StatID, _StatType)
+AND
+StringConcatenate("Inspected (", _StatType, _Str1)
+AND
+StringConcatenate(_Str1, "): ", _Str2)
+AND
+StringConcatenate(_Str2, _StatID, _StrMsg)
+THEN
+NRD_ModCall("S7_Config", "S7_ConfigLog", _StrMsg, "[ModMenu]");
+
+
 
 EXITSECTION
 

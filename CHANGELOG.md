@@ -2,6 +2,12 @@
 
 ---
 
+## [0.6.7.0] --- 16th July 2020 --- **_Slow March_**
+
+### CHANGED
+
+- _Removed_ inspect stat function from Lua. Now implemented completely in Osiris.
+
 ## [0.6.6.0] --- 13th July 2020 --- **_References.md_**
 
 ### NEW
