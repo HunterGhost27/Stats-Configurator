@@ -2,14 +2,7 @@
 
 ---
 
-## Pre-requisites
-
-* ***[Norbyte's Script-Extender](https://github.com/Norbyte/ositools)***
-* ***[Stats-Configurator](https://github.com/Shresht7/Stats-Configurator)***
-
 ## Quick-Start
-
-### Getting-Started
 
 It's time to get your feet wet, so let's get started. Once you've installed and activated the mod, open up the game and load into a save. The *stats-configurator* item will be added to your inventory automatically. Using it will open up the **Mod-Menu** - from here, you can access most of the important functions of this mod.
 
@@ -27,19 +20,22 @@ Inside `S7_Config.json` write the following content:
 
 ```json
 {
-    "Projectile_Fireball":  {"ActionPoints": 4, "Cooldown": 7}
+    "Projectile_Fireball":  {
+        "ActionPoints": 4, 
+        "Cooldown": 7
+    }
 }
 ```
 
-The block of code is pretty self-explanatory. We want the skill `Projectile_Fireball` to have an `ActionPoints` cost of **4** and a `Cooldown` of **7** turns. `Projectile_Fireball` is the internal name of the skill **"Fireball"**, as are `ActionPoints` and `Cooldown`. I've provided a few tools to display stat-names and such for your **reference**, please read the ***[documentation](Extensive-Documentation.md#References)*** for more details.
+The block of code is pretty self-explanatory. We want the skill `Projectile_Fireball` to have an `ActionPoints` cost of **4** and a `Cooldown` of **7** turns. `Projectile_Fireball` is the internal name of the skill **"Fireball"**, as are `ActionPoints` and `Cooldown`. I've provided a few tools to display stat-names and such for your reference, please read the ***[documentation](Extensive-Documentation.md#References)*** for more details.
 
 ### Looking at Original Attributes
 
-Let's go back in the game, but before we load this configuration-file, let's see what the **original values** of this skill's attributes are. The script-extender comes with a `Debug Console` which opens up automatically as you open the game. It looks like this:
+Let's go back in the game, but before we load this configuration-file, let's see what the **original values** of this skill's attributes are. The script-extender comes with a `debug-console` which opens up automatically as you open the game. It looks like this:
 
 ![DebugConsole](https://imgur.com/l8PeToQ.png)
 
-This is where this mod outputs a lot of _useful information_. This is also where you can input [console-commands](#Extensive-Documentation.md#Console-Commands). Stats-Configurator comes with a suite of [***console-commands***](#Extensive-Documentation.md#Console-Commands) to make your life easier. Right now, we want to add `Projectile_Fireball` to our character (if we don't have the skill already memorized).
+This is where this mod outputs a lot of _useful information_. This is also where you can input [console-commands](Extensive-Documentation.md#Console-Commands). Stats-Configurator comes with a suite of [***console-commands***](Extensive-Documentation.md#Console-Commands) to make your life easier. Right now, we want to add `Projectile_Fireball` to our character (if we don't have the skill already memorized).
 We will use the `AddSkill` console command for this purpose.
 
 Pressing `enter` on the debug console will allow you to enter console-commands. Write `!S7_Config AddSkill Projectile_Fireball` and hit enter. Type `exit` and press enter to exit out of the console-command view. This command will add `Projectile_Fireball` to all ***client*** characters.
@@ -69,7 +65,7 @@ Reload the entire game and keep an eye on the debug-console. You'll see that the
 
 ### Sharing Config-Data
 
-If you are playing multiplayer with friends, there's one more thing you need to consider. The ConfigData file is loaded client-side. This means that each client needs to have their own local copy of the ConfigData file. Users can share their json files manually or through the mod-menu. This will ensure that each peer has the same ConfigData and thus the same stats across their game.
+If you are playing multiplayer with friends, there's one more thing you need to consider. The ConfigData file is loaded client-side. This means that each client needs to have their own local copy of the ConfigData file. Users can share their json files manually or through the mod-menu. This will ensure that each peer has the same ConfigData and thus the same stats across their game. The host character can **broadcast** their ConfigData file to all connected peers from the mod-menu. They can also quickly verify if all clients have the same version of the ConfigData file from the menu.
 
 ---
 
