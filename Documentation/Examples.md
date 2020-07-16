@@ -1,6 +1,6 @@
 # Example Configurations
 
-Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and the mod is capable of a lot more. Take the [quick-tour](Documentation/QuickTour.md) if you're new to the mod or read the [extensive-documentation](Documentation/Extensive-Documentation.md) to get into the nitty-gritty. If you're unsure about the in-engine names for certain stats or attributes you can check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
+Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and the mod is capable of a lot more. Take the [quick-tour](Documentation/QuickTour.md) if you're new to the mod or read the [extensive-documentation](Documentation/Extensive-Documentation.md) to get into the nitty-gritty. If you're unsure about the in-engine names of certain attributes you can check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
 
 ---
 
@@ -40,7 +40,7 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 }
 ```
 
-Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** reduced by **50%** and their **Vitality** increased by **100%**. (**Note:** this affects **Maximum-Vitality**. Characters that have already been _"loaded"_ in-game will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.)
+Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** reduced by **50%** and their **Vitality** increased by **100%**. (**Note:** this affects **Maximum-Vitality** and not **Current-Vitality**. Characters that have already been _"loaded"_ in-game will have their max-HP increaased but they will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.) (***Also Note:** It is not uncommon to have the default values to these attributes be something other than 100. In such instances, changing these percentages may yield unintuitive results. For example: **Vitality: 200** is a nerf for a character that originally had **Vitality: 250**.)
 
 ![Dallis-Armor-Config](https://imgur.com/i6uw3Ky.png)
 
@@ -54,7 +54,7 @@ Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** 
 }
 ```
 
-This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: [ItemColor](../References/StatObjectDefinitions.md#ItemColor) names can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
+This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: [ItemColor](../References/StatObjectDefinitions.md#ItemColor) labels can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
 
 ![Item-Color-Config](https://imgur.com/hvb9DYM.png)
 
