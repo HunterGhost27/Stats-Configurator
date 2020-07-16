@@ -36,7 +36,7 @@ enumerationsMarkdownContent = "# Reference: Enumerations\n\n---\n\n"
 #       Table of Contents
 #       -----------------
 
-# e.g.:     - [Surface Type](#surface-type)
+# e.g. string:  - [Surface Type](#surface-type)
 for index, content in enumerationsDataFrame.iterrows():
     enumerationsMarkdownContent += "- [" + content["@name"] + \
         "]" + "(#" + content["@name"].replace(" ", "-") + ")\n"
@@ -72,7 +72,7 @@ statObjectDefsMarkdownContent = "# Reference: Stat Object Definitions\n\n---\n\n
 statObjectDefsDataFrame = statObjectDefsDataFrame[[
     "@name", "@category", "field_definitions"]]
 
-#   e.g.:   - [ItemCombo: ItemComboProperties](#itemcombo-itemcomboproperties)
+#   e.g.string:   - [ItemCombo: ItemComboProperties](#itemcombo-itemcomboproperties)
 for index, content in statObjectDefsDataFrame.iterrows():
     text = content["@category"] + ": " + content["@name"]
     statObjectDefsMarkdownContent += "- [" + \
@@ -84,6 +84,7 @@ statObjectDefsMarkdownContent += "\n---\n\n"
 #       ----------------
 
 for index, content in statObjectDefsDataFrame.iterrows():
+
     #   Markdown table-title
     statObjectDefsMarkdownContent += "## " + \
         content["@category"] + ": " + content["@name"] + "\n\n"
@@ -91,18 +92,20 @@ for index, content in statObjectDefsDataFrame.iterrows():
     #   Extract data as data-frame
     fieldDefsDataFrame = pandas.DataFrame.from_dict(
         content["field_definitions"]["field_definition"])
+
     #   Clean dataframe
+    #       Drop redundant names
     fieldDefsDataFrame = fieldDefsDataFrame.drop(
         columns=["@display_name", "@export_name"])
-
+    #       Drop empty columns
     fieldDefsDataFrame = fieldDefsDataFrame.dropna(how="all")
-
+    #       Drop columns in ignore_cols list
     cols = list(fieldDefsDataFrame.columns.values)
     ignore_cols = ["stat_descriptions", "local_sub_category", "@is_internal"]
     for ignore in ignore_cols:
         if ignore in cols:
             fieldDefsDataFrame = fieldDefsDataFrame.drop(columns=ignore)
-
+    #       Replace NaN with empty string
     fieldDefsDataFrame = fieldDefsDataFrame.fillna("")
 
     #   Add links to Enumerations.md
@@ -113,6 +116,7 @@ for index, content in statObjectDefsDataFrame.iterrows():
                 " ", "-") + ")"
     #   Remove bad-links
     fieldDefsDataFrame = fieldDefsDataFrame.replace("[](Enumerations.md#)", "")
+
     #   Move @description column to the end
     if "@description" in cols:
         cols.pop(cols.index("@description"))
@@ -122,13 +126,13 @@ for index, content in statObjectDefsDataFrame.iterrows():
     statObjectDefsMarkdownContent += pandas.DataFrame.to_markdown(
         fieldDefsDataFrame) + "\n\n"
 
-#   ===================
-#   WRITE MARKDOWN FILE
-#   ===================
-
 #   Extra pedantic removal of the last "\n"
 enumerationsMarkdownContent = enumerationsMarkdownContent.rstrip() + "\n"
 statObjectDefsMarkdownContent = statObjectDefsMarkdownContent.rstrip() + "\n"
+
+#   ===================
+#   WRITE MARKDOWN FILE
+#   ===================
 
 #   Write Enumerations.md
 with open("Enumerations.md", "w") as markdownFileEnumerations:

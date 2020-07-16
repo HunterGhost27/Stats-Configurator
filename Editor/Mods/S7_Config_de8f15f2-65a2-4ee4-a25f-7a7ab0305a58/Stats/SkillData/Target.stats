@@ -12,11 +12,11 @@
         <field name="Memory Cost" type="IntegerStatObjectFieldDefinition" value="0" />
         <field name="Magic Cost" type="IntegerStatObjectFieldDefinition" value="0" />
         <field name="DisplayName" type="TranslatedStringStatObjectFieldDefinition" value="Inspect" />
-        <field name="Description" type="TranslatedStringStatObjectFieldDefinition" value="Inspect the target. Prints statsIDs to the Debug-Console." />
+        <field name="Description" type="TranslatedStringStatObjectFieldDefinition" value="Inspect the target's active skills and statuses. Prints their statsIDs to the script-extender's debug-console." />
         <field name="IgnoreVisionBlock" type="EnumerationStatObjectFieldDefinition" value="1" enumeration_type_name="YesNo" />
         <field name="Stealth" type="EnumerationStatObjectFieldDefinition" value="1" enumeration_type_name="YesNo" />
         <field name="Icon" type="StringStatObjectFieldDefinition" value="Item_TOOL_IdentifyingGlass_A" />
-        <field name="StatsDescription" type="TranslatedStringStatObjectFieldDefinition" value="Prints statIDs to the Debug-Console." />
+        <field name="StatsDescription" type="TranslatedStringStatObjectFieldDefinition" value="Prints statIDs to the script-extender's debug-console." />
         <field name="TargetRadius" type="IntegerStatObjectFieldDefinition" value="20" />
       </fields>
     </stat_object>
