@@ -7,6 +7,7 @@ Here are a few examples to show you what's possible using the **Stats-Configurat
 - **[Fireball Modification](#Fireball-Modification)**
 - **[Less Armor, More Vitality](#Less-Armor-More-Vitality)**
 - **[Fashionista](#Fashionista)**
+- **[Nullify-Resistances' Saving-Throws Nullified](#nullify-resistances-saving-throws-nullified)**
 - **[That's-XCOM-Baby](#Thats-XCOM-Baby)**
 
 ---
@@ -57,6 +58,22 @@ Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** 
 This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: [ItemColor](../References/StatObjectDefinitions.md#ItemColor) labels can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
 
 ![Item-Color-Config](https://imgur.com/hvb9DYM.png)
+
+## Nullify-Resistances' Saving-Throws Nullified
+
+```json
+{
+    "NULLIFY_RESISTANCE": {
+        "SavingThrow": "None"
+    }
+}
+```
+
+The status _Nullified Resistance_ applied by the **Flay Skin** skill will _no longer be resisted_ by **Magic Armor**.
+
+![Flay-Skin](https://i.imgur.com/zr4YcAO.png)
+
+**P.S.**: Using `COLLECTION StatusData` will remove _saving-throws_ from **all** status-effects!
 
 ## That's XCOM Baby
 
