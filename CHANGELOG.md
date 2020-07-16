@@ -7,6 +7,7 @@
 ### ADDED
 
 - _Created_ a console-command to print out every (relevant) variable at once.
+- _Added_ a check in console-commands `AddSkill` and `RemoveSkill` to verify the user is trying to add/remove skills and not characters.
 
 ### CHANGED
 

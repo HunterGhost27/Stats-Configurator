@@ -124,22 +124,26 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 
 function AddSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
-        FetchPlayers()
-        if character == "" or character == nil or character == "Clients" then
-            for userProfileID, contents in pairs(userInfo.clientCharacters) do
-                Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
-                S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
-            end
-        elseif character == "Host" then
-            Osi.CharacterAddSkill(userInfo.hostCharacter["currentCharacter"], skillName, 1)
-            S7_ConfigLog("Skill: " .. skillName .. " added to " .. userInfo.hostCharacter["currentCharacterName"])
-        else
-            for userProfileID, contents in pairs(userInfo.clientCharacters) do
-                if contents["currentCharacterName"] == character then
+        if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
+            FetchPlayers()
+            if character == "" or character == nil or character == "Clients" then
+                for userProfileID, contents in pairs(userInfo.clientCharacters) do
                     Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
                     S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                 end
+            elseif character == "Host" then
+                Osi.CharacterAddSkill(userInfo.hostCharacter["currentCharacter"], skillName, 1)
+                S7_ConfigLog("Skill: " .. skillName .. " added to " .. userInfo.hostCharacter["currentCharacterName"])
+            else
+                for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                    if contents["currentCharacterName"] == character then
+                        Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
+                        S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
+                    end
+                end
             end
+        else
+            S7_ConfigLog(skillName .. " is not a skill.", "[Error]")
         end
     else
         S7_ConfigLog("Invalid SkillName", "[Error]")
@@ -148,22 +152,28 @@ end
 
 function RemoveSkill(skillName, character)
     if skillName ~= "" and skillName ~= nil then
-        FetchPlayers()
-        if character == "" or character == nil or character == "Clients" then
-            for userProfileID, contents in ipairs(userInfo.clientCharacters) do
-                Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
-                S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
-            end
-        elseif character == "Host" then
-            Osi.CharacterRemoveSkill(userInfo.hostCharacter["currentCharacter"], skillName)
-            S7_ConfigLog("Skill: " .. skillName .. " removed from " .. userInfo.hostCharacter["currentCharacterName"])
-        else
-            for userProfileID, contents in pairs(userInfo.clientCharacters) do
-                if contents["currentCharacterName"] == character then
+        if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
+            FetchPlayers()
+            if character == "" or character == nil or character == "Clients" then
+                for userProfileID, contents in ipairs(userInfo.clientCharacters) do
                     Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
                     S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
+            elseif character == "Host" then
+                Osi.CharacterRemoveSkill(userInfo.hostCharacter["currentCharacter"], skillName)
+                S7_ConfigLog(
+                    "Skill: " .. skillName .. " removed from " .. userInfo.hostCharacter["currentCharacterName"]
+                )
+            else
+                for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                    if contents["currentCharacterName"] == character then
+                        Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
+                        S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
+                    end
+                end
             end
+        else
+            S7_ConfigLog(skillName .. " is not a skill.", "[Error]")
         end
     else
         S7_ConfigLog("Invalid SkillName", "[Error]")
