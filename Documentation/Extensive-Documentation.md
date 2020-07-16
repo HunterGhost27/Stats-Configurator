@@ -41,7 +41,7 @@ The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ an
 
 ![stats-configurator-item](https://imgur.com/BagN95a.png)
 
-The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. 
+The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_.
 
 ![ModMenu](https://imgur.com/sADorrm.png)
 
@@ -188,7 +188,7 @@ The mod comes with a dynamic-MCM that allows modders to setup a dependency-free 
 
 ### Advanced Control
 
-The dynamic-quick-menu is just me being lazy. I did not want to make a MCM each and everytime I make a mod. For more flexibility and options, you may want to create your own. If for some reason you absolutely hate coding in Lua and/or just want to assert dominance by string-concatenating a json from the ground up in osiris, you can make use of this mod's Lua functions instead. 
+The dynamic-quick-menu is just me being lazy. I did not want to make a MCM each and everytime I make a mod. For more flexibility and options, you may want to create your own. If for some reason you absolutely hate coding in Lua and/or just want to assert dominance by string-concatenating a json from the ground up in osiris, you can make use of this mod's Lua functions instead.
 
 ### Other Possibilities
 
