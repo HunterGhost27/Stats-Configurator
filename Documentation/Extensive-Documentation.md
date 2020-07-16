@@ -39,17 +39,23 @@ The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ an
 
 ### Stats-Configurator Items
 
-The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. The mod-menu allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
+![stats-configurator-item](https://imgur.com/BagN95a.png)
+
+The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. 
+
+![ModMenu](https://imgur.com/sADorrm.png)
+
+The mod-menu allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
 
 Since most of these functions require the `server` context, only the **host-character** is allowed to interact with the item. Any attempts, by the clients, to use the item will redirect the dialog to the host-character.
 
-Along with the titular item, the player is also provided with an in-game **changelog** whenever the mod updates. This is only meant to notify the player about significant changes and will not record every minor detail. It is **not** a substitute for the proper [Changelogs](../CHANGELOG.md). Players can safely discard this item if they wish, as it serves no other purpose. They can get another copy from the mod-menu should they need it again.
+Along with the titular item, the player is also provided with an in-game **changelog** whenever the mod updates. This is only meant to notify the player about significant changes and will not record every minor detail. It is **not** a substitute for the proper [changelogs](../CHANGELOG.md). Players can safely discard this item if they wish, as it serves no other purpose. They can get another copy from the mod-menu should they need it again.
 
 ### Applying Configurations
 
-Users create their configs in a `json` file (separate from the ConfigData file). This file's configs can be loaded-in at any time by the host-character using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their **ConfigData** file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a save-and-reload cycle, but for the most part, you can load these configurations dynamically without ever exiting the game. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (recommended) or loading the configuration when `SyncStatPersistence` is enabled.
+Users create their configs in a `json` file. This file's configs can be loaded-in at any time by the host-character using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their **ConfigData** file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a save-and-reload cycle, but for the most part, you can load these configurations dynamically without ever exiting the game. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (recommended) or loading the configuration when `SyncStatPersistence` is enabled.
 
-Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using [console-commands](#Console-Commands). Edited stats remain in memory till the game is closed, allowing you to synchronize all of them at will.
+Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using [console-commands](#Console-Commands). Edited stats remain in memory until the game is closed, allowing you to synchronize all of them at will, should a client join after loading a configuration.
 
 Applying configurations this way is great for **prototyping** or making **temporary changes**. But otherwise, instead of re-applying configurations every session or making irreversible changes to your save-file (using `SyncStatPersistence`), you should export the configs to **ConfigData**. This will allow the StatsLoader(Read more below) to apply those edits automatically when the game loads.
 

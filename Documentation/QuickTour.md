@@ -21,7 +21,7 @@ Inside `S7_Config.json` write the following content:
 ```json
 {
     "Projectile_Fireball":  {
-        "ActionPoints": 4, 
+        "ActionPoints": 4,
         "Cooldown": 7
     }
 }
