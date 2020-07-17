@@ -241,16 +241,18 @@ The mod comes with a suite of console-commands for a variety of purposes. Consol
 
 All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up a list of useful commands in the debug-console window.
 
-| Command      | Argument 1   | Argument 2           | Comments                                              | Examples                                           |
-| ------------ | ------------ | -------------------- | ----------------------------------------------------- | -------------------------------------------------- |
-| Help         |              |                      | Prints a helpful list of commands.                    | `!S7_Config Help`                                  |
-| StartModMenu |              |                      | Starts the Mod-Menu Dialog.                           | `!S7_Config StartModMenu`                          |
-| AddSkill     | SkillID      | Character-Optional   | Adds skill (skillID) to character (character-key).    | `!S7_Config AddSkill Projectile_Fireball Host`     |
-| RemoveSkill  | SkillID      | Character-Optional   | Removes skill (skillID) to character (character-key). | `!S7_Config RemoveSkill Shout_InspireStart`        |
-| StatSearch   | SearchString | StatType-Optional    | Search for (SearchString) in category (StatType).     | `!S7_Config StatSearch Summon_Incarnate SkillData` |
-| StatSync     | StatID       | Persistence-Optional | Synchronize (StatID) for all clients.                 | `!S7_Config StatSync Projectile_PyroclasticRock`   |
-| Relay        | Signal       |                      | Relay to ModMenu. `!S7_Config Relay Help` for more.   | `!S7_Config Relay S7_BroadcastConfigData`          |
-| SnapshotVars |              |                      | Prints every relevant variable to the debug-console.  | `!S7_Config SnapshotVars`                          |
+| Command          | Argument 1       | Argument 2  | Comments                                                      | Examples                                           |
+| ---------------- | ---------------- | ----------- | ------------------------------------------------------------- | -------------------------------------------------- |
+| **Help**         |                  |             | Prints a helpful list of commands.                            | `!S7_Config Help`                                  |
+| **StartModMenu** |                  |             | Starts the Mod-Menu Dialog.                                   | `!S7_Config StartModMenu`                          |
+| **AddSkill**     | **SkillID**      | Character   | Adds skill (skillID) to character (character-key).            | `!S7_Config AddSkill Projectile_Fireball Host`     |
+| **RemoveSkill**  | **SkillID**      | Character   | Removes skill (skillID) to character (character-key).         | `!S7_Config RemoveSkill Shout_InspireStart`        |
+| **StatSearch**   | **SearchString** | StatType    | Search for (SearchString) in category (StatType).             | `!S7_Config StatSearch Summon_Incarnate SkillData` |
+| **StatSync**     | **StatID**       | Persistence | Synchronize (StatID) for all clients.                         | `!S7_Config StatSync Projectile_PyroclasticRock`   |
+| **SnapshotVars** | VariableType     | Variable    | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
+| **Relay**        | Signal           |             | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
+
+**NOTE**: Non-bold arguments are optional.
 
 ## References
 
