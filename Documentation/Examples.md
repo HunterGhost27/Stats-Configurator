@@ -8,7 +8,8 @@ Here are a few examples to show you what's possible using the **Stats-Configurat
 - **[Less Armor, More Vitality](#Less-Armor-More-Vitality)**
 - **[Fashionista](#Fashionista)**
 - **[Nullify-Resistances' Saving-Throws Nullified](#nullify-resistances-saving-throws-nullified)**
-- **[That's-XCOM-Baby](#Thats-XCOM-Baby)**
+- **[That's XCOM Baby](#Thats-XCOM-Baby)**
+- **[Rivellon's Got Talent](#rivellons-got-talent)**
 
 ---
 
@@ -93,3 +94,19 @@ The status _Nullified Resistance_ applied by the **Flay Skin** skill will _no lo
 All **Characters** have their base **Accuracy** set at **65%** and they recover **2AP per turn** upto **2AP Maximum**. All Skill now cost **2AP**.
 
 ![Accuracy-AP-Config](https://imgur.com/glX91qP.png)
+
+## Rivellon's Got Talent
+
+```json
+{
+    "COLLECTION Character": {
+        "Talents": "AttackOfOpportunity;Rastilin"
+    }
+}
+```
+
+All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
+
+![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
+
+**NOTE:** This replaced the old talent _WalkItOff_.

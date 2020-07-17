@@ -44,7 +44,11 @@ function StatsConfigurator()
                         elseif stat ~= nil then -- Stat already exists.
                             for key, value in pairs(content) do
                                 if SafeToModify(key) then --  Checks if attribute key is safe to modify.
-                                    S7_ConfigLog(key .. ": " .. value .. " (" .. Ext.JsonStringify(stat[key]) .. ")") --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                                    S7_ConfigLog(
+                                        key ..
+                                            ": " ..
+                                                Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")"
+                                    ) --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
                                     Ext.StatSetAttribute(name, key, Rematerialize(value))
                                 else
                                     S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")

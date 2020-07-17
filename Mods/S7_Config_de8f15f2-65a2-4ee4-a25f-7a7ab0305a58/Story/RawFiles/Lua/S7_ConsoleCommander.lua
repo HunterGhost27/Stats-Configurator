@@ -36,8 +36,9 @@ function S7_Config_ConsoleCommander(...)
         --  STAT SEARCH
         --  ===========
         local search = args[3] or ""
-        local searchsearchType = args[4] or ""
-        StatSearch(search, searchsearchType)
+        local searchAttribute = args[4] or ""
+        local searchType = args[5] or ""
+        StatSearch(search, searchAttribute, searchType)
     elseif command == "StatSync" then
         --  SYNCHRONIZE STAT
         --  ================
@@ -184,7 +185,7 @@ end
 --  STAT SEARCH
 --  ===========
 
-function StatSearch(search, searchType)
+function StatSearch(search, searchAttribute, searchType)
     if search ~= nil and search ~= "" then
         local allStat = {}
         if searchType ~= "" and searchType ~= nil then
@@ -196,7 +197,11 @@ function StatSearch(search, searchType)
         S7_ConfigLog("=================================================")
         for i, stat in ipairs(allStat) do
             if string.match(stat, search) then
-                S7_ConfigLog(stat)
+                if searchAttribute ~= "" or searchAttribute ~= nil then
+                    S7_ConfigLog(stat .. ": " .. Ext.JsonStringify(Ext.StatGetAttribute(search, searchAttribute)))
+                else
+                    S7_ConfigLog(stat)
+                end
             end
         end
         S7_ConfigLog("=================================================")
