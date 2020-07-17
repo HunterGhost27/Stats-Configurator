@@ -19,7 +19,7 @@ toSync = {} --  will hold a list of stats that were modified for Ext.SyncStat().
 function StatsConfigurator()
     for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
-            if ValidJSONFile(JSONstring) then --  if json exists and is not empty.
+            if ValidString(JSONstring) then --  if json exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
                 S7_ConfigLog(modID .. " loaded. Applying configuration profile.")
                 S7_ConfigLog("=============================================================")
@@ -139,7 +139,7 @@ function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates Confi
     if modUUID ~= nil then
         local configTable = {} --  temporary table.
         local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Load existing file.
-        if ValidJSONFile(file) then
+        if ValidString(file) then
             configTable = Ext.JsonParse(file) -- gets existing ConfigData.
         else
             Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.

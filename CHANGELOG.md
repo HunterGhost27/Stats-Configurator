@@ -8,10 +8,12 @@
 
 - _Created_ a console-command to print out every (relevant) variable at once.
 - _Added_ a check in console-commands `AddSkill` and `RemoveSkill` to verify the user is trying to add/remove skills and not characters.
+- _Created_ a lot of preset **collections**.
 
 ### CHANGED
 
 - _Removed_ inspect stat function from Lua. Now implemented completely in Osiris.
+- _Renamed_ `ValidJSONFile()` to `ValidString()`
 
 ## [0.6.6.0] --- 13th July 2020 --- **_References.md_**
 

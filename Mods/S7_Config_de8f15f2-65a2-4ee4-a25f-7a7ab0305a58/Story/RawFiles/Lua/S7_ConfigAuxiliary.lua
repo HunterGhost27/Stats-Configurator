@@ -48,7 +48,7 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
     end
 
     local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") or "" --  Load CustomSettings json file.
-    if ValidJSONFile(JSONsetting) then --  if json file exists and is not empty.
+    if ValidString(JSONsetting) then --  if json file exists and is not empty.
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
         for setting, value in pairs(DefaultSettings) do --  Iterate for every key in DefaultSettings.
@@ -59,7 +59,7 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
         S7_ConfigLog("Default settings applied.", nil, "Settings", "Settings: Default")
     end
 
-    RebuildCollections()
+    RebuildCollections() --  automatically rebuild collections when settings are refreshed.
 end
 
 --  ======================================================
@@ -282,12 +282,12 @@ function StatsExportTSV() --  Fetches literally every stat and exports to TSV.
     S7_ConfigLog("Stats exported to TSV file.", nil, "ExportStats")
 end
 
---  ==========================
---      VALIDATE JSON FILE
---  ==========================
+--  =================================
+--      VALIDATE NON-EMPTY STRING
+--  =================================
 
-function ValidJSONFile(File) --  Checks if File is a string, is not nil and is not empty.
-    if type(File) == "string" and File ~= nil and File ~= "" and File ~= "{}" and File ~= "[]" then
+function ValidString(str) --  Checks if a string is not nil and is not empty.
+    if type(str) == "string" and str ~= nil and str ~= "" and str ~= "{}" and str ~= "[]" then
         return true
     else
         return false

@@ -17,7 +17,7 @@ local function StatsLoader() --  Loads stats-configuration json after StatsLoade
     if ConfigSettings.StatsLoader.Enable == true then --  StatsLoader enabled in settings.
         S7_ConfigLog("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName)
         local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
-        if ValidJSONFile(file) then --  if configData file exists and is not empty.
+        if ValidString(file) then --  if configData file exists and is not empty.
             local configData = Ext.JsonParse(file) --  Parse into table.
             local modLoadOrder = Ext.GetModLoadOrder() --  Get Load order
             local pos = 1 --  position index
@@ -58,7 +58,7 @@ local function CatchBroadcast(channel, payload) --  Listens for broadcasts from 
         local verify = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --    Load local ActiveConfiguration if available.
         for clientID, compare in pairs(Ext.JsonParse(payload)) do --  seperate client-info and the actual compare-string
             local message = clientID .. " : "
-            if ValidJSONFile(verify) and compare == verify then --  compare strings
+            if ValidString(verify) and compare == verify then --  compare strings
                 message = message .. "Active configuration profile verified."
                 Ext.PostMessageToServer("S7_ValidateClientResponse", message)
             else
