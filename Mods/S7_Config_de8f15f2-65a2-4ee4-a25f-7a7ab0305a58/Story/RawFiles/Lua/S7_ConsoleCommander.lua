@@ -44,11 +44,15 @@ function S7_Config_ConsoleCommander(...)
         --  ================
         local statName = args[3] or ""
         local statPersistence = args[4] or false
-        if Osi.NRD_StatExists(statName) then -- if stat-exists.
-            Ext.SyncStat(statName, statPersistence) --  Sync
-            S7_ConfigLog("Synchronized Stat: " .. statName)
+        if statName ~= "" then
+            if Osi.NRD_StatExists(statName) then -- if stat-exists.
+                Ext.SyncStat(statName, statPersistence) --  Sync
+                S7_ConfigLog("Synchronized Stat: " .. statName)
+            else
+                S7_ConfigLog("Stat: " .. statName .. "does not exist!", "[Warning]")
+            end
         else
-            S7_ConfigLog("Stat: " .. statName .. "does not exist!", "[Warning]")
+            StatsSynchronize() --  Synchronize toSync queue
         end
     elseif command == "SnapshotVars" then
         --  SNAPSHOT VARIABLES

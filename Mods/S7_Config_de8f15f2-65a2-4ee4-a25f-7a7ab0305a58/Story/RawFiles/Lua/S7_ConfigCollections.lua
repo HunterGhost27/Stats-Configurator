@@ -282,9 +282,7 @@ function RebuildCollections()
             --  ======================
             --  GENERAL CATEGORIZATION
             --  ======================
-            if configCollections[statType][stat] == nil then
-                configCollections[statType][stat] = true
-            end
+            Add2Collection(statType, stat)
         end
     end
     --  ==================
@@ -296,6 +294,10 @@ function RebuildCollections()
         end
     end
 end
+
+--  ================
+--  ADD-2-COLLECTION
+--  ================
 
 function Add2Collection(statType, stat)
     if configCollections[statType][stat] == nil then
