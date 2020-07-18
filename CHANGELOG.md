@@ -2,6 +2,12 @@
 
 ---
 
+## [0.6.8.0] --- 18th July 2020 --- **Mod-Interface Revisited**
+
+### CHANGED
+
+- _Renamed_ `S7_References.lua` to `S7_ConfigReferences.lua`. Places itself with other support files when sorted alphabetically.
+
 ## [0.6.7.0] --- 16th July 2020 --- **_Slow March_**
 
 ### ADDED
