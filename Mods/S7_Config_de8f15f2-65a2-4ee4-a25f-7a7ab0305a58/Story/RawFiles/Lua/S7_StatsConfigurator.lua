@@ -17,7 +17,7 @@ toSync = {} --  will hold a list of stats that were modified for Ext.SyncStat().
 --  ==================
 
 function StatsConfigurator()
-    for i, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
+    for _, config in ipairs(toConfigure) do --  Iterate over toConfigure queue
         for modID, JSONstring in pairs(config) do
             if ValidString(JSONstring) then --  if json exists and is not empty.
                 local JSONborne = Ext.JsonParse(JSONstring) --  Parsed JSONstring.
@@ -31,31 +31,16 @@ function StatsConfigurator()
                         S7_ConfigLog("-------------------------------------------------------------")
                         local stat = Ext.GetStat(name) --  Gets original stat-entry.
 
-                        if Ext.IsServer() and stat == nil and ConfigSettings.CreateStats == true then -- Stat-Creation possible.
-                            if content.Using ~= nil and Osi.NRD_StatExists(content.Using) then -- parent specified.
-                                Ext.CreateStat(name, Osi.NRD_StatGetType(content.Using), content.Using)
-                                S7_ConfigLog("Created stat: " .. name .. " using " .. content.Using)
-                            else
+                        for key, value in pairs(content) do
+                            if SafeToModify(key) then --  Checks if attribute key is safe to modify.
                                 S7_ConfigLog(
-                                    "Can't create stat: " .. name .. " : (using) template not specified.",
-                                    "[Warning]"
-                                )
+                                    key ..
+                                        ": " .. Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")"
+                                ) --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                                Ext.StatSetAttribute(name, key, Rematerialize(value))
+                            else
+                                S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
                             end
-                        elseif stat ~= nil then -- Stat already exists.
-                            for key, value in pairs(content) do
-                                if SafeToModify(key) then --  Checks if attribute key is safe to modify.
-                                    S7_ConfigLog(
-                                        key ..
-                                            ": " ..
-                                                Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")"
-                                    ) --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
-                                    Ext.StatSetAttribute(name, key, Rematerialize(value))
-                                else
-                                    S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
-                                end
-                            end
-                        else
-                            S7_ConfigLog("Error 404 - " .. name .. " not found!", "[Error]")
                         end
                         S7_ConfigLog("_____________________________________________________________")
                         toSync[name] = 1 --  Records stat-ids of the modified stats. To call Ext.SyncStat() on them later.
@@ -72,6 +57,7 @@ end
 
 function UnpackCollection(keyName, content) --  Determines if keyName is a collection and returns a table of stat-entries.
     local returnNameList = {} -- return variable
+
     if string.match(keyName, "COLLECTION") then -- if config entry has "COLLECTION" keyword.
         for collectionName in string.gmatch(keyName, "[^%s]+") do -- split entry into "COLLECTION" and "CollectionName"
             if collectionName ~= "COLLECTION" then -- Filter "CollectionName"
@@ -92,17 +78,27 @@ function UnpackCollection(keyName, content) --  Determines if keyName is a colle
 end
 
 function SafeToModify(key) --  Checks if key is safe to modify.
-    local dontFwith = --  dont mess with these keys
-        "AoEConditions, TargetConditions, ForkingConditions, CycleConditions, SkillProperties, WinBoost, LoseBoost, RootTemplate"
+    local dontFwith = {
+        "AoEConditions",
+        "TargetConditions",
+        "ForkingConditions",
+        "CycleConditions",
+        "SkillProperties",
+        "WinBoost",
+        "LoseBoost",
+        "RootTemplate"
+    } --  dont mess with these keys
 
     if ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
         return true --  SafeToModify() returns true for everything.
     else -- Default Setting
-        if string.match(dontFwith, key) then --  If key matches.
-            S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
-            return false --  Stop it right there.
-        else
-            return true --  else continue.
+        for _, avoid in pairs(dontFwith) do
+            if key == avoid then --  If key matches.
+                S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
+                return false --  Stop it right there.
+            else
+                return true --  else continue.
+            end
         end
     end
 end
@@ -135,25 +131,28 @@ end
 --  =================
 
 function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates ConfigData file.
-    local modName = modName or "Unassigned"
-    if modUUID ~= nil then
-        local configTable = {} --  temporary table.
-        local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Load existing file.
-        if ValidString(file) then
-            configTable = Ext.JsonParse(file) -- gets existing ConfigData.
+    if ValidString(modName) then
+        if ValidString(modUUID) then
+            local configTable = {} --  temporary table.
+            local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load existing file.
+            if ValidString(file) then
+                configTable = Ext.JsonParse(file) -- gets existing ConfigData.
+            else
+                Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
+            end
+
+            configTable[modUUID] = {
+                ["ModUUID"] = modUUID,
+                ["ModName"] = modName,
+                ["Content"] = buildData
+            }
+
+            Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
         else
-            Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
+            S7_ConfigLog("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName, "[Error]")
         end
-
-        configTable[modUUID] = {
-            ["ModUUID"] = modUUID,
-            ["ModName"] = modName,
-            ["Content"] = buildData
-        }
-
-        Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
     else
-        S7_ConfigLog("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName, "[Error]")
+        S7_ConfigLog("Invalid modName. Can't build" .. ConfigSettings.StatsLoader.FileName, "[Error]")
     end
 end
 

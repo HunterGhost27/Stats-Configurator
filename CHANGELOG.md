@@ -8,6 +8,10 @@
 
 - _Created_ `HandleStatType()` to map stat-names for `SkillData` type to correct categories. `StatusData` handling pending.
 
+### REMOVED
+
+- _Removed_ stat creation in `StatsConfigurator()`. Was un-necessarily complicating things.
+
 ### COMMENT
 
 - Newfound respect for Todd Howard and the _It Just Works_ philosophy.
