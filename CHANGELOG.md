@@ -2,7 +2,17 @@
 
 ---
 
-## [0.6.8.0] --- 18th July 2020 --- **Mod-Interface Revisited**
+## [0.6.9.0] --- 19th July 2020 --- **WTF is this code?!**
+
+### NEW
+
+- _Created_ `HandleStatType()` to map stat-names for `SkillData` type to correct categories. `StatusData` handling pending.
+
+### COMMENT
+
+- Newfound respect for Todd Howard and the _It Just Works_ philosophy.
+
+## [0.6.8.0] --- 18th July 2020 --- **Console-Commands Revisited**
 
 ### CHANGED
 
