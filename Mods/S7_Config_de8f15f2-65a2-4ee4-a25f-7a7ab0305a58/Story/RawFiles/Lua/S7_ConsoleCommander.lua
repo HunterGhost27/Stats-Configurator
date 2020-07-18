@@ -21,6 +21,7 @@ helpMessage =
     SearchStat      <SearchString>  <StatType>      Search for (SearchString) in category (StatType).          SearchStat Summon_Incarnate SkillData
     SyncStat        <StatID>        <Persistence>   Synchronize (StatID) for all clients.                      SyncStat Projectile_PyroclasticRock
     SnapshotVars    <SelectedType>  <SelectedVar>   Prints details ofthe  relevant variable to the console.    SnapshotVars data configCollections
+    Reference       <StatType>      <AttributeType> Lookup (StatType) and (AttributeType) in References.       Reference Weapon IsTwoHanded
     Relay           <Signal>        -               Relay signal to ModMenu. Relay Help for more info.         Relay S7_BroadcastConfigData
     =================================================================================================================================================
     * Resize the console window if this doesn't fit properly.
@@ -108,15 +109,9 @@ function S7_Config_ConsoleCommander(...)
     elseif command == "Reference" then
         --  REFERENCE
         --  =========
-        local statType = args[3] or ""
-        local attributeType = args[4] or ""
+        local statType = args[3] or "" --  statType to refer
+        local attributeType = args[4] or "" -- attributeType to restrict search for (Optional)
         Reference(statType, attributeType)
-    elseif command == "DeepSearch" then
-        --  DEEPSEARCH
-        --  ==========
-        local statName = args[3] or ""
-        local attributeName = args[4] or ""
-        DeepSearch(statName, attributeName)
     elseif command == "Relay" then
         --  SEND SIGNAL TO MOD-MENU RELAY
         --  =============================
@@ -309,54 +304,36 @@ end
 --  =========
 
 function Reference(statType, attributeType)
-    if ValidString(statType) then
+    if ValidString(statType) and (statType ~= "SkillData" or statType ~= "StatusData") then
         if ValidString(attributeType) then
-            if attributeType ~= "SkillData" or attributeType ~= "StatusData" then
+            if statType ~= "SkillData" or statType ~= "StatusData" then
                 for key, value in ipairs(References.StatObjectDefinitions[statType]) do
                     if value["@name"] == attributeType then
                         S7_ConfigLog(Ext.JsonStringify(value))
+                        if value["@type"] == "Enumeration" then
+                            S7_ConfigLog(Ext.JsonStringify(References.Enumerations[value["@enumeration_type_name"]]))
+                        end
                     end
                 end
             end
         else
-            for key, content in pairs(References.StatObjectDefinitions) do
-                if key == statType then
-                    S7_ConfigLog(Ext.JsonStringify(content))
+            if statType == "SkillData" or statType == "StatusData" then
+                S7_ConfigLog("Please sepecify the sub-type instead.", "[Warning]")
+                for key, value in pairs(SkillandStatusData) do
+                    if key == statType then
+                        S7_ConfigLog(statType .. ": " .. Ext.JsonStringify(value))
+                    end
+                end
+            else
+                for key, content in pairs(References.StatObjectDefinitions) do
+                    if key == statType then
+                        S7_ConfigLog(Ext.JsonStringify(content))
+                    end
                 end
             end
         end
     else
         S7_ConfigLog("Please enter a type to refer.", "[Error]")
-    end
-end
-
---  ===========
---  DEEP SEARCH
---  ===========
-
-function DeepSearch(statName, attributeName)
-    if ValidString(statName) then
-        if ValidString(attributeName) then
-            S7_ConfigLog(
-                statName ..
-                    ": " ..
-                        attributeName .. ": " .. Ext.JsonStringify(Ext.NRD_StatGetAttribute(statName, attributeName))
-            )
-        else
-            local statType = Osi.NRD_StatGetType(statName)
-            for key, content in pairs(References.StatObjectDefinitions) do
-                if key ~= "SkillData" or key ~= "StatusData" then
-                else
-                    for k, v in pairs(content) do
-                        S7_ConfigLog(
-                            k .. ": " .. v .. ": " .. Ext.JsonStringify(Ext.StatGetAttribute(statName, statType))
-                        )
-                    end
-                end
-            end
-        end
-    else
-        S7_ConfigLog("Please enter a valid stat-name.", "[Error]")
     end
 end
 
