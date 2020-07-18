@@ -12,17 +12,17 @@ logSource = "Lua:ConsoleCommander"
 helpMessage =
     [[
     ================================================================================================================================================
-    Command         Argument1       Argument2       COMMENTS                                                   EXAMPLE
+    Command         Argument1       Argument2(Optional)  COMMENTS                                                   EXAMPLE
     ================================================================================================================================================
-    Help            -               -               Prints a helpful list of commands.                         Help
-    StartModMenu    -               -               Starts the Mod-Menu Dialog.                                StartModMenu
-    AddSkill        <SkillID>       <Character>     Adds skill (skillID) to character (character-key).         AddSkill Projectile_Fireball Host
-    RemoveSkill     <SkillID>       <Character>     Removes skill (skillID) to character (character-key).      RemoveSkill Shout_InspireStart
-    SearchStat      <SearchString>  <StatType>      Search for (SearchString) in category (StatType).          SearchStat Summon_Incarnate SkillData
-    SyncStat        <StatID>        <Persistence>   Synchronize (StatID) for all clients.                      SyncStat Projectile_PyroclasticRock
-    SnapshotVars    <SelectedType>  <SelectedVar>   Prints details ofthe  relevant variable to the console.    SnapshotVars data configCollections
-    Reference       <StatType>      <AttributeType> Lookup (StatType) and (AttributeType) in References.       Reference Weapon IsTwoHanded
-    Relay           <Signal>        -               Relay signal to ModMenu. Relay Help for more info.         Relay S7_BroadcastConfigData
+    Help            -               -                   Prints a list of all console-commands.                     Help
+    StartModMenu    -               -                   Starts the Mod-Menu Dialog with the host-character.        StartModMenu
+    AddSkill        <SkillID>       <Character>         Adds skill (skillID) to character (character-key).         AddSkill Projectile_Fireball Host
+    RemoveSkill     <SkillID>       <Character>         Removes skill (skillID) to character (character-key).      RemoveSkill Shout_InspireStart
+    SearchStat      <SearchString>  <StatType>          Search for (SearchString) in category (StatType).          SearchStat Summon_Incarnate SkillData
+    SyncStat        <StatID>        <Persistence>       Synchronize (StatID) for all clients.                      SyncStat Projectile_PyroclasticRock
+    SnapshotVars    <SelectedType>  <SelectedVar>       Prints details of variables to the console.                SnapshotVars data configCollections
+    Reference       <StatType>      <AttributeType>     Lookup (StatType) and (AttributeType) in References.       Reference Weapon IsTwoHanded
+    Relay           <Signal>        -                   Relay signal to ModMenu. 'Relay Help' for more info.       Relay S7_BroadcastConfigData
     =================================================================================================================================================
     * Resize the console window if this doesn't fit properly.
 ]]
@@ -33,7 +33,7 @@ relayHelpMessage =
     Signals                         Purpose
     =================================================================================================================
     S7_StatsConfigurator            Loads and applies configuration-profile. (default: S7_Config.json)
-    S7_BuildConfigData              Builds ConfigData file using configuration-profile (default: S7_Config.json)
+    S7_BuildConfigData              Builds ConfigData file using configuration-profile. (default: S7_Config.json)
     S7_BroadcastConfigData          Broadcasts serialized ConfigData to all active clients.
     S7_ValidateClientConfig         Calls for client ConfigData validation. Check response in debug-console.
     S7_ToggleStatsLoader            Toggle StatsLoader setting. Responsible for loading ConfigData on ModuleLoad.
@@ -143,7 +143,7 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 function AddSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            FetchPlayers()
+            FetchPlayers() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  AddSkill defaults to all Clients.
                 for userProfileID, contents in pairs(userInfo.clientCharacters) do
@@ -172,7 +172,7 @@ end
 function RemoveSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            FetchPlayers()
+            FetchPlayers() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  Remove skill defaults to all Clients.
                 for userProfileID, contents in pairs(userInfo.clientCharacters) do
@@ -205,8 +205,9 @@ end
 --  ===========
 
 function SearchStat(search, searchType)
-    if ValidString(search) then
-        local allStat = {}
+    if ValidString(search) then --  if search string is not empty or nil
+        local allStat = {} -- temp variable to hold the list of stats
+
         if ValidString(searchType) then
             allStat = Ext.GetStatEntries(searchType)
         else
@@ -242,7 +243,7 @@ function SnapshotVars(selectedType, selectedVar)
             ["toSync"] = toSync
         },
         ["Files"] = {
-            ["Settings"] = Ext.LoadFile("S7_ConfigSettings.json") or DefaultSettings,
+            ["Settings"] = Ext.LoadFile("S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
             ["ConfigFile"] = Ext.LoadFile(ConfigSettings.ConfigFile) or "",
             ["ConfigData"] = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or ""
         },
