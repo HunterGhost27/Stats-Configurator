@@ -114,17 +114,60 @@ This config will give **all** shields 15% chance to block an attack along with 2
 The mod comes with the following preset collections:
 | CollectionName      | Comments                                                          | Example Stats                                                |
 | ------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------ |
+| Characters          |                                                                   |                                                              |
+| Character           | A collection of stats of the `Character` type. Includes everyone. | Lohse, Malady                                                |
 | PlayerCharacters    | A collection of all playable characters (origin and customs).     | Fane, Beast                                                  |
 | NonPlayerCharacters | A collection of all non-playable characters.                      | Dallis, Gareth, Trader Bree                                  |
-| Character           | A collection of stats of the `Character` type. Includes everyone. | Lohse, Malady                                                |
+| Armor               |                                                                   |                                                              |
 | Armor               | A collection of stats of the `Armor` type.                        | Generic and Unique Armors, Boots, Gloves                     |
-| Weapon              | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| Shield              | A collection of stats of the `Shield` type.                       | Generic and Unique shields.                                  |
-| Object              | A collection of stats of the `Object` type.                       | Miscellaneous Items like crafting-ingredients                |
+| ArmorTypeCloth      | A collection of stats of the `ArmorCloth` type.                   |                                                              |
+| ArmorTypeRobes      | A collection of stats of the `ArmorRobes` type.                   |                                                              |
+| ArmorTypeLeather    | A collection of stats of the `ArmorLeather` type.                 |                                                              |
+| ArmorTypeMail       | A collection of stats of the `ArmorMail` type.                    |                                                              |
+| ArmorTypePlate      | A collection of stats of the `ArmorPlate` type.                   |                                                              |
+| ArmorSlotHelmet     | A collection of stats that occupy the `Helmet` slot.              |                                                              |
+| ArmorSlotBreast     | A collection of stats that occupy the `Breast` slot.              |                                                              |
+| ArmorSlotLeggings   | A collection of stats that occupy the `Leggings` slot.            |                                                              |
+| ArmorSlotWeapon     | A collection of stats that occupy the `Weapon` slot.              |                                                              |
+| ArmorSlotShield     | A collection of stats that occupy the `Shield` slot.              |                                                              |
+| ArmorSlotRing       | A collection of stats that occupy the `Ring` slot.                |                                                              |
+| ArmorSlotBelt       | A collection of stats that occupy the `Belt` slot.                |                                                              |
+| ArmorSlotBoots      | A collection of stats that occupy the `Boots` slot.               |                                                              |
+| ArmorSlotGloves     | A collection of stats that occupy the `Gloves` slot.              |                                                              |
+| ArmorSlotAmulet     | A collection of stats that occupy the `Amulet` slot.              |                                                              |
+| ArmorSlotRing2      | A collection of stats that occupy the `Ring2` slot.               |                                                              |
+| ArmorSlotWings      | A collection of stats that occupy the `Wings` slot.               |                                                              |
+| ArmorSlotHorns      | A collection of stats that occupy the `Horns` slot.               |                                                              |
+| ArmorSlotOverhead   | A collection of stats that occupy the `Overhead` slot.            |                                                              |
+| Crime               |                                                                   |                                                              |
 | Crime               | A collection of stats of the `Crime` type.                        | _Don't know anything about Crime Stats_, sorry               |
+| Object              |                                                                   |                                                              |
+| Object              | A collection of stats of the `Object` type.                       | Miscellaneous Items like crafting-ingredients                |
+| Potion              |                                                                   |                                                              |
 | Potion              | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
-| StatusData          | A collection of stats of the `StatusData` type.                   | Status effects like BURNING, HEALING, BLINDED                |
+| IsConsumable        | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
+| IsFood              | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
+| IsPotion            | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
+| Shield              |                                                                   |                                                              |
+| Shield              | A collection of stats of the `Shield` type.                       | Generic and Unique shields.                                  |
+| SkillData           |                                                                   |                                                              |
 | SkillData           | A collection of stats of the `SkillData` type                     | Pretty much all skills.                                      |
+| StatusData          |                                                                   |                                                              |
+| StatusData          | A collection of stats of the `StatusData` type.                   | Status effects like BURNING, HEALING, BLINDED                |
+| Weapon              |                                                                   |                                                              |
+| Weapon              | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeSword     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeClub      | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeAxe       | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeStaff     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeBow       | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeCrossbow  | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeSpear     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeKnife     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeWand      | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeArrow     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| IsTwoHanded         | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| IsNotTwoHanded      | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
 
 To use this feature, you just need the key to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
 

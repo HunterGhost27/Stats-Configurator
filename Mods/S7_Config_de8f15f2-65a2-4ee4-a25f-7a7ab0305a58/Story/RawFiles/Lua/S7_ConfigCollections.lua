@@ -142,11 +142,7 @@ defaultCollections = {
     ["IsNotTwoHandedWeapon"] = {}
 }
 
---  =============================
---  INITIALIZE CUSTOM COLLECTIONS
---  =============================
-
-configCollections = {}
+configCollections = {} --  Initialize configCollections
 
 --  #########################################################################################################################################
 
@@ -155,16 +151,13 @@ configCollections = {}
 --  ===================
 
 function RebuildCollections()
-    --  ================================
-    --  RE-INITIALIZE CONFIG-COLLECTIONS
-    --  ================================
-
-    configCollections = Rematerialize(defaultCollections)
+    configCollections = Rematerialize(defaultCollections) --  Reinitialize defaultCollections
 
     --  ===================
     --  DYNAMIC-COLLECTIONS
     --  ===================
 
+    --  StatTypes for Iterations
     local statTypeTable = {
         "Armor",
         "Character",
@@ -177,120 +170,128 @@ function RebuildCollections()
         "Weapon"
     }
 
-    for _, statType in ipairs(statTypeTable) do
-        local allStat = Ext.GetStatEntries(statType) --  Fetch all stats
-        for _, stat in ipairs(allStat) do
-            local statData = Ext.GetStat(stat)
+    for _, statType in ipairs(statTypeTable) do --  Iterate over all statTypes
+        local allStat = Ext.GetStatEntries(statType) --  Fetch all stats of the corresponding statType
+
+        for _, stat in ipairs(allStat) do --  Fetch statNames
+            local statData = Ext.GetStat(stat) --  Get statData
+
+            --  ======================
+            --  GENERAL CATEGORIZATION
+            --  ======================
+            Add2Collection(statType, stat)
+
+            --  ==========================
+            --  SPECIALIZED CATEGORIZATION
+            --  ==========================
+
             if statType == "Character" then
                 --  ==========
                 --  CHARACTERS
                 --  ==========
-                if configCollections["PlayerCharacters"][stat] == nil then
-                    --  =====================
-                    --  NON PLAYER CHARACTERS
-                    --  =====================
-                    Add2Collection("NonPlayerCharacters", stat)
+
+                --  NON PLAYER CHARACTERS
+                --  =====================
+
+                if configCollections["PlayerCharacters"][stat] == nil then --  Stat is not a PlayerCharacter
+                    Add2Collection("NonPlayerCharacters", stat) --  Add to NonPlayerCharacters collection
                 end
             elseif statType == "Armor" then
                 --  =====
                 --  ARMOR
                 --  =====
-                if statData["ArmorType"] ~= "None" and ValidString(statData["ArmorType"]) then
-                    --  ==========
-                    --  ARMOR TYPE
-                    --  ==========
-                    Add2Collection("ArmorType" .. statData["ArmorType"], stat)
+
+                --  ARMOR TYPE
+                --  ==========
+
+                if statData["ArmorType"] ~= "None" and ValidString(statData["ArmorType"]) then -- Filter based on ArmorType
+                    Add2Collection("ArmorType" .. statData["ArmorType"], stat) --  Add to ArmorType collections
                 end
-                if ValidString(statData["Slot"]) then
-                    --  ===========
-                    --  ARMOR SLOTS
-                    --  ===========
-                    Add2Collection("ArmorSlot" .. statData["Slot"], stat)
+
+                --  ARMOR SLOTS
+                --  ===========
+
+                if ValidString(statData["Slot"]) then --  Filter based on ArmorSlot
+                    Add2Collection("ArmorSlot" .. statData["Slot"], stat) --  Add to ArmorSlot collections
                 end
             elseif statType == "Potion" then
                 --  ======
                 --  POTION
                 --  ======
-                if statData["IsConsumable"] == "Yes" then
-                    --  =============
-                    --  IS CONSUMABLE
-                    --  =============
-                    Add2Collection("IsConsumable", stat)
-                    if statData["IsFood"] == "Yes" then
-                        --  =======
-                        --  IS FOOD
-                        --  =======
-                        Add2Collection("IsFood", stat)
+
+                --  IS CONSUMABLE
+                --  =============
+
+                if statData["IsConsumable"] == "Yes" then --  If potionStat is consumable
+                    Add2Collection("IsConsumable", stat) --  Add to IsConsumable collection.
+
+                    if statData["IsFood"] == "Yes" then --  If consumable is food
+                        Add2Collection("IsFood", stat) --  Add to IsFood collection
                     else
-                        --  =========
-                        --  IS POTION
-                        --  =========
-                        Add2Collection("IsFood", stat)
+                        Add2Collection("IsPotion", stat) -- Add to IsPotion otherwise
                     end
                 end
             elseif statType == "Weapon" then
                 --  =======
                 --  WEAPONS
                 --  =======
-                if statData["WeaponType"] ~= "None" and ValidString(statData["WeaponType"]) then
-                    --  ===========
-                    --  WEAPON-TYPE
-                    --  ===========
-                    Add2Collection("WeaponType" .. statData["WeaponType"], stat)
+
+                --  WEAPON-TYPE
+                --  ===========
+
+                if statData["WeaponType"] ~= "None" and ValidString(statData["WeaponType"]) then --  Filter based on WeaponType
+                    Add2Collection("WeaponType" .. statData["WeaponType"], stat) -- Add to corresponding collection
                 end
-                if statData["IsTwoHanded"] == "Yes" then
-                    --  =============
-                    --  IS-TWO-HANDED
-                    --  =============
-                    Add2Collection("IsTwoHandedWeapon", stat)
+
+                --  IS-TWO-HANDED
+                --  =============
+
+                if statData["IsTwoHanded"] == "Yes" then --  If Weapon is TwoHanded
+                    Add2Collection("IsTwoHandedWeapon", stat) --  Add to TwoHanded Collection.
                 else
-                    Add2Collection("IsNotTwoHandedWeapon", stat)
+                    Add2Collection("IsNotTwoHandedWeapon", stat) -- Otherwise add to IsNotTwoHanded collection
                 end
             elseif statType == "SkillData" then
-                -- --  ==========
-                -- --  SKILL DATA
-                -- --  ==========
-                -- if ValidString(statData["SkillAbility"]) then
-                --     --  =======
-                --     --  ABILITY
-                --     --  =======
-                --     Add2Collection("SkillAbility" .. statData["SkillAbility"], stat)
+                --  ==========
+                --  SKILL DATA
+                --  ==========
+                --  ABILITY
+                --  =======
+                -- if ValidString(statData["Ability"]) then --  Filter based on Ability
+                --     Add2Collection("SkillAbility" .. statData["Ability"], stat) --  Add to corresponding collection
                 -- end
-                -- -- if ValidString(statData["Damage Type"]) then
-                -- --     --  ===========
-                -- --     --  DAMAGE TYPE
-                -- --     --  ===========
-                -- --     Add2Collection("DamageType" .. statData["DamageType"], stat)
-                -- -- end
-                -- if statData["MagicCost"] ~= nil and statData["MagicCost"] > 0 then
-                --     --  ===============
-                --     --  IS SOURCE SKILL
-                --     --  ===============
-                --     Add2Collection("IsSourceSkill", stat)
+                --  DAMAGE TYPE
+                --  ===========
+                -- if ValidString(statData["DamageType"]) then --  Filter based on DamageType
+                --     Add2Collection("DamageType" .. statData["DamageType"], stat) --  Add to corresponding collection
+                -- end
+                --  IS SOURCE SKILL
+                --  ===============
+                -- if statData["Magic Cost"] ~= nil and statData["Magic Cost"] > 0 then --  Is a Source-Skill
+                --     Add2Collection("IsSourceSkill", stat) --  Add to IsSourceSkill collection
                 -- end
             elseif statType == "StatusData" then
-            -- --  ===========
-            -- --  STATUS DATA
-            -- --  ===========
-            -- if statData["HealStat"] ~= nil then
-            --     --  ===================
-            --     --  HEALING STATUS DATA
-            --     --  ===================
-            --     Add2Collection("HealStatus" .. statData["HealStat"], stat)
+            --  ===========
+            --  STATUS DATA
+            --  ===========
+
+            --  HEALING STATUS DATA
+            --  ===================
+
+            -- if statData["HealStat"] ~= nil then --  If HealStat specified
+            --     Add2Collection("HealStatus" .. statData["HealStat"], stat) --  Add to HealStatus collections
             -- end
             end
-            --  ======================
-            --  GENERAL CATEGORIZATION
-            --  ======================
-            Add2Collection(statType, stat)
         end
     end
+
     --  ==================
     --  CUSTOM-COLLECTIONS
     --  ==================
-    if ConfigSettings.CustomCollections ~= nil then
-        for key, value in pairs(ConfigSettings.CustomCollections) do
-            configCollections[key] = Rematerialize(value)
+
+    if ConfigSettings.CustomCollections ~= nil then --  Read CustomCollections if not nil
+        for key, value in pairs(ConfigSettings.CustomCollections) do -- Iterate over table
+            configCollections[key] = Rematerialize(value) -- Add to collections
         end
     end
 end
@@ -300,8 +301,8 @@ end
 --  ================
 
 function Add2Collection(statType, stat)
-    if configCollections[statType][stat] == nil then
-        configCollections[statType][stat] = true
+    if configCollections[statType][stat] == nil then --  If statType and Stat don't already exist
+        configCollections[statType][stat] = true --  Add them to collection
     end
 end
 
