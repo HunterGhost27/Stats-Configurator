@@ -18,7 +18,7 @@ helpMessage =
     StartModMenu    -               -               Starts the Mod-Menu Dialog.                                StartModMenu
     AddSkill        <SkillID>       <Character>     Adds skill (skillID) to character (character-key).         AddSkill Projectile_Fireball Host
     RemoveSkill     <SkillID>       <Character>     Removes skill (skillID) to character (character-key).      RemoveSkill Shout_InspireStart
-    StatSearch      <SearchString>  <StatType>      Search for (SearchString) in category (StatType).          StatSearch Summon_Incarnate SkillData
+    SearchStat      <SearchString>  <StatType>      Search for (SearchString) in category (StatType).          SearchStat Summon_Incarnate SkillData
     StatSync        <StatID>        <Persistence>   Synchronize (StatID) for all clients.                      StatSync Projectile_PyroclasticRock
     SnapshotVars    <SelectedType>  <SelectedVar>   Prints details ofthe  relevant variable to the console.    SnapshotVars data configCollections
     Relay           <Signal>        -               Relay signal to ModMenu. Relay Help for more info.         Relay S7_BroadcastConfigData
@@ -78,13 +78,12 @@ function S7_Config_ConsoleCommander(...)
         local skillName = args[3] or "" -- Skill to remove. (Required)
         local character = args[4] or "" -- Character to remove from. (Optional - defaults to all characters)
         RemoveSkill(skillName, character)
-    elseif command == "StatSearch" then
+    elseif command == "SearchStat" then
         --  STAT SEARCH
         --  ===========
         local search = args[3] or "" -- String to search for. (Required)
-        local searchAttribute = args[4] or "" -- Specific Attribute to search for (Optional)
-        local searchType = args[5] or "" -- Restricts the search to stats of only this type (Optional)
-        StatSearch(search, searchAttribute, searchType)
+        local searchType = args[4] or "" -- Restricts the search to stats of only this type (Optional)
+        SearchStat(search, searchType)
     elseif command == "StatSync" then
         --  SYNCHRONIZE STAT
         --  ================
@@ -171,7 +170,7 @@ function AddSkill(skillName, character)
             S7_ConfigLog(skillName .. " is not a skill.", "[Error]")
         end
     else
-        S7_ConfigLog("Invalid SkillName", "[Error]")
+        S7_ConfigLog("Please enter a valid SkillName.", "[Error]")
     end
 end
 
@@ -181,7 +180,7 @@ function RemoveSkill(skillName, character)
             FetchPlayers()
 
             if character == "" or character == nil or character == "Clients" then --  Remove skill defaults to all Clients.
-                for userProfileID, contents in ipairs(userInfo.clientCharacters) do
+                for userProfileID, contents in pairs(userInfo.clientCharacters) do
                     Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
                     S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
@@ -202,7 +201,7 @@ function RemoveSkill(skillName, character)
             S7_ConfigLog(skillName .. " is not a skill.", "[Error]")
         end
     else
-        S7_ConfigLog("Invalid SkillName", "[Error]")
+        S7_ConfigLog("Please enter a valid SkillName", "[Error]")
     end
 end
 
@@ -210,7 +209,7 @@ end
 --  STAT SEARCH
 --  ===========
 
-function StatSearch(search, searchAttribute, searchType)
+function SearchStat(search, searchType)
     if ValidString(search) then
         local allStat = {}
         if ValidString(searchType) then
@@ -223,16 +222,12 @@ function StatSearch(search, searchAttribute, searchType)
         S7_ConfigLog("=================================================")
         for i, stat in ipairs(allStat) do
             if string.match(stat, search) then
-                if ValidString(searchAttribute) then
-                    S7_ConfigLog(stat .. ": " .. Ext.JsonStringify(Ext.StatGetAttribute(search, searchAttribute)))
-                else
-                    S7_ConfigLog(stat)
-                end
+                S7_ConfigLog(stat)
             end
         end
         S7_ConfigLog("=================================================")
     else
-        S7_ConfigLog("Search String Empty. Try something like Projectile_Fire", "[Warning]")
+        S7_ConfigLog("Search String Empty. Try something like Projectile_", "[Error]")
     end
 end
 

@@ -276,7 +276,7 @@ Possible values for stat-types are: `Character`, `Armor`, `Weapon`, `Potion`, `S
 
 If you just wish to know the stat-names for a certain **skill** or **status** a character/item has on them, then you can also use the [Inspect Skill](Documentation/Extensive-Documentation.md#Inspect-Skill). It will print out the relevant **stat-names** to the debug-console. This way you can quickly reference the stat-name/statID without having to export 7000+ stat entries.
 
-You can also use the [console-command](Documentation/Extensive-Documentation.md#Console-Commands) `!S7_Config StatSearch YourSearchQueryHere OptionalTypeRestriction`. This will search any stats that have `YourSearchQueryHere` in their name. The optional argument `OptionalTypeRestriction` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config StatSearch Dallis` will search all stat-entries for the string `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config StatSearch Dallis Character` will only search for the string `Dallis` in stat-entries of the `Character` type.
+You can also use the [console-command](Documentation/Extensive-Documentation.md#Console-Commands) `!S7_Config SearchStat YourSearchQueryHere OptionalTypeRestriction`. This will search any stats that have `YourSearchQueryHere` in their name. The optional argument `OptionalTypeRestriction` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for the string `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character` will only search for the string `Dallis` in stat-entries of the `Character` type.
 
 ## Console-Commands
 
@@ -290,7 +290,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | **StartModMenu** |                  |             | Starts the Mod-Menu Dialog.                                   | `!S7_Config StartModMenu`                          |
 | **AddSkill**     | **SkillID**      | Character   | Adds skill (skillID) to character (character-key).            | `!S7_Config AddSkill Projectile_Fireball Host`     |
 | **RemoveSkill**  | **SkillID**      | Character   | Removes skill (skillID) to character (character-key).         | `!S7_Config RemoveSkill Shout_InspireStart`        |
-| **StatSearch**   | **SearchString** | StatType    | Search for (SearchString) in category (StatType).             | `!S7_Config StatSearch Summon_Incarnate SkillData` |
+| **SearchStat**   | **SearchString** | StatType    | Search for (SearchString) in category (StatType).             | `!S7_Config SearchStat Summon_Incarnate SkillData` |
 | **StatSync**     | **StatID**       | Persistence | Synchronize (StatID) for all clients.                         | `!S7_Config StatSync Projectile_PyroclasticRock`   |
 | **SnapshotVars** | VariableType     | Variable    | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
 | **Relay**        | Signal           |             | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
