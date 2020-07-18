@@ -32,14 +32,12 @@ function StatsConfigurator()
                         local stat = Ext.GetStat(name) --  Gets original stat-entry.
 
                         for key, value in pairs(content) do
-                            if SafeToModify(key) then --  Checks if attribute key is safe to modify.
+                            if SafeToModify(name, key) then --  Checks if attribute key is safe to modify.
                                 S7_ConfigLog(
                                     key ..
                                         ": " .. Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")"
-                                ) --  e.g. - ActionPoints: 5(2)   |   StatName: NewValue(OriginalValue)
+                                )
                                 Ext.StatSetAttribute(name, key, Rematerialize(value))
-                            else
-                                S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
                             end
                         end
                         S7_ConfigLog("_____________________________________________________________")
@@ -77,7 +75,7 @@ function UnpackCollection(keyName, content) --  Determines if keyName is a colle
     return returnNameList --  return table of statNames.
 end
 
-function SafeToModify(key) --  Checks if key is safe to modify.
+function SafeToModify(name, key) --  Checks if key is safe to modify.
     local dontFwith = {
         "AoEConditions",
         "TargetConditions",
@@ -92,13 +90,17 @@ function SafeToModify(key) --  Checks if key is safe to modify.
     if ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
         return true --  SafeToModify() returns true for everything.
     else -- Default Setting
-        for _, avoid in pairs(dontFwith) do
-            if key == avoid then --  If key matches.
-                S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
-                return false --  Stop it right there.
-            else
-                return true --  else continue.
+        if Ext.StatGetAttribute(name, key) ~= nil then
+            for _, avoid in pairs(dontFwith) do
+                if key == avoid then --  If key matches.
+                    S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
+                    return false --  Stop it right there.
+                else
+                    return true --  else continue.
+                end
             end
+        else
+            S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
         end
     end
 end
