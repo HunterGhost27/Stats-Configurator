@@ -8,6 +8,7 @@
 
 - _Renamed_ `S7_References.lua` to `S7_ConfigReferences.lua`. Places itself with other support files when sorted alphabetically.
 - _Renamed_ `StatSearch` to `SearchStat`. More intuitive.
+- _Renamed_ `StatSync` to `SyncStat`. More intuitive.
 
 ## [0.6.7.0] --- 16th July 2020 --- **_Slow March_**
 

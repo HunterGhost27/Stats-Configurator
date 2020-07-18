@@ -19,7 +19,7 @@ helpMessage =
     AddSkill        <SkillID>       <Character>     Adds skill (skillID) to character (character-key).         AddSkill Projectile_Fireball Host
     RemoveSkill     <SkillID>       <Character>     Removes skill (skillID) to character (character-key).      RemoveSkill Shout_InspireStart
     SearchStat      <SearchString>  <StatType>      Search for (SearchString) in category (StatType).          SearchStat Summon_Incarnate SkillData
-    StatSync        <StatID>        <Persistence>   Synchronize (StatID) for all clients.                      StatSync Projectile_PyroclasticRock
+    SyncStat        <StatID>        <Persistence>   Synchronize (StatID) for all clients.                      SyncStat Projectile_PyroclasticRock
     SnapshotVars    <SelectedType>  <SelectedVar>   Prints details ofthe  relevant variable to the console.    SnapshotVars data configCollections
     Relay           <Signal>        -               Relay signal to ModMenu. Relay Help for more info.         Relay S7_BroadcastConfigData
     =================================================================================================================================================
@@ -84,7 +84,7 @@ function S7_Config_ConsoleCommander(...)
         local search = args[3] or "" -- String to search for. (Required)
         local searchType = args[4] or "" -- Restricts the search to stats of only this type (Optional)
         SearchStat(search, searchType)
-    elseif command == "StatSync" then
+    elseif command == "SyncStat" then
         --  SYNCHRONIZE STAT
         --  ================
         local statName = args[3] or "" -- StatID to Synchronize (Optional - defaults to entire toSync queue)
@@ -293,8 +293,6 @@ function SnapshotVars(selectedType, selectedVar)
                         S7_ConfigLog("\n" .. selectedType .. " : " .. key .. " : " .. Ext.JsonStringify(value))
                     end
                 end
-            else
-                S7_ConfigLog("Invalid Variable Type", "[Error]")
             end
         end
     else
@@ -347,7 +345,8 @@ function DeepSearch(statName, attributeName)
         else
             local statType = Osi.NRD_StatGetType(statName)
             for key, content in pairs(References.StatObjectDefinitions) do
-                if key ~= "SkillData" and key ~= "StatusData" then
+                if key ~= "SkillData" or key ~= "StatusData" then
+                else
                     for k, v in pairs(content) do
                         S7_ConfigLog(
                             k .. ": " .. v .. ": " .. Ext.JsonStringify(Ext.StatGetAttribute(statName, statType))

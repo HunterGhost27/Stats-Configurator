@@ -291,7 +291,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | **AddSkill**     | **SkillID**      | Character   | Adds skill (skillID) to character (character-key).            | `!S7_Config AddSkill Projectile_Fireball Host`     |
 | **RemoveSkill**  | **SkillID**      | Character   | Removes skill (skillID) to character (character-key).         | `!S7_Config RemoveSkill Shout_InspireStart`        |
 | **SearchStat**   | **SearchString** | StatType    | Search for (SearchString) in category (StatType).             | `!S7_Config SearchStat Summon_Incarnate SkillData` |
-| **StatSync**     | **StatID**       | Persistence | Synchronize (StatID) for all clients.                         | `!S7_Config StatSync Projectile_PyroclasticRock`   |
+| **SyncStat**     | **StatID**       | Persistence | Synchronize (StatID) for all clients.                         | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
 | **SnapshotVars** | VariableType     | Variable    | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
 | **Relay**        | Signal           |             | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
 
