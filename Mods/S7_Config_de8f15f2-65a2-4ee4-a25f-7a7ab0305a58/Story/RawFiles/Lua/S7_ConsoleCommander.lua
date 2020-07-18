@@ -1,82 +1,13 @@
 --  ###################################################################################################################################################
 --                                                                 CONSOLE COMMANDER
 --  ===================================================================================================================================================
+Ext.Require("S7_ConfigReferences.lua")
 logSource = "Lua:ConsoleCommander"
 --  ###################################################################################################################################################
 
---  ================
---  CONSOLE COMMANDS
---  ================
-
-function S7_Config_ConsoleCommander(...)
-    local args = {...}
-    local command = args[2] or ""
-
-    if command == "StartModMenu" then
-        --  START MOD-MENU
-        --  ==============
-        local hostCharacter = Osi.CharacterGetHostCharacter()
-        if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
-            Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
-            S7_ConfigLog("ModMenu activated by the host-character.")
-        end
-    elseif command == "AddSkill" then
-        --  ADD SKILL
-        --  =========
-        local skillName = args[3] or ""
-        local character = args[4] or ""
-        AddSkill(skillName, character)
-    elseif command == "RemoveSkill" then
-        --  REMOVE SKILL
-        --  ============
-        local skillName = args[3] or ""
-        local character = args[4] or ""
-        RemoveSkill(skillName, character)
-    elseif command == "StatSearch" then
-        --  STAT SEARCH
-        --  ===========
-        local search = args[3] or ""
-        local searchAttribute = args[4] or ""
-        local searchType = args[5] or ""
-        StatSearch(search, searchAttribute, searchType)
-    elseif command == "StatSync" then
-        --  SYNCHRONIZE STAT
-        --  ================
-        local statName = args[3] or ""
-        local statPersistence = args[4] or false
-        if statName ~= "" then
-            if Osi.NRD_StatExists(statName) then -- if stat-exists.
-                Ext.SyncStat(statName, statPersistence) --  Sync
-                S7_ConfigLog("Synchronized Stat: " .. statName)
-            else
-                S7_ConfigLog("Stat: " .. statName .. "does not exist!", "[Warning]")
-            end
-        else
-            StatsSynchronize() --  Synchronize toSync queue
-        end
-    elseif command == "SnapshotVars" then
-        --  SNAPSHOT VARIABLES
-        --  ==================
-        local selectedType = args[3] or ""
-        local selectedVar = args[4] or ""
-        SnapshotVars(selectedType, selectedVar)
-    elseif command == "Relay" then
-        --  SEND SIGNAL TO MOD-MENU RELAY
-        --  =============================
-        local signal = args[3] or ""
-        if signal == "" or signal == "Help" then
-            S7_ConfigLog("\n" .. relayHelpMessage, "[Warning]")
-        else
-            S7_Config_ModMenuRelay(signal)
-        end
-    elseif command == "Help" or command == "" then
-        --  HELP
-        --  ====
-        S7_ConfigLog("\n" .. helpMessage, "[Warning]")
-    end
-
-    ExportLog() -- Exports ConfigLogs if they're enabled.
-end
+--  =============
+--  HELP MESSAGES
+--  =============
 
 helpMessage =
     [[
@@ -119,6 +50,92 @@ relayHelpMessage =
     * Resize the console window if this doesn't fit properly.
 ]]
 
+--  ================
+--  CONSOLE COMMANDS
+--  ================
+
+function S7_Config_ConsoleCommander(...)
+    local args = {...} --  Take variable amount of arguments.
+    local command = args[2] or "" -- Second argument is the command.
+
+    if command == "StartModMenu" then
+        --  START MOD-MENU
+        --  ==============
+        local hostCharacter = Osi.CharacterGetHostCharacter()
+        if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
+            Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
+            S7_ConfigLog("ModMenu activated by the host-character.")
+        end
+    elseif command == "AddSkill" then
+        --  ADD SKILL
+        --  =========
+        local skillName = args[3] or "" -- Skill to add. (Required)
+        local character = args[4] or "" -- Character to add to. (Optional - defaults to all characters)
+        AddSkill(skillName, character)
+    elseif command == "RemoveSkill" then
+        --  REMOVE SKILL
+        --  ============
+        local skillName = args[3] or "" -- Skill to remove. (Required)
+        local character = args[4] or "" -- Character to remove from. (Optional - defaults to all characters)
+        RemoveSkill(skillName, character)
+    elseif command == "StatSearch" then
+        --  STAT SEARCH
+        --  ===========
+        local search = args[3] or "" -- String to search for. (Required)
+        local searchAttribute = args[4] or "" -- Specific Attribute to search for (Optional)
+        local searchType = args[5] or "" -- Restricts the search to stats of only this type (Optional)
+        StatSearch(search, searchAttribute, searchType)
+    elseif command == "StatSync" then
+        --  SYNCHRONIZE STAT
+        --  ================
+        local statName = args[3] or "" -- StatID to Synchronize (Optional - defaults to entire toSync queue)
+        local statPersistence = args[4] or false -- Set stat-persistence (Optional - defaults to false)
+        if statName ~= "" then
+            if Osi.NRD_StatExists(statName) then -- if stat-exists.
+                Ext.SyncStat(statName, statPersistence) --  Sync
+                S7_ConfigLog("Synchronized Stat: " .. statName)
+            else
+                S7_ConfigLog("Stat: " .. statName .. "does not exist!", "[Warning]")
+            end
+        else
+            StatsSynchronize() --  Synchronize toSync queue
+        end
+    elseif command == "SnapshotVars" then
+        --  SNAPSHOT VARIABLES
+        --  ==================
+        local selectedType = args[3] or "" --  Variable Group to snapshot (Optional - defaults to all)
+        local selectedVar = args[4] or "" -- VariableName to snapshot (Optional)
+        SnapshotVars(selectedType, selectedVar)
+    elseif command == "Reference" then
+        --  REFERENCE
+        --  =========
+        local statType = args[3] or ""
+        local attributeType = args[4] or ""
+        Reference(statType, attributeType)
+    elseif command == "DeepSearch" then
+        --  DEEPSEARCH
+        --  ==========
+        local statName = args[3] or ""
+        local attributeName = args[4] or ""
+        DeepSearch(statName, attributeName)
+    elseif command == "Relay" then
+        --  SEND SIGNAL TO MOD-MENU RELAY
+        --  =============================
+        local signal = args[3] or "" --  Flag to relay. (Optional - defaults to help)
+        if signal == "" or signal == "Help" then
+            S7_ConfigLog("\n" .. relayHelpMessage, "[Warning]")
+        else
+            S7_Config_ModMenuRelay(signal)
+        end
+    elseif command == "Help" or command == "" then
+        --  HELP
+        --  ====
+        S7_ConfigLog("\n" .. helpMessage, "[Warning]")
+    end
+
+    ExportLog() -- Exports ConfigLogs if they're enabled.
+end
+
 --  ===============================================================
 Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 --  ===============================================================
@@ -130,15 +147,16 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 --  ===================
 
 function AddSkill(skillName, character)
-    if skillName ~= "" and skillName ~= nil then
+    if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
             FetchPlayers()
-            if character == "" or character == nil or character == "Clients" then
+
+            if character == "" or character == nil or character == "Clients" then --  AddSkill defaults to all Clients.
                 for userProfileID, contents in pairs(userInfo.clientCharacters) do
                     Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
                     S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                 end
-            elseif character == "Host" then
+            elseif character == "Host" then --  if Host specified
                 Osi.CharacterAddSkill(userInfo.hostCharacter["currentCharacter"], skillName, 1)
                 S7_ConfigLog("Skill: " .. skillName .. " added to " .. userInfo.hostCharacter["currentCharacterName"])
             else
@@ -158,15 +176,16 @@ function AddSkill(skillName, character)
 end
 
 function RemoveSkill(skillName, character)
-    if skillName ~= "" and skillName ~= nil then
+    if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
             FetchPlayers()
-            if character == "" or character == nil or character == "Clients" then
+
+            if character == "" or character == nil or character == "Clients" then --  Remove skill defaults to all Clients.
                 for userProfileID, contents in ipairs(userInfo.clientCharacters) do
                     Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
                     S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
-            elseif character == "Host" then
+            elseif character == "Host" then --  If Host specified.
                 Osi.CharacterRemoveSkill(userInfo.hostCharacter["currentCharacter"], skillName)
                 S7_ConfigLog(
                     "Skill: " .. skillName .. " removed from " .. userInfo.hostCharacter["currentCharacterName"]
@@ -192,18 +211,19 @@ end
 --  ===========
 
 function StatSearch(search, searchAttribute, searchType)
-    if search ~= nil and search ~= "" then
+    if ValidString(search) then
         local allStat = {}
-        if searchType ~= "" and searchType ~= nil then
+        if ValidString(searchType) then
             allStat = Ext.GetStatEntries(searchType)
         else
             allStat = Ext.GetStatEntries()
         end
+
         S7_ConfigLog("Search Results: ")
         S7_ConfigLog("=================================================")
         for i, stat in ipairs(allStat) do
             if string.match(stat, search) then
-                if searchAttribute ~= "" or searchAttribute ~= nil then
+                if ValidString(searchAttribute) then
                     S7_ConfigLog(stat .. ": " .. Ext.JsonStringify(Ext.StatGetAttribute(search, searchAttribute)))
                 else
                     S7_ConfigLog(stat)
@@ -216,9 +236,9 @@ function StatSearch(search, searchAttribute, searchType)
     end
 end
 
---  =====================
---      SNAPSHOT VARS
---  =====================
+--  =============
+--  SNAPSHOT VARS
+--  =============
 
 function SnapshotVars(selectedType, selectedVar)
     local varList = {
@@ -288,6 +308,61 @@ function SnapshotVars(selectedType, selectedVar)
                 S7_ConfigLog("\n" .. type .. " : " .. key .. " : " .. Ext.JsonStringify(value))
             end
         end
+    end
+end
+
+--  =========
+--  REFERENCE
+--  =========
+
+function Reference(statType, attributeType)
+    if ValidString(statType) then
+        if ValidString(attributeType) then
+            if attributeType ~= "SkillData" or attributeType ~= "StatusData" then
+                for key, value in ipairs(References.StatObjectDefinitions[statType]) do
+                    if value["@name"] == attributeType then
+                        S7_ConfigLog(Ext.JsonStringify(value))
+                    end
+                end
+            end
+        else
+            for key, content in pairs(References.StatObjectDefinitions) do
+                if key == statType then
+                    S7_ConfigLog(Ext.JsonStringify(content))
+                end
+            end
+        end
+    else
+        S7_ConfigLog("Please enter a type to refer.", "[Error]")
+    end
+end
+
+--  ===========
+--  DEEP SEARCH
+--  ===========
+
+function DeepSearch(statName, attributeName)
+    if ValidString(statName) then
+        if ValidString(attributeName) then
+            S7_ConfigLog(
+                statName ..
+                    ": " ..
+                        attributeName .. ": " .. Ext.JsonStringify(Ext.NRD_StatGetAttribute(statName, attributeName))
+            )
+        else
+            local statType = Osi.NRD_StatGetType(statName)
+            for key, content in pairs(References.StatObjectDefinitions) do
+                if key ~= "SkillData" and key ~= "StatusData" then
+                    for k, v in pairs(content) do
+                        S7_ConfigLog(
+                            k .. ": " .. v .. ": " .. Ext.JsonStringify(Ext.StatGetAttribute(statName, statType))
+                        )
+                    end
+                end
+            end
+        end
+    else
+        S7_ConfigLog("Please enter a valid stat-name.", "[Error]")
     end
 end
 
