@@ -346,23 +346,25 @@ end
 --  DETAILED SEARCH
 --  ===============
 
-function DeepDive(search)
-    if ValidString(search) and Osi.NRD_StatExists(search) then
-        local statType = HandleStatType(search)
-        local statData = Ext.GetStat(search)
-        S7_ConfigLog("Showing details of: " .. search .. " (" .. statType .. ")")
-        S7_ConfigLog("==========================================================")
-        for _, content in pairs(References.StatObjectDefinitions[statType]) do
-            if SafeToModify(search, content["@name"]) then
+function DeepDive(statName)
+    if ValidString(statName) and Osi.NRD_StatExists(statName) then --  Checks if statName is a valid string and if statName actually exists
+        local statType = HandleStatType(statName) -- Returns the statType(as in StatObjectDefinitions) of the given statName.
+        local statData = Ext.GetStat(statName)
+
+        S7_ConfigLog("Showing details of: " .. statName .. " (" .. statType .. ")")
+        S7_ConfigLog("===========================================================")
+        for _, content in pairs(References.StatObjectDefinitions[statType]) do --  Iterate over StatObjectDefinitions of corresponding statType.
+            if SafeToModify(statName, content["@name"]) then --  If stat-modification is allowed for the attribute content["@name"]
+                --  Return attributeName , attributeType, and the attributeValue
                 S7_ConfigLog(
                     content["@name"] ..
-                        ": " .. content["@type"] .. ": " .. tostring(Ext.JsonStringify(statData[content["@name"]]))
+                        " (" .. content["@type"] .. "): " .. tostring(Ext.JsonStringify(statData[content["@name"]]))
                 )
             end
         end
-        S7_ConfigLog("==========================================================")
+        S7_ConfigLog("===========================================================")
     else
-        S7_ConfigLog("Invalid stat.", "[Error]")
+        S7_ConfigLog("Invalid stat. Make sure that the stat in question actually exists.", "[Error]")
     end
 end
 
