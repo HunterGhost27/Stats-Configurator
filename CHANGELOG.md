@@ -9,10 +9,15 @@
 - _Created_ `HandleStatType()` to map stat-names for `SkillData` type to correct categories. `StatusData` handling pending.
 - _Added_ support for `Enumerations` in Mod-Interface.lua.
 - _Created_ `EnumTransformer()` to convert enumeration indices to labels and vice-versa. `Ext.EnumLabelToIndex()` and `Ext.EnumIndexToLabel()` from ositools refuse to work.
+- _Created_ `DeepDive` console-command. Prints a boatload of information about the selected stat.
 
 ### REMOVED
 
 - _Removed_ stat creation in `StatsConfigurator()`. Was un-necessarily complicating things.
+
+### CHANGED
+
+- _Improved_ `SafeToModify()`. Actually works now.
 
 ### COMMENT
 

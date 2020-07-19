@@ -22,6 +22,7 @@ helpMessage =
     SyncStat        <StatID>        <Persistence>       Synchronize (StatID) for all clients.                      SyncStat Projectile_PyroclasticRock
     SnapshotVars    <SelectedType>  <SelectedVar>       Prints details of variables to the console.                SnapshotVars data configCollections
     Reference       <StatType>      <AttributeType>     Lookup (StatType) and (AttributeType) in References.       Reference Weapon IsTwoHanded
+    DeepDive        <StatID>        -                   Print alls valid attributes and their values.              DeepDive Shout_ShedSkin
     Relay           <Signal>        -                   Relay signal to ModMenu. 'Relay Help' for more info.       Relay S7_BroadcastConfigData
     =================================================================================================================================================
     * Resize the console window if this doesn't fit properly.
@@ -112,6 +113,9 @@ function S7_Config_ConsoleCommander(...)
         local statType = args[3] or "" --  statType to refer
         local attributeType = args[4] or "" -- attributeType to restrict search for (Optional)
         Reference(statType, attributeType)
+    elseif command == "DeepDive" then
+        local statName = args[3] or "" --  stat to print details of
+        DeepDive(statName)
     elseif command == "Relay" then
         --  SEND SIGNAL TO MOD-MENU RELAY
         --  =============================
@@ -335,6 +339,30 @@ function Reference(statType, attributeType)
         end
     else
         S7_ConfigLog("Please enter a type to refer.", "[Error]")
+    end
+end
+
+--  ===============
+--  DETAILED SEARCH
+--  ===============
+
+function DeepDive(search)
+    if ValidString(search) and Osi.NRD_StatExists(search) then
+        local statType = HandleStatType(search)
+        local statData = Ext.GetStat(search)
+        S7_ConfigLog("Showing details of: " .. search .. " (" .. statType .. ")")
+        S7_ConfigLog("==========================================================")
+        for _, content in pairs(References.StatObjectDefinitions[statType]) do
+            if SafeToModify(search, content["@name"]) then
+                S7_ConfigLog(
+                    content["@name"] ..
+                        ": " .. content["@type"] .. ": " .. tostring(Ext.JsonStringify(statData[content["@name"]]))
+                )
+            end
+        end
+        S7_ConfigLog("==========================================================")
+    else
+        S7_ConfigLog("Invalid stat.", "[Error]")
     end
 end
 

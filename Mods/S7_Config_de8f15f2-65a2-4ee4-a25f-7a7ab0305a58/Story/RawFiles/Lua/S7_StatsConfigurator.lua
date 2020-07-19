@@ -76,7 +76,8 @@ function UnpackCollection(keyName, content) --  Determines if keyName is a colle
 end
 
 function SafeToModify(name, key) --  Checks if key is safe to modify.
-    local dontFwith = {
+    local dontFwith =
+        [[
         "AoEConditions",
         "TargetConditions",
         "ForkingConditions",
@@ -85,22 +86,20 @@ function SafeToModify(name, key) --  Checks if key is safe to modify.
         "WinBoost",
         "LoseBoost",
         "RootTemplate"
-    } --  dont mess with these keys
+    ]] --  dont mess with these keys
 
     if ConfigSettings.BypassSafetyCheck == true then --  Manual-Override setting is true.
         return true --  SafeToModify() returns true for everything.
     else -- Default Setting
-        if Ext.StatGetAttribute(name, key) ~= nil then
-            for _, avoid in pairs(dontFwith) do
-                if key == avoid then --  If key matches.
-                    S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
-                    return false --  Stop it right there.
-                else
-                    return true --  else continue.
-                end
-            end
+        if string.match(dontFwith, key) then -- if key matches
+            S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
+            return false -- Stop it right there.
         else
-            S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
+            if Ext.StatGetAttribute(name, key) ~= nil then
+                return true --  else continue.
+            else
+                S7_ConfigLog(key .. " is not a valid attribute for " .. name, "[Warning]")
+            end
         end
     end
 end
