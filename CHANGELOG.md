@@ -7,6 +7,8 @@
 ### NEW
 
 - _Created_ `HandleStatType()` to map stat-names for `SkillData` type to correct categories. `StatusData` handling pending.
+- _Added_ support for `Enumerations` in Mod-Interface.lua.
+- _Created_ `EnumTransformer()` to convert enumeration indices to labels and vice-versa. `Ext.EnumLabelToIndex()` and `Ext.EnumIndexToLabel()` from ositools refuse to work.
 
 ### REMOVED
 
@@ -14,7 +16,8 @@
 
 ### COMMENT
 
-- Newfound respect for Todd Howard and the _It Just Works_ philosophy.
+- Newfound respect for Todd Howard and the "_It Just Works_" philosophy.
+- This is probably the second time in this project I've been surprised by the fact that `ipairs` counts from 1 and not 0.
 
 ## [0.6.8.0] --- 18th July 2020 --- **Console-Commands Revisited**
 

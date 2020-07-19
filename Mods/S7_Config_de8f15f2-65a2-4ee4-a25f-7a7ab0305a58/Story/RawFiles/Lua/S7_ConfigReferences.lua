@@ -4860,11 +4860,10 @@ function HandleStatType(statName)
 		local statType = Osi.NRD_StatGetType(statName) or ""
 
 		if statType == "SkillData" then
-			
 			--	SKILLDATA
 			--	=========
 
-			for splitString in string.gmatch(statName, "[^_]+") do	--	Underscore splits string.
+			for splitString in string.gmatch(statName, "[^_]+") do --	Underscore splits string.
 				for _, subStatType in pairs(SkillandStatusData["SkillData"]) do -- Iterate over SkillData sub-categories.
 					if splitString == subStatType then -- if string is a sub-category of SkillData.
 						return splitString
@@ -4872,18 +4871,39 @@ function HandleStatType(statName)
 				end
 			end
 		elseif statType == "StatusData" then
-
 			--	STATUSDATA
 			--	==========
 
 			S7_ConfigLog("HandleStatType: TODO StatusData.")
 			return statType
 		else
-
 			--	EVERYTHING ESLE
 			--	===============
 
 			return statType
+		end
+	end
+end
+
+--	================
+--	ENUM TRANSFORMER
+--	================
+
+--	Since Ext.EnumIndexToLabel() and Ext.EnumLabelToIndex() don't seem to work.
+
+function EnumTransformer(mode, enumerationTypeName, argument)
+	if mode == "Index2Label" then
+		for index, label in pairs(References.Enumerations[enumerationTypeName]) do
+			if index == argument then
+				return label
+			end
+		end
+	end
+	if mode == "Label2Index" then
+		for index, label in pairs(References.Enumerations[enumerationTypeName]) do
+			if label == argument then
+				return index
+			end
 		end
 	end
 end

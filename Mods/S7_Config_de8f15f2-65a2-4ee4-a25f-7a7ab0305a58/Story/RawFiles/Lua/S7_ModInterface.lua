@@ -2,6 +2,7 @@
 --  ####                                                                MOD INTERFACE                                                              ####
 --  ===================================================================================================================================================
 --  dialog file = "S7_Config_QuickMenu.lsj"
+Ext.Require("S7_ConfigReferences.lua")
 logSource = "Lua:ModInterface"
 --  ###################################################################################################################################################
 
@@ -21,6 +22,8 @@ function RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) cond
         ["maxPage"] = 1, --  The total number of pages for the current level. (If the level has more than 5 entries.)
         ["selectedStat"] = "", --  stat selected for modification.
         ["selectedAttribute"] = "", --  attribute selected for modification.
+        ["selectedAttributeType"] = "", --  attributeType selected for modification.
+        ["selectedAttributeEnumType"] = "", --  Corresponding enumeration type.
         ["selectedAction"] = "", --  selected action.
         ["selectedVal"] = nil, --  selected Value for modification.
         ["defaultVal"] = nil, -- current Value for the selected attribute.
@@ -56,7 +59,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
             --  LOAD PRE-EXISTING CONFIGURATION
             --  -------------------------------
 
-            for modName, content in pairs(Ext.JsonParse(Ext.LoadFile("S7_ConfigData.json") or {})) do
+            for modName, content in pairs(Ext.JsonParse(Ext.LoadFile("S7_ConfigData.json") or "")) do
                 if modName == quickMenuVars.modName then --  if configuration already exists.
                     quickMenuVars.configData = Ext.JsonParse(content) --  Pre-load configData with existing configuration.
                 end
@@ -180,20 +183,31 @@ function BuildStagedList() --  Builds the list of options for the current sessio
             end
         elseif quickMenuVars.level == 2 then
             if tempList[entry[3]] == nil then --   if entry does not already exist.
-                if type(Ext.StatGetAttribute(quickMenuVars.selectedStat, entry[3])) == "number" then
+                if Ext.StatGetAttribute(quickMenuVars.selectedStat, entry[3]) ~= nil then
                     tempList[entry[3]] = pos --  create entry at position pos.
                     pos = pos + 1 --  increase position index by 1.
                 end
             end
         elseif quickMenuVars.level == 3 then
-            tempList = {
-                --  if level 3, use the following manual stage entries.
-                ["Increase"] = 1,
-                ["Decrease"] = 2,
-                ["Set"] = 3,
-                ["Confirm"] = 4,
-                ["Clear"] = 5
-            }
+            if quickMenuVars.selectedAttributeType == "Integer" then
+                tempList = {
+                    --  if level 3, use the following manual stage entries.
+                    ["Increase"] = 1,
+                    ["Decrease"] = 2,
+                    ["Set"] = 3,
+                    ["Confirm"] = 4,
+                    ["Clear"] = 5
+                }
+            elseif quickMenuVars.selectedAttributeType == "Enumeration" then
+                tempList = {
+                    --  if level 3, use the following manual stage entries.
+                    ["Next"] = 1,
+                    ["Previous"] = 2,
+                    ["Set"] = 3,
+                    ["Confirm"] = 4,
+                    ["Clear"] = 5
+                }
+            end
         end
     end
     --  Interchange entry and pos
@@ -230,17 +244,34 @@ function DynamicAction(option, switch)
         end
     elseif quickMenuVars.level == 2 then
         quickMenuVars.selectedAttribute = quickMenuVars.stageList[pos]
+        GetAttributeEnumType()
         quickMenuVars.defaultVal = Ext.StatGetAttribute(quickMenuVars.selectedStat, quickMenuVars.selectedAttribute) --  get the current value for the attribute
         quickMenuVars.configData[quickMenuVars.selectedStat][quickMenuVars.selectedAttribute] = quickMenuVars.defaultVal -- initialize table with defaultValue
+        quickMenuVars.selectedVal = quickMenuVars.selectedVal or quickMenuVars.defaultVal
     elseif quickMenuVars.level == 3 then
+        GetAttributeEnumType()
         quickMenuVars.selectedAction = quickMenuVars.stageList[pos]
         quickMenuVars.selectedVal = quickMenuVars.selectedVal or quickMenuVars.defaultVal
     end
 
-    if quickMenuVars.selectedAction == "Increase" then
-        quickMenuVars.selectedVal = quickMenuVars.selectedVal + 1
-    elseif quickMenuVars.selectedAction == "Decrease" then
-        quickMenuVars.selectedVal = quickMenuVars.selectedVal - 1
+    if quickMenuVars.selectedAction == "Increase" or quickMenuVars.selectedAction == "Next" then
+        if quickMenuVars.selectedAttributeType == "Integer" then
+            quickMenuVars.selectedVal = quickMenuVars.selectedVal + 1
+        else
+            local enumIndex =
+                EnumTransformer("Label2Index", quickMenuVars.selectedAttributeEnumType, quickMenuVars.selectedVal)
+            quickMenuVars.selectedVal =
+                EnumTransformer("Index2Label", quickMenuVars.selectedAttributeEnumType, enumIndex + 1)
+        end
+    elseif quickMenuVars.selectedAction == "Decrease" or quickMenuVars.selectedAction == "Previous" then
+        if quickMenuVars.selectedAttributeType == "Integer" then
+            quickMenuVars.selectedVal = quickMenuVars.selectedVal - 1
+        else
+            local enumIndex =
+                EnumTransformer("Label2Index", quickMenuVars.selectedAttributeEnumType, quickMenuVars.selectedVal)
+            quickMenuVars.selectedVal =
+                EnumTransformer("Index2Label", quickMenuVars.selectedAttributeEnumType, enumIndex - 1)
+        end
     elseif quickMenuVars.selectedAction == "Set" then
         quickMenuVars.configData[quickMenuVars.selectedStat][quickMenuVars.selectedAttribute] =
             quickMenuVars.selectedVal
@@ -253,6 +284,19 @@ function DynamicAction(option, switch)
         BuildConfigData(Ext.JsonStringify(quickMenuVars.configData), quickMenuVars.modUUID, quickMenuVars.modName)
     elseif quickMenuVars.selectedAction == "Clear" then
         quickMenuVars.selectedVal = quickMenuVars.defaultVal
+    end
+end
+
+function GetAttributeEnumType()
+    local Ref = Rematerialize(References.StatObjectDefinitions[HandleStatType(quickMenuVars.selectedStat)])
+    for _, content in pairs(Ref) do
+        if content["@name"] == quickMenuVars.selectedAttribute then
+            quickMenuVars.selectedAttributeType = content["@type"]
+            if content["@type"] == "Enumeration" then
+                quickMenuVars.selectedAttributeEnumType = content["@enumeration_type_name"]
+            end
+            break
+        end
     end
 end
 
@@ -327,10 +371,10 @@ function UpdateDynamicMenu()
                     " | Current Page: " ..
                         "(" .. tostring(quickMenuVars.page) .. "/" .. tostring(quickMenuVars.maxPage) .. ")\n"
 
-    if quickMenuVars.level > 1 and quickMenuVars.selectedStat ~= nil and quickMenuVars.selectedStat ~= "" then
+    if quickMenuVars.level > 1 and ValidString(quickMenuVars.selectedStat) then
         displayMessage = displayMessage .. "Selected Stat: " .. tostring(quickMenuVars.selectedStat) .. "\n"
     end
-    if quickMenuVars.level > 2 and quickMenuVars.selectedAttribute ~= nil and quickMenuVars.selectedAttribute ~= "" then
+    if quickMenuVars.level > 2 and ValidString(quickMenuVars.selectedAttribute) then
         displayMessage = displayMessage .. "Selected Attribute: " .. tostring(quickMenuVars.selectedAttribute) .. "\n"
     end
     if quickMenuVars.level == 3 then
