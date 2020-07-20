@@ -6,26 +6,27 @@
 
 ### NEW
 
-- _Created_ `HandleStatType()` to map stat-names for `SkillData` type to correct categories. `StatusData` handling pending.
+- _Created_ `HandleStatType()` to map `SkillData` stat-names to correct sub-categories (like `Projectile`, `Shout` etc). `StatusData` still not implemented.
 - _Added_ support for `Enumerations` in Mod-Interface.lua.
 - _Created_ `EnumTransformer()` to convert enumeration indices to labels and vice-versa. `Ext.EnumLabelToIndex()` and `Ext.EnumIndexToLabel()` from ositools refuse to work.
-- _Created_ `DeepDive` console-command. Prints a boatload of information about the selected stat.
+- _Created_ `DeepDive` console-command. Prints a boatload of information about the sepecified stat.
 - _Created_ `english.xml` for Localization.
+- _Created_ user welcome validation. Verifies user's ConfigData should they join after synchronization.
 
 ### REMOVED
 
-- _Removed_ stat creation in `StatsConfigurator()`. Was un-necessarily complicating things.
+- _Removed_ stat creation from `StatsConfigurator()`. Was un-necessarily complicating things.
 
 ### CHANGED
 
-- _Improved_ `SafeToModify()`. Actually works now.
+- _Improved_ `SafeToModify()`. Not a gimmick anymore.
 
 ### COMMENT
 
 - Newfound respect for Todd Howard and the "_It Just Works_" philosophy.
 - This is probably the second time in this project I've been surprised by the fact that `ipairs` counts from 1 and not 0.
 
-## [0.6.8.0] --- 18th July 2020 --- **Console-Commands Revisited**
+## [0.6.8.0] --- 18th July 2020 --- **Renamed**
 
 ### CHANGED
 
@@ -33,20 +34,20 @@
 - _Renamed_ `StatSearch` to `SearchStat`. More intuitive.
 - _Renamed_ `StatSync` to `SyncStat`. More intuitive.
 
-## [0.6.7.0] --- 16th July 2020 --- **_Slow March_**
+## [0.6.7.0] --- 16th July 2020 --- **_Console-Commands Revisited_**
 
 ### ADDED
 
-- _Created_ a console-command to print out every (relevant) variable at once.
-- _Added_ a check in console-commands `AddSkill` and `RemoveSkill` to verify the user is trying to add/remove skills and not characters.
-- _Created_ a lot of preset **collections**.
+- _Created_ a console-command (`Snapshotvars`) to print out every important variable in this mod.
+- _Added_ a check in console-commands `AddSkill` and `RemoveSkill` to verify the user is actually trying to add/remove skills and not characters.
+- _Created_ a lot of preset **collections**. Documentation pending.
 
 ### CHANGED
 
 - _Removed_ inspect stat function from Lua. Now implemented completely in Osiris.
 - _Renamed_ `ValidJSONFile()` to `ValidString()`
 
-## [0.6.6.0] --- 13th July 2020 --- **_References.md_**
+## [0.6.6.0] --- 13th July 2020 --- **_References_**
 
 ### NEW
 
@@ -71,7 +72,7 @@
 
 ### CHANGED
 
-- _Renamed_ `CHANGELOG` to `Changelog`.
+- _Renamed_ `CHANGELOG` item to `Changelog`.
 
 ### REMOVED
 

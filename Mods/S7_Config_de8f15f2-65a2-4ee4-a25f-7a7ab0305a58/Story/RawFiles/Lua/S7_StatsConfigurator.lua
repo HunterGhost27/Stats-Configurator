@@ -92,7 +92,11 @@ function SafeToModify(name, key) --  Checks if key is safe to modify.
         return true --  SafeToModify() returns true for everything.
     else -- Default Setting
         if string.match(dontFwith, key) then -- if key matches
-            S7_ConfigLog(key .. " Modification Prevented by SafetyCheck.", "[Warning]")
+            S7_ConfigLog(
+                "SafeToModify() prevents modification of " ..
+                    key .. " [BypassSafetyCheck: " .. tostring(ConfigSettings.BypassSafetyCheck) .. "]",
+                "[Warning]"
+            )
             return false -- Stop it right there.
         else
             if Ext.StatGetAttribute(name, key) ~= nil then

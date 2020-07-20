@@ -58,28 +58,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  =====================
 
     if Signal == "S7_ValidateClientConfig" then
-        local compare = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Loads server's config
-        if ValidString(compare) then -- if file exists and is not empty
-            FetchPlayers() --  Rebuild user-information. UserID is volatile.
-            for userProfileID, _ in pairs(userInfo.clientCharacters) do
-                local clientID =
-                    userInfo.clientCharacters[userProfileID]["currentCharacterName"] ..
-                    " (" .. userInfo.clientCharacters[userProfileID]["userName"] .. ")"
-                local payload = {[clientID] = compare}
-
-                Ext.PostMessageToClient(
-                    userInfo.clientCharacters[userProfileID]["currentCharacter"],
-                    "S7_ValidateClientConfig",
-                    Ext.JsonStringify(payload)
-                ) -- broadcast server's config file to all clients.
-            end
-            S7_ConfigLog("Validating Client Config...")
-        else
-            S7_ConfigLog(
-                "Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName,
-                "[Error]"
-            )
-        end
+        ValidateClientConfigs()
     end
 
     --  TOGGLE STATSLOADER
@@ -214,6 +193,47 @@ end
 --  ============================================================================
 Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  ============================================================================
+
+--  ##########################################################################################################################################
+
+--  =======================
+--  VALIDATE CLIENT CONFIGS
+--  =======================
+
+function ValidateClientConfigs(...)
+    local args = {...}
+
+    S7_ConfigLog("Validating Client Config...")
+    local compare = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Loads server's config
+    if ValidString(compare) then -- if file exists and is not empty
+        FetchPlayers() --  Rebuild user-information. UserID is volatile.
+        for userProfileID, _ in pairs(userInfo.clientCharacters) do
+            local clientID =
+                userInfo.clientCharacters[userProfileID]["currentCharacterName"] ..
+                " (" .. userInfo.clientCharacters[userProfileID]["userName"] .. ")"
+            local payload = {[clientID] = compare}
+
+            Ext.PostMessageToClient(
+                userInfo.clientCharacters[userProfileID]["currentCharacter"],
+                "S7_ValidateClientConfig",
+                Ext.JsonStringify(payload)
+            ) -- broadcast server's config file to all clients.
+        end
+    else
+        S7_ConfigLog(
+            "Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName,
+            "[Error]"
+        )
+    end
+end
+
+--============================================================================
+Ext.RegisterOsirisListener("UserConnected", 3, "after", ValidateClientConfigs)
+--============================================================================
+
+--  ========================
+--  VALIDATE CLIENT RESPONSE
+--  ========================
 
 function ValidateClientResponse(channel, payload) --  Recieves client response.
     local validateClients = {}

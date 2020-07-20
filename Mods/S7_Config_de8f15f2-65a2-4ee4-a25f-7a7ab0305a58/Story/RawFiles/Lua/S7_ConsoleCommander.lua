@@ -358,7 +358,7 @@ function DeepDive(statName)
                 --  Return attributeName , attributeType, and the attributeValue
                 S7_ConfigLog(
                     content["@name"] ..
-                        " (" .. content["@type"] .. "): " .. tostring(Ext.JsonStringify(statData[content["@name"]]))
+                        " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]])
                 )
             end
         end
