@@ -2,10 +2,15 @@
 
 ---
 
+This document is a work-in-progress!
+
 - [Extensive-Documentation](#extensive-documentation)
   - [Osiris Data](#osiris-data)
+    - [Config File and ConfigData File](#config-file-and-configdata-file)
+  - [Host and Client Contexts](#host-and-client-contexts)
   - [Stats-Configurator](#stats-configurator)
     - [Stats-Configurator Items](#stats-configurator-items)
+    - [Stats-Configurator Mod-Menu](#stats-configurator-mod-menu)
     - [Applying Configurations](#applying-configurations)
     - [StatsLoader](#statsloader)
       - [StatLoader Settings](#statloader-settings)
@@ -16,7 +21,7 @@
     - [Default Settings](#default-settings)
     - [Setting Details](#setting-details)
     - [Custom Settings](#custom-settings)
-  - [Mod-Integration](#mod-integration)
+  - [Mod-Interfacing](#mod-interfacing)
     - [Quick-Menu](#quick-menu)
     - [Advanced Control](#advanced-control)
     - [Other Possibilities](#other-possibilities)
@@ -35,25 +40,39 @@ The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ an
 
 **NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
 
+### Config File and ConfigData File
+
+**Config-File** and **ConfigData File** refer to two separate files. **Config-File** (default: `S7_Config.json`) is what users write their configurations in. This file is used to apply configurations from the mod-menu. The **ConfigData File** (default: `S7_ConfigData.json`) on the other hand is compiled from all available configuration data, _user-created_ or _mod-created_. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more machine-accessible format and read automatically during `ModuleLoading` event if [**StatsLoader**](#statsloader) is `enabled`.
+
+This document will always refer to the **ConfigFile** unless explicitly stated otherwise. loading configuration, configs or configuration-profile all refer to the **ConfigFile**. Basically, if the documentation asks for manual-intervention, it means the **ConfigFile**. Anything else is probably automatically handled by the mod in **ConfigData**.
+
+## Host and Client Contexts
+
+Each game session has two contexts - the `host` or `server` and the `client`. There are significant differences between the two and they are completely isolated from one-another. Due to these differences not all functionality is available to both contexts. You can read more about this [here](https://github.com/Norbyte/ositools/blob/master/LuaAPIDocs.md#client--server-states).
+
+The document will refer to the player that creates the `server` context as the `host` and their controlled-character as `host-character`, and all other peers are refered to as `clients`.
+
 ## Stats-Configurator
 
 ### Stats-Configurator Items
 
 ![stats-configurator-item](https://imgur.com/BagN95a.png)
 
-The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. If you lose the item somehow, you can reacquire it using the `!S7_Config AddConfigurator` [console-command](#console-commands).
+The _"Stats-Configurator"_ item is granted to the player ([host-character](#host-and-client-contexts)) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. If you lose the item somehow, you can reacquire it using the `!S7_Config AddConfigurator` [console-command](#console-commands).
+
+### Stats-Configurator Mod-Menu
 
 ![ModMenu](https://imgur.com/sADorrm.png)
 
-The mod-menu allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
+The **mod-menu** allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
 
-Since most of these functions require the `server` context, only the **host-character** is allowed to interact with the item. Any attempts, by the clients, to use the item will redirect the dialog to the host-character.
+Since most of these functions require the `server` context, only the [**host-character**](#host-and-client-contexts) is allowed to interact with the item. Any attempts, by the clients to use the item will redirect the dialog to the host-character.
 
-Along with the titular item, the player is also provided with an in-game **changelog** whenever the mod updates. This is only meant to notify the player about significant changes and will not record every minor detail. It is **not** a substitute for the proper [changelogs](../CHANGELOG.md). Players can safely discard this item if they wish, as it serves no other purpose. They can get another copy from the mod-menu should they need it again.
+Along with the titular item, the player is also provided with an in-game **changelog** whenever the mod updates. This is only meant to notify the player about significant changes and will not record every minor detail. It is **not** a substitute for the proper [changelogs](../CHANGELOG.md). Players can safely discard this item if they wish, as it serves no other purpose. They can get another copy from the mod-menu should they need to read it again.
 
 ### Applying Configurations
 
-Users create their configs in a `json` file. This file's configs can be loaded-in at any time by the host-character using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their **ConfigData** file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a save-and-reload cycle, but for the most part, you can load these configurations dynamically without ever exiting the game. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (recommended) or loading the configuration when `SyncStatPersistence` is enabled.
+Users create their configs in a `json` file. This file's configs can be loaded-in at any time by the [host-character](#host-and-client-contexts) using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their [**ConfigData**](#config-file-and-configdata-file) file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a _save-and-reload_, but for the most part, you can load these configurations dynamically without ever exiting the game. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (**recommended**) or loading the configuration when `SyncStatPersistence` is `enabled`.
 
 Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using [console-commands](#Console-Commands). Edited stats remain in memory until the game is closed, allowing you to synchronize all of them at will, should a client join after loading a configuration.
 
@@ -61,7 +80,7 @@ Applying configurations this way is great for **prototyping** or making **tempor
 
 ### StatsLoader
 
-The **StatsLoader** is responsible for loading **ConfigData** during `ModuleLoading`. Stat-modifications applied through the StatsLoader do not require additional synchronization as they are loaded just after the `StatsLoaded` event (but before `GameStart`) and on the client context. The only caveat here is that all clients **need** to have a local copy of the same ConfigData; otherwise, they will not have the same stats. The host-player can share their ConfigData file manually or _broadcast_ it in-game from the mod-menu. **Broadcasting** the configuration profile will send the host's ConfigData file to all _connected clients_ and save (/overwrite) it on their local system; however, all peer must then restart their game for the changes to apply. If the host wishes to check if their peers have the same ConfigData as them or not, they can **Verify Client Configs** to print out a response from the client's game to their debug-console. This way, the host can check if any peer is _out-of-sync_ (or is deliberately cheating :P).
+The **StatsLoader** is responsible for loading **ConfigData** during the `ModuleLoading` event. Stat-modifications applied through the StatsLoader do not require additional synchronization as they are loaded just after the `StatsLoaded` event (but before `GameStart`) and on the client context. The only caveat here is that all clients **need** to have a local copy of the same ConfigData; otherwise, they will not have the same stats. The host-player can share their ConfigData file manually or _broadcast_ it in-game from the mod-menu. **Broadcasting** the configuration profile will send the host's ConfigData file to all _connected clients_ and save (/overwrite) it on their local system; however, all peer must then restart their game for the changes to apply. If the host wishes to check if their peers have the same ConfigData as them or not, they can **Verify Client Configs** to print out a response from the client's game to their debug-console. This way, the host can check if any peer is _out-of-sync_ (or is deliberately cheating :P).
 
  Preferably, all custom stat-modifications should be applied through the **StatsLoader**, while active-loading should only be used for prototyping and testing. All configurations made by mods are already stored in ConfigData. Users should also export their configs to if they wish them to apply automatically when the game loads. With the [default settings](#Default-Settings), stat-overrides will not be stored persistently in the save-file, i.e. you'll lose those changes and will have to re-load the configuration file every game-session. You can enable stat-synchronization persistence using the [settings](#Setting-Details) and console-commands, however, the recommended approach is to save your configs to the ConfigData file. This can easily be done using the **Rebuild ConfigData** option in the Mod-Menu.
 
@@ -112,62 +131,62 @@ Trying to edit stats en-masse with the same values is both a redundant and time-
 This config will give **all** shields 15% chance to block an attack along with 25% resistance to both Physical and Piercing Damage.
 
 The mod comes with the following preset collections:
-| CollectionName      | Comments                                                          | Example Stats                                                |
-| ------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------ |
-| Characters          |                                                                   |                                                              |
-| Character           | A collection of stats of the `Character` type. Includes everyone. | Lohse, Malady                                                |
-| PlayerCharacters    | A collection of all playable characters (origin and customs).     | Fane, Beast                                                  |
-| NonPlayerCharacters | A collection of all non-playable characters.                      | Dallis, Gareth, Trader Bree                                  |
-| Armor               |                                                                   |                                                              |
-| Armor               | A collection of stats of the `Armor` type.                        | Generic and Unique Armors, Boots, Gloves                     |
-| ArmorTypeCloth      | A collection of stats of the `ArmorCloth` type.                   |                                                              |
-| ArmorTypeRobes      | A collection of stats of the `ArmorRobes` type.                   |                                                              |
-| ArmorTypeLeather    | A collection of stats of the `ArmorLeather` type.                 |                                                              |
-| ArmorTypeMail       | A collection of stats of the `ArmorMail` type.                    |                                                              |
-| ArmorTypePlate      | A collection of stats of the `ArmorPlate` type.                   |                                                              |
-| ArmorSlotHelmet     | A collection of stats that occupy the `Helmet` slot.              |                                                              |
-| ArmorSlotBreast     | A collection of stats that occupy the `Breast` slot.              |                                                              |
-| ArmorSlotLeggings   | A collection of stats that occupy the `Leggings` slot.            |                                                              |
-| ArmorSlotWeapon     | A collection of stats that occupy the `Weapon` slot.              |                                                              |
-| ArmorSlotShield     | A collection of stats that occupy the `Shield` slot.              |                                                              |
-| ArmorSlotRing       | A collection of stats that occupy the `Ring` slot.                |                                                              |
-| ArmorSlotBelt       | A collection of stats that occupy the `Belt` slot.                |                                                              |
-| ArmorSlotBoots      | A collection of stats that occupy the `Boots` slot.               |                                                              |
-| ArmorSlotGloves     | A collection of stats that occupy the `Gloves` slot.              |                                                              |
-| ArmorSlotAmulet     | A collection of stats that occupy the `Amulet` slot.              |                                                              |
-| ArmorSlotRing2      | A collection of stats that occupy the `Ring2` slot.               |                                                              |
-| ArmorSlotWings      | A collection of stats that occupy the `Wings` slot.               |                                                              |
-| ArmorSlotHorns      | A collection of stats that occupy the `Horns` slot.               |                                                              |
-| ArmorSlotOverhead   | A collection of stats that occupy the `Overhead` slot.            |                                                              |
-| Crime               |                                                                   |                                                              |
-| Crime               | A collection of stats of the `Crime` type.                        | _Don't know anything about Crime Stats_, sorry               |
-| Object              |                                                                   |                                                              |
-| Object              | A collection of stats of the `Object` type.                       | Miscellaneous Items like crafting-ingredients                |
-| Potion              |                                                                   |                                                              |
-| Potion              | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
-| IsConsumable        | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
-| IsFood              | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
-| IsPotion            | A collection of stats of the `Potion` type.                       | Potion, Food and Status Effects. Not the items, the effects. |
-| Shield              |                                                                   |                                                              |
-| Shield              | A collection of stats of the `Shield` type.                       | Generic and Unique shields.                                  |
-| SkillData           |                                                                   |                                                              |
-| SkillData           | A collection of stats of the `SkillData` type                     | Pretty much all skills.                                      |
-| StatusData          |                                                                   |                                                              |
-| StatusData          | A collection of stats of the `StatusData` type.                   | Status effects like BURNING, HEALING, BLINDED                |
-| Weapon              |                                                                   |                                                              |
-| Weapon              | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeSword     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeClub      | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeAxe       | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeStaff     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeBow       | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeCrossbow  | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeSpear     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeKnife     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeWand      | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeArrow     | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| IsTwoHanded         | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
-| IsNotTwoHanded      | A collection of stats of the `Weapon` type.                       | Generic and Unique Swords, Bows, Wands                       |
+| CollectionName      | Comments                                                                                                 |
+| ------------------- | -------------------------------------------------------------------------------------------------------- |
+| Characters          |                                                                                                          |
+| Character           | A collection of stats of the `Character` type. Includes everyone. e.g. Lohse, Malady, Trompdoy etc.      |
+| PlayerCharacters    | A collection of all playable characters (origin and customs). e.g. Fane, Beast etc.                      |
+| NonPlayerCharacters | A collection of all non-playable characters. e.g. Dallis, Gareth, Trader Bree etc.                       |
+| Armor               |                                                                                                          |
+| Armor               | A collection of stats of the `Armor` type. Generic and Unique Armors, Boots, Gloves etc.                 |
+| ArmorTypeCloth      | A collection of stats of the `ArmorCloth` type. e.g. Noble clothing, crafted clothes etc.                |
+| ArmorTypeRobes      | A collection of stats of the `ArmorRobes` type. Int-based Armors etc.                                    |
+| ArmorTypeLeather    | A collection of stats of the `ArmorLeather` type. Fin-based Armors etc.                                  |
+| ArmorTypeMail       | A collection of stats of the `ArmorMail` type. Str-based Armors etc.                                     |
+| ArmorTypePlate      | A collection of stats of the `ArmorPlate` type. Str-based Armors etc.                                    |
+| ArmorSlotHelmet     | A collection of stats that occupy the `Helmet` slot.                                                     |
+| ArmorSlotBreast     | A collection of stats that occupy the `Breast` slot.                                                     |
+| ArmorSlotLeggings   | A collection of stats that occupy the `Leggings` slot.                                                   |
+| ArmorSlotWeapon     | A collection of stats that occupy the `Weapon` slot.                                                     |
+| ArmorSlotShield     | A collection of stats that occupy the `Shield` slot.                                                     |
+| ArmorSlotRing       | A collection of stats that occupy the `Ring` slot.                                                       |
+| ArmorSlotBelt       | A collection of stats that occupy the `Belt` slot.                                                       |
+| ArmorSlotBoots      | A collection of stats that occupy the `Boots` slot.                                                      |
+| ArmorSlotGloves     | A collection of stats that occupy the `Gloves` slot.                                                     |
+| ArmorSlotAmulet     | A collection of stats that occupy the `Amulet` slot.                                                     |
+| ArmorSlotRing2      | A collection of stats that occupy the `Ring2` slot.                                                      |
+| ArmorSlotWings      | A collection of stats that occupy the `Wings` slot.                                                      |
+| ArmorSlotHorns      | A collection of stats that occupy the `Horns` slot.                                                      |
+| ArmorSlotOverhead   | A collection of stats that occupy the `Overhead` slot.                                                   |
+| Crime               |                                                                                                          |
+| Crime               | A collection of stats of the `Crime` type. _Don't know anything about Crime Stats_, sorry!               |
+| Object              |                                                                                                          |
+| Object              | A collection of stats of the `Object` type. Miscellaneous Items like crafting-ingredients.               |
+| Potion              |                                                                                                          |
+| Potion              | A collection of stats of the `Potion` type. Potion, Food and Status Effects. Not the items, the effects. |
+| IsConsumable        | A collection of stats of the `Potion` type that are consumed on use.                                     |
+| IsFood              | A collection of stats of the consumable `Potion` type that are classified as Foods.                      |
+| IsPotion            | A collection of stats of the consumable `Potion` type that are classified as Potions.                    |
+| Shield              |                                                                                                          |
+| Shield              | A collection of stats of the `Shield` type. Generic and Unique shields.                                  |
+| SkillData           |                                                                                                          |
+| SkillData           | A collection of stats of the `SkillData` type. Pretty much all skills.                                   |
+| StatusData          |                                                                                                          |
+| StatusData          | A collection of stats of the `StatusData` type. Status effects like BURNING, HEALING, BLINDED etc.       |
+| Weapon              |                                                                                                          |
+| Weapon              | A collection of stats of the `Weapon` type. Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeSword     | A collection of stats of the `Weapon` type that classify as Swords.                                      |
+| WeaponTypeClub      | A collection of stats of the `Weapon` type that classify as Clubs.                                       |
+| WeaponTypeAxe       | A collection of stats of the `Weapon` type that classify as Axes.                                        |
+| WeaponTypeStaff     | A collection of stats of the `Weapon` type that classify as Staves.                                      |
+| WeaponTypeBow       | A collection of stats of the `Weapon` type that classify as Bows.                                        |
+| WeaponTypeCrossbow  | A collection of stats of the `Weapon` type that classify as Crossbows.                                   |
+| WeaponTypeSpear     | A collection of stats of the `Weapon` type that classify as Spears.                                      |
+| WeaponTypeKnife     | A collection of stats of the `Weapon` type that classify as Knives.                                      |
+| WeaponTypeWand      | A collection of stats of the `Weapon` type that classify as Wands.                                       |
+| WeaponTypeArrow     | A collection of stats of the `Weapon` type that classify as Arrows.                                      |
+| IsTwoHanded         | A collection of stats of the `Weapon` type that are two-handed.                                          |
+| IsNotTwoHanded      | A collection of stats of the `Weapon` type that are not two-handed.                                      |
 
 To use this feature, you just need the key to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
 
@@ -182,7 +201,6 @@ Users can create and define their own collections using the settings.json.
     "ConfigFile": "S7_Config.json",
     "StatsLoader": {"Enable": true, "FileName": "S7_ConfigData.json"},
     "ConfigLog": {"Enable": false, "FileName": "S7_ConfigLog.tsv"},
-    "CreateStats": false,
     "SyncStatPersistence": false,
     "BypassSafetyCheck": false,
     "ExportStatIDtoTSV": {"FileName": "S7_AllTheStats.tsv", "RestrictStatTypeTo": ""},
@@ -203,7 +221,6 @@ Here's a quick summary of all the settings:
 | `StatsLoader.FileName`                 | `S7_ConfigData.json` | Name of the mod-created **ConfigData** file. This is the compiled configuration profile.                                                                                 |
 | `ConfigLog.Enable`                     | `false`              | Enables logging to an external tsv file in `Osiris Data`. Useful for diagnostics and record-keeping. [Use with care](Documentation/Extensive-Documentation.md#ConfigLog) |
 | `ConfigLog.FileName`                   | `S7_ConfigLog.tsv`   | Name of said tsv file.                                                                                                                                                   |
-| `CreateStats`                          | `false`              | Enables stat-creation if `true`. Stat-creation only happens in the `server` context.                                                                                     |
 | `SyncStatPersistence`                  | `false`              | Stat-edits will be saved **persistently** in the savefile if `true`.                                                                                                     |
 | `BypassSafetyCheck`                    | `false`              | The mod prevents the modification of certain stats and keys. `BypassSafetyCheck` will allow unrestricted modification of these keys if `true`.                           |
 | `ExportStatIDtoTSV.FileName`           | `S7_AllTheStats.tsv` | Name of the tsv file to which `StatID`s are exported.                                                                                                                    |
@@ -214,7 +231,7 @@ Here's a quick summary of all the settings:
 
 Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If that file doesn't exist, you can create one manually or **Export Current Settings** from the **mod-menu**. Custom settings are applied automatically when `ModuleLoadStarted` event triggers, but can be reapplied whenever the host-user wants, using the modmenu. Collections are automatically rebuilt everytime settings are refreshed. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands). For settings that aren't just toggles, you'll need manual-editing in the `S7_ConfigSettings.json` file.
 
-## Mod-Integration
+## Mod-Interfacing
 
 The mod reads serialized jsons for configuration. But the source of these configurations need not always be the user; Other mods can interface with the stats-configurator aswell. They need only pass the serialized json and rebuild the ConfigData file. Mod-created configs are kept separate from user-created configs (and one another) so as to not overwrite them. These configs are loaded during the `ModuleLoading` event in accordance with the Mod Load-Order. This functionality exists because I wanted some sort of framework to create Mod-Config-Menus for my other mods and did not want to write the same code 14 billion times. So while the Mod-Interface is something I created primarily for myself, technically any mod can use to delegate the stat-overriding tasks.
 
