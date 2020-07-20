@@ -233,21 +233,78 @@ Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If t
 
 The mod reads serialized jsons for configuration. But the source of these configurations need not always be the user; Other mods can interface with the stats-configurator aswell. They need only pass the serialized json and rebuild the ConfigData file. Mod-created configs are kept separate from user-created configs (and one another) so as to not overwrite them. These configs are loaded during the `ModuleLoading` event in accordance with the Mod Load-Order. This functionality exists because I wanted some sort of framework to create Mod-Config-Menus for my other mods and did not want to write the same code 14 billion times. So while the Mod-Interface is something I created primarily for myself, technically any mod can use to delegate the stat-overriding tasks.
 
-The idea is this:
-
-- A mod creates logic for a bunch of stat-overrides.
-- The mod creates a serialized json representing said overrides.
-- Passes the json to the stats-configurator and rebuilds the user's ConfigData.
-- Profit???
-
-You can check whether the player has the mod installed or not using the extender or by checking for the flag `S7_ConfigActive`. You need to register your mod to the stats configurator by providing the modName and modUUID. This info is required to display information to the user and also check your mod against the load-order. You can register you mod by adding a DB entry in Osiris like `DB_S7_Config_ModRegistry("My_ModName", "1mod2uuid3-65a2-X2gx-a25f-7a7ab0305a58", "My_ModSignal");`.
-This will register `My_ModName` with modUUID `1mod2uuid3-65a2-X2gx-a25f-7a7ab0305a58` to the stats-configurator. The third parameter is flagName that the stats-configurator will listen to to start the dynamic-quick-menu.
-
-Once registered, you need to specify the stats and attributes you want the quick-menu to list as options. You do this by registering them to `DB_S7_Config_ModInterface((STRING)_ModName, (STRING)_StatName, (STRING)_AttributeName);`
-
 ### Quick-Menu
 
 The mod comes with a dynamic-MCM that allows modders to setup a dependency-free integration. Modders just need to provide the modName, modUUID, globalFlagName along with the set of stats and attributes they want to be able to configure using the MCM through Osiris Databases. The stats-configurator will create a dynamic MCM for you! The mod will listen for the globalFlagName you provided and start the MCM as soon as it is set.
+
+You can check whether the player has the mod installed using the extender (`Ext.IsModLoaded("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")` or `NRD_IsModLoaded("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")`) or by checking for the flag `S7_ConfigActive`. You need to register your mod to the stats configurator by providing the `modName` and `modUUID`. This info is required to display information to the user and also to check your mod against the load-order. You can register you mod by adding a DB entry in Osiris like `DB_S7_Config_ModRegistry("My_ModName", "1MOD2UUID3-65a2-X2gx-a25f-7a7ab0305a58", "My_ModSignal");`. This will register `My_ModName` with modUUID `1MOD2UUID3-65a2-X2gx-a25f-7a7ab0305a58` to the stats-configurator. The third parameter is the `flagName` that the stats-configurator will listen for, to start the dynamic-quick-menu.
+
+Once registered, you need to specify the stats and attributes you want the quick-menu to list as options. You do this by registering them to `DB_S7_Config_ModInterface((STRING)_ModName, (STRING)_StatName, (STRING)_AttributeName);`. For example:
+
+```
+DB_7_Config_ModInterface("MyModName", "Projectile_MySkillName", "ActionPoints");
+DB_7_Config_ModInterface("MyModName", "Projectile_MySkillName", "IgnoreSlience");
+DB_7_Config_ModInterface("MyModName", "WPN_MySpecialWeapon", "AttackAPCost");
+```
+
+Here's an example from my [ChannelSource](https://steamcommunity.com/sharedfiles/filedetails/?id=2028696492) mod:
+
+```
+INITSECTION
+
+//  =================================================================================================================
+//  DB_S7_Config_ModRegistry((STRING)_ModName,      (STRING)_ProjectUUID,                         (STRING)_FlagName);
+//  DB_S7_Config_ModRegistry("S7_ChannelSource",    "66d26dfa-db24-4388-99d5-1f1a5b323e3c",     "S7_CS_SkillConfig");
+//  =================================================================================================================
+
+//  =================================================================================================================
+//  DB_S7_ChannelSource_SkillConfig((STRING)_SKILLNAME);
+    DB_S7_ChannelSource_SkillConfig("Shout_S7_CS_ChannelSource_I");
+    DB_S7_ChannelSource_SkillConfig("Shout_S7_CS_ChannelSource_II");
+    DB_S7_ChannelSource_SkillConfig("Shout_S7_CS_ChannelSource_III");
+    DB_S7_ChannelSource_SkillConfig("Shout_S7_CS_ChannelSource_IV");
+    DB_S7_ChannelSource_SkillConfig("Target_S7_CS_SiphonSource_I");
+
+//  DB_S7_ChannelSource_AttributeConfig((STRING)_ATTRIBUTENAME);
+    DB_S7_ChannelSource_AttributeConfig("ActionPoints");
+    DB_S7_ChannelSource_AttributeConfig("Cooldown");
+    DB_S7_ChannelSource_AttributeConfig("TargetRadius");
+    DB_S7_ChannelSource_AttributeConfig("AreaRadius");
+    DB_S7_ChannelSource_AttributeConfig("Memory Cost");
+    DB_S7_ChannelSource_AttributeConfig("Magic Cost");
+    DB_S7_ChannelSource_AttributeConfig("Autocast");
+    DB_S7_ChannelSource_AttributeConfig("IgnoreSlience");
+//  ==================================================================================================================
+
+KBSECTION
+
+//  ======================
+//      REGISTER MOD
+//  ======================
+
+IF
+GameStarted(_, _)                                                                                                //  If GameStarted
+AND
+NOT DB_S7_Config_ModRegistry("S7_ChannelSource", "66d26dfa-db24-4388-99d5-1f1a5b323e3c", "S7_CS_SkillConfig")    //  Mod not registered to StatsConfigurator
+THEN
+DB_S7_Config_ModRegistry("S7_ChannelSource", "66d26dfa-db24-4388-99d5-1f1a5b323e3c", "S7_CS_SkillConfig");       //  Register Mod
+
+IF
+GlobalFlagSet("S7_ConfigActive")                                                                                 //  If StatsConfigurator is active
+AND
+DB_S7_ChannelSource_SkillConfig(_SkillName)                                                                      //  Fetch SkillNames
+AND
+DB_S7_ChannelSource_AttributeConfig(_AttributeName)                                                              //  Fetch AttributeNames
+AND
+NOT DB_S7_Config_ModInterface("S7_ChannelSource", _SkillName, _AttributeName)                                    //  If DB entry does not exist
+THEN
+DB_S7_Config_ModInterface("S7_ChannelSource", _SkillName, _AttributeName);                                       //  Create DB entry
+
+EXITSECTION
+
+ENDEXITSECTION
+
+```
 
 The dynamic-quick-menu is just me being lazy. I did not want to make a MCM each and everytime I make a mod. For more flexibility and options, you may want to create your own. If for some reason you absolutely hate coding in Lua and/or just want to assert dominance by string-concatenating a json from the ground up in osiris, you can make use of this mod's Lua functions instead.
 
@@ -300,7 +357,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | **Reference**       | statType         | attributeType | Lookup (StatType) and (AttributeType) in References           | `Reference Weapon IsTwoHanded`                     |
 | **Relay**           | Signal           |               | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
 
-**NOTE**: 
+**NOTE**:
 
 - Non-bold arguments are optional.
 - Character-key accepts the following values: Host, Clients, [Character's Name|e.g. Beast, Fane], [Empty-String| to select all players]
