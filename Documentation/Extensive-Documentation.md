@@ -263,7 +263,7 @@ The **Inspect** skill is a special skill that the host-character can learn throu
 
 ### Export StatIDs for Reference
 
-It may not always be possible to know the exact internal **stat-name/statID** of a stat, especially if you don't have access to **The Divinity Engine 2**. Even with the engine, opening the software just to check stat-names may not be the best use of your time. As such, a niche but useful function in the **diagnostics** section is `ExportStatToTSV`. This will save a `tsv` (tab-seperated-value) file in `Osiris Data` with **all** the stat-names along with their category. Unless new stats are created for your session (by adding new mods or if you create them), this list will not change much. So you can just export it once and keep it around for reference forever. You can restrict what type of stats are exported using the [settings](Documentation/Extensive-Documentation.md#Setting-Details) - the field `RestrictStatTypeTo` in `ExportStatToTSV` takes a string seperated by commas and spaces. For example, if you want to restrict the export to Armor and Weapons only, then `S7_ConfigSettings.json` will have the following block:
+It may not always be possible to know the exact internal **stat-name/statID** of a stat, especially if you don't have access to **The Divinity Engine 2**. Even with the engine, opening the software just to check stat-names may not be the best use of your time. As such, a niche but useful function in the **diagnostics** section is `ExportStatToTSV`. This will save a `tsv` (tab-seperated-value) file in `Osiris Data` with **all** the stat-names along with their category. Unless new stats are created for your session (by adding new mods), this list will not change much. So you can just export it once and keep it around for reference forever. You can restrict what type of stats are exported using the [settings](Documentation/Extensive-Documentation.md#Setting-Details) - the field `RestrictStatTypeTo` in `ExportStatToTSV` takes a string seperated by commas and spaces. For example, if you want to restrict the export to Armor and Weapons only, then `S7_ConfigSettings.json` will have the following block:
 
 ```json
 {
@@ -283,37 +283,61 @@ You can also use the [console-command](Documentation/Extensive-Documentation.md#
 
 ## Console-Commands
 
-The mod comes with a suite of console-commands for a variety of purposes. Console-commands can allow the user to bypass the clunky mod-menu entirely. Console-commands are inputted through the script-extender's debug-console window. Press enter while the debug-console is in focus to initiate the command-line.
+The mod comes with a suite of console-commands for a variety of purposes. Console-commands can allow the user to bypass the boring mod-menu entirely. Console-commands are inputted through the script-extender's debug-console window. Press enter while the debug-console is in focus to initiate the command-line.
 
-All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up a list of useful commands in the debug-console window.
+All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up the following list of useful commands in the debug-console window.
 
-| Command          | Argument 1       | Argument 2    | Comments                                                      | Examples                                           |
-| ---------------- | ---------------- | ------------- | ------------------------------------------------------------- | -------------------------------------------------- |
-| **Help**         |                  |               | Prints a helpful list of commands.                            | `!S7_Config Help`                                  |
-| **StartModMenu** |                  |               | Starts the Mod-Menu Dialog.                                   | `!S7_Config StartModMenu`                          |
-| **AddSkill**     | **SkillID**      | Character     | Adds skill (skillID) to character (character-key).            | `!S7_Config AddSkill Projectile_Fireball Host`     |
-| **RemoveSkill**  | **SkillID**      | Character     | Removes skill (skillID) to character (character-key).         | `!S7_Config RemoveSkill Shout_InspireStart`        |
-| **SearchStat**   | **SearchString** | StatType      | Search for (SearchString) in category (StatType).             | `!S7_Config SearchStat Summon_Incarnate SkillData` |
-| **SyncStat**     | **StatID**       | Persistence   | Synchronize (StatID) for all clients.                         | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
-| **SnapshotVars** | VariableType     | Variable      | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
-| **Reference**    | statType         | attributeType | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
-| **Relay**        | Signal           |               | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
+| Command             | Argument 1       | Argument 2    | Comments                                                      | Examples                                           |
+| ------------------- | ---------------- | ------------- | ------------------------------------------------------------- | -------------------------------------------------- |
+| **Help**            |                  |               | Prints a helpful list of console-commands.                    | `!S7_Config Help` or `!S7_Config`                  |
+| **AddConfigurator** |                  |               | Adds the configurator item to the host-character.             | `!S7_Config AddConfigurator`                       |
+| **StartModMenu**    |                  |               | Starts the Mod-Menu Dialog.                                   | `!S7_Config StartModMenu`                          |
+| **AddSkill**        | **SkillID**      | Character-key | Adds skill (skillID) to character (character-key).            | `!S7_Config AddSkill Projectile_Fireball Host`     |
+| **RemoveSkill**     | **SkillID**      | Character-key | Removes skill (skillID) to character (character-key).         | `!S7_Config RemoveSkill Shout_InspireStart`        |
+| **SearchStat**      | **SearchString** | StatType      | Search for (SearchString) in category (StatType).             | `!S7_Config SearchStat Summon_Incarnate SkillData` |
+| **SyncStat**        | **StatID**       | Persistence   | Synchronize (StatID) with (Persistence) for all clients.      | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
+| **SnapshotVars**    | VariableType     | Variable      | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
+| **Reference**       | statType         | attributeType | Lookup (StatType) and (AttributeType) in References           | `Reference Weapon IsTwoHanded`                     |
+| **Relay**           | Signal           |               | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
 
-**NOTE**: Non-bold arguments are optional.
+**NOTE**: 
+
+- Non-bold arguments are optional.
+- Character-key accepts the following values: Host, Clients, [Character's Name|e.g. Beast, Fane], [Empty-String| to select all players]
+
+The following signals can be passed to the `Relay`.
+
+| Signal                       | Purpose                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
+| S7_StatsConfigurator         | Loads and applies configuration-profile. (default: S7_Config.json)                 |
+| S7_BuildConfigData           | Builds ConfigData file using configuration-profile. (default: S7_Config.json)      |
+| S7_BroadcastConfigData       | Broadcasts serialized ConfigData to all active clients.                            |
+| S7_ValidateClientConfig      | Calls for client ConfigData validation. Check response in debug-console.           |
+| S7_ToggleStatsLoader         | Toggle StatsLoader setting. Responsible for loading ConfigData on ModuleLoad.      |
+| S7_ToggleSyncStatPersistence | Toggles Sync-Stat Persistence. Stat-edits will be saved persistently if enabled.   |
+| S7_ToggleSafetyCheck         | Toggles safe-to-modify attribute check. Will prevent modification of certain keys. |
+| S7_SetDefaultSettings        | Reset ConfigSettings to default values. Export to save persistently.               |
+| S7_ExportCurrentSettings     | Export current ConfigSettings. Saves settings in a json file in OsirisData.        |
+| S7_RefreshSettings           | Reloads settings from OsirisData folder. if unavailable, loads defaults.           |
+| S7_StatsExportTSV            | Export a list of all stat-entries to a TSV file in OsirisData folder.              |
+| S7_Config_CHANGELOG          | Request in-game changelog.                                                         |
+| S7_PrintModRegistry          | Prints a list of all mods registered to Stats-Configurator.                        |
+| S7_RebuildCollections        | Rebuilds collections using presets and custom settings.                            |
+| S7_ToggleConfigLog           | Toggles logging to external file.                                                  |
 
 ## References
 
 If you wish to know the stat-name/stat-ID of something specific, you can target it in-game using the [Inspect skill](#inspect-skill) or you can use the `SearchStat` [console-command](#console-commands) to search for it. `!S7_Config SearchStat Cone_` will return a list of all stat-IDs with the string `Cone_` in them.
 If you want a complete list of stat-IDs, you can [export them to a .tsv file](#export-statids-for-reference).
 
-Each stat-name/stat-ID has a corresponding stat-type. Each stat-type has a set of attributes associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be _enumerations_ that have am associated list of values of their own as defined in `Enumerations.xml` file. Both of these files have been provided for your convenience.
+Each stat-name/stat-ID has a corresponding stat-type. Each stat-type has a set of attributes associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be _enumerations_ that have an associated list of values of their own as defined in `Enumerations.xml` file. Both of these files have been provided for your convenience.
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
 
 This information can also be printed to the debug-console using the `Reference` [console-command](#console-commands).
 
-**Note:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable :P) markdown. The reference sheets may seem incomplete, so feel free to ask if you are still unsure about something.
+**Note:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable) markdown. The reference sheets may seem incomplete, so feel free to ask if you are still unsure about something.
 
 If you wish to retrieve all attributes and their corresponding values for a given stat you can use the `DeepDive` [console-command](#console-commands). `!S7_Config DeepDive Projectile_Fireball` will print absolutely everything related to stat `Projectile_Fireball`.
 
