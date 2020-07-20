@@ -303,11 +303,18 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 
 ## References
 
-If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess what to write in the config-files. Therefore, the following reference sheets are provided for your convenience. You can also use the [Inspect skill](#inspect-skill) or [export StatIDs](#export-statids-for-reference).
+If you wish to know the stat-name/stat-ID of something specific, you can target it in-game using the [Inspect skill](#inspect-skill) or you can use the `SearchStat` [console-command](#console-commands) to search for it. `!S7_Config SearchStat Cone_` will return a list of all stat-IDs with the string `Cone_` in them.
+If you want a complete list of stat-IDs, you can [export them to a .tsv file](#export-statids-for-reference).
+
+Each stat-name/stat-ID has a corresponding stat-type. Each stat-type has a set of attributes associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be _enumerations_ that have am associated list of values of their own as defined in `Enumerations.xml` file. Both of these files have been provided for your convenience.
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
 
-The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. The reference sheet may seem incomplete, so feel free to ask if you are still unsure about something.
+This information can also be printed to the debug-console using the `Reference` [console-command](#console-commands).
+
+**Note:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable :P) markdown. The reference sheets may seem incomplete, so feel free to ask if you are still unsure about something.
+
+If you wish to retrieve all attributes and their corresponding values for a given stat you can use the `DeepDive` [console-command](#console-commands). `!S7_Config DeepDive Projectile_Fireball` will print absolutely everything related to stat `Projectile_Fireball`.
 
 ---
