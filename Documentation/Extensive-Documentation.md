@@ -23,8 +23,6 @@ This document is a work-in-progress!
     - [Custom Settings](#custom-settings)
   - [Mod-Interfacing](#mod-interfacing)
     - [Quick-Menu](#quick-menu)
-    - [Advanced Control](#advanced-control)
-    - [Other Possibilities](#other-possibilities)
   - [Diagnostics](#diagnostics)
     - [ConfigLog](#configlog)
     - [Inspect Skill](#inspect-skill)
@@ -133,11 +131,11 @@ This config will give **all** shields 15% chance to block an attack along with 2
 The mod comes with the following preset collections:
 | CollectionName      | Comments                                                                                                 |
 | ------------------- | -------------------------------------------------------------------------------------------------------- |
-| Characters          |                                                                                                          |
+| **Characters**      |                                                                                                          |
 | Character           | A collection of stats of the `Character` type. Includes everyone. e.g. Lohse, Malady, Trompdoy etc.      |
 | PlayerCharacters    | A collection of all playable characters (origin and customs). e.g. Fane, Beast etc.                      |
 | NonPlayerCharacters | A collection of all non-playable characters. e.g. Dallis, Gareth, Trader Bree etc.                       |
-| Armor               |                                                                                                          |
+| **Armor**           |                                                                                                          |
 | Armor               | A collection of stats of the `Armor` type. Generic and Unique Armors, Boots, Gloves etc.                 |
 | ArmorTypeCloth      | A collection of stats of the `ArmorCloth` type. e.g. Noble clothing, crafted clothes etc.                |
 | ArmorTypeRobes      | A collection of stats of the `ArmorRobes` type. Int-based Armors etc.                                    |
@@ -158,22 +156,22 @@ The mod comes with the following preset collections:
 | ArmorSlotWings      | A collection of stats that occupy the `Wings` slot.                                                      |
 | ArmorSlotHorns      | A collection of stats that occupy the `Horns` slot.                                                      |
 | ArmorSlotOverhead   | A collection of stats that occupy the `Overhead` slot.                                                   |
-| Crime               |                                                                                                          |
+| **Crime**           |                                                                                                          |
 | Crime               | A collection of stats of the `Crime` type. _Don't know anything about Crime Stats_, sorry!               |
-| Object              |                                                                                                          |
+| **Object**          |                                                                                                          |
 | Object              | A collection of stats of the `Object` type. Miscellaneous Items like crafting-ingredients.               |
-| Potion              |                                                                                                          |
+| **Potion**          |                                                                                                          |
 | Potion              | A collection of stats of the `Potion` type. Potion, Food and Status Effects. Not the items, the effects. |
 | IsConsumable        | A collection of stats of the `Potion` type that are consumed on use.                                     |
 | IsFood              | A collection of stats of the consumable `Potion` type that are classified as Foods.                      |
 | IsPotion            | A collection of stats of the consumable `Potion` type that are classified as Potions.                    |
-| Shield              |                                                                                                          |
+| **Shield**          |                                                                                                          |
 | Shield              | A collection of stats of the `Shield` type. Generic and Unique shields.                                  |
-| SkillData           |                                                                                                          |
+| **SkillData**       |                                                                                                          |
 | SkillData           | A collection of stats of the `SkillData` type. Pretty much all skills.                                   |
-| StatusData          |                                                                                                          |
+| **StatusData**      |                                                                                                          |
 | StatusData          | A collection of stats of the `StatusData` type. Status effects like BURNING, HEALING, BLINDED etc.       |
-| Weapon              |                                                                                                          |
+| **Weapon**          |                                                                                                          |
 | Weapon              | A collection of stats of the `Weapon` type. Generic and Unique Swords, Bows, Wands                       |
 | WeaponTypeSword     | A collection of stats of the `Weapon` type that classify as Swords.                                      |
 | WeaponTypeClub      | A collection of stats of the `Weapon` type that classify as Clubs.                                       |
@@ -245,25 +243,13 @@ The idea is this:
 You can check whether the player has the mod installed or not using the extender or by checking for the flag `S7_ConfigActive`. You need to register your mod to the stats configurator by providing the modName and modUUID. This info is required to display information to the user and also check your mod against the load-order. You can register you mod by adding a DB entry in Osiris like `DB_S7_Config_ModRegistry("My_ModName", "1mod2uuid3-65a2-X2gx-a25f-7a7ab0305a58", "My_ModSignal");`.
 This will register `My_ModName` with modUUID `1mod2uuid3-65a2-X2gx-a25f-7a7ab0305a58` to the stats-configurator. The third parameter is flagName that the stats-configurator will listen to to start the dynamic-quick-menu.
 
-Once registered, you need to specify the stats and attributes you want the quick-menu to list as options. You do this by registering them to `DB_S7_Config_ModInterface((STRING)_ModName, (STRING)_StatName, (STRING)_AttributeName).`
+Once registered, you need to specify the stats and attributes you want the quick-menu to list as options. You do this by registering them to `DB_S7_Config_ModInterface((STRING)_ModName, (STRING)_StatName, (STRING)_AttributeName);`
 
 ### Quick-Menu
 
 The mod comes with a dynamic-MCM that allows modders to setup a dependency-free integration. Modders just need to provide the modName, modUUID, globalFlagName along with the set of stats and attributes they want to be able to configure using the MCM through Osiris Databases. The stats-configurator will create a dynamic MCM for you! The mod will listen for the globalFlagName you provided and start the MCM as soon as it is set.
 
-### Advanced Control
-
 The dynamic-quick-menu is just me being lazy. I did not want to make a MCM each and everytime I make a mod. For more flexibility and options, you may want to create your own. If for some reason you absolutely hate coding in Lua and/or just want to assert dominance by string-concatenating a json from the ground up in osiris, you can make use of this mod's Lua functions instead.
-
-### Other Possibilities
-
-MCM aren't the only thing that you can create. You can try to:
-
-- Create static stat-adjustments. Like change all Geomancer skills to deal Physical damage. Create your own overhauls basically.
-- Adjust character stats based on player performance in combat. Dynamic-Difficulty Adjustments.
-- Create a crafting custom-stat and increase the potency of crafted gear.
-
-You obviously don't need this mod to implement any of these. But you can use it if you wish.
 
 ## Diagnostics
 
@@ -317,11 +303,11 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 
 ## References
 
-If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess what to write in the config-files. Therefore, the following reference sheets are provided for your convenience.
+If you want to know what the possible values can a certain attribute take, or just want to see what can be modified in the first place. If you're not a modder and are unfamiliar with the _divinity engine 2_ jargon, it can be hard to guess what to write in the config-files. Therefore, the following reference sheets are provided for your convenience. You can also use the [Inspect skill](#inspect-skill) or [export StatIDs](#export-statids-for-reference).
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
 
-The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by Larian. The reference sheet may seem incomplete, so feel free to ask if you are still unsure about something.
+The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. The reference sheet may seem incomplete, so feel free to ask if you are still unsure about something.
 
 ---
