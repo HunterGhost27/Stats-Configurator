@@ -129,62 +129,62 @@ Trying to edit stats en-masse with the same values is both a redundant and time-
 This config will give **all** shields 15% chance to block an attack along with 25% resistance to both Physical and Piercing Damage.
 
 The mod comes with the following preset collections:
-| CollectionName      | Comments                                                                                                 |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| **Characters**      |                                                                                                          |
-| Character           | A collection of stats of the `Character` type. Includes everyone. e.g. Lohse, Malady, Trompdoy etc.      |
-| PlayerCharacters    | A collection of all playable characters (origin and customs). e.g. Fane, Beast etc.                      |
-| NonPlayerCharacters | A collection of all non-playable characters. e.g. Dallis, Gareth, Trader Bree etc.                       |
-| **Armor**           |                                                                                                          |
-| Armor               | A collection of stats of the `Armor` type. Generic and Unique Armors, Boots, Gloves etc.                 |
-| ArmorTypeCloth      | A collection of stats of the `ArmorCloth` type. e.g. Noble clothing, crafted clothes etc.                |
-| ArmorTypeRobes      | A collection of stats of the `ArmorRobes` type. Int-based Armors etc.                                    |
-| ArmorTypeLeather    | A collection of stats of the `ArmorLeather` type. Fin-based Armors etc.                                  |
-| ArmorTypeMail       | A collection of stats of the `ArmorMail` type. Str-based Armors etc.                                     |
-| ArmorTypePlate      | A collection of stats of the `ArmorPlate` type. Str-based Armors etc.                                    |
-| ArmorSlotHelmet     | A collection of stats that occupy the `Helmet` slot.                                                     |
-| ArmorSlotBreast     | A collection of stats that occupy the `Breast` slot.                                                     |
-| ArmorSlotLeggings   | A collection of stats that occupy the `Leggings` slot.                                                   |
-| ArmorSlotWeapon     | A collection of stats that occupy the `Weapon` slot.                                                     |
-| ArmorSlotShield     | A collection of stats that occupy the `Shield` slot.                                                     |
-| ArmorSlotRing       | A collection of stats that occupy the `Ring` slot.                                                       |
-| ArmorSlotBelt       | A collection of stats that occupy the `Belt` slot.                                                       |
-| ArmorSlotBoots      | A collection of stats that occupy the `Boots` slot.                                                      |
-| ArmorSlotGloves     | A collection of stats that occupy the `Gloves` slot.                                                     |
-| ArmorSlotAmulet     | A collection of stats that occupy the `Amulet` slot.                                                     |
-| ArmorSlotRing2      | A collection of stats that occupy the `Ring2` slot.                                                      |
-| ArmorSlotWings      | A collection of stats that occupy the `Wings` slot.                                                      |
-| ArmorSlotHorns      | A collection of stats that occupy the `Horns` slot.                                                      |
-| ArmorSlotOverhead   | A collection of stats that occupy the `Overhead` slot.                                                   |
-| **Crime**           |                                                                                                          |
-| Crime               | A collection of stats of the `Crime` type. _Don't know anything about Crime Stats_, sorry!               |
-| **Object**          |                                                                                                          |
-| Object              | A collection of stats of the `Object` type. Miscellaneous Items like crafting-ingredients.               |
-| **Potion**          |                                                                                                          |
-| Potion              | A collection of stats of the `Potion` type. Potion, Food and Status Effects. Not the items, the effects. |
-| IsConsumable        | A collection of stats of the `Potion` type that are consumed on use.                                     |
-| IsFood              | A collection of stats of the consumable `Potion` type that are classified as Foods.                      |
-| IsPotion            | A collection of stats of the consumable `Potion` type that are classified as Potions.                    |
-| **Shield**          |                                                                                                          |
-| Shield              | A collection of stats of the `Shield` type. Generic and Unique shields.                                  |
-| **SkillData**       |                                                                                                          |
-| SkillData           | A collection of stats of the `SkillData` type. Pretty much all skills.                                   |
-| **StatusData**      |                                                                                                          |
-| StatusData          | A collection of stats of the `StatusData` type. Status effects like BURNING, HEALING, BLINDED etc.       |
-| **Weapon**          |                                                                                                          |
-| Weapon              | A collection of stats of the `Weapon` type. Generic and Unique Swords, Bows, Wands                       |
-| WeaponTypeSword     | A collection of stats of the `Weapon` type that classify as Swords.                                      |
-| WeaponTypeClub      | A collection of stats of the `Weapon` type that classify as Clubs.                                       |
-| WeaponTypeAxe       | A collection of stats of the `Weapon` type that classify as Axes.                                        |
-| WeaponTypeStaff     | A collection of stats of the `Weapon` type that classify as Staves.                                      |
-| WeaponTypeBow       | A collection of stats of the `Weapon` type that classify as Bows.                                        |
-| WeaponTypeCrossbow  | A collection of stats of the `Weapon` type that classify as Crossbows.                                   |
-| WeaponTypeSpear     | A collection of stats of the `Weapon` type that classify as Spears.                                      |
-| WeaponTypeKnife     | A collection of stats of the `Weapon` type that classify as Knives.                                      |
-| WeaponTypeWand      | A collection of stats of the `Weapon` type that classify as Wands.                                       |
-| WeaponTypeArrow     | A collection of stats of the `Weapon` type that classify as Arrows.                                      |
-| IsTwoHanded         | A collection of stats of the `Weapon` type that are two-handed.                                          |
-| IsNotTwoHanded      | A collection of stats of the `Weapon` type that are not two-handed.                                      |
+| CollectionName       | Comments                                                                                                 |
+| -------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Characters**       |                                                                                                          |
+| Character            | A collection of stats of the `Character` type. Includes everyone. e.g. Lohse, Malady, Trompdoy etc.      |
+| PlayerCharacters     | A collection of all playable characters (origin and customs). e.g. Fane, Beast etc.                      |
+| NonPlayerCharacters  | A collection of all non-playable characters. e.g. Dallis, Gareth, Trader Bree etc.                       |
+| **Armor**            |                                                                                                          |
+| Armor                | A collection of stats of the `Armor` type. Generic and Unique Armors, Boots, Gloves etc.                 |
+| ArmorTypeCloth       | A collection of stats of the `ArmorCloth` type. e.g. Noble clothing, crafted clothes etc.                |
+| ArmorTypeRobes       | A collection of stats of the `ArmorRobes` type. Int-based Armors etc.                                    |
+| ArmorTypeLeather     | A collection of stats of the `ArmorLeather` type. Fin-based Armors etc.                                  |
+| ArmorTypeMail        | A collection of stats of the `ArmorMail` type. Str-based Armors etc.                                     |
+| ArmorTypePlate       | A collection of stats of the `ArmorPlate` type. Str-based Armors etc.                                    |
+| ArmorSlotHelmet      | A collection of stats that occupy the `Helmet` slot.                                                     |
+| ArmorSlotBreast      | A collection of stats that occupy the `Breast` slot.                                                     |
+| ArmorSlotLeggings    | A collection of stats that occupy the `Leggings` slot.                                                   |
+| ArmorSlotWeapon      | A collection of stats that occupy the `Weapon` slot.                                                     |
+| ArmorSlotShield      | A collection of stats that occupy the `Shield` slot.                                                     |
+| ArmorSlotRing        | A collection of stats that occupy the `Ring` slot.                                                       |
+| ArmorSlotBelt        | A collection of stats that occupy the `Belt` slot.                                                       |
+| ArmorSlotBoots       | A collection of stats that occupy the `Boots` slot.                                                      |
+| ArmorSlotGloves      | A collection of stats that occupy the `Gloves` slot.                                                     |
+| ArmorSlotAmulet      | A collection of stats that occupy the `Amulet` slot.                                                     |
+| ArmorSlotRing2       | A collection of stats that occupy the `Ring2` slot.                                                      |
+| ArmorSlotWings       | A collection of stats that occupy the `Wings` slot.                                                      |
+| ArmorSlotHorns       | A collection of stats that occupy the `Horns` slot.                                                      |
+| ArmorSlotOverhead    | A collection of stats that occupy the `Overhead` slot.                                                   |
+| **Crime**            |                                                                                                          |
+| Crime                | A collection of stats of the `Crime` type. _Don't know anything about Crime Stats_, sorry!               |
+| **Object**           |                                                                                                          |
+| Object               | A collection of stats of the `Object` type. Miscellaneous Items like crafting-ingredients.               |
+| **Potion**           |                                                                                                          |
+| Potion               | A collection of stats of the `Potion` type. Potion, Food and Status Effects. Not the items, the effects. |
+| IsConsumable         | A collection of stats of the `Potion` type that are consumed on use.                                     |
+| IsFood               | A collection of stats of the consumable `Potion` type that are classified as Foods.                      |
+| IsPotion             | A collection of stats of the consumable `Potion` type that are classified as Potions.                    |
+| **Shield**           |                                                                                                          |
+| Shield               | A collection of stats of the `Shield` type. Generic and Unique shields.                                  |
+| **SkillData**        |                                                                                                          |
+| SkillData            | A collection of stats of the `SkillData` type. Pretty much all skills.                                   |
+| **StatusData**       |                                                                                                          |
+| StatusData           | A collection of stats of the `StatusData` type. Status effects like BURNING, HEALING, BLINDED etc.       |
+| **Weapon**           |                                                                                                          |
+| Weapon               | A collection of stats of the `Weapon` type. Generic and Unique Swords, Bows, Wands                       |
+| WeaponTypeSword      | A collection of stats of the `Weapon` type that classify as Swords.                                      |
+| WeaponTypeClub       | A collection of stats of the `Weapon` type that classify as Clubs.                                       |
+| WeaponTypeAxe        | A collection of stats of the `Weapon` type that classify as Axes.                                        |
+| WeaponTypeStaff      | A collection of stats of the `Weapon` type that classify as Staves.                                      |
+| WeaponTypeBow        | A collection of stats of the `Weapon` type that classify as Bows.                                        |
+| WeaponTypeCrossbow   | A collection of stats of the `Weapon` type that classify as Crossbows.                                   |
+| WeaponTypeSpear      | A collection of stats of the `Weapon` type that classify as Spears.                                      |
+| WeaponTypeKnife      | A collection of stats of the `Weapon` type that classify as Knives.                                      |
+| WeaponTypeWand       | A collection of stats of the `Weapon` type that classify as Wands.                                       |
+| WeaponTypeArrow      | A collection of stats of the `Weapon` type that classify as Arrows.                                      |
+| IsTwoHandedWeapon    | A collection of stats of the `Weapon` type that are two-handed.                                          |
+| IsNotTwoHandedWeapon | A collection of stats of the `Weapon` type that are not two-handed.                                      |
 
 To use this feature, you just need the key to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
 

@@ -10,6 +10,8 @@ Here are a few examples to show you what's possible using the **Stats-Configurat
 - **[Nullify-Resistances' Saving-Throws Nullified](#nullify-resistances-saving-throws-nullified)**
 - **[That's XCOM Baby](#Thats-XCOM-Baby)**
 - **[Rivellon's Got Talent](#rivellons-got-talent)**
+- **[Summons Galore](#summons-galore)**
+- **[Light and Heavy Weapons](#light-and-heavy-weapons)**
 
 ---
 
@@ -110,3 +112,45 @@ All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
 ![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
 
 **NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible.
+
+## Summons Galore
+
+```json
+{
+    "Player_Fane": {
+        "MaxSummons": 3,
+        "APStart": 2,
+        "APRecovery": 2
+    }
+}
+```
+
+![FaneSummoner](https://imgur.com/ujR8YjD.png)
+
+**Fane** can now _summon_ upto 3 times. But only starts with **2AP** and _recovers_ **2AP per turn**.
+
+## Light and Heavy Weapons
+
+```json
+{
+    "COLLECTION WeaponTypeKnife": {
+        "AttackAPCost": 1,
+        "Initiative": 10,
+        "DodgeBoost": 15,
+        "Damage Type": "Piercing"
+    },
+    "COLLECTION IsTwoHandedWeapon": {
+        "AttackAPCost": 3,
+        "CleaveAngle": 60,
+        "CleavePercentage": 50,
+        "AccuracyBoost": -25
+    },
+    "COLLECTION WeaponTypeSpear": {
+        "Damage Type": "Piercing"
+    }
+}
+```
+
+![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
+
+**Daggers** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** deal **Piercing damage**.
