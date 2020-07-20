@@ -66,12 +66,8 @@ function S7_Config_ConsoleCommander(...)
         --  =====================
         local hostCharacter = Osi.CharacterGetHostCharacter()
         if
-            ItemTemplateIsInPartyInventory(
-                hostCharacter,
-                "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254",
-                1,
+            ItemTemplateIsInPartyInventory(hostCharacter, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1) <
                 1
-            ) ~= true
          then
             ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", hostCharacter, 1)
             S7_ConfigLog("Configurator added to Host-Character's Inventory.")
