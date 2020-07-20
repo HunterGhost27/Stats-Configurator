@@ -31,7 +31,7 @@
 
 ## Osiris Data
 
-The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be in this location. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. This is also where your `PlayerProfiles` and `Mods` folders are located.
+The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be in this location. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. For reference, this is also where your `PlayerProfiles` and `Mods` folders are located.
 
 **NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
 
@@ -41,7 +41,7 @@ The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ an
 
 ![stats-configurator-item](https://imgur.com/BagN95a.png)
 
-The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_.
+The _"Stats-Configurator"_ item is granted to the player (host-character) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. If you lose the item somehow, you can reacquire it using the `!S7_Config AddConfigurator` [console-command](#console-commands).
 
 ![ModMenu](https://imgur.com/sADorrm.png)
 

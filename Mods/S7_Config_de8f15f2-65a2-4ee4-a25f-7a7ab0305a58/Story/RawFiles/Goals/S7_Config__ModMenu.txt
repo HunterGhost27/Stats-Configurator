@@ -53,7 +53,7 @@ AND
 NOT ItemTemplateIsInPartyInventory(_Character, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1, 1)    //  Host-character's party doesn't already have the configurator.
 THEN
 ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", _Character, 1);                       //  Add inspector to host-character's inventory.
-NRD_ModCall("S7_Config", "S7_ConfigLog", "Inspector added to Host-Character's Inventory.", "[ModMenu]");
+NRD_ModCall("S7_Config", "S7_ConfigLog", "Configurator added to Host-Character's Inventory.", "[ModMenu]");
 
 //=============================
 //REGION  START MOD-MENU DIALOG

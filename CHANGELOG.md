@@ -2,7 +2,13 @@
 
 ---
 
-## [0.6.9.0] --- 19th July 2020 --- **WTF is this code?!**
+## [0.6.9.0] --- 20th July 2020 --- **_Revision_**
+
+### NEW
+
+- _Created_ `AddConfigurator` console-command to add the configurator-item to the host-character.
+
+## [0.6.9.0] --- 19th July 2020 --- **_WTF is this code?!_**
 
 ### NEW
 
@@ -26,7 +32,7 @@
 - Newfound respect for Todd Howard and the "_It Just Works_" philosophy.
 - This is probably the second time in this project I've been surprised by the fact that `ipairs` counts from 1 and not 0.
 
-## [0.6.8.0] --- 18th July 2020 --- **Renamed**
+## [0.6.8.0] --- 18th July 2020 --- **_Renamed_**
 
 ### CHANGED
 

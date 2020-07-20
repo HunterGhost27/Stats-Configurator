@@ -15,6 +15,7 @@ helpMessage =
     Command         Argument1       Argument2(Optional)  COMMENTS                                                   EXAMPLE
     ================================================================================================================================================
     Help            -               -                   Prints a list of all console-commands.                     Help
+    AddConfigurator -               -                   Adds the configurator item to the host-character.          AddConfigurator
     StartModMenu    -               -                   Starts the Mod-Menu Dialog with the host-character.        StartModMenu
     AddSkill        <SkillID>       <Character>         Adds skill (skillID) to character (character-key).         AddSkill Projectile_Fireball Host
     RemoveSkill     <SkillID>       <Character>         Removes skill (skillID) to character (character-key).      RemoveSkill Shout_InspireStart
@@ -60,7 +61,24 @@ function S7_Config_ConsoleCommander(...)
     local args = {...} --  Take variable amount of arguments.
     local command = args[2] or "" -- Second argument is the command.
 
-    if command == "StartModMenu" then
+    if command == "AddConfigurator" then
+        --  ADD CONFIGURATOR ITEM
+        --  =====================
+        local hostCharacter = Osi.CharacterGetHostCharacter()
+        if
+            ItemTemplateIsInPartyInventory(
+                hostCharacter,
+                "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254",
+                1,
+                1
+            ) ~= true
+         then
+            ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", hostCharacter, 1)
+            S7_ConfigLog("Configurator added to Host-Character's Inventory.")
+        else
+            S7_ConfigLog("Check your bags! The party has the Configurator already.")
+        end
+    elseif command == "StartModMenu" then
         --  START MOD-MENU
         --  ==============
         local hostCharacter = Osi.CharacterGetHostCharacter()
