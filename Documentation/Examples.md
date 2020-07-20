@@ -56,7 +56,7 @@ Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** 
 }
 ```
 
-This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: [ItemColor](../References/StatObjectDefinitions.md#ItemColor) labels can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
+This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: ItemColor labels can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
 
 ![Item-Color-Config](https://imgur.com/hvb9DYM.png)
 
@@ -109,4 +109,4 @@ All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
 
 ![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
 
-**NOTE:** This replaced the old talent _WalkItOff_.
+**NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible.
