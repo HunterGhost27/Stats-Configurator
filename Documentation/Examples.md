@@ -153,4 +153,4 @@ All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
 
 ![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
 
-**Daggers** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** deal **Piercing damage**.
+**Daggers** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.

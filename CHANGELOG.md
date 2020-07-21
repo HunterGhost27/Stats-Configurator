@@ -8,6 +8,10 @@
 
 - _Created_ `AddConfigurator` console-command to add the configurator-item to the host-character.
 
+### CHANGED
+
+- _Compacted_ `EnumTransformer()`.
+
 ## [0.6.9.0] --- 19th July 2020 --- **_WTF is this code?!_**
 
 ### NEW

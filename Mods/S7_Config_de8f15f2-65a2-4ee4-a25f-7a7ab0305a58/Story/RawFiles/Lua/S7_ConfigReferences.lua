@@ -4892,18 +4892,11 @@ end
 --	Since Ext.EnumIndexToLabel() and Ext.EnumLabelToIndex() don't seem to work.
 
 function EnumTransformer(mode, enumerationTypeName, argument)
-	if mode == "Index2Label" then
-		for index, label in pairs(References.Enumerations[enumerationTypeName]) do
-			if index == argument then
-				return label
-			end
-		end
-	end
-	if mode == "Label2Index" then
-		for index, label in pairs(References.Enumerations[enumerationTypeName]) do
-			if label == argument then
-				return index
-			end
+	for index, label in pairs(References.Enumerations[enumerationTypeName]) do
+		if mode == "Index2Label" and argument == index then
+			return label
+		elseif mode == "Label2Index" and argument == label then
+			return index
 		end
 	end
 end
