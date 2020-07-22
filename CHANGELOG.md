@@ -7,6 +7,7 @@
 ### NEW
 
 - _Created_ `AddConfigurator` console-command to add the configurator-item to the host-character.
+- `StatsLoader` now loads this mod's config last, irrespective of the **load-order**. Assuming users want their configs to have the last say.
 
 ### CHANGED
 

@@ -30,11 +30,14 @@ local function StatsLoader() --  Loads configuration json after StatsLoaded even
             local pos = 1 --  position index.
             local modLoadOrder = Ext.GetModLoadOrder() --  Get Load order.
             for _, modUUID in ipairs(modLoadOrder) do --  Iterate over loadOrder.
-                if configData[modUUID] ~= nil and configData[modUUID]["ModUUID"] == modUUID then --  if ModUUID matches.
-                    toConfigure[pos] = {[configData[modUUID]["ModName"]] = configData[modUUID]["Content"]} --  Queue files for configuration.
-                    pos = pos + 1 --  Increment position index.
+                if modUUID ~= modInfo.UUID then --  is not StatsConfigurator's modUUID.
+                    if configData[modUUID] ~= nil and configData[modUUID]["ModUUID"] == modUUID then --  if ModUUID matches.
+                        toConfigure[pos] = {[configData[modUUID]["ModName"]] = configData[modUUID]["Content"]} --  Queue files for configuration.
+                        pos = pos + 1 --  Increment position index.
+                    end
                 end
             end
+            table.insert(toConfigure, {[configData[modInfo.UUID]["ModName"]] = configData[modInfo.UUID]["Content"]}) --  Append this mod's config at the end.
 
             --  CALL CONFIGURATOR
             --  =================
