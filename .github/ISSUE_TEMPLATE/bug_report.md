@@ -13,8 +13,8 @@ A clear and concise description of what the bug is.
 **Expected behaviour**
 A clear and concise description of what you expected to happen.
 
-**To Reproduce**
-Steps to reproduce the behaviour
+**How to reproduce**
+Steps to reproduce the behaviour.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
