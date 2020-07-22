@@ -4,7 +4,7 @@
 
 ## Quick-Start
 
-It's time to get your feet wet, so let's get started. Once you've installed and activated the mod, open up the game and load into a save. The *stats-configurator* item will be added to your inventory automatically. Using it will open up the **Mod-Menu** - from here, you can access most of the important functions of this mod.
+It's time to get your feet wet, so let's get started. Once you've installed and activated the mod, open up the game and load into a save. The *stats-configurator* item will be added to your inventory automatically. Using it will open up the **Mod-Menu** - from here, you can access most functions of this mod.
 
 |                                                           |                                                               |
 | --------------------------------------------------------- | ------------------------------------------------------------- |
@@ -14,7 +14,7 @@ It's time to get your feet wet, so let's get started. Once you've installed and 
 
 ### Creating a Config-File
 
-Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the ***script-extender*** reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor _(VSCode, Sublime, Notepad++, or regular Notepad)_.
+Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the ***script-extender*** reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor _(VSCode, Sublime, Notepad++, or regular Notepad etc.)_.
 
 Inside `S7_Config.json` write the following content:
 
@@ -39,7 +39,7 @@ This is where this mod outputs a lot of _useful information_. This is also where
 We will use the `AddSkill` console command for this purpose.
 
 Pressing `enter` on the debug console will allow you to enter console-commands. Write `!S7_Config AddSkill Projectile_Fireball` and hit enter. Type `exit` and press enter to exit out of the console-command view. This command will add `Projectile_Fireball` to all ***client*** characters.
-***Pro-tip:*** use `!S7_Config Help` for a helpful guide on console-commands in this mod.
+***Pro-tip:*** use `!S7_Config Help` for a helpful guide on console-commands in this mod. For more details, read [this](Extensive-Documentation.md#Console-Commands).
 
 ![Console-Command-Image](https://imgur.com/bYxl5uE.gif)
 
