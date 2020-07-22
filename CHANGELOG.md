@@ -11,6 +11,7 @@
 ### CHANGED
 
 - _Compacted_ `EnumTransformer()`.
+- _Updated_ Osiris scripts.
 
 ## [0.6.9.0] --- 19th July 2020 --- **_WTF is this code?!_**
 

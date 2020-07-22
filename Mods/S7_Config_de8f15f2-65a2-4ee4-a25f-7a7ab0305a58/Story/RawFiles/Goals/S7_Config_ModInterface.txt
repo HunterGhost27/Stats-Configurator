@@ -33,6 +33,8 @@ THEN
 S7_Config_QuickMenuRelay(_Signal);      //  Relay Signal to Lua.
 GlobalClearFlag(_Signal);               //  Clear Flag.
 
+
+//  VSCode extension wouldn't stop pestering me about how DB_S7_Config_ModRegistry() is declared but never used in a rule. It is now.
 IF
 GameStarted(_, _)
 AND

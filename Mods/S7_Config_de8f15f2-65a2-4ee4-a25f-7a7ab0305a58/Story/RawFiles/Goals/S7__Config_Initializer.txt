@@ -15,8 +15,8 @@ KBSECTION
 IF
 GameEventSet("GAMEEVENT_GameStarted")
 THEN
-GlobalSetFlag("S7_Config_ModAddedTo_NewGame");
 GlobalSetFlag("S7_ConfigActive");
+GlobalSetFlag("S7_Config_ModAddedTo_NewGame");
 NRD_ModCall("S7_Config", "S7_ConfigLog", "Parent Goal Initialized. Mod added to a new game.", "[Initializer]", "ModAddedTo", "NewGame");
 GoalCompleted;
 
