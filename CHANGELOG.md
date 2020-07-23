@@ -17,6 +17,7 @@
 ### REMOVED
 
 - _Cleaned_ `BootstrapServer.lua`.
+- _Removed_ `CreateStat` setting.
 
 ## [0.6.9.0] --- 19th July 2020 --- **_WTF is this code?!_**
 

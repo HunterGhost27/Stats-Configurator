@@ -26,7 +26,6 @@ DefaultSettings = {
     ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
-    ["CreateStats"] = false, -- dictates whether new stats should be created or not.
     ["ExportStatIDtoTSV"] = {["FileName"] = "S7_AllTheStats.tsv", ["RestrictStatTypeTo"] = ""}, --  limits the export to only these statTypes. e.g. "Character", "Potions", "SkillData".
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.
     ["ConfigLog"] = {["Enable"] = false, ["FileName"] = "S7_ConfigLog.tsv"}, --  The mod logs to an external file if true.
@@ -213,26 +212,21 @@ function SetDialogVars() --  Short-hand for DialogSetVariableFixedString(). Isn'
     toSetDialogVar["ConfigFile"] = ConfigSettings.ConfigFile
     toSetDialogVar["ConfigData"] = ConfigSettings.StatsLoader.FileName
 
-    if ConfigSettings.StatsLoader.Enable == true then
-        toSetDialogVar["StatsLoader"] = "Activated."
-    else
-        toSetDialogVar["StatsLoader"] = "Deactivated."
+    local settingsLooper = {
+        ["StatsLoader"] = ConfigSettings.StatsLoader.Enable,
+        ["SyncStatPersistence"] = ConfigSettings.SyncStatPersistence,
+        ["BypassSafetyCheck"] = ConfigSettings.BypassSafetyCheck,
+        ["S7_ConfigLog"] = ConfigSettings.ConfigLog.Enable
+    }
+
+    for key, setting in pairs(settingsLooper) do
+        if setting == true then
+            toSetDialogVar[key] = "Activated."
+        else
+            toSetDialogVar[key] = "Deactivated."
+        end
     end
-    if ConfigSettings.SyncStatPersistence == true then
-        toSetDialogVar["SyncStatPersistence"] = "Activated."
-    else
-        toSetDialogVar["SyncStatPersistence"] = "Deactivated."
-    end
-    if ConfigSettings.BypassSafetyCheck == true then
-        toSetDialogVar["BypassSafetyCheck"] = "Activated."
-    else
-        toSetDialogVar["BypassSafetyCheck"] = "Deactivated."
-    end
-    if ConfigSettings.ConfigLog.Enable == true then
-        toSetDialogVar["S7_ConfigLog"] = "Activated."
-    else
-        toSetDialogVar["S7_ConfigLog"] = "Deactivated."
-    end
+
     if Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) then
         toSetDialogVar["Settings"] = "Default"
     else
