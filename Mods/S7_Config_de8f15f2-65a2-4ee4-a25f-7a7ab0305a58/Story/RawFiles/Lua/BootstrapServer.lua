@@ -14,6 +14,8 @@ logSource = "Lua:BootstrapServer"
 --  #######################
 
 local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
+    FetchPlayers() -- Refetch PlayerInfo
+
     --  STATS-CONFIGURATOR
     -- ====================
 
@@ -22,13 +24,14 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         if ValidString(file) then --  if file exists and is not empty.
             S7_ConfigLog("Loading: " .. ConfigSettings.ConfigFile)
             table.insert(toConfigure, {["S7_Config"] = file}) -- Queue json for Configuration.
+            Osi.OpenMessageBox(userInfo.hostCharacter.currentCharacter, "Configuration initiated. Please be patient.")
         else
             S7_ConfigLog(ConfigSettings.ConfigFile .. " not found. Creating empty file.", "[Error]")
             Ext.SaveFile(ConfigSettings.ConfigFile, "")
         end
         StatsConfigurator() --  Calls StatsConfigurator.
         StatsSynchronize() --  Synchronize stats for all clients.
-        toConfigure = {}
+        toConfigure = {} --  Clear toConfigure queue.
         S7_ConfigLog("StatsConfiguration Finished.")
     end
 
@@ -37,7 +40,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_BuildConfigData" then
         local buildData = Ext.LoadFile(ConfigSettings.ConfigFile) or "" --  Load ConfigFile.
-        BuildConfigData(buildData, "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config")
+        BuildConfigData(buildData, modInfo.UUID, "S7_Config") --  Rebuild ConfigData file.
         S7_ConfigLog("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
     end
 
@@ -48,9 +51,9 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
         local broadcast = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load configData file.
         if ValidString(broadcast) then --  if file exists and is not empty
             Ext.BroadcastMessage("S7_ConfigData", broadcast) --  broadcast Server's configFile
-            S7_ConfigLog("Server broadcasts Active Configuration Profile.")
+            S7_ConfigLog("Server broadcasted their configuration file.")
         else
-            S7_ConfigLog("Failed to broadcast Active Configuration Profile.", "[Error]")
+            S7_ConfigLog("Failed to broadcast the configuration file.", "[Error]")
         end
     end
 
@@ -131,15 +134,15 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ==========================
 
     if Signal == "S7_StatsExportTSV" then
-        StatsExportTSV() --  Logs statIDs in an external TSV file for reference
         S7_ConfigLog("Exporting StatIDs to " .. ConfigSettings.ExportStatIDtoTSV.FileName)
+        StatsExportTSV() --  Logs statIDs in an external TSV file for reference
     end
 
     --  CHANGELOG
     -- ===========
+
     if Signal == "S7_Config_CHANGELOG" then
         Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
-        Osi.GlobalSetFlag("S7_Config_StatConfig")
     end
 
     --  MOD-REGISTRY
@@ -200,9 +203,7 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  VALIDATE CLIENT CONFIGS
 --  =======================
 
-function ValidateClientConfigs(...)
-    local args = {...}
-
+function ValidateClientConfigs()
     S7_ConfigLog("Validating Client Config...")
     local compare = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Loads server's config
     if ValidString(compare) then -- if file exists and is not empty
@@ -219,6 +220,7 @@ function ValidateClientConfigs(...)
                 Ext.JsonStringify(payload)
             ) -- broadcast server's config file to all clients.
         end
+        Osi.OpenMessageBox(userInfo.hostCharacter.currentCharacter, "Please check the debug-console for results.")
     else
         S7_ConfigLog(
             "Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName,
@@ -236,14 +238,11 @@ Ext.RegisterOsirisListener("UserConnected", 3, "after", ValidateClientConfigs)
 --  ========================
 
 function ValidateClientResponse(channel, payload) --  Recieves client response.
-    local validateClients = {}
-    table.insert(validateClients, payload) --  Store client responses in table.
-    for _, clientResponse in ipairs(validateClients) do --  Process client responses.
-        if string.match(clientResponse, "Active configuration mismatch detected.") then --  if Client responded with ConfigMismatch.
-            S7_ConfigLog("Client Response: " .. tostring(clientResponse), "[Warning]") --  Warn Player.
-        elseif string.match(clientResponse, "Active configuration profile verified.") then
-            S7_ConfigLog("Client Response: " .. tostring(clientResponse))
-        end
+    local clientResponse = payload
+    if string.match(clientResponse, "Active configuration mismatch detected.") then --  if Client responded with ConfigMismatch.
+        S7_ConfigLog("Client Response: " .. tostring(clientResponse), "[Warning]") --  Warn Player.
+    elseif string.match(clientResponse, "Active configuration profile verified.") then
+        S7_ConfigLog("Client Response: " .. tostring(clientResponse))
     end
 
     ExportLog() -- Exports ConfigLogs if they're enabled.
