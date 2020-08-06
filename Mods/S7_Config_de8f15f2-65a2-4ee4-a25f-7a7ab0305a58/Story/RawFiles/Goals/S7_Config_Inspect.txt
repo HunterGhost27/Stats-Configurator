@@ -81,8 +81,6 @@ StringConcatenate(_Str2, _StatID, _StrMsg)
 THEN
 NRD_ModCall("S7_Config", "S7_ConfigLog", _StrMsg, "[ModMenu]");                         //  Print to Debug-Console
 
-
-
 EXITSECTION
 
 ENDEXITSECTION

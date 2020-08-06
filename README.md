@@ -4,13 +4,13 @@
 
 ----------
 
-The **Stats Configurator** allows you to modify and customize stats. It's a tool for users to make stat-modifications by creating a _config file_.  Other mods can interface with its functionality to achieve the same. If you don't have the time and patience to use the divinity-engine 2 or just want to make quick-edits to stats without having to deal with the clunky stats-editor or unpack other people's mods, then this mod is for you. Through the configuration file, you can change attributes like _action-points cost, cooldown, gold-value, display-name, damage-values_ and _resistances, movement-range, memory cost, item-color, accuracy_ and _dodge, status-effects_ and **many more**.
+The **Stats Configurator** allows you to modify and customize stats by creating a _config file_.  Other mods can interface with its functionality to achieve the same. If you don't have the time and patience to use the divinity-engine 2 or just want to make quick-edits to stats without having to deal with the clunky stats-editor, then this mod is for you. Through the configuration file, you can change attributes like _action-points cost, cooldown, gold-value, display-name, damage-values_ and _resistances, movement-range, memory cost, item-color, accuracy_ and _dodge, status-effects_ and **many more**.
 
 ## Releases
 
-* ~~***[Steam Workshop](#SteamWorkshop)***~~
-* ~~***[Nexus](#NexusMods)***~~
-* ***[Github](https://github.com/Shresht7/Stats-Configurator)***
+* [ ] ~~***[Steam Workshop](#SteamWorkshop)***~~
+* [ ] ~~***[Nexus](#NexusMods)***~~
+* [x] ***[Github](https://github.com/Shresht7/Stats-Configurator)***
 
 ## Requirements
 
@@ -21,9 +21,7 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 * **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit. Change the _damage value_ and _damage type_ of weapons, _AP_ and _SP cost_ of skills, make Sir Lora _immortal_, give all shields _blocking chance_, create your own _overhauls_ or just paint all your armor _black_! Sky is the limit.
 * Easily _share_ your **config-data** with your **friends**.
 * _Save_ your stat-overrides **persistently** in the save-file, or change them up each and every session.
-* Can _interface_ with **other mods** and provide them the same configuration power. Create **MCMs** for your mods! or let this mod do it for you!
-* Hate fiddling with _menus_? Use **console commands!** to navigate the mod instead. - _Add or Remove Skills, Search for stats,_ and more.
-* The mod is **highly configurable**. :)
+* Can _interface_ with **other mods** and provide them the same configuration power. Create **MCMs** for your mods or let this mod do it for you!
 
 ## Features
 
@@ -35,7 +33,7 @@ The **Stats Configurator** allows you to modify and customize stats. It's a tool
 
 ### Configure to your heart's desire
 
-Users can make their stat-overrides by creating json files. For example:
+Users can make their stat-overrides by creating **json files** like the following:
 
 ```json
 {
@@ -48,7 +46,7 @@ Users can make their stat-overrides by creating json files. For example:
 }
 ```
 
-When this configuration is loaded in the game, it will override `Projectile_Fireball` (**Fireball**'s internal name). The **Fireball** skill will now cost ***4 ActionPoints***, have a ***7 turn Cooldown***, _explode_ in a ***10m radius*** and will be called ***BOOMER***.
+When this configuration loads, it will override `Projectile_Fireball`. The **Fireball** skill will now cost ***4 ActionPoints***, have a ***7 turn Cooldown***, _explode_ in a ***10m radius*** and will be called ***BOOMER***.
 
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
 
@@ -70,14 +68,14 @@ For proper documentation, please visit [mod-interfacing](Documentation/Extensive
 
 The mod comes with a suite of [console-commands](Documentation/Extensive-Documentation.md#Console-Commands) for you to use. Console-commands give you access to everything this mod has to offer (that for one reason or another cannot be put in the mod-menu). Here are some examples:
 
-* `!S7_Config AddSkill Projectile_Fireball` --- Adds Fireball skill to all clients.
-* `!S7_Config RemoveSkill Projectile_Fireball Host` --- Removes Fireball from the host character.
-* `!S7_Config SearchStat Dallis` --- Searches for all stats with `Dallis` in their name.
+* `!S7_Config AddSkill Projectile_Fireball` --- _Adds_ Fireball skill to _all clients_.
+* `!S7_Config RemoveSkill Projectile_Fireball Host` --- _Removes_ Fireball from the _host character_.
+* `!S7_Config SearchStat Dallis` --- _Searches_ for all stats with `Dallis` in their name.
 * `!S7_Config Help` --- For a detailed list of console commands.
 
 ### Settings
 
-The [mod-settings](Documentation/Extensive-Documentation.md#Settings) can allow you to fine tune your experience and provide greater control over the mod's functionality. You can export your settings as a json file and edit them externally, or create the file yourself (default: `S7_ConfigSettings.json`). This is what it will look like
+[Settings](Documentation/Extensive-Documentation.md#Settings) allow you to fine tune your experience and provide greater control over the mod's functionality. You can export your settings as a json file and edit them externally, or create the file yourself (default: `S7_ConfigSettings.json`).
 
 ```json
 {
@@ -91,7 +89,7 @@ The [mod-settings](Documentation/Extensive-Documentation.md#Settings) can allow 
 }
 ```
 
-A lot of these settings can be toggled on or off from the mod-menu or by using the [console-commands](Documentation/Extensive-Documentation.md#Console-Commands). For a detailed explanation, visit [Settings](Documentation/Extensive-Documentation.md#Settings).
+A lot of these settings can be toggled on or off from the mod-menu or by using the [console-commands](Documentation/Extensive-Documentation.md#Console-Commands).
 
 ----------
 
