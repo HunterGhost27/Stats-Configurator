@@ -2,7 +2,7 @@
 
 ---
 
-## [0.6.9.0] --- 18th August 2020 --- **_Master Procastinator_**
+## [0.7.0.0] --- 18th August 2020 --- **_Master Procastinator_**
 
 ## NEW
 

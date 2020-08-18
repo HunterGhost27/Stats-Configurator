@@ -18,7 +18,7 @@ The **Stats Configurator** allows you to modify and customize stats by creating 
 
 ## Mod at a Glance
 
-* **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit. Change the _damage value_ and _damage type_ of weapons, _AP_ and _SP cost_ of skills, make Sir Lora _immortal_, give all shields _blocking chance_, create your own _overhauls_ or just paint all your armor _black_! Sky is the limit.
+* **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit. Change the _damage value_ and _damage type_ of weapons, _AP_ and _SP cost_ of skills, make Sir Lora _immortal_, give all shields _blocking chance_, create your own _overhauls_, or just paint all your armor _black_! Sky is the limit.
 * Easily _share_ your **config-data** with your **friends**.
 * _Save_ your stat-overrides **persistently** in the save-file, or change them up each and every session.
 * Can _interface_ with **other mods** and provide them the same configuration power. Create **MCMs** for your mods or let this mod do it for you!
@@ -50,7 +50,7 @@ When this configuration loads, it will override `Projectile_Fireball`. The **Fir
 
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
 
-Take a look at the [quick-tour](Documentation/QuickTour.md) and/or the [examples](Documentation/Examples.md) to get started. Read the [documentation](Documentation/Extensive-Documentation.md) to see everything that this mod has to offer.
+***Take a look at the [quick-tour](Documentation/QuickTour.md) and/or the [examples](Documentation/Examples.md) to get started. Read the [documentation](Documentation/Extensive-Documentation.md) to see everything that this mod has to offer.***
 
 ### Easily share your config in multiplayer
 
@@ -90,6 +90,10 @@ The mod comes with a suite of [console-commands](Documentation/Extensive-Documen
 ```
 
 A lot of these settings can be toggled on or off from the mod-menu or by using the [console-commands](Documentation/Extensive-Documentation.md#Console-Commands).
+
+## Notes
+
+* All config-files are created in the **Osiris Data** folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data`.
 
 ----------
 
