@@ -2,6 +2,16 @@
 
 ---
 
+## [0.6.9.0] --- 18th August 2020 --- **_Master Procastinator_**
+
+## NEW
+
+- _Removed_ `RebuildCollections()` from `RefreshSettings()`. Collections are automatically rebuilt when they are needed. - hopefully.
+
+## COMMENT
+
+- Should probably finish this soon.
+
 ## [0.6.9.0] --- 20th July 2020 --- **_Revision_**
 
 ### NEW

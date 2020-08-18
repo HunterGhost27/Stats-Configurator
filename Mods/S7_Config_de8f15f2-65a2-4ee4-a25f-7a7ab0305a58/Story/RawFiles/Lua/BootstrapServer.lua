@@ -29,6 +29,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
             S7_ConfigLog(ConfigSettings.ConfigFile .. " not found. Creating empty file.", "[Error]")
             Ext.SaveFile(ConfigSettings.ConfigFile, "")
         end
+        RebuildCollections() -- Rebuild Collections.
         StatsConfigurator() --  Calls StatsConfigurator.
         StatsSynchronize() --  Synchronize stats for all clients.
         toConfigure = {} --  Clear toConfigure queue.
