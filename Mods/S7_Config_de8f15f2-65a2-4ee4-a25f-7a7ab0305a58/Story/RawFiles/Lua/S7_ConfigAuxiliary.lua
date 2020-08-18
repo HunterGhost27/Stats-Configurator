@@ -77,7 +77,8 @@ function FetchPlayers() --  Rebuilds Client and Host Character Information.
     --  =================
     local tempUsers = {} --  Temporary table.
     local count = 1
-    for _, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1]) do --  Extract Player CharacterGUIDs
+    local tempPlayerList = Osi.DB_IsPlayer:Get(nil)[1] or {}
+    for _, player in ipairs(tempPlayerList) do --  Extract Player CharacterGUIDs
         tempUsers[count] = Osi.CharacterGetReservedUserID(player) --  Get UserIDs
         count = count + 1
     end
