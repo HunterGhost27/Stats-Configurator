@@ -5,6 +5,12 @@ INITSECTION
 //  |                                                           MOD-INTERFACE                                                          |
 //  ====================================================================================================================================
 
+
+//  ===================================================================================================================
+//  DB_S7_Config_ModRegistry((STRING)_ModName,        (STRING)_ProjectUUID,                         (STRING)_FlagName);
+    DB_S7_Config_ModRegistry("S7_Config",       "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58",   "S7_Config_DONOTUSE_Signal");
+//  ===================================================================================================================
+
 //  =========================================================
 //  DB_S7_Config_QuickMenuRelay((STRING)_Signal);
     DB_S7_Config_QuickMenuRelay("S7_Config_GoBack");
@@ -41,6 +47,15 @@ AND
 NOT DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_DONOTUSE_Signal")
 THEN
 DB_S7_Config_ModRegistry("S7_Config", "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58", "S7_Config_DONOTUSE_Signal");
+
+IF
+GameStarted(_, _)
+AND
+DB_S7_Config_ModRegistry(_, _, _FlagName)
+AND
+NOT DB_S7_Config_QuickMenuRelay(_FlagName)
+THEN
+DB_S7_Config_QuickMenuRelay(_FlagName);
 
 EXITSECTION
 
