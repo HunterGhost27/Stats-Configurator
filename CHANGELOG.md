@@ -7,6 +7,7 @@
 ## NEW
 
 - _Removed_ `RebuildCollections()` from `RefreshSettings()`. Collections are automatically rebuilt when they are needed. - hopefully.
+- `HandleStatType()` can now handle `StatusData`!
 
 ## COMMENT
 

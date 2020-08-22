@@ -4855,9 +4855,9 @@ SkillandStatusData = {
 --	HANDLE STAT-TYPES
 --	=================
 
-function HandleStatType(statName)
-	if ValidString(statName) then
-		local statType = Osi.NRD_StatGetType(statName) or ""
+function HandleStatType(statName)	--	recieves statName
+	if ValidString(statName) then	--	check if statName is a valid string
+		local statType = Osi.NRD_StatGetType(statName) or ""	-- get statType
 
 		if statType == "SkillData" then
 			--	SKILLDATA
@@ -4866,7 +4866,7 @@ function HandleStatType(statName)
 			for splitString in string.gmatch(statName, "[^_]+") do --	Underscore splits string.
 				for _, subStatType in pairs(SkillandStatusData["SkillData"]) do -- Iterate over SkillData sub-categories.
 					if splitString == subStatType then -- if string is a sub-category of SkillData.
-						return splitString
+						return splitString	--	return subcategory of SkillData.
 					end
 				end
 			end
@@ -4874,8 +4874,9 @@ function HandleStatType(statName)
 			--	STATUSDATA
 			--	==========
 
-			S7_ConfigLog("HandleStatType: TODO StatusData.")
-			return statType
+			local status = Ext.GetStat(statName)	--	fetch stat entry.
+			local statusType = "Status_" .. status.StatusType	-- get status type and concatenate.
+			return statusType	-- return subcategory of StatusData
 		else
 			--	EVERYTHING ESLE
 			--	===============
