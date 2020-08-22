@@ -58,10 +58,12 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
 
             --  LOAD PRE-EXISTING CONFIGURATION
             --  -------------------------------
-
-            for modName, content in pairs(Ext.JsonParse(Ext.LoadFile("S7_ConfigData.json") or "")) do
-                if modName == quickMenuVars.modName then --  if configuration already exists.
-                    quickMenuVars.configData = Ext.JsonParse(content) --  Pre-load configData with existing configuration.
+            local configFile = Ext.LoadFile("S7_ConfigData.json") or ""
+            if ValidString(configFile) then
+                for modName, content in pairs(Ext.JsonParse(configFile)) do
+                    if modName == quickMenuVars.modName then --  if configuration already exists.
+                        quickMenuVars.configData = Ext.JsonParse(content) --  Pre-load configData with existing configuration.
+                    end
                 end
             end
 

@@ -2,7 +2,7 @@
 
 ---
 
-## [0.7.0.0] --- 18th August 2020 --- **_Master Procastinator_**
+## [0.7.0.0] --- 22th August 2020 --- **_Master Procastinator_**
 
 ## NEW
 
@@ -12,6 +12,7 @@
 ## CHANGED
 
 - _Renamed_ `IsTwoHandedWeapon` and `IsNotTwoHandedWeapon` to `WeaponIsTwoHanded` and `WeaponIsNotTwoHanded` respectively.
+- **DQM** doesn't crash if `S7_ConfigData.json` does not exist.
 
 ## COMMENT
 
