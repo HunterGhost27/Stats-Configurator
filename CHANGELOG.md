@@ -9,6 +9,10 @@
 - _Removed_ `RebuildCollections()` from `RefreshSettings()`. Collections are automatically rebuilt when they are needed. - hopefully.
 - `HandleStatType()` can now handle `StatusData`!
 
+## CHANGED
+
+- _Renamed_ `IsTwoHandedWeapon` and `IsNotTwoHandedWeapon` to `WeaponIsTwoHanded` and `WeaponIsNotTwoHanded` respectively.
+
 ## COMMENT
 
 - Should probably finish this soon.

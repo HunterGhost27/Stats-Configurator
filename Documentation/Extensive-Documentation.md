@@ -183,8 +183,8 @@ The mod comes with the following preset collections:
 | WeaponTypeKnife      | A collection of stats of the `Weapon` type that classify as Knives.                                      |
 | WeaponTypeWand       | A collection of stats of the `Weapon` type that classify as Wands.                                       |
 | WeaponTypeArrow      | A collection of stats of the `Weapon` type that classify as Arrows.                                      |
-| IsTwoHandedWeapon    | A collection of stats of the `Weapon` type that are two-handed.                                          |
-| IsNotTwoHandedWeapon | A collection of stats of the `Weapon` type that are not two-handed.                                      |
+| WeaponIsTwoHanded    | A collection of stats of the `Weapon` type that are two-handed.                                          |
+| WeaponIsNotTwoHanded | A collection of stats of the `Weapon` type that are not two-handed.                                      |
 
 To use this feature, you just need the key to be in the following format: `"COLLECTION <CollectionName>"`. Note: the whitespace is necessary.
 

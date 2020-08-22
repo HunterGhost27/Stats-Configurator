@@ -139,7 +139,7 @@ All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
         "DodgeBoost": 15,
         "Damage Type": "Piercing"
     },
-    "COLLECTION IsTwoHandedWeapon": {
+    "COLLECTION WeaponIsTwoHanded": {
         "AttackAPCost": 3,
         "CleaveAngle": 60,
         "CleavePercentage": 50,

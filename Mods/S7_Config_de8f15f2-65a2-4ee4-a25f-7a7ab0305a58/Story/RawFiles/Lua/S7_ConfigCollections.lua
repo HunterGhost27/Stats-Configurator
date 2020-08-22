@@ -138,8 +138,8 @@ defaultCollections = {
     ["WeaponTypeKnife"] = {},
     ["WeaponTypeWand"] = {},
     ["WeaponTypeArrow"] = {},
-    ["IsTwoHandedWeapon"] = {},
-    ["IsNotTwoHandedWeapon"] = {}
+    ["WeaponIsTwoHanded"] = {},
+    ["WeaponIsNotTwoHanded"] = {}
 }
 
 configCollections = {} --  Initialize configCollections
@@ -247,9 +247,9 @@ function RebuildCollections()
                 --  =============
 
                 if statData["IsTwoHanded"] == "Yes" then --  If Weapon is TwoHanded
-                    Add2Collection("IsTwoHandedWeapon", stat) --  Add to TwoHanded Collection.
+                    Add2Collection("WeaponIsTwoHanded", stat) --  Add to TwoHanded Collection.
                 else
-                    Add2Collection("IsNotTwoHandedWeapon", stat) -- Otherwise add to IsNotTwoHanded collection
+                    Add2Collection("WeaponIsNotTwoHanded", stat) -- Otherwise add to IsNotTwoHanded collection
                 end
             elseif statType == "SkillData" then
                 --  ==========
