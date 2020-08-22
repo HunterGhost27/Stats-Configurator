@@ -247,14 +247,14 @@ DB_7_Config_ModInterface("MyModName", "Projectile_MySkillName", "IgnoreSlience")
 DB_7_Config_ModInterface("MyModName", "WPN_MySpecialWeapon", "AttackAPCost");
 ```
 
-Here's an example from my [ChannelSource](https://steamcommunity.com/sharedfiles/filedetails/?id=2028696492) mod:
+Here's an example from my [Channel-Source](https://steamcommunity.com/sharedfiles/filedetails/?id=2028696492) mod:
 
 ```
 INITSECTION
 
 //  =================================================================================================================
 //  DB_S7_Config_ModRegistry((STRING)_ModName,      (STRING)_ProjectUUID,                         (STRING)_FlagName);
-//  DB_S7_Config_ModRegistry("S7_ChannelSource",    "66d26dfa-db24-4388-99d5-1f1a5b323e3c",     "S7_CS_SkillConfig");
+    DB_S7_Config_ModRegistry("S7_ChannelSource",    "66d26dfa-db24-4388-99d5-1f1a5b323e3c",     "S7_CS_SkillConfig");
 //  =================================================================================================================
 
 //  =================================================================================================================
@@ -264,7 +264,6 @@ INITSECTION
     DB_S7_ChannelSource_SkillConfig("Shout_S7_CS_ChannelSource_III");
     DB_S7_ChannelSource_SkillConfig("Shout_S7_CS_ChannelSource_IV");
     DB_S7_ChannelSource_SkillConfig("Target_S7_CS_SiphonSource_I");
-
 //  DB_S7_ChannelSource_AttributeConfig((STRING)_ATTRIBUTENAME);
     DB_S7_ChannelSource_AttributeConfig("ActionPoints");
     DB_S7_ChannelSource_AttributeConfig("Cooldown");
@@ -273,8 +272,8 @@ INITSECTION
     DB_S7_ChannelSource_AttributeConfig("Memory Cost");
     DB_S7_ChannelSource_AttributeConfig("Magic Cost");
     DB_S7_ChannelSource_AttributeConfig("Autocast");
-    DB_S7_ChannelSource_AttributeConfig("IgnoreSlience");
-//  ==================================================================================================================
+    DB_S7_ChannelSource_AttributeConfig("IgnoreSilence");
+//  =================================================================================================================
 
 KBSECTION
 
@@ -283,22 +282,26 @@ KBSECTION
 //  ======================
 
 IF
-GameStarted(_, _)                                                                                                //  If GameStarted
+GameStarted(_, _)                                                                                                       //  If GameStarted
 AND
-NOT DB_S7_Config_ModRegistry("S7_ChannelSource", "66d26dfa-db24-4388-99d5-1f1a5b323e3c", "S7_CS_SkillConfig")    //  Mod not registered to StatsConfigurator
+GlobalGetFlag("S7_ConfigActive", 1)                                                                                     //  If Stats-Configurator is active
+AND
+NOT DB_S7_Config_ModRegistry("S7_ChannelSource",    "66d26dfa-db24-4388-99d5-1f1a5b323e3c",     "S7_CS_SkillConfig")    //  Mod not registered to StatsConfigurator
 THEN
-DB_S7_Config_ModRegistry("S7_ChannelSource", "66d26dfa-db24-4388-99d5-1f1a5b323e3c", "S7_CS_SkillConfig");       //  Register Mod
+DB_S7_Config_ModRegistry("S7_ChannelSource",    "66d26dfa-db24-4388-99d5-1f1a5b323e3c",     "S7_CS_SkillConfig");       //  Register Mod
 
 IF
-GlobalFlagSet("S7_ConfigActive")                                                                                 //  If StatsConfigurator is active
+GameStarted(_, _)                                                                                                       //  Game-Started
 AND
-DB_S7_ChannelSource_SkillConfig(_SkillName)                                                                      //  Fetch SkillNames
+GlobalGetFlag("S7_ConfigActive", 1)                                                                                     //  If StatsConfigurator is active
 AND
-DB_S7_ChannelSource_AttributeConfig(_AttributeName)                                                              //  Fetch AttributeNames
+DB_S7_ChannelSource_SkillConfig(_SkillName)                                                                             //  Fetch SkillNames
 AND
-NOT DB_S7_Config_ModInterface("S7_ChannelSource", _SkillName, _AttributeName)                                    //  If DB entry does not exist
+DB_S7_ChannelSource_AttributeConfig(_AttributeName)                                                                     //  Fetch AttributeNames
+AND
+NOT DB_S7_Config_ModInterface("S7_ChannelSource", _SkillName, _AttributeName)                                           //  If DB entry does not exist
 THEN
-DB_S7_Config_ModInterface("S7_ChannelSource", _SkillName, _AttributeName);                                       //  Create DB entry
+DB_S7_Config_ModInterface("S7_ChannelSource", _SkillName, _AttributeName);                                              //  Create DB entry
 
 EXITSECTION
 
