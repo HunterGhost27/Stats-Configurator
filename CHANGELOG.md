@@ -2,28 +2,28 @@
 
 ---
 
-## [0.7.0.0] --- 22th August 2020 --- **_Master Procastinator_**
+## [0.7.0.0] --- 22th August 2020 --- **_Pre-Pre-Release Checkup_**
 
 ## NEW
 
-- _Removed_ `RebuildCollections()` from `RefreshSettings()`. Collections are automatically rebuilt when they are needed. - hopefully.
+- _Removed_ `RebuildCollections()` from `RefreshSettings()`. **Collections** are automatically rebuilt when they are needed. - hopefully.
 - `HandleStatType()` can now handle `StatusData`!
 
 ## CHANGED
 
 - _Renamed_ `IsTwoHandedWeapon` and `IsNotTwoHandedWeapon` to `WeaponIsTwoHanded` and `WeaponIsNotTwoHanded` respectively.
-- **DQM** doesn't crash if `S7_ConfigData.json` does not exist.
+- **DQM** doesn't fail to start if `S7_ConfigData.json` does not exist.
 
 ## COMMENT
 
 - Should probably finish this soon.
 
-## [0.6.9.0] --- 20th July 2020 --- **_Revision_**
+## [0.6.9.0] --- 20th July 2020 --- **_Last Say_**
 
 ### NEW
 
 - _Created_ `AddConfigurator` console-command to add the configurator-item to the host-character.
-- `StatsLoader` now loads this mod's config last, irrespective of the **load-order**. Assuming users want their configs to have the last say.
+- `StatsLoader` now loads this mod's config _last_, irrespective of the **load-order**. Assuming users want their configs to have the last say.
 
 ### CHANGED
 
@@ -39,8 +39,8 @@
 
 ### NEW
 
-- _Created_ `HandleStatType()` to map `SkillData` stat-names to correct sub-categories (like `Projectile`, `Shout` etc). `StatusData` still not implemented.
-- _Added_ support for `Enumerations` in Mod-Interface.lua.
+- _Created_ `HandleStatType()` to map `SkillData` stat-names to correct sub-categories (like `Projectile`, `Shout` etc). `StatusData` not yet implemented.
+- _Added_ support for `Enumerations` in `Mod-Interface.lua`.
 - _Created_ `EnumTransformer()` to convert enumeration indices to labels and vice-versa. `Ext.EnumLabelToIndex()` and `Ext.EnumIndexToLabel()` from ositools refuse to work.
 - _Created_ `DeepDive` console-command. Prints a boatload of information about the sepecified stat.
 - _Created_ `english.xml` for Localization.

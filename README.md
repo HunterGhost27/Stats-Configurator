@@ -4,7 +4,7 @@
 
 ----------
 
-The **Stats Configurator** allows you to modify and customize stats by creating a _config file_.  Other mods can interface with its functionality to achieve the same. If you don't have the time and patience to use the divinity-engine 2 or just want to make quick-edits to stats without having to deal with the clunky stats-editor, then this mod is for you. Through the configuration file, you can change attributes like _action-points cost, cooldown, gold-value, display-name, damage-values_ and _resistances, movement-range, memory cost, item-color, accuracy_ and _dodge, status-effects_ and **many more**.
+The **Stats Configurator** allows you to modify and customize stats by creating a _config file_.  Other mods can interface with its functionality to achieve the same. If you don't have the time and patience to use the divinity-engine or just want to make quick-edits to stats without having to deal with the clunky stats-editor, then this mod is for you. Through the configuration file, you can change attributes like _action-points cost, cooldown, gold-value, display-name, damage-values_ and _resistances, movement-range, memory cost, item-color, accuracy_ and _dodge, status-effects_ and many more.
 
 ## Releases
 
@@ -19,21 +19,15 @@ The **Stats Configurator** allows you to modify and customize stats by creating 
 ## Mod at a Glance
 
 * **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit. Change the _damage value_ and _damage type_ of weapons, _AP_ and _SP cost_ of skills, make Sir Lora _immortal_, give all shields _blocking chance_, create your own _overhauls_, or just paint all your armor _black_! Sky is the limit.
-* Easily _share_ your **config-data** with your **friends**.
+* Easily _share_ your **config-data** with your friends.
 * _Save_ your stat-overrides **persistently** in the save-file, or change them up each and every session.
-* Can _interface_ with **other mods** and provide them the same configuration power. Create **MCMs** for your mods or let this mod do it for you!
+* Can _interface_ with other mods and provide them the same configuration power. Create **MCMs** for your mods or let this mod do it for you!
 
 ## Features
 
-============================
-
-***[READ THE EXTENSIVE DOCUMENTATION](Documentation/Extensive-Documentation.md)***
-
-============================
-
 ### Configure to your heart's desire
 
-Users can make their stat-overrides by creating **json files** like the following:
+Users can make their stat-overrides by creating a **json file** (Default: `S7_Config.json`) like so:
 
 ```json
 {
@@ -46,6 +40,8 @@ Users can make their stat-overrides by creating **json files** like the followin
 }
 ```
 
+> All config-files are created in the **Osiris Data** folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\`.
+
 When this configuration loads, it will override `Projectile_Fireball`. The **Fireball** skill will now cost ***4 ActionPoints***, have a ***7 turn Cooldown***, _explode_ in a ***10m radius*** and will be called ***BOOMER***.
 
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
@@ -54,13 +50,13 @@ When this configuration loads, it will override `Projectile_Fireball`. The **Fir
 
 ### Easily share your config in multiplayer
 
-All configuration-profiles, _user-created_ or _mod-created_, are compiled into a single **ConfigData** file (default: `S7_ConfigData.json`). This file is read during `ModuleLoading` where it applies the _stat-modifications_. Since this operation takes place locally on the `client-side`, **all peers** _connected_ to the same _game-session_ must have the same ConfigData file loaded. Having different ConfigData will mean that each client sees different stats. For stats to be _synchronized_ between all clients, it is recommended that everyone loads the same ConfigData file. The host can manually share this file with their friends or send it to them from the in-game mod-menu.
+All configuration-profiles, _user-created_ or _mod-created_, are compiled into a single **ConfigData** file (Default: `S7_ConfigData.json`). The mod applies these _stat-modifications_ when the game loads. Since this operation takes place locally on the `client-side`, all peers connected to the same game-session must have the same ConfigData file loaded. Having different ConfigData will mean that each client has different stats. For stats to be _synchronized_ between all clients, it is recommended that everyone loads the same ConfigData file. The host can manually share this file with their friends or send it to them from the in-game mod-menu.
 
 ### Mod-Interfacing
 
 While primarily created for end-users, the mod doesn't actually care where it gets the config-file. This means other mods can send serialized jsons to the stats configurator for stat-overrides. This functionality exists because I wanted to create MCMs for my other mods, but any mod-maker can use this if they wish.
 
-The mod comes with a dynamic-quick-menu that can create basic MCMs for you! You need just register your mod with a `global-flag` to listen for and create a `database` with the stats and attributes that you want the MCM to account for. Done. Your mod now has a basic MCM. It'll launch whenever that flag is set. It will allow the users to customize those stat-entries and store the configuration in their local ConfigData.
+The mod comes with a dynamic-quick-menu that can create basic MCMs for you! You need just register your mod with a `global-flag` to listen for and create a `database` with the stats and attributes that you want the MCM to account. Done. Your mod now has a basic MCM. It'll launch whenever that flag is set. It will allow the users to customize those stat-entries and store the configuration in their local ConfigData.
 
 For proper documentation, please visit [mod-interfacing](Documentation/Extensive-Documentation.md#Mod-Interfacing).
 
@@ -91,9 +87,11 @@ The mod comes with a suite of [console-commands](Documentation/Extensive-Documen
 
 A lot of these settings can be toggled on or off from the mod-menu or by using the [console-commands](Documentation/Extensive-Documentation.md#Console-Commands).
 
-## Notes
+============================
 
-* All config-files are created in the **Osiris Data** folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data`.
+***[READ THE EXTENSIVE DOCUMENTATION](Documentation/Extensive-Documentation.md)***
+
+============================
 
 ----------
 

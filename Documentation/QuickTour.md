@@ -14,7 +14,7 @@ It's time to get your feet wet, so let's get started. Once you've installed and 
 
 ### Creating a Config-File
 
-Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the ***script-extender*** reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor _(VSCode, Sublime, Notepad++, or regular Notepad etc.)_.
+Before we go any further let's create a **config-file**. Navigate to `\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data` folder on your system. This is where the ***script-extender*** reads from and writes files to. Create `S7_Config.json` file and open it in your favourite text editor _(VSCode, Sublime, Notepad++,_ or regular _Notepad)_.
 
 Inside `S7_Config.json` write the following content:
 
@@ -31,15 +31,16 @@ The block of code is pretty self-explanatory. We want the skill `Projectile_Fire
 
 ### Looking at Original Attributes
 
-Let's go back in the game, but before we load this configuration-file, let's see what the **original values** of this skill's attributes are. The script-extender comes with a `debug-console` which opens up automatically as you open the game. It looks like this:
+Let's go back in the game, but before we load this configuration-file, let's see what the **original values** of this skill's attributes are. The script-extender comes with a `debug-console` which opens up automatically as you open the game (If you have it enabled). It looks like this:
 
 ![DebugConsole](https://imgur.com/l8PeToQ.png)
 
-This is where this mod outputs a lot of _useful information_. This is also where you can input [console-commands](Extensive-Documentation.md#Console-Commands). Stats-Configurator comes with a suite of [***console-commands***](Extensive-Documentation.md#Console-Commands) to make your life easier. Right now, we want to add `Projectile_Fireball` to our character (if we don't have the skill already memorized).
+The mod outputs a lot of _useful information_ here so it might be a good idea to enable the debug-console. This is also where you use the script-extender's console mode. Stats-Configurator comes with a suite of [***console-commands***](Extensive-Documentation.md#Console-Commands) to make your life easier. Right now, we want to add `Projectile_Fireball` to our character (if we don't have the skill already memorized).
 We will use the `AddSkill` console command for this purpose.
 
 Pressing `enter` on the debug console will allow you to enter console-commands. Write `!S7_Config AddSkill Projectile_Fireball` and hit enter. Type `exit` and press enter to exit out of the console-command view. This command will add `Projectile_Fireball` to all ***client*** characters.
-***Pro-tip:*** use `!S7_Config Help` for a helpful guide on console-commands in this mod. For more details, read [this](Extensive-Documentation.md#Console-Commands).
+
+> ***Pro-tip:*** use `!S7_Config Help` for a helpful guide on console-commands in this mod. For more details, read the [documentation](Extensive-Documentation.md#Console-Commands).
 
 ![Console-Command-Image](https://imgur.com/bYxl5uE.gif)
 
@@ -47,7 +48,7 @@ Now that your characters have the *original* and *unmodified* `Projectile_Fireba
 
 ### Configuring Stats
 
-Now for the fun part, open the stats-configurator mod-menu and select `1.[configuration]`. The first option, `1.[Load Configuration]`, will load the configuration file we just created in `Osiris Data` and apply the stat-overrides. Watch the magic happen in the debug console.
+Now for the fun part, open the stats-configurator mod-menu and select `1.[Configuration]`. The first option, `1.[Load Configuration]`, will load the configuration file we just created in `Osiris Data` and apply the stat-overrides. Watch the magic happen in the debug console.
 
 ![Debug-Console-Output](https://imgur.com/yNqhRU2.png)
 
@@ -57,15 +58,15 @@ Now have a look at `Projectile_Fireball` again. It's `ActionPoints` and `Cooldow
 
 With the [_default settings_](Extensive-Documentation.md#Default-Settings), these changes will **not** be restored the next time you load the game. Due to a myriad of reasons (that'll take too long to explain in a quick-start guide), the mod **compiles** all configuration-data into a seperate file (`S7_ConfigData.json` by default). Stat-overrides made here are loaded during the `ModuleLoading` event i.e. when the game loads. There's a whole lot to ***Config-Data***, but for now we just need to put our configuration in Config-Data so that our changes are saved persistently and are loaded in the game automatically during startup.
 
-Using the mod-menu, in `1.[configuration]`,chosing the second option called `2.[Rebuild ConfigData]` will create a Config-Data file by compiling all the sources of configuration-data - Only `S7_Config.json` in our case. Do so now.
+Using the mod-menu, in `1.[Configuration]`,chosing the second option called `2.[Rebuild ConfigData]` will create a Config-Data file by compiling all the sources of configuration-data - Only `S7_Config.json` in our case. Do so now.
 
 You should see `S7_ConfigData.json` appear in `Osiris Data` folder.
 
-Reload the entire game and keep an eye on the debug-console. You'll see that the Config-Data file is loaded automatically when the game starts. That's it. Congratulations, You're done. Wait for the game to load and check if your changes still exist.
+Reload the entire game and keep an eye on the debug-console. You'll see that the Config-Data file is loaded automatically when the game starts. That's it. **Congratulations**, You're done. Wait for the game to load and check if your changes still exist.
 
 ### Sharing Config-Data
 
-If you are playing multiplayer with friends, there's one more thing you need to consider. The ConfigData file is loaded client-side. This means that each client needs to have their own local copy of the ConfigData file. Users can share their json files manually or through the mod-menu. This will ensure that each peer has the same ConfigData and thus the same stats across their game. The host character can **broadcast** their ConfigData file to all connected peers from the mod-menu. They can also quickly verify if all clients have the same version of the ConfigData file from the menu.
+If you are playing multiplayer with friends, there's one more thing you need to consider. The ConfigData file is loaded client-side. This means that each client needs to have their own local copy of the ConfigData file. Users can share their json files manually or through the mod-menu. This will ensure that each peer has the same ConfigData and thus the same stats across their game. The host character can **broadcast** their ConfigData file to all connected peers from the mod-menu using `3.[Broadcast ConfigData]`. They can also quickly verify if all clients have the same version of the ConfigData file from the menu using `4.[Verify Client Configs]`.
 
 ---
 

@@ -1,6 +1,6 @@
 # Example Configurations
 
-Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and the mod is capable of a lot more. Take the [quick-tour](QuickTour.md) if you're new to the mod or read the [extensive-documentation](Extensive-Documentation.md) to get into the nitty-gritty. If you're unsure about the in-engine names of certain attributes you can check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
+Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and you can do a whole lot more. Take the [quick-tour](QuickTour.md) if you're new to the mod or read the [extensive-documentation](Extensive-Documentation.md) to get into the nitty-gritty. If you're unsure about the in-engine names of certain attributes you can always check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
 
 ---
 
@@ -30,6 +30,8 @@ Here are a few examples to show you what's possible using the **Stats-Configurat
 
 The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points** and has a **7 turn Cooldown**. It _explodes_ in a **10m Radius**.
 
+> **NOTE:** VFX is still original size.
+
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
 
 ## Less Armor, More Vitality
@@ -44,7 +46,9 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 }
 ```
 
-Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** reduced by **50%** and their **Vitality** increased by **100%**. (**Note:** this affects **Maximum-Vitality** and not **Current-Vitality**. Characters that have already been _"loaded"_ in-game will have their max-HP increaased but they will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.) (***Also Note:** It is not uncommon to have the default values to these attributes be something other than 100. In such instances, changing these percentages may yield unintuitive results. For example: **Vitality: 200** is a nerf for a character that originally had **Vitality: 250**.)
+Every ***Non-Player-Character*** will have their **Physical** and **Magic-Armor** _reduced_ by **50%** and their **Vitality** _increased_ by **100%**. _(Assuming 100 as baseline)_
+
+> **NOTE:** this affects **Maximum-Vitality** and not **Current-Vitality**. Characters that have already been _"loaded"_ in-game will have their max-HP increased but they will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs. It is not uncommon to have the default values to these attributes be something other than 100. In such cases, changing these percentages may yield unintuitive results. For example: **Vitality: 200** is a nerf for a character that originally had **Vitality: 250**)
 
 ![Dallis-Armor-Config](https://imgur.com/i6uw3Ky.png)
 
@@ -58,7 +62,9 @@ Every **Non-Player-Character** will have their **Physical** and **Magic-Armor** 
 }
 ```
 
-This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**. (**Note**: ItemColor labels can be wierd, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
+This will change the color of **Gawin's Robes** _(ARM_UNIQUE_AirRobe)_ to **Red**.
+
+>**NOTE:** ItemColor labels can be weird, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
 
 ![Item-Color-Config](https://imgur.com/hvb9DYM.png)
 
@@ -72,11 +78,11 @@ This will change the color of **Gawin's Robes (ARM_UNIQUE_AirRobe)** to **Red**.
 }
 ```
 
-The status _Nullified Resistance_ applied by the **Flay Skin** skill will _no longer be resisted_ by **Magic Armor**.
+The status **Nullified Resistance** applied by the _Flay Skin_ skill will _no longer be resisted_ by **Magic Armor**.
 
 ![Flay-Skin](https://i.imgur.com/zr4YcAO.png)
 
-**P.S.**: Using `COLLECTION StatusData` will remove _saving-throws_ from **all** status-effects!
+> **P.S.:** Using `COLLECTION StatusData` will remove _saving-throws_ from **all** status-effects!
 
 ## That's XCOM Baby
 
@@ -107,11 +113,11 @@ All **Characters** have their base **Accuracy** set at **65%** and they recover 
 }
 ```
 
-All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
+All **Characters** get the ***Opportunist*** and ***Glass-Cannon*** talent.
 
 ![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
 
-**NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible.
+> **NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible.
 
 ## Summons Galore
 
@@ -153,4 +159,4 @@ All **Characters** have the ***Opportunist*** and ***Glass-Cannon*** talent.
 
 ![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
 
-**Daggers** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
+***Daggers*** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.

@@ -6,6 +6,7 @@ This document is a work-in-progress!
 
 - [Extensive-Documentation](#extensive-documentation)
   - [Osiris Data](#osiris-data)
+  - [Debug Console](#debug-console)
     - [Config File and ConfigData File](#config-file-and-configdata-file)
   - [Host and Client Contexts](#host-and-client-contexts)
   - [Stats-Configurator](#stats-configurator)
@@ -36,17 +37,23 @@ This document is a work-in-progress!
 
 The [***script-extender***](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be in this location. By default, the `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. For reference, this is also where your `PlayerProfiles` and `Mods` folders are located.
 
-**NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
+> **NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\` directory.
+
+## Debug Console
+
+The mod uses the script-extender's _debug-console_ to display a lot of useful information. The console is also used to input [console-commands](#console-commands).
+The _debug-console_ can be enabled by setting `CreateConsole` to `true` in `OsirisExtenderSettings.json`.
+Alternatively, if you use LaughingLeader's Mod-Manager, you can go to `Settings>Preferences>Script-Extender` and `Enable Console Window`. Then `Export Settings`.
 
 ### Config File and ConfigData File
 
-**Config-File** and **ConfigData File** refer to two separate files. **Config-File** (default: `S7_Config.json`) is what users write their configurations in. This file is used to apply configurations from the mod-menu. The **ConfigData File** (default: `S7_ConfigData.json`) on the other hand is compiled from all available configuration data, _user-created_ or _mod-created_. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more machine-accessible format and read automatically during `ModuleLoading` event if [**StatsLoader**](#statsloader) is `enabled`.
+**Config-File** and **ConfigData File** refer to two separate files. **Config-File** (default: `S7_Config.json`) is what users write their configurations in. This file is used to apply configurations from the mod-menu. The **ConfigData File** (default: `S7_ConfigData.json`) on the other hand is compiled from all available configuration data, _user-created_ or _mod-created_. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more consolidated format and read automatically during `ModuleLoading` event if [**StatsLoader**](#statsloader) is `enabled`.
 
 This document will always refer to the **ConfigFile** unless explicitly stated otherwise. loading configuration, configs or configuration-profile all refer to the **ConfigFile**. Basically, if the documentation asks for manual-intervention, it means the **ConfigFile**. Anything else is probably automatically handled by the mod in **ConfigData**.
 
 ## Host and Client Contexts
 
-Each game session has two contexts - the `host` or `server` and the `client`. There are significant differences between the two and they are completely isolated from one-another. Due to these differences not all functionality is available to both contexts. You can read more about this [here](https://github.com/Norbyte/ositools/blob/master/LuaAPIDocs.md#client--server-states).
+Each game session has two contexts - the `server` and the `client`. There are significant differences between the two and they are completely isolated from one-another. Due to these differences not all functionality is available to both contexts. You can read more about this [here](https://github.com/Norbyte/ositools/blob/master/LuaAPIDocs.md#client--server-states).
 
 The document will refer to the player that creates the `server` context as the `host` and their controlled-character as `host-character`, and all other peers are refered to as `clients`.
 
@@ -212,18 +219,18 @@ These are the mod's **default** settings. The user can override these settings i
 
 Here's a quick summary of all the settings:
 
-| Setting                                | Default Value        | Purpose                                                                                                                                                                  |
-| -------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ConfigFile`                           | `S7_Config.json`     | Name of the user-created configuration file. This is the file that users will write their configurations in.                                                             |
-| `StatsLoader.Enable`                   | `true`               | StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.                                                                                      |
-| `StatsLoader.FileName`                 | `S7_ConfigData.json` | Name of the mod-created **ConfigData** file. This is the compiled configuration profile.                                                                                 |
-| `ConfigLog.Enable`                     | `false`              | Enables logging to an external tsv file in `Osiris Data`. Useful for diagnostics and record-keeping. [Use with care](Documentation/Extensive-Documentation.md#ConfigLog) |
-| `ConfigLog.FileName`                   | `S7_ConfigLog.tsv`   | Name of said tsv file.                                                                                                                                                   |
-| `SyncStatPersistence`                  | `false`              | Stat-edits will be saved **persistently** in the savefile if `true`.                                                                                                     |
-| `BypassSafetyCheck`                    | `false`              | The mod prevents the modification of certain stats and keys. `BypassSafetyCheck` will allow unrestricted modification of these keys if `true`.                           |
-| `ExportStatIDtoTSV.FileName`           | `S7_AllTheStats.tsv` | Name of the tsv file to which `StatID`s are exported.                                                                                                                    |
-| `ExportStatIDtoTSV.RestrictStatTypeTo` | `""`                 | Export will be restricted to the specified stat-types.                                                                                                                   |
-| `CustomCollections`                    | `{}`                 | Loads custom-collections created by the user.                                                                                                                            |
+| Setting                                | Default Value        | Purpose                                                                                                                                        |
+| -------------------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ConfigFile`                           | `S7_Config.json`     | Name of the user-created configuration file. This is the file that users will write their configurations in.                                   |
+| `StatsLoader.Enable`                   | `true`               | StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.                                                            |
+| `StatsLoader.FileName`                 | `S7_ConfigData.json` | Name of the mod-created **ConfigData** file. This is the compiled configuration profile.                                                       |
+| `ConfigLog.Enable`                     | `false`              | Enables logging to an external tsv file in `Osiris Data`. Useful for diagnostics and record-keeping. [Use with care](#ConfigLog)               |
+| `ConfigLog.FileName`                   | `S7_ConfigLog.tsv`   | Name of said tsv file.                                                                                                                         |
+| `SyncStatPersistence`                  | `false`              | Stat-edits will be saved **persistently** in the savefile if `true`.                                                                           |
+| `BypassSafetyCheck`                    | `false`              | The mod prevents the modification of certain stats and keys. `BypassSafetyCheck` will allow unrestricted modification of these keys if `true`. |
+| `ExportStatIDtoTSV.FileName`           | `S7_AllTheStats.tsv` | Name of the tsv file to which `StatID`s are exported.                                                                                          |
+| `ExportStatIDtoTSV.RestrictStatTypeTo` | `""`                 | Export will be restricted to the specified stat-types.                                                                                         |
+| `CustomCollections`                    | `{}`                 | Loads custom-collections created by the user.                                                                                                  |
 
 ### Custom Settings
 
@@ -323,7 +330,7 @@ The **Inspect** skill is a special skill that the host-character can learn throu
 
 ### Export StatIDs for Reference
 
-It may not always be possible to know the exact internal **stat-name/statID** of a stat, especially if you don't have access to **The Divinity Engine 2**. Even with the engine, opening the software just to check stat-names may not be the best use of your time. As such, a niche but useful function in the **diagnostics** section is `ExportStatToTSV`. This will save a `tsv` (tab-seperated-value) file in `Osiris Data` with **all** the stat-names along with their category. Unless new stats are created for your session (by adding new mods), this list will not change much. So you can just export it once and keep it around for reference forever. You can restrict what type of stats are exported using the [settings](Documentation/Extensive-Documentation.md#Setting-Details) - the field `RestrictStatTypeTo` in `ExportStatToTSV` takes a string seperated by commas and spaces. For example, if you want to restrict the export to Armor and Weapons only, then `S7_ConfigSettings.json` will have the following block:
+It may not always be possible to know the exact internal **stat-name/statID** of a stat, especially if you don't have access to **The Divinity Engine 2**. Even with the engine, opening the software just to check stat-names may not be the best use of your time. As such, a niche but useful function in the **diagnostics** section is `ExportStatToTSV`. This will save a `tsv` (tab-seperated-value) file in `Osiris Data` with **all** the stat-names along with their category. Unless new stats are created for your session (by adding new mods for example), this list will not change much. So you can just export it once and keep it around for reference forever. You can restrict what type of stats are exported using the [settings](#Setting-Details) - the field `RestrictStatTypeTo` in `ExportStatToTSV` takes a string seperated by commas and spaces. For example, if you want to restrict the export to Armor and Weapons only, then `S7_ConfigSettings.json` will have the following block:
 
 ```json
 {
@@ -334,22 +341,22 @@ It may not always be possible to know the exact internal **stat-name/statID** of
 }
 ```
 
-Now, `S7_AllTheStat.tsv` will only have stat of the "Armor" and "Weapon" type.
+Now, `S7_AllTheStat.tsv` will only have stat of the _"Armor"_ and _"Weapon"_ type.
 Possible values for stat-types are: `Character`, `Armor`, `Weapon`, `Potion`, `SkillData`, `StatusData` and `Shield` etc. Leaving `RestrictStatTypeTo` empty will export everything.
 
-If you just wish to know the stat-names for a certain **skill** or **status** a character/item has on them, then you can also use the [Inspect Skill](Documentation/Extensive-Documentation.md#Inspect-Skill). It will print out the relevant **stat-names** to the debug-console. This way you can quickly reference the stat-name/statID without having to export 7000+ stat entries.
+If you just wish to know the stat-names for a certain **skill** or **status** a character/item has on them, then you can also use the [Inspect Skill](#inspect-skill). It will print out the relevant **stat-names** to the debug-console. This way you can quickly reference the stat-name/statID without having to export 7000+ stat entries.
 
-You can also use the [console-command](Documentation/Extensive-Documentation.md#Console-Commands) `!S7_Config SearchStat YourSearchQueryHere OptionalTypeRestriction`. This will search any stats that have `YourSearchQueryHere` in their name. The optional argument `OptionalTypeRestriction` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for the string `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character` will only search for the string `Dallis` in stat-entries of the `Character` type.
+You can also use the [console-command](#Console-Commands) `!S7_Config SearchStat YourSearchQueryHere OptionalTypeRestriction`. This will search any stats that have `YourSearchQueryHere` in their name. The optional argument `OptionalTypeRestriction` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for the string `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character` will only search for the string `Dallis` in stat-entries of the `Character` type.
 
 ## Console-Commands
 
-The mod comes with a suite of console-commands for a variety of purposes. Console-commands can allow the user to bypass the boring mod-menu entirely. Console-commands are inputted through the script-extender's debug-console window. Press enter while the debug-console is in focus to initiate the command-line.
+The mod comes with a suite of console-commands for a variety of purposes. Console-commands can allow the user to bypass the boring mod-menu entirely. You input console-commands through the script-extender's [debug-console](#debug-console) window. Press enter while the debug-console is in focus to initiate the command-line.
 
 All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up the following list of useful commands in the debug-console window.
 
 | Command             | Argument 1       | Argument 2    | Comments                                                      | Examples                                           |
 | ------------------- | ---------------- | ------------- | ------------------------------------------------------------- | -------------------------------------------------- |
-| **Help**            |                  |               | Prints a helpful list of console-commands.                    | `!S7_Config Help` or `!S7_Config`                  |
+| **Help**            |                  |               | Prints a helpful list of console-commands.                    | `!S7_Config Help` or simply `!S7_Config`           |
 | **AddConfigurator** |                  |               | Adds the configurator item to the host-character.             | `!S7_Config AddConfigurator`                       |
 | **StartModMenu**    |                  |               | Starts the Mod-Menu Dialog.                                   | `!S7_Config StartModMenu`                          |
 | **AddSkill**        | **SkillID**      | Character-key | Adds skill (skillID) to character (character-key).            | `!S7_Config AddSkill Projectile_Fireball Host`     |
@@ -360,10 +367,10 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | **Reference**       | statType         | attributeType | Lookup (StatType) and (AttributeType) in References           | `Reference Weapon IsTwoHanded`                     |
 | **Relay**           | Signal           |               | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
 
-**NOTE**:
-
-- Non-bold arguments are optional.
-- Character-key accepts the following values: Host, Clients, [Character's Name|e.g. Beast, Fane], [Empty-String| to select all players]
+>**NOTE**:
+>
+> - Non-bold arguments are optional.
+> - Character-key accepts the following values: Host, Clients, [Character's Name e.g. Beast, Fane], [Empty-String to select all players]
 
 The following signals can be passed to the `Relay`.
 
@@ -387,17 +394,17 @@ The following signals can be passed to the `Relay`.
 
 ## References
 
-If you wish to know the stat-name/stat-ID of something specific, you can target it in-game using the [Inspect skill](#inspect-skill) or you can use the `SearchStat` [console-command](#console-commands) to search for it. `!S7_Config SearchStat Cone_` will return a list of all stat-IDs with the string `Cone_` in them.
+If you wish to know the _stat-name/stat-ID_ of something specific, you can target it in-game using the [Inspect skill](#inspect-skill) or you can use the `SearchStat` [console-command](#console-commands) to search for it. `!S7_Config SearchStat Cone_` will return a list of all stat-IDs with the string `Cone_` in them.
 If you want a complete list of stat-IDs, you can [export them to a .tsv file](#export-statids-for-reference).
 
-Each stat-name/stat-ID has a corresponding stat-type. Each stat-type has a set of attributes associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be _enumerations_ that have an associated list of values of their own as defined in `Enumerations.xml` file. Both of these files have been provided for your convenience.
+Each stat-name/stat-ID has a corresponding _stat-type_. Each stat-type has a set of _attributes_ associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be _enumerations_ that have an associated list of values of their own as defined in `Enumerations.xml` file. Both of these files have been provided for your convenience.
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
 
 This information can also be printed to the debug-console using the `Reference` [console-command](#console-commands).
 
-**Note:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable) markdown. The reference sheets may seem incomplete, so feel free to ask if you are still unsure about something.
+> **NOTE:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable) markdown. The reference sheets may seem incomplete, but it is what it is. So feel free to ask if you are still unsure about something.
 
 If you wish to retrieve all attributes and their corresponding values for a given stat you can use the `DeepDive` [console-command](#console-commands). `!S7_Config DeepDive Projectile_Fireball` will print absolutely everything related to stat `Projectile_Fireball`.
 
