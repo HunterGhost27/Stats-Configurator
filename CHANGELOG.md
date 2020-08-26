@@ -2,17 +2,18 @@
 
 ---
 
-## [0.7.0.0] --- 22th August 2020 --- **_Pre-Pre-Release Checkup_**
+## [0.7.0.0] --- 26th August 2020 --- **_Pre-Pre-Release Checkup_**
 
 ## NEW
 
 - _Removed_ `RebuildCollections()` from `RefreshSettings()`. **Collections** are automatically rebuilt when they are needed. - hopefully.
 - `HandleStatType()` can now handle `StatusData`!
+- `StatsLoader()` no longer complains if `S7_Config`'s entry does not exist.
 
 ## CHANGED
 
 - _Renamed_ `IsTwoHandedWeapon` and `IsNotTwoHandedWeapon` to `WeaponIsTwoHanded` and `WeaponIsNotTwoHanded` respectively.
-- **DQM** doesn't fail to start if `S7_ConfigData.json` does not exist.
+- **DQM** no longer complains if `S7_ConfigData.json` does not exist.
 
 ## COMMENT
 

@@ -37,7 +37,10 @@ local function StatsLoader() --  Loads configuration json after StatsLoaded even
                     end
                 end
             end
-            table.insert(toConfigure, {[configData[modInfo.UUID]["ModName"]] = configData[modInfo.UUID]["Content"]}) --  Append this mod's config at the end.
+
+            if configData[modInfo.UUID] ~= nil then
+                table.insert(toConfigure, {[configData[modInfo.UUID]["ModName"]] = configData[modInfo.UUID]["Content"]}) --  Append this mod's config at the end.
+            end
 
             --  CALL CONFIGURATOR
             --  =================
