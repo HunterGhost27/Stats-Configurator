@@ -57,7 +57,7 @@ function UnpackCollection(keyName, content) --  Determines if keyName is a colle
     local returnNameList = {} -- return variable
 
     if string.match(keyName, "COLLECTION") then -- if config entry has "COLLECTION" keyword.
-        for collectionName in string.gmatch(keyName, "[^%s]+") do -- split entry into "COLLECTION" and "CollectionName"
+        for collectionName in string.gmatch(keyName, "[%w]+") do -- split entry into "COLLECTION" and "CollectionName"
             if collectionName ~= "COLLECTION" then -- Filter "CollectionName"
                 if configCollections[collectionName] ~= nil then --  if collection exists.
                     S7_ConfigLog("Unpacking collection " .. collectionName)
