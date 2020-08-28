@@ -23,6 +23,8 @@ The **Stats Configurator** allows you to modify and customize stats by creating 
 * _Save_ your stat-overrides **persistently** in the save-file, or change them up each and every session.
 * Can _interface_ with other mods and provide them the same configuration power. Create **MCMs** for your mods or let this mod do it for you!
 
+[Video-Preview](https://www.youtube.com/watch?v=gt-Dfrlh_1o)
+
 ## Features
 
 ### Configure to your heart's desire
