@@ -221,7 +221,6 @@ function ValidateClientConfigs()
                 Ext.JsonStringify(payload)
             ) -- broadcast server's config file to all clients.
         end
-        Osi.OpenMessageBox(userInfo.hostCharacter.currentCharacter, "Please check the debug-console for results.")
     else
         S7_ConfigLog(
             "Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName,
