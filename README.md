@@ -48,7 +48,7 @@ When this configuration loads, it will override `Projectile_Fireball`. The **Fir
 
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
 
-***Take a look at the [quick-tour](Documentation/QuickTour.md) and/or the [examples](Documentation/Examples.md) to get started. Read the [documentation](Documentation/Extensive-Documentation.md) to see everything that this mod has to offer.***
+***Take a look at the [examples](Documentation/Examples.md) to get started. Read the [documentation](Documentation/Extensive-Documentation.md) to see everything that this mod has to offer.***
 
 ### Easily share your config in multiplayer
 

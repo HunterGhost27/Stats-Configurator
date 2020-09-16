@@ -2,6 +2,12 @@
 
 ---
 
+## [0.7.0.0] --- 16th September 2020 --- **_Pre-Pre-Release Checkup_**
+
+### REMOVED
+
+- _Removed_ `QuickTour.md` from documentation. Didn't like it.
+
 ## [0.7.0.0] --- 26th August 2020 --- **_Pre-Pre-Release Checkup_**
 
 ## NEW
