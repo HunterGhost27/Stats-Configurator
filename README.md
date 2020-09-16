@@ -4,7 +4,7 @@
 
 ----------
 
-The **Stats Configurator** allows you to modify and customize stats by creating a _config file_.  Other mods can interface with its functionality to achieve the same. If you don't have the time and patience to use the divinity-engine or just want to make quick-edits to stats without having to deal with the clunky stats-editor, then this mod is for you. Through the configuration file, you can change attributes like _action-points cost, cooldown, gold-value, display-name, damage-values_ and _resistances, movement-range, memory cost, item-color, accuracy_ and _dodge, status-effects_ and many more.
+The ***Stats Configurator*** allows you to modify and customize stats by creating _config files_. Through the configuration file, you can change attributes like _action-points costs, cooldowns_ and _memory costs_ of **skills**; _gold-value, damage-values_ and _damage type_ of **weapons**; _resistances_ and _item-color_ of **armors**; _resistances, talents, accuracy_ and _dodge_ of characters; and many more.
 
 ## Releases
 
@@ -16,20 +16,11 @@ The **Stats Configurator** allows you to modify and customize stats by creating 
 
 * ***[Norbyte's Script-Extender](https://github.com/Norbyte/ositools)***
 
-## Mod at a Glance
-
-* **Edit stats dynamically.** _Modify_, _customize_ and _rebalance_ the game as you see fit. Change the _damage value_ and _damage type_ of weapons, _AP_ and _SP cost_ of skills, make Sir Lora _immortal_, give all shields _blocking chance_, create your own _overhauls_, or just paint all your armor _black_! Sky is the limit.
-* Easily _share_ your **config-data** with your friends.
-* _Save_ your stat-overrides **persistently** in the save-file, or change them up each and every session.
-* Can _interface_ with other mods and provide them the same configuration power. Create **MCMs** for your mods or let this mod do it for you!
-
-[Video-Preview](https://www.youtube.com/watch?v=gt-Dfrlh_1o)
-
 ## Features
 
 ### Configure to your heart's desire
 
-Users can make their stat-overrides by creating a **json file** (Default: `S7_Config.json`) like so:
+Users can override stats by creating a **json file** (Default: `S7_Config.json`) like so:
 
 ```json
 {
@@ -48,7 +39,7 @@ When this configuration loads, it will override `Projectile_Fireball`. The **Fir
 
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
 
-***Take a look at the [examples](Documentation/Examples.md) to get started. Read the [documentation](Documentation/Extensive-Documentation.md) to see everything that this mod has to offer.***
+***Checkout more [examples!](Documentation/Examples.md)***
 
 ### Easily share your config in multiplayer
 
@@ -58,9 +49,9 @@ All configuration-profiles, _user-created_ or _mod-created_, are compiled into a
 
 While primarily created for end-users, the mod doesn't actually care where it gets the config-file. This means other mods can send serialized jsons to the stats configurator for stat-overrides. This functionality exists because I wanted to create MCMs for my other mods, but any mod-maker can use this if they wish.
 
-The mod comes with a dynamic-quick-menu that can create basic MCMs for you! You need just register your mod with a `global-flag` to listen for and create a `database` with the stats and attributes that you want the MCM to account. Done. Your mod now has a basic MCM. It'll launch whenever that flag is set. It will allow the users to customize those stat-entries and store the configuration in their local ConfigData.
+The mod comes with a dynamic-quick-menu and can create basic MCMs for you! You just need to create a `database` with the stats and attributes that you want the MCM to account and register your mod with a `global-flag` to listen for. Done. Your mod now has a basic MCM. It'll launch whenever that flag is set. It will allow the users to customize those stat-entries and store the configuration in their local ConfigData.
 
-For proper documentation, please visit [mod-interfacing](Documentation/Extensive-Documentation.md#Mod-Interfacing).
+For proper documentation, please visit the [mod-interfacing](Documentation/Extensive-Documentation.md#Mod-Interfacing) section of the documentation.
 
 ### Console-Commands
 
