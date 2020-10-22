@@ -71,4 +71,4 @@ If you are playing multiplayer with friends, there's one more thing you need to 
 
 ### Congratulations
 
-That's pretty much it. That's all you need to know to get started with this mod. I'll urge you to read the ***[extensive documentation](Documentation/Extensive-Documentation.md)*** to learn more about this mod and all that it has to offer. Take a look at some ***[examples](Documentation/Examples.md)*** for more ideas.
+That's pretty much it. That's all you need to know to get started with this mod. I'll urge you to read the ***[extensive documentation](Extensive-Documentation.md)*** to learn more about this mod and all that it has to offer. Take a look at some ***[examples](Examples.md)*** for more ideas.
