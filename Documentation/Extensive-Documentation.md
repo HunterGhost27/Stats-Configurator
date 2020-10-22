@@ -383,8 +383,8 @@ The following signals can be passed to the `Relay`.
 
 | Signal                       | Purpose                                                                            |
 | ---------------------------- | ---------------------------------------------------------------------------------- |
-| S7_StatsConfigurator         | Loads and applies configuration-profile. (default: S7_Config.json)                 |
-| S7_BuildConfigData           | Builds ConfigData file using configuration-profile. (default: S7_Config.json)      |
+| S7_StatsConfigurator         | Loads and applies configuration-profile. (default: `S7_Config.json`)               |
+| S7_BuildConfigData           | Builds ConfigData file using configuration-profile. (default: `S7_Config.json`)    |
 | S7_BroadcastConfigData       | Broadcasts serialized ConfigData to all active clients.                            |
 | S7_ValidateClientConfig      | Calls for client ConfigData validation. Check response in debug-console.           |
 | S7_ToggleStatsLoader         | Toggle StatsLoader setting. Responsible for loading ConfigData on ModuleLoad.      |
