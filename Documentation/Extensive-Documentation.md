@@ -368,14 +368,16 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | **SearchStat**      | **SearchString** | StatType      | Search for (SearchString) in category (StatType).             | `!S7_Config SearchStat Summon_Incarnate SkillData` |
 | **SyncStat**        | **StatID**       | Persistence   | Synchronize (StatID) with (Persistence) for all clients.      | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
 | **SnapshotVars**    | VariableType     | Variable      | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
-| **Reference**       | statType         | attributeType | Lookup (StatType) and (AttributeType) in References           | `Reference Weapon IsTwoHanded`                     |
-| **DeepDive**        | **statsID**      |               | Print all valid attributes and their values.                  | `DeepDive Shout_ShedSkin`                          |
+| **Reference**       | statType         | attributeType | Lookup (StatType) and (AttributeType) in References           | `!S7_Config Reference Weapon IsTwoHanded`          |
+| **DeepDive**        | **statsID**      |               | Print all valid attributes and their values.                  | `!S7_Config DeepDive Shout_ShedSkin`               |
 | **Relay**           | Signal           |               | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
 
 >**NOTE**:
 >
 > - Non-bold arguments are optional.
 > - Character-key accepts the following values: Host, Clients, [Character's Name e.g. Beast, Fane], [Empty-String to select all players]
+
+The following variables can be queried using `SnapshotVars`: `data`, `Files` and `Flags`
 
 The following signals can be passed to the `Relay`.
 
