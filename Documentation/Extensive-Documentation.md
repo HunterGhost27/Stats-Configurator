@@ -238,7 +238,7 @@ Custom Settings are applied from `S7_ConfigSettings.json` in `Osiris Data`. If t
 
 ## Mod-Interfacing
 
-The mod reads serialized jsons for configuration. But the source of these configurations need not always be the user; Other mods can interface with the stats-configurator aswell. They need only pass the serialized json and rebuild the ConfigData file. Mod-created configs are kept separate from user-created configs (and one another) so as to not overwrite them. These configs are loaded during the `ModuleLoading` event in accordance with the Mod Load-Order. This functionality exists because I wanted some sort of framework to create Mod-Config-Menus for my other mods and did not want to write the same code 14 billion times. So while the Mod-Interface is something I created primarily for myself, technically any mod can use to delegate the stat-overriding tasks.
+The mod reads serialized jsons for configuration. But the source of these configurations need not always be the user; Other mods can interface with the stats-configurator aswell. They need only pass the serialized json and rebuild the ConfigData file. Mod-created configs are kept separate from user-created configs (and one another) so as to not overwrite them. These configs are loaded during the `ModuleLoading/StatsLoaded` event in accordance with the Mod Load-Order. This functionality exists because I wanted some sort of framework to create Mod-Config-Menus for my other mods and did not want to write the same code 14 billion times. So while the Mod-Interface is something I created primarily for myself, technically any mod can use to delegate the stat-overriding tasks.
 
 ### Quick-Menu
 
@@ -248,14 +248,14 @@ The second half of the following video preview showcases the dynamic-quick-menu 
 
 [Video-Preview](https://youtu.be/gt-Dfrlh_1o?t=90)
 
-You can check whether the player has the mod installed using the extender (`Ext.IsModLoaded("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")` or `NRD_IsModLoaded("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")`) or by checking for the flag `S7_ConfigActive`. You need to register your mod to the stats configurator by providing the `modName` and `modUUID`. This info is required to display information to the user and also to check your mod against the load-order. You can register you mod by adding a DB entry in Osiris like `DB_S7_Config_ModRegistry("My_ModName", "1MOD2UUID3-65a2-X2gx-a25f-7a7ab0305a58", "My_ModSignal");`. This will register `My_ModName` with modUUID `1MOD2UUID3-65a2-X2gx-a25f-7a7ab0305a58` to the stats-configurator. The third parameter is the `flagName` that the stats-configurator will listen for, to start the dynamic-quick-menu.
+You can check whether the player has the mod installed using the extender (`Ext.IsModLoaded("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")` or `NRD_IsModLoaded("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58")`) or by checking for the flag `S7_ConfigActive`. You need to register your mod to the stats configurator by providing the `modName` and `modUUID`. This is required to display information to the user and also to check your mod against the load-order. You can register you mod by adding a DB entry in Osiris like `DB_S7_Config_ModRegistry("My_ModName", "1MOD2UUID3-65a2-X2gx-a25f-7a7ab0305a58", "My_ModSignal");`. This will register `My_ModName` with modUUID `1MOD2UUID3-65a2-X2gx-a25f-7a7ab0305a58` to the stats-configurator. The third parameter is the `flagName` that the stats-configurator will listen for, to start the dynamic-quick-menu.
 
 Once registered, you need to specify the stats and attributes you want the quick-menu to list as options. You do this by registering them to `DB_S7_Config_ModInterface((STRING)_ModName, (STRING)_StatName, (STRING)_AttributeName);`. For example:
 
 ```
-DB_7_Config_ModInterface("MyModName", "Projectile_MySkillName", "ActionPoints");
-DB_7_Config_ModInterface("MyModName", "Projectile_MySkillName", "IgnoreSlience");
-DB_7_Config_ModInterface("MyModName", "WPN_MySpecialWeapon", "AttackAPCost");
+DB_S7_Config_ModInterface("MyModName", "Projectile_MySkillName", "ActionPoints");
+DB_S7_Config_ModInterface("MyModName", "Projectile_MySkillName", "IgnoreSlience");
+DB_S7_Config_ModInterface("MyModName", "WPN_MySpecialWeapon", "AttackAPCost");
 ```
 
 Here's an example from my [Channel-Source](https://steamcommunity.com/sharedfiles/filedetails/?id=2028696492) mod:
@@ -369,6 +369,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 | **SyncStat**        | **StatID**       | Persistence   | Synchronize (StatID) with (Persistence) for all clients.      | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
 | **SnapshotVars**    | VariableType     | Variable      | Prints info about the relevant variable to the debug-console. | `!S7_Config SnapshotVars`                          |
 | **Reference**       | statType         | attributeType | Lookup (StatType) and (AttributeType) in References           | `Reference Weapon IsTwoHanded`                     |
+| **DeepDive**        | **statsID**      |               | Print all valid attributes and their values.                  | `DeepDive Shout_ShedSkin`                          |
 | **Relay**           | Signal           |               | Relay to ModMenu. `!S7_Config Relay Help` for more.           | `!S7_Config Relay S7_BroadcastConfigData`          |
 
 >**NOTE**:
