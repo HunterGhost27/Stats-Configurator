@@ -10,7 +10,7 @@ The ***Stats Configurator*** allows you to modify and customize stats by creatin
 
 * [ ] ~~***[Steam Workshop](#SteamWorkshop)***~~
 * [ ] ~~***[Nexus](#NexusMods)***~~
-* [x] ***[Github](https://github.com/Shresht7/Stats-Configurator)***
+* [x] ***[Github](https://github.com/Shresht7/Stats-Configurator/releases)***
 
 ## Requirements
 
@@ -85,6 +85,7 @@ A lot of these settings can be toggled on or off from the mod-menu or by using t
 ============================
 
 ***[QUICK-START](Documentation/QuickStart.md)***
+
 ***[READ THE EXTENSIVE DOCUMENTATION](Documentation/Extensive-Documentation.md)***
 
 ============================
