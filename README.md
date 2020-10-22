@@ -84,6 +84,7 @@ A lot of these settings can be toggled on or off from the mod-menu or by using t
 
 ============================
 
+***[QUICK-START](Documentation/QuickStart.md)***
 ***[READ THE EXTENSIVE DOCUMENTATION](Documentation/Extensive-Documentation.md)***
 
 ============================
