@@ -261,9 +261,9 @@ function SnapshotVars(selectedType, selectedVar)
             ["toSync"] = toSync
         },
         ["Files"] = {
-            ["Settings"] = Ext.LoadFile("S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
-            ["ConfigFile"] = Ext.LoadFile(ConfigSettings.ConfigFile) or "",
-            ["ConfigData"] = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or ""
+            ["Settings"] = Ext.LoadFile(subdirectory .. "S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
+            ["ConfigFile"] = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigFile) or "",
+            ["ConfigData"] = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or ""
         },
         ["Flags"] = {
             ["S7_ConfigActive"] = Osi.GlobalGetFlag("S7_ConfigActive") or 0,

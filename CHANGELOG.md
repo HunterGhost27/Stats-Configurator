@@ -2,6 +2,12 @@
 
 ---
 
+## [0.7.0.1] --- 26th October 2020 --- 📂 **_Subdirectory Support_** 📂
+
+### CHANGED
+
+- All files will now be grouped inside a subdirectory.
+
 ## [0.7.0.0] --- 16th September 2020 --- **_Pre-Pre-Release Checkup_**
 
 ### REMOVED

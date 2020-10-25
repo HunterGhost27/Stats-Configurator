@@ -139,11 +139,11 @@ function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates Confi
     if ValidString(modName) then
         if ValidString(modUUID) then
             local configTable = {} --  temporary table.
-            local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load existing file.
+            local file = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --  Load existing file.
             if ValidString(file) then
                 configTable = Ext.JsonParse(file) -- gets existing ConfigData.
             else
-                Ext.SaveFile(ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
+                Ext.SaveFile(subdirectory .. ConfigSettings.StatsLoader.FileName, "") --  if ConfigData doesn't exist, create empty file.
             end
 
             configTable[modUUID] = {
@@ -152,7 +152,7 @@ function BuildConfigData(buildData, modUUID, modName) --  Rebuilds/updates Confi
                 ["Content"] = buildData
             }
 
-            Ext.SaveFile(ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
+            Ext.SaveFile(subdirectory .. ConfigSettings.StatsLoader.FileName, Ext.JsonStringify(configTable)) --  Save ConfigData
         else
             S7_ConfigLog("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName, "[Error]")
         end

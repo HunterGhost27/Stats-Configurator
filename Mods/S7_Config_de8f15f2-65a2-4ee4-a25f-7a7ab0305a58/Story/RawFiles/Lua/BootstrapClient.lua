@@ -20,7 +20,7 @@ local function StatsLoader() --  Loads configuration json after StatsLoaded even
 
     if ConfigSettings.StatsLoader.Enable == true then --  StatsLoader enabled in settings.
         S7_ConfigLog("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName)
-        local file = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
+        local file = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
         if ValidString(file) then --  if configData file exists and is not empty.
             local configData = Ext.JsonParse(file) --  Parse into table.
 
@@ -73,14 +73,14 @@ local function CatchBroadcast(channel, payload) --  Listens for broadcasts from 
 
     if channel == "S7_ConfigData" then --  if broadcast channel is S7_ConfigData.
         S7_ConfigLog("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
-        Ext.SaveFile(ConfigSettings.StatsLoader.FileName, payload) --  Save stringified json.
+        Ext.SaveFile(subdirectory .. ConfigSettings.StatsLoader.FileName, payload) --  Save stringified json.
     end
 
     --  CLIENT CONFIG VALIDATION
     --  ========================
 
     if channel == "S7_ValidateClientConfig" then --  if broadcast channel is S7_ValidateClientConfig.
-        local verify = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --    Load local ConfigFile, if available.
+        local verify = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --    Load local ConfigFile, if available.
 
         for clientID, compare in pairs(Ext.JsonParse(payload)) do --  seperate client-info and the actual compare-string.
             local message = clientID .. " : "

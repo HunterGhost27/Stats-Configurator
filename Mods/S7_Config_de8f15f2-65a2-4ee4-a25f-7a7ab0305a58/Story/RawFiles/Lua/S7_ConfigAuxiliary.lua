@@ -3,6 +3,7 @@
 --  ===================================================================================================================================================
 modInfo = Ext.GetModInfo("de8f15f2-65a2-4ee4-a25f-7a7ab0305a58") --  {"ProjectName": "S7_Config","ProjectUUID": "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58"}
 logSource = "Lua:ConfigAuxiliary"
+subdirectory = "StatsConfigurator/"
 --  ###################################################################################################################################################
 
 --  ######################
@@ -46,7 +47,7 @@ function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted eve
         end
     end
 
-    local JSONsetting = Ext.LoadFile("S7_ConfigSettings.json") or "" --  Load CustomSettings json file.
+    local JSONsetting = Ext.LoadFile(subdirectory .. "S7_ConfigSettings.json") or "" --  Load CustomSettings json file.
     if ValidString(JSONsetting) then --  if json file exists and is not empty.
         local settingsOverride = Ext.JsonParse(JSONsetting) --  Parse json-string.
 
@@ -168,15 +169,18 @@ end
 
 function ExportLog()
     if ConfigSettings.ConfigLog.Enable == true then
-        if Ext.LoadFile(ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
-            Ext.SaveFile(ConfigSettings.ConfigLog.FileName, "State\tLogType\tLog\tDialogVariable\tDialogValue\n") --  Save file with header column
+        if Ext.LoadFile(subdirectory .. ConfigSettings.ConfigLog.FileName) == nil then --  if the file does not exist
+            Ext.SaveFile(
+                subdirectory .. ConfigSettings.ConfigLog.FileName,
+                "State\tLogType\tLog\tDialogVariable\tDialogValue\n"
+            ) --  Save file with header column
         end
 
-        local logFile = Ext.LoadFile(ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logFile
+        local logFile = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigLog.FileName) --  If file exists - load all data into logFile
         logFile = logFile .. logHistory
         logHistory = ""
         -- The compiled log history.
-        Ext.SaveFile(ConfigSettings.ConfigLog.FileName, logFile) --  SaveLog in a file.
+        Ext.SaveFile(subdirectory .. ConfigSettings.ConfigLog.FileName, logFile) --  SaveLog in a file.
     end
 end
 
@@ -256,7 +260,7 @@ end
 --  ===================
 
 function StatsExportTSV() --  Fetches literally every stat and exports to TSV.
-    Ext.SaveFile(ConfigSettings.ExportStatIDtoTSV.FileName, "") --  Creates an empty TSV or Overwrites the existing one.
+    Ext.SaveFile(subdirectory .. ConfigSettings.ExportStatIDtoTSV.FileName, "") --  Creates an empty TSV or Overwrites the existing one.
     local SaveAllStatsToFile = "S.No\tType\tStatID\n" --  Header Column.
 
     local allStat = Ext.GetStatEntries() --  Get All Stat Entries
@@ -271,7 +275,7 @@ function StatsExportTSV() --  Fetches literally every stat and exports to TSV.
             SaveAllStatsToFile = SaveAllStatsToFile .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
         end
     end
-    Ext.SaveFile(ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
+    Ext.SaveFile(subdirectory .. ConfigSettings.ExportStatIDtoTSV.FileName, SaveAllStatsToFile) --  Save TSV files.
     S7_ConfigLog("Stats exported to TSV file.", nil, "ExportStats")
 end
 

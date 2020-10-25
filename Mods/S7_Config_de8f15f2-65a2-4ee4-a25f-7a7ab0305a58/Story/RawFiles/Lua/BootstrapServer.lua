@@ -20,14 +20,14 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     -- ====================
 
     if Signal == "S7_StatsConfigurator" then
-        local file = Ext.LoadFile(ConfigSettings.ConfigFile) or "" --  Load file.
+        local file = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigFile) or "" --  Load file.
         if ValidString(file) then --  if file exists and is not empty.
             S7_ConfigLog("Loading: " .. ConfigSettings.ConfigFile)
             table.insert(toConfigure, {["S7_Config"] = file}) -- Queue json for Configuration.
             Osi.OpenMessageBox(userInfo.hostCharacter.currentCharacter, "Configuration initiated. Please be patient.")
         else
             S7_ConfigLog(ConfigSettings.ConfigFile .. " not found. Creating empty file.", "[Error]")
-            Ext.SaveFile(ConfigSettings.ConfigFile, "")
+            Ext.SaveFile(subdirectory .. ConfigSettings.ConfigFile, "")
         end
         StatsConfigurator() --  Calls StatsConfigurator.
         StatsSynchronize() --  Synchronize stats for all clients.
@@ -39,7 +39,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  =================
 
     if Signal == "S7_BuildConfigData" then
-        local buildData = Ext.LoadFile(ConfigSettings.ConfigFile) or "" --  Load ConfigFile.
+        local buildData = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigFile) or "" --  Load ConfigFile.
         BuildConfigData(buildData, modInfo.UUID, "S7_Config") --  Rebuild ConfigData file.
         S7_ConfigLog("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
     end
@@ -48,7 +48,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     --  ================
 
     if Signal == "S7_BroadcastConfigData" then
-        local broadcast = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) or "" --  Load configData file.
+        local broadcast = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --  Load configData file.
         if ValidString(broadcast) then --  if file exists and is not empty
             Ext.BroadcastMessage("S7_ConfigData", broadcast) --  broadcast Server's configFile
             S7_ConfigLog("Server broadcasted their configuration file.")
@@ -125,7 +125,7 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_ExportCurrentSettings" then --  Exports the current ConfigSettings to ConfigSettings.json file.
         local exportSettings = Ext.JsonStringify(ConfigSettings) --  stringifies the current ConfigSettings.
-        Ext.SaveFile("S7_ConfigSettings.json", exportSettings) --  Save json file.
+        Ext.SaveFile(subdirectory .. "S7_ConfigSettings.json", exportSettings) --  Save json file.
         S7_ConfigLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
         RefreshSettings() --  Reload settings.
         S7_ConfigLog("Custom Settings Exported and Refreshed.")
@@ -206,7 +206,7 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 
 function ValidateClientConfigs()
     S7_ConfigLog("Validating Client Config...")
-    local compare = Ext.LoadFile(ConfigSettings.StatsLoader.FileName) --  Loads server's config
+    local compare = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) --  Loads server's config
     if ValidString(compare) then -- if file exists and is not empty
         FetchPlayers() --  Rebuild user-information. UserID is volatile.
         for userProfileID, _ in pairs(userInfo.clientCharacters) do
