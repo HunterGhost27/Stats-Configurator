@@ -4,7 +4,7 @@
 
 ----------
 
-The ***Stats Configurator*** allows you to modify and customize stats by creating _config files_. Through the configuration file, you can change attributes like _action-points costs, cooldowns_ and _memory costs_ of **skills**; _gold-value, damage-values_ and _damage type_ of **weapons**; _resistances_ and _item-color_ of **armors**; _resistances, talents, accuracy_ and _dodge_ of **characters**; and many more.
+The ***Stats Configurator*** allows you to modify and customize stats by creating _config files_. Through the configuration file, you can change attributes like _action-points costs, cooldowns_ and _memory costs_ of **skills**; _gold-value, damage-values_ and _damage type_ of **weapons**; _resistances_ and _item-color_ of **armors**; _talents, accuracy_ and _dodge_ of **characters**; and many more.
 
 ## Releases
 
@@ -60,6 +60,7 @@ The mod comes with a suite of [console-commands](Documentation/Extensive-Documen
 * `!S7_Config AddSkill Projectile_Fireball` --- _Adds_ Fireball skill to _all clients_.
 * `!S7_Config RemoveSkill Projectile_Fireball Host` --- _Removes_ Fireball from the _host character_.
 * `!S7_Config SearchStat Dallis` --- _Searches_ for all stats with `Dallis` in their name.
+* `!S7_Config DeepDive Shout_ShedSkin` --- _Displays_ all attributes and their corresponding values.
 * `!S7_Config Help` --- For a detailed list of console commands.
 
 ### Settings
@@ -80,7 +81,7 @@ The mod comes with a suite of [console-commands](Documentation/Extensive-Documen
 
 A lot of these settings can be toggled on or off from the mod-menu or by using the [console-commands](Documentation/Extensive-Documentation.md#Console-Commands).
 
-**WIP**: [Video-Preview](https://youtu.be/gt-Dfrlh_1o?t=90)
+**WIP**: [Video-Preview](https://youtu.be/gt-Dfrlh_1o?)
 
 ============================
 
