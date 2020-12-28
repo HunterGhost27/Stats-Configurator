@@ -73,41 +73,41 @@ userInfo = {
     ["hostCharacter"] = {}
 }
 
-function FetchPlayers() --  Rebuilds Client and Host Character Information.
+local function FetchPlayers()
+
     --  CLIENT CHARACTERS
-    --  =================
-    local tempUsers = {} --  Temporary table.
+    --  -----------------
     local count = 1
-    local tempPlayerList = Osi.DB_IsPlayer:Get(nil)[1] or {}
-    for _, player in ipairs(tempPlayerList) do --  Extract Player CharacterGUIDs
+    local tempUsers = {} --  Temporary table.
+    for _, player in ipairs(Osi.DB_IsPlayer:Get(nil)[1] or {}) do --  Extract Player CharacterGUIDs
         tempUsers[count] = Osi.CharacterGetReservedUserID(player) --  Get UserIDs
         count = count + 1
     end
 
-    for _, user in ipairs(tempUsers) do
-        local userProfileID = Osi.GetUserProfileID(user)
-        local _, characterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(user))
+    for _, user in ipairs(tempUsers) do -- Iterate over all active characters
+        local userProfileID = Osi.GetUserProfileID(user) -- Get User's ProfileID
+        local _, characterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(user)) -- Get Controlled Character's DisplayName
+        -- Build ClientCharacter table.
         userInfo.clientCharacters[userProfileID] = {
-            -- Build ClientCharacter table.
             ["userID"] = user,
-            ["userName"] = Osi.GetUserName(user), --  Get Profile Name,
-            ["userProfileID"] = Osi.GetUserProfileID(user), --   Get Profile UUID
+            ["userName"] = Osi.GetUserName(user),
+            ["userProfileID"] = Osi.GetUserProfileID(user),
+            ["hostUserProfileID"] = Osi.GetUserProfileID(Osi.CharacterGetReservedUserID(Osi.CharacterGetHostCharacter())),
             ["currentCharacter"] = Osi.GetCurrentCharacter(user),
             ["currentCharacterName"] = characterName
         }
     end
-
     --  HOST CHARACTER
-    --  ==============
+    --  --------------
     local hostUserID = Osi.CharacterGetReservedUserID(Osi.CharacterGetHostCharacter()) -- Get Host Character's UserID
-    local _, hostCharacterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(hostUserID))
+    local _, hostCharacterName = Osi.CharacterGetDisplayName(Osi.GetCurrentCharacter(hostUserID)) -- Host Character's DisplayName
+    --   Build Host Character's table.
     userInfo.hostCharacter = {
-        --   Build Host Character's table.
         ["hostUserID"] = hostUserID,
         ["hostUserName"] = Osi.GetUserName(hostUserID),
         ["hostProfileID"] = Osi.GetUserProfileID(hostUserID),
         ["currentCharacter"] = Osi.GetCurrentCharacter(hostUserID),
-        ["currentCharacterName"] = hostUserID
+        ["currentCharacterName"] = hostCharacterName
     }
 end
 
