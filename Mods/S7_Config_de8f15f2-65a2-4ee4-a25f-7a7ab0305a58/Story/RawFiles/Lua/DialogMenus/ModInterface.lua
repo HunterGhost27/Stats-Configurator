@@ -1,3 +1,27 @@
+local quickMenuRelay = {
+    ["S7_Config_GoBack"] = true,
+    ["S7_Config_SetOpt1"] = true,
+    ["S7_Config_SetOpt2"] = true,
+    ["S7_Config_SetOpt3"] = true,
+    ["S7_Config_SetOpt4"] = true,
+    ["S7_Config_SetOpt5"] = true,
+    ["S7_Config_NextPage"] = true,
+    ["S7_Config_PrevPage"] = true,
+    ["S7_Config_ExitCleanUp"] = true,
+    ["S7_Config_MoveToNextLevel"] = true,
+}
+
+Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", function (signal)
+    if quickMenuRelay[signal] then
+        S7_Config_QuickMenuRelay(signal)
+        Osi.GlobalClearFlag(signal)
+    end
+end)
+
+Ext.RegisterOsirisListener("GameStarted", 2, "after", function (...)
+    Osi.DB_S7_Config_ModRegistry:Set(IDENTIFIER, ModInfo.UUID)
+end)
+
 --  ============================
 --  REFRESH QUICK-MENU VARIABLES
 --  ============================

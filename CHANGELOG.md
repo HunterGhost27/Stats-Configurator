@@ -8,6 +8,14 @@
 
 * Time to re-write the entire mod.
 
+### CHANGED
+
+* _Luaified_ the entire code.
+
+### REMOVED
+
+* _Started_ purging `ExportStatsToTSV`. -- Not sure what to do with this.
+
 ## [0.7.0.1] --- 26th October 2020 --- 📂 **_Subdirectory Support_** 📂
 
 ### CHANGED

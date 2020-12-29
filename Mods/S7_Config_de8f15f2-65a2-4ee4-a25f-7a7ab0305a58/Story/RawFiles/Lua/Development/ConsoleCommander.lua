@@ -130,7 +130,7 @@ function S7_Config_ConsoleCommander(...)
         if signal == "" or signal == "Help" then
             S7Debug:Warn("\n" .. relayHelpMessage)
         else
-            S7_Config_ModMenuRelay(signal)
+            ModMenuRelay(signal)
         end
     elseif command == "Help" or command == "" then
         --  HELP
@@ -152,18 +152,18 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 function AddSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            UserInfo:Fetch() --  Retrieve userData
+            PlayerInfo:Fetch() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  AddSkill defaults to all Clients.
-                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
+                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
                     Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
                     S7Debug:Print("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                 end
             elseif character == "Host" then --  if Host specified
-                Osi.CharacterAddSkill(UserInfo.hostCharacter["currentCharacter"], skillName, 1)
-                S7Debug:Print("Skill: " .. skillName .. " added to " .. UserInfo.hostCharacter["currentCharacterName"])
+                Osi.CharacterAddSkill(PlayerInfo.hostCharacter["currentCharacter"], skillName, 1)
+                S7Debug:Print("Skill: " .. skillName .. " added to " .. PlayerInfo.hostCharacter["currentCharacterName"])
             else
-                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
+                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
                     if contents["currentCharacterName"] == character then
                         Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
                         S7Debug:Print("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
@@ -181,18 +181,18 @@ end
 function RemoveSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            UserInfo:Fetch() --  Retrieve userData
+            PlayerInfo:Fetch() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  Remove skill defaults to all Clients.
-                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
+                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
                     Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
                     S7Debug:Print("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
             elseif character == "Host" then --  If Host specified.
-                Osi.CharacterRemoveSkill(UserInfo.hostCharacter["currentCharacter"], skillName)
-                S7Debug:Print("Skill: " .. skillName .. " removed from " .. UserInfo.hostCharacter["currentCharacterName"])
+                Osi.CharacterRemoveSkill(PlayerInfo.hostCharacter["currentCharacter"], skillName)
+                S7Debug:Print("Skill: " .. skillName .. " removed from " .. PlayerInfo.hostCharacter["currentCharacterName"])
             else
-                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
+                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
                     if contents["currentCharacterName"] == character then
                         Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
                         S7Debug:Print("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
@@ -243,7 +243,7 @@ function SnapshotVars(selectedType, selectedVar)
         ["data"] = {
             ["modInfo"] = ModInfo,
             ["ConfigSettings"] = ConfigSettings,
-            ["userInfo"] = UserInfo,
+            ["userInfo"] = PlayerInfo,
             ["configCollections"] = Collections,
             ["quickMenuVars"] = QuickMenuVars,
             ["toConfigure"] = Configurations,
