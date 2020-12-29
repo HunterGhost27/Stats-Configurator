@@ -5,31 +5,7 @@
     <region id="Config">
         <node id="root">
             <children>
-                <node id="Dependencies">
-                    <children>
-                        <node id="ModuleShortDesc">
-                            <attribute id="Folder" value="DivinityOrigins_1301db3d-1f54-4e98-9be5-5094030916e4" type="30" />
-                            <attribute id="MD5" value="73d13f95607b70c953cc32e56d62b7d7" type="23" />
-                            <attribute id="Name" value="Divinity: Original Sin 2" type="22" />
-                            <attribute id="UUID" value="1301db3d-1f54-4e98-9be5-5094030916e4" type="22" />
-                            <attribute id="Version" value="373234071" type="4" />
-                        </node>
-                        <node id="ModuleShortDesc">
-                            <attribute id="Folder" value="DOS2_Arena" type="30" />
-                            <attribute id="MD5" value="ba12b04eb34b2bcac60bb3edcceb7c5e" type="23" />
-                            <attribute id="Name" value="Arena" type="22" />
-                            <attribute id="UUID" value="a99afe76-e1b0-43a1-98c2-0fd1448c223b" type="22" />
-                            <attribute id="Version" value="272570775" type="4" />
-                        </node>
-                        <node id="ModuleShortDesc">
-                            <attribute id="Folder" value="GameMaster" type="30" />
-                            <attribute id="MD5" value="a81ffa30bfb55ccddbdc37256bc6f7f4" type="23" />
-                            <attribute id="Name" value="Game Master" type="22" />
-                            <attribute id="UUID" value="00550ab2-ac92-410c-8d94-742f7629de0e" type="22" />
-                            <attribute id="Version" value="271587865" type="4" />
-                        </node>
-                    </children>
-                </node>
+                <node id="Dependencies" />
                 <node id="ModuleInfo">
                     <attribute id="Author" value="Hunter-Ghost-27" type="30" />
                     <attribute id="CharacterCreationLevelName" value="" type="22" />

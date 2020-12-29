@@ -1,62 +1,49 @@
---  #################################################################################################################################
---  #########                                               STATS CONFIGURATOR                                              #########
---  =================================================================================================================================
-Ext.Require("S7_ConfigAuxiliary.lua")
-Ext.Require("S7_ConfigCollections.lua")
-Ext.Require("S7_StatsConfigurator.lua")
-Ext.Require("S7_ConsoleCommander.lua")
-logSource = "Lua:BootstrapClient"
---  #################################################################################################################################
+--  =======
+--  IMPORTS
+--  =======
+
+Ext.Require("Auxiliary.lua")
+Ext.Require("Collections.lua")
+Ext.Require("StatsConfigurator.lua")
 
 --  ============
 --  STATS LOADER
 --  ============
 
-local function StatsLoader() --  Loads configuration json after StatsLoaded event.
-    RebuildCollections() --  Rebuild collections before StatsConfigurator() is called.
+function StatsLoader()
+    Collections:Rebuild()
 
     --  LOAD CONFIG-DATA
     --  ================
 
-    if ConfigSettings.StatsLoader.Enable == true then --  StatsLoader enabled in settings.
-        S7_ConfigLog("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName)
-        local file = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --  Load file if it exists. Load empty string otherwise.
-        if ValidString(file) then --  if configData file exists and is not empty.
-            local configData = Ext.JsonParse(file) --  Parse into table.
+    if ConfigSettings.StatsLoader.Enable then
+        S7DebugPrint("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName, "BootstrapClient")
+        local configData = LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or {}
 
-            --  QUEUE CONFIGURATION W.R.T LOAD ORDER
-            --  ====================================
+        --  QUEUE CONFIGURATION W.R.T LOAD ORDER
+        --  ====================================
 
-            local pos = 1 --  position index.
-            local modLoadOrder = Ext.GetModLoadOrder() --  Get Load order.
-            for _, modUUID in ipairs(modLoadOrder) do --  Iterate over loadOrder.
-                if modUUID ~= modInfo.UUID then --  is not StatsConfigurator's modUUID.
-                    if configData[modUUID] ~= nil and configData[modUUID]["ModUUID"] == modUUID then --  if ModUUID matches.
-                        toConfigure[pos] = {[configData[modUUID]["ModName"]] = configData[modUUID]["Content"]} --  Queue files for configuration.
-                        pos = pos + 1 --  Increment position index.
-                    end
+        local modLoadOrder = Ext.GetModLoadOrder()
+        for _, modUUID in ipairs(modLoadOrder) do
+            if modUUID ~= ModInfo.UUID then
+                if configData[modUUID] and configData[modUUID]["ModUUID"] == modUUID then
+                    Configurations[#Configurations + 1] = {[configData[modUUID]["ModName"]] = configData[modUUID]["Content"]}
                 end
             end
-
-            if configData[modInfo.UUID] ~= nil then
-                table.insert(toConfigure, {[configData[modInfo.UUID]["ModName"]] = configData[modInfo.UUID]["Content"]}) --  Append this mod's config at the end.
-            end
-
-            --  CALL CONFIGURATOR
-            --  =================
-
-            StatsConfigurator() --  Configure Stats.
-            toConfigure = {} -- flush config queue.
-            toSync = {} --  flush Sync queue, since StatsSynchronize() isn't called here.
-            S7_ConfigLog("StatsLoading completed.")
-        else --  The ConfigData file made no sense
-            S7_ConfigLog("Failed to load " .. ConfigSettings.StatsLoader.FileName, "[Error]")
         end
-    else --  If StatsLoader is disabled in settings.
-        S7_ConfigLog("StatsLoader is disabled.", "[Warning]")
-    end
 
-    ExportLog() -- Exports ConfigLogs if they're enabled.
+        if configData[ModInfo.UUID] then
+            table.insert(Configurations, {[configData[ModInfo.UUID]["ModName"]] = configData[ModInfo.UUID]["Content"]})
+        end
+
+        --  CALL CONFIGURATOR
+        --  =================
+
+        StatsConfigurator()
+        Configurations = {}
+        Synchronizations = {}
+        S7DebugPrint("StatsLoading completed.", "BootstrapClient")
+    else S7DebugPrint("StatsLoader is disabled.", "BootstrapClient", nil, nil, "Warning") end
 end
 
 --  ============================================
@@ -67,25 +54,29 @@ Ext.RegisterListener("StatsLoaded", StatsLoader)
 --  CATCH BROADCAST
 --  ===============
 
-local function CatchBroadcast(channel, payload) --  Listens for broadcasts from the Server.
+--- Listens for broadcasts from the Server
+---@param channel string
+---@param payload string
+local function CatchBroadcast(channel, payload)
+
     --  BROADCASTED CONFIG-DATA
     --  =======================
 
-    if channel == "S7_ConfigData" then --  if broadcast channel is S7_ConfigData.
-        S7_ConfigLog("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
-        Ext.SaveFile(subdirectory .. ConfigSettings.StatsLoader.FileName, payload) --  Save stringified json.
+    if channel == "S7_ConfigData" then
+        S7DebugPrint("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName, "BootstrapClient")
+        SaveFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName, payload)
     end
 
     --  CLIENT CONFIG VALIDATION
     --  ========================
 
-    if channel == "S7_ValidateClientConfig" then --  if broadcast channel is S7_ValidateClientConfig.
-        local verify = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --    Load local ConfigFile, if available.
+    if channel == "S7_ValidateClientConfig" then
+        local verify = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or ""
 
-        for clientID, compare in pairs(Ext.JsonParse(payload)) do --  seperate client-info and the actual compare-string.
+        for clientID, compare in pairs(Ext.JsonParse(payload)) do
             local message = clientID .. " : "
 
-            if ValidString(verify) and compare == verify then --  if host's and client's config json match.
+            if ValidString(verify) and compare == verify then
                 message = message .. "Active configuration profile verified."
                 Ext.PostMessageToServer("S7_ValidateClientResponse", message)
             else
@@ -94,13 +85,9 @@ local function CatchBroadcast(channel, payload) --  Listens for broadcasts from 
             end
         end
     end
-
-    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ==============================================================
 Ext.RegisterNetListener("S7_ConfigData", CatchBroadcast)
 Ext.RegisterNetListener("S7_ValidateClientConfig", CatchBroadcast)
 --  ==============================================================
-
---  ##################################################################################################################################

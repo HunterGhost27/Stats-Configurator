@@ -18,7 +18,7 @@ AND
 CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
 THEN
 CharacterAddSkill(_Character, "Target_S7_Config_Inspect", 1);                           //  Add Inspect Skill.
-NRD_ModCall("S7_Config", "S7_ConfigLog", "Host learned Inspect Spell.", "[ModMenu]");
+NRD_ModCall("S7_Config", "S7DebugPrint", "Host learned Inspect Spell.", "[ModMenu]");
 
 IF
 GlobalFlagCleared("S7_LearnInspect")                                                    //  Flag cleared by dialog.
@@ -26,7 +26,7 @@ AND
 CharacterGetHostCharacter(_Character)                                                   //  Character is the host.
 THEN
 CharacterRemoveSkill(_Character, "Target_S7_Config_Inspect");                           //  Remove Inspect Skill.
-NRD_ModCall("S7_Config", "S7_ConfigLog", "Host unlearned Inspect Spell.", "[ModMenu]");
+NRD_ModCall("S7_Config", "S7DebugPrint", "Host unlearned Inspect Spell.", "[ModMenu]");
 
 //  __________________________________
 //          Inspect Skill
@@ -79,7 +79,7 @@ StringConcatenate(_Str1, "): ", _Str2)
 AND
 StringConcatenate(_Str2, _StatID, _StrMsg)
 THEN
-NRD_ModCall("S7_Config", "S7_ConfigLog", _StrMsg, "[ModMenu]");                         //  Print to Debug-Console
+NRD_ModCall("S7_Config", "S7DebugPrint", _StrMsg, "[ModMenu]");                         //  Print to Debug-Console
 
 EXITSECTION
 

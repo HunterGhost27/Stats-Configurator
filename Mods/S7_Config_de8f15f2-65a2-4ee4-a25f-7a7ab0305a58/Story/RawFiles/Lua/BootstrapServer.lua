@@ -1,68 +1,64 @@
---  #################################################################################################################################
---  #########                                                STATS CONFIGURATOR                                             #########
---  =================================================================================================================================
-Ext.Require("S7_ConfigAuxiliary.lua")
-Ext.Require("S7_ConfigCollections.lua")
-Ext.Require("S7_StatsConfigurator.lua")
-Ext.Require("S7_ModInterface.lua")
-Ext.Require("S7_ConsoleCommander.lua")
-logSource = "Lua:BootstrapServer"
---  #################################################################################################################################
+--  =======
+--  IMPORTS
+--  =======
+
+Ext.Require("Auxiliary.lua")
+Ext.Require("Collections.lua")
+Ext.Require("StatsConfigurator.lua")
+Ext.Require("ModInterface.lua")
+Ext.Require("ConsoleCommander.lua")
+
+if Ext.IsDeveloperMode() then Ext.Require("DevMode.lua") end
 
 --  #######################
 --       MOD-MENU RELAY
 --  #######################
 
-local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
-    FetchPlayers() -- Refetch PlayerInfo
+function S7_Config_ModMenuRelay(Signal)
+    UserInfo:Fetch()
 
     --  STATS-CONFIGURATOR
     -- ====================
 
     if Signal == "S7_StatsConfigurator" then
-        local file = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigFile) or "" --  Load file.
-        if ValidString(file) then --  if file exists and is not empty.
-            S7_ConfigLog("Loading: " .. ConfigSettings.ConfigFile)
-            table.insert(toConfigure, {["S7_Config"] = file}) -- Queue json for Configuration.
-            Osi.OpenMessageBox(userInfo.hostCharacter.currentCharacter, "Configuration initiated. Please be patient.")
+        local file = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile) or ""
+        if ValidString(file) then
+            S7DebugPrint("Loading: " .. ConfigSettings.ConfigFile, "BootstrapServer")
+            table.insert(Configurations, {["S7_Config"] = file})
         else
-            S7_ConfigLog(ConfigSettings.ConfigFile .. " not found. Creating empty file.", "[Error]")
-            Ext.SaveFile(subdirectory .. ConfigSettings.ConfigFile, "")
+            S7DebugPrint(ConfigSettings.ConfigFile .. " not found. Creating empty file.", "BootstrapServer", nil, nil, "Error")
+            Ext.SaveFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile, "")
         end
-        StatsConfigurator() --  Calls StatsConfigurator.
-        StatsSynchronize() --  Synchronize stats for all clients.
-        toConfigure = {} --  Clear toConfigure queue.
-        S7_ConfigLog("StatsConfiguration Finished.")
+        StatsConfigurator()
+        StatsSynchronize()
+        Configurations = {}
+        S7DebugPrint("StatsConfiguration Finished.", "BootstrapServer")
     end
 
     --  BUILD CONFIG-DATA
     --  =================
 
     if Signal == "S7_BuildConfigData" then
-        local buildData = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigFile) or "" --  Load ConfigFile.
-        BuildConfigData(buildData, modInfo.UUID, "S7_Config") --  Rebuild ConfigData file.
-        S7_ConfigLog("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
+        local buildData = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile) or ""
+        BuildConfigData(buildData, ModInfo.UUID, "S7_Config")
+        S7DebugPrint("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile, "BootstrapServer")
     end
 
     --  SEND CONFIG DATA
     --  ================
 
     if Signal == "S7_BroadcastConfigData" then
-        local broadcast = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or "" --  Load configData file.
-        if ValidString(broadcast) then --  if file exists and is not empty
-            Ext.BroadcastMessage("S7_ConfigData", broadcast) --  broadcast Server's configFile
-            S7_ConfigLog("Server broadcasted their configuration file.")
-        else
-            S7_ConfigLog("Failed to broadcast the configuration file.", "[Error]")
-        end
+        local broadcast = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or ""
+        if ValidString(broadcast) then
+            Ext.BroadcastMessage("S7_ConfigData", broadcast)
+            S7DebugPrint("Server broadcasted their configuration file.")
+        else S7DebugPrint("Failed to broadcast the configuration file.", "BootstrapServer") end
     end
 
     --  VALIDATE CLIENT FILES
     --  =====================
 
-    if Signal == "S7_ValidateClientConfig" then
-        ValidateClientConfigs()
-    end
+    if Signal == "S7_ValidateClientConfig" then ValidateClientConfigs() end
 
     --  TOGGLE STATSLOADER
     --  ==================
@@ -70,10 +66,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleStatsLoader" then
         if ConfigSettings.StatsLoader.Enable == true then
             ConfigSettings.StatsLoader.Enable = false
-            S7_ConfigLog("StatsLoader: Deactivated")
+            S7DebugPrint("StatsLoader: Deactivated")
         else
             ConfigSettings.StatsLoader.Enable = true
-            S7_ConfigLog("StatsLoader: Activated")
+            S7DebugPrint("StatsLoader: Activated")
         end
     end
 
@@ -83,10 +79,10 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSyncStatPersistence" then
         if ConfigSettings.SyncStatPersistence == true then
             ConfigSettings.SyncStatPersistence = false
-            S7_ConfigLog("SyncStatPersistence: Deactivated")
+            S7DebugPrint("SyncStatPersistence: Deactivated")
         else
             ConfigSettings.SyncStatPersistence = true
-            S7_ConfigLog("SyncStatPersistence: Activated")
+            S7DebugPrint("SyncStatPersistence: Activated")
         end
     end
 
@@ -96,54 +92,53 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleSafetyCheck" then
         if ConfigSettings.BypassSafetyCheck == false then
             ConfigSettings.BypassSafetyCheck = true
-            S7_ConfigLog("BypassSafetyCheck: Activated")
+            S7DebugPrint("BypassSafetyCheck: Activated")
         else
             ConfigSettings.BypassSafetyCheck = false
-            S7_ConfigLog("BypassSafetyCheck: Deactivated")
+            S7DebugPrint("BypassSafetyCheck: Deactivated")
         end
     end
 
     --  SET DEFAULT SETTINGS
     -- ======================
 
-    if Signal == "S7_SetDefaultSettings" then --  Resets ConfigSettings to Default Values.
+    if Signal == "S7_SetDefaultSettings" then
         ConfigSettings = Rematerialize(DefaultSettings)
-        S7_ConfigLog("Using default settings.")
+        S7DebugPrint("Using default settings.")
     end
 
     --  REFRESH SETTINGS
     -- ==================
 
     if Signal == "S7_RefreshSettings" then
-        RefreshSettings() --  Reload settings.
-        RebuildCollections() -- Automatically rebuild collections when settings are refreshed.
-        S7_ConfigLog("Settings refreshed.")
+        RefreshSettings()
+        Collections:Rebuild()
+        S7DebugPrint("Settings refreshed.")
     end
 
     --  EXPORT CURRENT SETTINGS
     -- =========================
 
-    if Signal == "S7_ExportCurrentSettings" then --  Exports the current ConfigSettings to ConfigSettings.json file.
-        local exportSettings = Ext.JsonStringify(ConfigSettings) --  stringifies the current ConfigSettings.
-        Ext.SaveFile(subdirectory .. "S7_ConfigSettings.json", exportSettings) --  Save json file.
-        S7_ConfigLog("Exporting current ConfigSettings to S7_ConfigSettings.json")
-        RefreshSettings() --  Reload settings.
-        S7_ConfigLog("Custom Settings Exported and Refreshed.")
+    if Signal == "S7_ExportCurrentSettings" then
+        SaveFile(SubdirectoryPrefix .. "S7_ConfigSettings.json", ConfigSettings)
+        S7DebugPrint("Exporting current ConfigSettings to S7_ConfigSettings.json")
+        RefreshSettings()
+        S7DebugPrint("Custom Settings Exported and Refreshed.")
     end
 
     --  EXPORT STATS TO TSV FILE
     -- ==========================
 
     if Signal == "S7_StatsExportTSV" then
-        S7_ConfigLog("Exporting StatIDs to " .. ConfigSettings.ExportStatIDtoTSV.FileName)
-        StatsExportTSV() --  Logs statIDs in an external TSV file for reference
+        S7DebugPrint("Exporting StatIDs to " .. ConfigSettings.ExportStatIDtoTSV.FileName)
+        StatsExportTSV()
     end
 
     --  CHANGELOG
     -- ===========
 
     if Signal == "S7_Config_CHANGELOG" then
-        Osi.Proc_S7_Config_ChangelogRequest() --  Procedure Call to ChangelogRequest
+        Osi.Proc_S7_Config_ChangelogRequest()
     end
 
     --  MOD-REGISTRY
@@ -151,8 +146,8 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
 
     if Signal == "S7_PrintModRegistry" then
         local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
-        S7_ConfigLog("Mods registered to Stats-Configurator")
-        S7_ConfigLog("======================================================")
+        S7DebugPrint("Mods registered to Stats-Configurator")
+        S7DebugPrint("======================================================")
         local registeredMods = ""
         for i, entry in ipairs(registry) do
             local registeredModInfo = {
@@ -166,15 +161,15 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
                 registeredMods ..
                 "[" .. i .. "]" .. " - " .. registeredModInfo.Name .. " by " .. registeredModInfo.Author .. "\n"
         end
-        S7_ConfigLog(registeredMods, nil, "RegisteredMods")
-        S7_ConfigLog("======================================================")
+        S7DebugPrint(registeredMods, nil, "RegisteredMods")
+        S7DebugPrint("======================================================")
     end
 
     --  REBUILD COLLECTIONS
     --  ===================
 
     if Signal == "S7_RebuildCollections" then
-        RebuildCollections()
+        Collections:Rebuild()
     end
 
     --  TOGGLE LOG
@@ -183,15 +178,14 @@ local function S7_Config_ModMenuRelay(Signal) --  Signal recieved from Osiris.
     if Signal == "S7_ToggleConfigLog" then
         if ConfigSettings.ConfigLog.Enable == true then
             ConfigSettings.ConfigLog.Enable = false
-            S7_ConfigLog("S7_ConfigLog: Disabled", "[Warning]")
+            S7DebugPrint("S7_ConfigLog: Disabled", "[Warning]")
         else
             ConfigSettings.ConfigLog.Enable = true
-            S7_ConfigLog("S7_ConfigLog: Enabled", "[Warning]")
+            S7DebugPrint("S7_ConfigLog: Enabled", "[Warning]")
         end
     end
 
-    SetDialogVars() --  Request dialogVar update everytime ModMenu relays a signal.
-    ExportLog() -- Exports logs to TSV file if ConfigLog is enabled.
+    DialogVars:Set() --  Request dialogVar update everytime ModMenu relays a signal.
 end
 
 --  ============================================================================
@@ -205,24 +199,24 @@ Ext.NewCall(S7_Config_ModMenuRelay, "S7_Config_ModMenuRelay", "(STRING)_Signal")
 --  =======================
 
 function ValidateClientConfigs()
-    S7_ConfigLog("Validating Client Config...")
-    local compare = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) --  Loads server's config
+    S7DebugPrint("Validating Client Config...")
+    local compare = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) --  Loads server's config
     if ValidString(compare) then -- if file exists and is not empty
-        FetchPlayers() --  Rebuild user-information. UserID is volatile.
-        for userProfileID, _ in pairs(userInfo.clientCharacters) do
+        UserInfo:Fetch() --  Rebuild user-information. UserID is volatile.
+        for userProfileID, _ in pairs(UserInfo.clientCharacters) do
             local clientID =
-                userInfo.clientCharacters[userProfileID]["currentCharacterName"] ..
-                " (" .. userInfo.clientCharacters[userProfileID]["userName"] .. ")"
+                UserInfo.clientCharacters[userProfileID]["currentCharacterName"] ..
+                " (" .. UserInfo.clientCharacters[userProfileID]["userName"] .. ")"
             local payload = {[clientID] = compare}
 
             Ext.PostMessageToClient(
-                userInfo.clientCharacters[userProfileID]["currentCharacter"],
+                UserInfo.clientCharacters[userProfileID]["currentCharacter"],
                 "S7_ValidateClientConfig",
                 Ext.JsonStringify(payload)
             ) -- broadcast server's config file to all clients.
         end
     else
-        S7_ConfigLog(
+        S7DebugPrint(
             "Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName,
             "[Error]"
         )
@@ -240,12 +234,10 @@ Ext.RegisterOsirisListener("UserConnected", 3, "after", ValidateClientConfigs)
 function ValidateClientResponse(channel, payload) --  Recieves client response.
     local clientResponse = payload
     if string.match(clientResponse, "Active configuration mismatch detected.") then --  if Client responded with ConfigMismatch.
-        S7_ConfigLog("Client Response: " .. tostring(clientResponse), "[Warning]") --  Warn Player.
+        S7DebugPrint("Client Response: " .. tostring(clientResponse), "[Warning]") --  Warn Player.
     elseif string.match(clientResponse, "Active configuration profile verified.") then
-        S7_ConfigLog("Client Response: " .. tostring(clientResponse))
+        S7DebugPrint("Client Response: " .. tostring(clientResponse))
     end
-
-    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ========================================================================

@@ -1,17 +1,9 @@
---  ###################################################################################################################################################
---  ####                                                                MOD INTERFACE                                                              ####
---  ===================================================================================================================================================
---  dialog file = "S7_Config_QuickMenu.lsj"
-Ext.Require("S7_ConfigReferences.lua")
-logSource = "Lua:ModInterface"
---  ###################################################################################################################################################
-
 --  ============================
 --  REFRESH QUICK-MENU VARIABLES
 --  ============================
 
 function RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) conditions.
-    quickMenuVars = {
+    QuickMenuVars = {
         --  Global Table to hold data relevant to the current QuickMenu session.
         ["level"] = 1, --  level indicates how far the user is along the dialog session. level 1 - statIDs, level 2 - attributes, level 3 - action.
         ["modName"] = "", --  name of the mod set in DB_S7_Config_ModRegistry() by the mod author. Used to match entries in DB_S7_Config_ModInterface().
@@ -30,7 +22,7 @@ function RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) cond
         ["configData"] = {}, -- Table temporarily holds the user's configuration during the session.
         ["inDialog"] = false --  boolean. true if host-character is currently in dialog.
     }
-    S7_ConfigLog("Dynamic Quick-Menu Refreshed.")
+    S7DebugPrint("Dynamic Quick-Menu Refreshed.")
 end
 
 RefreshQuickMenuVars() --  quickMenuVars initialization.
@@ -42,7 +34,7 @@ RefreshQuickMenuVars() --  quickMenuVars initialization.
 --  ########################
 
 function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Config_ModInterface.txt).
-    if quickMenuVars.inDialog ~= true then --  if there is no dialog session active.
+    if QuickMenuVars.inDialog ~= true then --  if there is no dialog session active.
         --  =====================
         --  DIALOG NOT IN SESSION
         --  =====================
@@ -52,17 +44,17 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
 
         local modRegistry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, signal) --  fetch ModRegistry data corresponding to the signal.
         if modRegistry ~= nil then --  if ModRegistry exists.
-            quickMenuVars.level = 1 --  Set session level to 1. (start dialog session)
-            quickMenuVars.modName = modRegistry[1][1] --  set modName
-            quickMenuVars.modUUID = modRegistry[1][2] --  set modUUID
+            QuickMenuVars.level = 1 --  Set session level to 1. (start dialog session)
+            QuickMenuVars.modName = modRegistry[1][1] --  set modName
+            QuickMenuVars.modUUID = modRegistry[1][2] --  set modUUID
 
             --  LOAD PRE-EXISTING CONFIGURATION
             --  -------------------------------
-            local configFile = Ext.LoadFile(subdirectory .. "S7_ConfigData.json") or ""
+            local configFile = Ext.LoadFile(SubdirectoryPrefix .. "S7_ConfigData.json") or ""
             if ValidString(configFile) then
                 for modName, content in pairs(Ext.JsonParse(configFile)) do
-                    if modName == quickMenuVars.modName then --  if configuration already exists.
-                        quickMenuVars.configData = Ext.JsonParse(content) --  Pre-load configData with existing configuration.
+                    if modName == QuickMenuVars.modName then --  if configuration already exists.
+                        QuickMenuVars.configData = Ext.JsonParse(content) --  Pre-load configData with existing configuration.
                     end
                 end
             end
@@ -70,9 +62,9 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
             --  START DIALOG
             --  ------------
 
-            S7_ConfigLog("Start " .. quickMenuVars.modName .. "'s Dynamic Quick-Configuration Dialog.")
+            S7DebugPrint("Start " .. QuickMenuVars.modName .. "'s Dynamic Quick-Configuration Dialog.")
             Osi.Proc_StartDialog(1, "S7_Config_QuickMenu", Osi.CharacterGetHostCharacter()) --  host-character starts dialog.
-            quickMenuVars.inDialog = true --  Dynamic Quick-Menu dialog now in session.
+            QuickMenuVars.inDialog = true --  Dynamic Quick-Menu dialog now in session.
         end
     else --  Dynamic Quick-Menu in session.
         --  =================
@@ -100,17 +92,17 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
         --  ------------
 
         if signal == "S7_Config_MoveToNextLevel" then --  moves to next level in the current dialog session.
-            if quickMenuVars.level < 3 then
-                quickMenuVars.level = quickMenuVars.level + 1
-                quickMenuVars.page = 1 --  Resets page index to 1.
+            if QuickMenuVars.level < 3 then
+                QuickMenuVars.level = QuickMenuVars.level + 1
+                QuickMenuVars.page = 1 --  Resets page index to 1.
             end
         end
 
         if signal == "S7_Config_GoBack" then --  moves back one level in the current dialog session.
-            if quickMenuVars.level > 1 then
-                quickMenuVars.level = quickMenuVars.level - 1
-                quickMenuVars.page = 1 --  Resets page index to 1.
-                quickMenuVars.selectedAction = nil
+            if QuickMenuVars.level > 1 then
+                QuickMenuVars.level = QuickMenuVars.level - 1
+                QuickMenuVars.page = 1 --  Resets page index to 1.
+                QuickMenuVars.selectedAction = nil
             end
         end
 
@@ -118,14 +110,14 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
         --  -----------
 
         if signal == "S7_Config_NextPage" then --  moves to the next page in the current level. Available if current level has more than 5 entries.
-            if quickMenuVars.page < quickMenuVars.maxPage then
-                quickMenuVars.page = quickMenuVars.page + 1
+            if QuickMenuVars.page < QuickMenuVars.maxPage then
+                QuickMenuVars.page = QuickMenuVars.page + 1
             end
         end
 
         if signal == "S7_Config_PrevPage" then --  moves back to the previous page in the current level.
-            if quickMenuVars.page > 1 then
-                quickMenuVars.page = quickMenuVars.page - 1
+            if QuickMenuVars.page > 1 then
+                QuickMenuVars.page = QuickMenuVars.page - 1
             end
         end
 
@@ -133,7 +125,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
         --  ====================
 
         if signal == "S7_Config_ExitCleanUp" then --  Called upon dialog exit. Cleans up quickMenuVars for the next session.
-            S7_ConfigLog(quickMenuVars.modName .. " dialog ends.")
+            S7DebugPrint(QuickMenuVars.modName .. " dialog ends.")
             RefreshQuickMenuVars() --  Resets quickMenuVars.
         end
     end
@@ -144,8 +136,6 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
     if signal ~= "S7_Config_ExitCleanUp" then --  Prevents update when player has quit the dialog session.
         UpdateDynamicMenu() --  Updates Dynamic Quick-Menu.
     end
-
-    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ================================================================================
@@ -159,16 +149,16 @@ Ext.NewCall(S7_Config_QuickMenuRelay, "S7_Config_QuickMenuRelay", "(STRING)_SIGN
 --  ###################
 
 function BuildStagedList() --  Builds the list of options for the current session, level and page.
-    quickMenuVars.stageList = {} --  reinitialize stageList.
+    QuickMenuVars.stageList = {} --  reinitialize stageList.
 
     --  FILTER MOD-INTERFACE DATABASE
     --  =============================
 
-    if quickMenuVars.level == 1 then
-        quickMenuVars.database = Osi.DB_S7_Config_ModInterface:Get(quickMenuVars.modName, nil, nil)
-    elseif quickMenuVars.level == 2 then
-        quickMenuVars.database =
-            Osi.DB_S7_Config_ModInterface:Get(quickMenuVars.modName, quickMenuVars.selectedStat, nil)
+    if QuickMenuVars.level == 1 then
+        QuickMenuVars.database = Osi.DB_S7_Config_ModInterface:Get(QuickMenuVars.modName, nil, nil)
+    elseif QuickMenuVars.level == 2 then
+        QuickMenuVars.database =
+            Osi.DB_S7_Config_ModInterface:Get(QuickMenuVars.modName, QuickMenuVars.selectedStat, nil)
     end
 
     --  FILTER UNIQUE ENTRIES AND BUILD STAGE LIST
@@ -177,21 +167,21 @@ function BuildStagedList() --  Builds the list of options for the current sessio
     local pos = 1 --  Marks the position of the entry in the current stage. Sequential Order.
     local tempList = {} --  temporary list to filter unique entries.
 
-    for i, entry in ipairs(quickMenuVars.database) do
-        if quickMenuVars.level == 1 then
+    for i, entry in ipairs(QuickMenuVars.database) do
+        if QuickMenuVars.level == 1 then
             if tempList[entry[2]] == nil then --  if entry does not already exist.
                 tempList[entry[2]] = pos --  create entry at position pos.
                 pos = pos + 1 --  increase position index by 1.
             end
-        elseif quickMenuVars.level == 2 then
+        elseif QuickMenuVars.level == 2 then
             if tempList[entry[3]] == nil then --   if entry does not already exist.
-                if Ext.StatGetAttribute(quickMenuVars.selectedStat, entry[3]) ~= nil then
+                if Ext.StatGetAttribute(QuickMenuVars.selectedStat, entry[3]) ~= nil then
                     tempList[entry[3]] = pos --  create entry at position pos.
                     pos = pos + 1 --  increase position index by 1.
                 end
             end
-        elseif quickMenuVars.level == 3 then
-            if quickMenuVars.selectedAttributeType == "Integer" then
+        elseif QuickMenuVars.level == 3 then
+            if QuickMenuVars.selectedAttributeType == "Integer" then
                 tempList = {
                     --  if level 3, use the following manual stage entries.
                     ["Increase"] = 1,
@@ -200,7 +190,7 @@ function BuildStagedList() --  Builds the list of options for the current sessio
                     ["Confirm"] = 4,
                     ["Clear"] = 5
                 }
-            elseif quickMenuVars.selectedAttributeType == "Enumeration" then
+            elseif QuickMenuVars.selectedAttributeType == "Enumeration" then
                 tempList = {
                     --  if level 3, use the following manual stage entries.
                     ["Next"] = 1,
@@ -214,17 +204,17 @@ function BuildStagedList() --  Builds the list of options for the current sessio
     end
     --  Interchange entry and pos
     for entry, pos in pairs(tempList) do
-        quickMenuVars.stageList[pos] = entry
+        QuickMenuVars.stageList[pos] = entry
     end
 
     --  DETERMINE MAXIMUM NUMBER OF PAGES
     --  =================================
 
     local count = 0 --  counts the total number of entries in the stage list.
-    for pos, entry in ipairs(quickMenuVars.stageList) do
+    for pos, entry in ipairs(QuickMenuVars.stageList) do
         count = count + 1
     end
-    quickMenuVars.maxPage = math.floor((count - 1) / 5) + 1
+    QuickMenuVars.maxPage = math.floor((count - 1) / 5) + 1
     --  determines the maximum number of pages for the current level. Each page has 5 entries.
 end
 
@@ -236,66 +226,66 @@ end
 
 function DynamicAction(option, switch)
     BuildStagedList()
-    local pos = (quickMenuVars.page - 1) * 5 + option --  Retrieve absolute position of entry.
+    local pos = (QuickMenuVars.page - 1) * 5 + option --  Retrieve absolute position of entry.
 
-    if quickMenuVars.level == 1 then
-        quickMenuVars.selectedStat = quickMenuVars.stageList[pos]
+    if QuickMenuVars.level == 1 then
+        QuickMenuVars.selectedStat = QuickMenuVars.stageList[pos]
         --  Initialize selectedStat in configData if it doesn't already exist.
-        if quickMenuVars.configData[quickMenuVars.selectedStat] == nil then
-            quickMenuVars.configData[quickMenuVars.selectedStat] = {}
+        if QuickMenuVars.configData[QuickMenuVars.selectedStat] == nil then
+            QuickMenuVars.configData[QuickMenuVars.selectedStat] = {}
         end
-    elseif quickMenuVars.level == 2 then
-        quickMenuVars.selectedAttribute = quickMenuVars.stageList[pos]
+    elseif QuickMenuVars.level == 2 then
+        QuickMenuVars.selectedAttribute = QuickMenuVars.stageList[pos]
         GetAttributeEnumType()
-        quickMenuVars.defaultVal = Ext.StatGetAttribute(quickMenuVars.selectedStat, quickMenuVars.selectedAttribute) --  get the current value for the attribute
-        quickMenuVars.configData[quickMenuVars.selectedStat][quickMenuVars.selectedAttribute] = quickMenuVars.defaultVal -- initialize table with defaultValue
-        quickMenuVars.selectedVal = quickMenuVars.selectedVal or quickMenuVars.defaultVal
-    elseif quickMenuVars.level == 3 then
+        QuickMenuVars.defaultVal = Ext.StatGetAttribute(QuickMenuVars.selectedStat, QuickMenuVars.selectedAttribute) --  get the current value for the attribute
+        QuickMenuVars.configData[QuickMenuVars.selectedStat][QuickMenuVars.selectedAttribute] = QuickMenuVars.defaultVal -- initialize table with defaultValue
+        QuickMenuVars.selectedVal = QuickMenuVars.selectedVal or QuickMenuVars.defaultVal
+    elseif QuickMenuVars.level == 3 then
         GetAttributeEnumType()
-        quickMenuVars.selectedAction = quickMenuVars.stageList[pos]
-        quickMenuVars.selectedVal = quickMenuVars.selectedVal or quickMenuVars.defaultVal
+        QuickMenuVars.selectedAction = QuickMenuVars.stageList[pos]
+        QuickMenuVars.selectedVal = QuickMenuVars.selectedVal or QuickMenuVars.defaultVal
     end
 
-    if quickMenuVars.selectedAction == "Increase" or quickMenuVars.selectedAction == "Next" then
-        if quickMenuVars.selectedAttributeType == "Integer" then
-            quickMenuVars.selectedVal = quickMenuVars.selectedVal + 1
+    if QuickMenuVars.selectedAction == "Increase" or QuickMenuVars.selectedAction == "Next" then
+        if QuickMenuVars.selectedAttributeType == "Integer" then
+            QuickMenuVars.selectedVal = QuickMenuVars.selectedVal + 1
         else
             local enumIndex =
-                EnumTransformer("Label2Index", quickMenuVars.selectedAttributeEnumType, quickMenuVars.selectedVal)
-            quickMenuVars.selectedVal =
-                EnumTransformer("Index2Label", quickMenuVars.selectedAttributeEnumType, enumIndex + 1)
+                EnumTransformer("Label2Index", QuickMenuVars.selectedAttributeEnumType, QuickMenuVars.selectedVal)
+            QuickMenuVars.selectedVal =
+                EnumTransformer("Index2Label", QuickMenuVars.selectedAttributeEnumType, enumIndex + 1)
         end
-    elseif quickMenuVars.selectedAction == "Decrease" or quickMenuVars.selectedAction == "Previous" then
-        if quickMenuVars.selectedAttributeType == "Integer" then
-            quickMenuVars.selectedVal = quickMenuVars.selectedVal - 1
+    elseif QuickMenuVars.selectedAction == "Decrease" or QuickMenuVars.selectedAction == "Previous" then
+        if QuickMenuVars.selectedAttributeType == "Integer" then
+            QuickMenuVars.selectedVal = QuickMenuVars.selectedVal - 1
         else
             local enumIndex =
-                EnumTransformer("Label2Index", quickMenuVars.selectedAttributeEnumType, quickMenuVars.selectedVal)
-            quickMenuVars.selectedVal =
-                EnumTransformer("Index2Label", quickMenuVars.selectedAttributeEnumType, enumIndex - 1)
+                EnumTransformer("Label2Index", QuickMenuVars.selectedAttributeEnumType, QuickMenuVars.selectedVal)
+            QuickMenuVars.selectedVal =
+                EnumTransformer("Index2Label", QuickMenuVars.selectedAttributeEnumType, enumIndex - 1)
         end
-    elseif quickMenuVars.selectedAction == "Set" then
-        quickMenuVars.configData[quickMenuVars.selectedStat][quickMenuVars.selectedAttribute] =
-            quickMenuVars.selectedVal
-    elseif quickMenuVars.selectedAction == "Confirm" then
+    elseif QuickMenuVars.selectedAction == "Set" then
+        QuickMenuVars.configData[QuickMenuVars.selectedStat][QuickMenuVars.selectedAttribute] =
+            QuickMenuVars.selectedVal
+    elseif QuickMenuVars.selectedAction == "Confirm" then
         --  Call Stats Configurator
-        table.insert(toConfigure, {[quickMenuVars.modName] = Ext.JsonStringify(quickMenuVars.configData)})
+        table.insert(Configurations, {[QuickMenuVars.modName] = Ext.JsonStringify(QuickMenuVars.configData)})
         StatsConfigurator()
         StatsSynchronize()
-        toConfigure = {}
-        BuildConfigData(Ext.JsonStringify(quickMenuVars.configData), quickMenuVars.modUUID, quickMenuVars.modName)
-    elseif quickMenuVars.selectedAction == "Clear" then
-        quickMenuVars.selectedVal = quickMenuVars.defaultVal
+        Configurations = {}
+        BuildConfigData(Ext.JsonStringify(QuickMenuVars.configData), QuickMenuVars.modUUID, QuickMenuVars.modName)
+    elseif QuickMenuVars.selectedAction == "Clear" then
+        QuickMenuVars.selectedVal = QuickMenuVars.defaultVal
     end
 end
 
 function GetAttributeEnumType()
-    local Ref = Rematerialize(References.StatObjectDefinitions[HandleStatType(quickMenuVars.selectedStat)])
+    local Ref = Rematerialize(References.StatObjectDefinitions[HandleStatType(QuickMenuVars.selectedStat)])
     for _, content in pairs(Ref) do
-        if content["@name"] == quickMenuVars.selectedAttribute then
-            quickMenuVars.selectedAttributeType = content["@type"]
+        if content["@name"] == QuickMenuVars.selectedAttribute then
+            QuickMenuVars.selectedAttributeType = content["@type"]
             if content["@type"] == "Enumeration" then
-                quickMenuVars.selectedAttributeEnumType = content["@enumeration_type_name"]
+                QuickMenuVars.selectedAttributeEnumType = content["@enumeration_type_name"]
             end
             break
         end
@@ -314,13 +304,13 @@ function UpdateDynamicMenu()
     --  PAGE CONTROL OPTIONS VISIBILITY
     --  ===============================
 
-    if quickMenuVars.page == 1 and quickMenuVars.page ~= quickMenuVars.maxPage then
+    if QuickMenuVars.page == 1 and QuickMenuVars.page ~= QuickMenuVars.maxPage then
         Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
         Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
-    elseif quickMenuVars.page ~= 1 and quickMenuVars.page == quickMenuVars.maxPage then
+    elseif QuickMenuVars.page ~= 1 and QuickMenuVars.page == QuickMenuVars.maxPage then
         Osi.GlobalClearFlag("S7_Config_NextPageAvailable")
         Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
-    elseif quickMenuVars.page == 1 and quickMenuVars.page == quickMenuVars.maxPage then
+    elseif QuickMenuVars.page == 1 and QuickMenuVars.page == QuickMenuVars.maxPage then
         Osi.GlobalClearFlag("S7_Config_NextPageAvailable")
         Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
     else
@@ -342,10 +332,10 @@ function UpdateDynamicMenu()
     for i, case in ipairs(quickMenuDialogCase) do --  Iterate for all options.
         Osi.GlobalClearFlag("S7_Config_AvailableOpt" .. i) --   Clear availability of all options.
 
-        for pos, entry in ipairs(quickMenuVars.stageList) do --  Iterate over stageList.
+        for pos, entry in ipairs(QuickMenuVars.stageList) do --  Iterate over stageList.
             --  MAP POS (ABSOLUTE POSITION) TO RELPOS (RELATIVE POSITION)
             --  =========================================================
-            if (pos < (1 + 5 * quickMenuVars.page)) and (pos > (5 * (quickMenuVars.page - 1))) then
+            if (pos < (1 + 5 * QuickMenuVars.page)) and (pos > (5 * (QuickMenuVars.page - 1))) then
                 local relPos = pos % 5
                 if relPos == 0 then
                     relPos = 5
@@ -364,37 +354,37 @@ function UpdateDynamicMenu()
     --  BUILD DISPLAY MESSAGE
     --  =====================
 
-    local modInfo = Ext.GetModInfo(quickMenuVars.modUUID)
+    local modInfo = Ext.GetModInfo(QuickMenuVars.modUUID)
     local displayMessage =
         "Configuring stats for: " ..
         tostring(modInfo.Name) ..
             " by " ..
                 tostring(modInfo.Author) ..
                     " | Current Page: " ..
-                        "(" .. tostring(quickMenuVars.page) .. "/" .. tostring(quickMenuVars.maxPage) .. ")\n"
+                        "(" .. tostring(QuickMenuVars.page) .. "/" .. tostring(QuickMenuVars.maxPage) .. ")\n"
 
-    if quickMenuVars.level > 1 and ValidString(quickMenuVars.selectedStat) then
-        displayMessage = displayMessage .. "Selected Stat: " .. tostring(quickMenuVars.selectedStat) .. "\n"
+    if QuickMenuVars.level > 1 and ValidString(QuickMenuVars.selectedStat) then
+        displayMessage = displayMessage .. "Selected Stat: " .. tostring(QuickMenuVars.selectedStat) .. "\n"
     end
-    if quickMenuVars.level > 2 and ValidString(quickMenuVars.selectedAttribute) then
-        displayMessage = displayMessage .. "Selected Attribute: " .. tostring(quickMenuVars.selectedAttribute) .. "\n"
+    if QuickMenuVars.level > 2 and ValidString(QuickMenuVars.selectedAttribute) then
+        displayMessage = displayMessage .. "Selected Attribute: " .. tostring(QuickMenuVars.selectedAttribute) .. "\n"
     end
-    if quickMenuVars.level == 3 then
-        if quickMenuVars.selectedVal == nil then
-            quickMenuVars.selectedVal = quickMenuVars.defaultVal
+    if QuickMenuVars.level == 3 then
+        if QuickMenuVars.selectedVal == nil then
+            QuickMenuVars.selectedVal = QuickMenuVars.defaultVal
         end
         displayMessage =
             displayMessage ..
             "Selected Value: " ..
-                tostring(quickMenuVars.selectedVal) ..
-                    " (Current Value: " .. tostring(quickMenuVars.defaultVal) .. ")\n"
+                tostring(QuickMenuVars.selectedVal) ..
+                    " (Current Value: " .. tostring(QuickMenuVars.defaultVal) .. ")\n"
     end
 
-    if quickMenuVars.selectedAction == "Set" then
+    if QuickMenuVars.selectedAction == "Set" then
         displayMessage = displayMessage .. "Value Set."
-    elseif quickMenuVars.selectedAction == "Confirm" then
+    elseif QuickMenuVars.selectedAction == "Confirm" then
         displayMessage = displayMessage .. "Confirmed."
-    elseif quickMenuVars.selectedAction == "Clear" then
+    elseif QuickMenuVars.selectedAction == "Clear" then
         displayMessage = displayMessage .. "Selected Value Reset."
     end
 

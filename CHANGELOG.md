@@ -2,6 +2,12 @@
 
 ---
 
+## [0.7.1.0] --- 29th December 2020 --- **_Started Remaster_**
+
+### NEW
+
+* Time to re-write the entire mod.
+
 ## [0.7.0.1] --- 26th October 2020 --- 📂 **_Subdirectory Support_** 📂
 
 ### CHANGED

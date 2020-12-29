@@ -37,7 +37,7 @@ THEN
 Proc_S7_Config_Updater();                                               //  Run Update Procedure.
 GlobalSetFlag("S7_Config_CHANGELOG");                                   //  Request CHANGELOG.
 DB_S7_ModIdentifier("S7_Config", "0.7.0.0");                            //  Add the latest version in the DB.
-NRD_ModCall("S7_Config", "S7_ConfigLog", "S7_Config Updated to Version: 0.7.0.0", "[ModVersioning]", "ModID", "S7_Config, 0.7.0.0");
+NRD_ModCall("S7_Config", "S7DebugPrint", "S7_Config Updated to Version: 0.7.0.0", "[ModVersioning]", "ModID", "S7_Config, 0.7.0.0");
 
 //====================
 //REGION CHANGELOG

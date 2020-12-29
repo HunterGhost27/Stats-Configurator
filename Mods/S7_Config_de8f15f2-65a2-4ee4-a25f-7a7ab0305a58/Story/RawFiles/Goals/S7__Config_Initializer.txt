@@ -17,7 +17,7 @@ GameEventSet("GAMEEVENT_GameStarted")
 THEN
 GlobalSetFlag("S7_ConfigActive");
 GlobalSetFlag("S7_Config_ModAddedTo_NewGame");
-NRD_ModCall("S7_Config", "S7_ConfigLog", "Parent Goal Initialized. Mod added to a new game.", "[Initializer]", "ModAddedTo", "NewGame");
+NRD_ModCall("S7_Config", "S7DebugPrint", "Parent Goal Initialized. Mod added to a new game.", "[Initializer]", "ModAddedTo", "NewGame");
 GoalCompleted;
 
 //  =============================
@@ -30,7 +30,7 @@ AND
 DB_StoryStarted(_)
 THEN
 GlobalSetFlag("S7_ConfigActive");
-NRD_ModCall("S7_Config", "S7_ConfigLog", "Parent Goal Initialized. Story was already initialized. Mod added to an existing save-file.", "[Initializer]", "ModAddedTo", "ExistingSave");
+NRD_ModCall("S7_Config", "S7DebugPrint", "Parent Goal Initialized. Story was already initialized. Mod added to an existing save-file.", "[Initializer]", "ModAddedTo", "ExistingSave");
 GoalCompleted;
 
 EXITSECTION

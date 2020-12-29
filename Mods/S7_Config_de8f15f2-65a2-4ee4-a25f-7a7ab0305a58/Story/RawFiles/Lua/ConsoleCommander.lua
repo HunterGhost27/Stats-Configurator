@@ -1,15 +1,8 @@
---  ###################################################################################################################################################
---                                                                 CONSOLE COMMANDER
---  ===================================================================================================================================================
-Ext.Require("S7_ConfigReferences.lua")
-logSource = "Lua:ConsoleCommander"
---  ###################################################################################################################################################
-
 --  =============
 --  HELP MESSAGES
 --  =============
 
-helpMessage =
+local helpMessage =
     [[
     ================================================================================================================================================
     Command         Argument1       Argument2(Optional)  COMMENTS                                                   EXAMPLE
@@ -29,7 +22,7 @@ helpMessage =
     * Resize the console window if this doesn't fit properly.
 ]]
 
-relayHelpMessage =
+local relayHelpMessage =
     [[
     =================================================================================================================
     Signals                         Purpose
@@ -58,29 +51,29 @@ relayHelpMessage =
 --  ================
 
 function S7_Config_ConsoleCommander(...)
-    local args = {...} --  Take variable amount of arguments.
-    local command = args[2] or "" -- Second argument is the command.
+    local args = {...}
+    local command = args[2] or ""
 
     if command == "AddConfigurator" then
+
         --  ADD CONFIGURATOR ITEM
         --  =====================
+        
         local hostCharacter = Osi.CharacterGetHostCharacter()
-        if
-            ItemTemplateIsInPartyInventory(hostCharacter, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1) <
-                1
-         then
-            ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", hostCharacter, 1)
-            S7_ConfigLog("Configurator added to Host-Character's Inventory.")
-        else
-            S7_ConfigLog("Check your bags! The party has the Configurator already.")
-        end
+        if Osi.ItemTemplateIsInPartyInventory(hostCharacter, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1) < 1 then
+            Osi.ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", hostCharacter, 1)
+            S7DebugPrint("Configurator added to Host-Character's Inventory.", "ConsoleCommander")
+        else S7DebugPrint("Check your bags! The party has the Configurator already.", "ConsoleCommander") end
+
     elseif command == "StartModMenu" then
+    
         --  START MOD-MENU
         --  ==============
+    
         local hostCharacter = Osi.CharacterGetHostCharacter()
         if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
             Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
-            S7_ConfigLog("ModMenu activated by the host-character.")
+            S7DebugPrint("ModMenu activated by the host-character.", "ConsoleCommander")
         end
     elseif command == "AddSkill" then
         --  ADD SKILL
@@ -108,9 +101,9 @@ function S7_Config_ConsoleCommander(...)
         if statName ~= "" then
             if Osi.NRD_StatExists(statName) then -- if stat-exists.
                 Ext.SyncStat(statName, statPersistence) --  Sync
-                S7_ConfigLog("Synchronized Stat: " .. statName)
+                S7DebugPrint("Synchronized Stat: " .. statName)
             else
-                S7_ConfigLog("Stat: " .. statName .. "does not exist!", "[Warning]")
+                S7DebugPrint("Stat: " .. statName .. "does not exist!", "StatsConfigurator")
             end
         else
             StatsSynchronize() --  Synchronize toSync queue
@@ -135,17 +128,15 @@ function S7_Config_ConsoleCommander(...)
         --  =============================
         local signal = args[3] or "" --  Flag to relay. (Optional - defaults to help)
         if signal == "" or signal == "Help" then
-            S7_ConfigLog("\n" .. relayHelpMessage, "[Warning]")
+            S7DebugPrint("\n" .. relayHelpMessage, "[Warning]")
         else
             S7_Config_ModMenuRelay(signal)
         end
     elseif command == "Help" or command == "" then
         --  HELP
         --  ====
-        S7_ConfigLog("\n" .. helpMessage, "[Warning]")
+        S7DebugPrint("\n" .. helpMessage, "[Warning]")
     end
-
-    ExportLog() -- Exports ConfigLogs if they're enabled.
 end
 
 --  ===============================================================
@@ -161,60 +152,60 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 function AddSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            FetchPlayers() --  Retrieve userData
+            UserInfo:Fetch() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  AddSkill defaults to all Clients.
-                for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
                     Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
-                    S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
+                    S7DebugPrint("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                 end
             elseif character == "Host" then --  if Host specified
-                Osi.CharacterAddSkill(userInfo.hostCharacter["currentCharacter"], skillName, 1)
-                S7_ConfigLog("Skill: " .. skillName .. " added to " .. userInfo.hostCharacter["currentCharacterName"])
+                Osi.CharacterAddSkill(UserInfo.hostCharacter["currentCharacter"], skillName, 1)
+                S7DebugPrint("Skill: " .. skillName .. " added to " .. UserInfo.hostCharacter["currentCharacterName"])
             else
-                for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
                     if contents["currentCharacterName"] == character then
                         Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
-                        S7_ConfigLog("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
+                        S7DebugPrint("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                     end
                 end
             end
         else
-            S7_ConfigLog(skillName .. " is not a skill.", "[Error]")
+            S7DebugPrint(skillName .. " is not a skill.", "[Error]")
         end
     else
-        S7_ConfigLog("Please enter a valid SkillName.", "[Error]")
+        S7DebugPrint("Please enter a valid SkillName.", "[Error]")
     end
 end
 
 function RemoveSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            FetchPlayers() --  Retrieve userData
+            UserInfo:Fetch() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  Remove skill defaults to all Clients.
-                for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
                     Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
-                    S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
+                    S7DebugPrint("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
             elseif character == "Host" then --  If Host specified.
-                Osi.CharacterRemoveSkill(userInfo.hostCharacter["currentCharacter"], skillName)
-                S7_ConfigLog(
-                    "Skill: " .. skillName .. " removed from " .. userInfo.hostCharacter["currentCharacterName"]
+                Osi.CharacterRemoveSkill(UserInfo.hostCharacter["currentCharacter"], skillName)
+                S7DebugPrint(
+                    "Skill: " .. skillName .. " removed from " .. UserInfo.hostCharacter["currentCharacterName"]
                 )
             else
-                for userProfileID, contents in pairs(userInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInfo.clientCharacters) do
                     if contents["currentCharacterName"] == character then
                         Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
-                        S7_ConfigLog("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
+                        S7DebugPrint("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                     end
                 end
             end
         else
-            S7_ConfigLog(skillName .. " is not a skill.", "[Error]")
+            S7DebugPrint(skillName .. " is not a skill.", "[Error]")
         end
     else
-        S7_ConfigLog("Please enter a valid SkillName", "[Error]")
+        S7DebugPrint("Please enter a valid SkillName", "[Error]")
     end
 end
 
@@ -232,16 +223,16 @@ function SearchStat(search, searchType)
             allStat = Ext.GetStatEntries()
         end
 
-        S7_ConfigLog("Search Results: ")
-        S7_ConfigLog("=================================================")
+        S7DebugPrint("Search Results: ")
+        S7DebugPrint("=================================================")
         for i, stat in ipairs(allStat) do
             if string.match(stat, search) then
-                S7_ConfigLog(stat)
+                S7DebugPrint(stat)
             end
         end
-        S7_ConfigLog("=================================================")
+        S7DebugPrint("=================================================")
     else
-        S7_ConfigLog("Search String Empty. Try something like Projectile_", "[Error]")
+        S7DebugPrint("Search String Empty. Try something like Projectile_", "[Error]")
     end
 end
 
@@ -252,18 +243,18 @@ end
 function SnapshotVars(selectedType, selectedVar)
     local varList = {
         ["data"] = {
-            ["modInfo"] = modInfo,
+            ["modInfo"] = ModInfo,
             ["ConfigSettings"] = ConfigSettings,
-            ["userInfo"] = userInfo,
-            ["configCollections"] = configCollections,
-            ["quickMenuVars"] = quickMenuVars,
-            ["toConfigure"] = toConfigure,
-            ["toSync"] = toSync
+            ["userInfo"] = UserInfo,
+            ["configCollections"] = Collections,
+            ["quickMenuVars"] = QuickMenuVars,
+            ["toConfigure"] = Configurations,
+            ["toSync"] = Synchronizations
         },
         ["Files"] = {
-            ["Settings"] = Ext.LoadFile(subdirectory .. "S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
-            ["ConfigFile"] = Ext.LoadFile(subdirectory .. ConfigSettings.ConfigFile) or "",
-            ["ConfigData"] = Ext.LoadFile(subdirectory .. ConfigSettings.StatsLoader.FileName) or ""
+            ["Settings"] = Ext.LoadFile(SubdirectoryPrefix .. "S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
+            ["ConfigFile"] = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile) or "",
+            ["ConfigData"] = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or ""
         },
         ["Flags"] = {
             ["S7_ConfigActive"] = Osi.GlobalGetFlag("S7_ConfigActive") or 0,
@@ -301,10 +292,10 @@ function SnapshotVars(selectedType, selectedVar)
         for type, _ in pairs(varList) do
             if selectedType == type then
                 if ValidString(selectedVar) then
-                    S7_ConfigLog(selectedVar .. " : " .. Ext.JsonStringify(varList[selectedType][selectedVar]))
+                    S7DebugPrint(selectedVar .. " : " .. Ext.JsonStringify(varList[selectedType][selectedVar]))
                 else
                     for key, value in pairs(varList[selectedType]) do
-                        S7_ConfigLog("\n" .. selectedType .. " : " .. key .. " : " .. Ext.JsonStringify(value))
+                        S7DebugPrint("\n" .. selectedType .. " : " .. key .. " : " .. Ext.JsonStringify(value))
                     end
                 end
             end
@@ -312,7 +303,7 @@ function SnapshotVars(selectedType, selectedVar)
     else
         for type, content in pairs(varList) do
             for key, value in pairs(content) do
-                S7_ConfigLog("\n" .. type .. " : " .. key .. " : " .. Ext.JsonStringify(value))
+                S7DebugPrint("\n" .. type .. " : " .. key .. " : " .. Ext.JsonStringify(value))
             end
         end
     end
@@ -328,32 +319,30 @@ function Reference(statType, attributeType)
             if statType ~= "SkillData" or statType ~= "StatusData" then
                 for key, value in ipairs(References.StatObjectDefinitions[statType]) do
                     if value["@name"] == attributeType then
-                        S7_ConfigLog(Ext.JsonStringify(value))
+                        S7DebugPrint(Ext.JsonStringify(value))
                         if value["@type"] == "Enumeration" then
-                            S7_ConfigLog(Ext.JsonStringify(References.Enumerations[value["@enumeration_type_name"]]))
+                            S7DebugPrint(Ext.JsonStringify(References.Enumerations[value["@enumeration_type_name"]]))
                         end
                     end
                 end
             end
         else
             if statType == "SkillData" or statType == "StatusData" then
-                S7_ConfigLog("Please sepecify the sub-type instead.", "[Warning]")
+                S7DebugPrint("Please sepecify the sub-type instead.", "[Warning]")
                 for key, value in pairs(SkillandStatusData) do
                     if key == statType then
-                        S7_ConfigLog(statType .. ": " .. Ext.JsonStringify(value))
+                        S7DebugPrint(statType .. ": " .. Ext.JsonStringify(value))
                     end
                 end
             else
                 for key, content in pairs(References.StatObjectDefinitions) do
                     if key == statType then
-                        S7_ConfigLog(Ext.JsonStringify(content))
+                        S7DebugPrint(Ext.JsonStringify(content))
                     end
                 end
             end
         end
-    else
-        S7_ConfigLog("Please enter a type to refer.", "[Error]")
-    end
+    else S7DebugPrint("Please enter a type to refer.", "ConsoleCommander") end
 end
 
 --  ===============
@@ -361,25 +350,19 @@ end
 --  ===============
 
 function DeepDive(statName)
-    if ValidString(statName) and Osi.NRD_StatExists(statName) then --  Checks if statName is a valid string and if statName actually exists
-        local statType = HandleStatType(statName) -- Returns the statType(as in StatObjectDefinitions) of the given statName.
+    if ValidString(statName) and Osi.NRD_StatExists(statName) then
+        local statType = HandleStatType(statName)
         local statData = Ext.GetStat(statName)
 
-        S7_ConfigLog("Showing details of: " .. statName .. " (" .. statType .. ")")
-        S7_ConfigLog("===========================================================")
-        for _, content in pairs(References.StatObjectDefinitions[statType]) do --  Iterate over StatObjectDefinitions of corresponding statType.
-            if SafeToModify(statName, content["@name"]) then --  If stat-modification is allowed for the attribute content["@name"]
-                --  Return attributeName , attributeType, and the attributeValue
-                S7_ConfigLog(
-                    content["@name"] ..
-                        " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]])
-                )
+        S7DebugPrint("Showing details of: " .. statName .. " (" .. statType .. ")", "ConsoleCommander")
+        S7DebugPrint("===========================================================", "ConsoleCommander")
+        for _, content in pairs(References.StatObjectDefinitions[statType]) do
+            if SafeToModify(statName, content["@name"]) then
+                S7DebugPrint(content["@name"] .. " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]]), "ConsoleCommander")
             end
         end
-        S7_ConfigLog("===========================================================")
-    else
-        S7_ConfigLog("Invalid stat. Make sure that the stat in question actually exists.", "[Error]")
-    end
+        S7DebugPrint("===========================================================", "ConsoleCommander")
+    else S7DebugPrint("Invalid stat. Make sure that the stat in question actually exists.", "ConsoleCommander") end
 end
 
 --  #####################################################################################################################################################
