@@ -17,7 +17,7 @@ function StatsLoader()
     --  ================
 
     if ConfigSettings.StatsLoader.Enable then
-        S7DebugPrint("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName, "BootstrapClient")
+        S7Debug:Print("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName)
         local configData = LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or {}
 
         --  QUEUE CONFIGURATION W.R.T LOAD ORDER
@@ -42,8 +42,8 @@ function StatsLoader()
         StatsConfigurator()
         Configurations = {}
         Synchronizations = {}
-        S7DebugPrint("StatsLoading completed.", "BootstrapClient")
-    else S7DebugPrint("StatsLoader is disabled.", "BootstrapClient", nil, nil, "Warning") end
+        S7Debug:Print("StatsLoading completed.")
+    else S7Debug:Warn("StatsLoader is disabled.") end
 end
 
 --  ============================================
@@ -63,7 +63,7 @@ local function CatchBroadcast(channel, payload)
     --  =======================
 
     if channel == "S7_ConfigData" then
-        S7DebugPrint("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName, "BootstrapClient")
+        S7Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
         SaveFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName, payload)
     end
 

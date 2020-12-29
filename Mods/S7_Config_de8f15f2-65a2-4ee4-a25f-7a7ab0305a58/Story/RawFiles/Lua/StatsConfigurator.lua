@@ -11,30 +11,30 @@ Synchronizations = {}
 function StatsConfigurator()
     for _, config in Spairs(Configurations, 'ascending') do
         for modID, JSONstring in pairs(config) do
-            if not ValidString(JSONstring) then S7DebugPrint("Failed to apply configuration.", "StatsConfigurator", "StatsConfigurator", nil, "Error") end
+            if not ValidString(JSONstring) then S7Debug:Error("Failed to apply configuration.", {['dialogVar'] = "StatsConfigurator"}) end
             local JSONborne = Ext.JsonParse(JSONstring)
-            S7DebugPrint(modID .. " loaded. Applying configuration profile.", "StatsConfigurator")
-            S7DebugPrint("=============================================================", "StatsConfigurator")
+            S7Debug:Print(modID .. " loaded. Applying configuration profile.")
+            S7Debug:Print("=============================================================")
 
             for keyName, content in pairs(JSONborne) do
                 local nameList = UnpackCollection(keyName, content)
                 for name, _ in pairs(nameList) do
-                    S7DebugPrint(name, "StatsConfigurator")
-                    S7DebugPrint("-------------------------------------------------------------", "StatsConfigurator")
+                    S7Debug:Print(name)
+                    S7Debug:Print("-------------------------------------------------------------")
                     local stat = Ext.GetStat(name)
 
                     for key, value in pairs(content) do
                         if SafeToModify(name, key) then
-                            S7DebugPrint(key .. ": " .. Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")", "StatsConfigurator")
+                            S7Debug:Print(key .. ": " .. Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")")
                             Ext.StatSetAttribute(name, key, Rematerialize(value))
                         end
                     end
-                    S7DebugPrint("_____________________________________________________________", "StatsConfigurator")
+                    S7Debug:Print("_____________________________________________________________")
                     Synchronizations[name] = 1
                 end
             end
-            S7DebugPrint("=============================================================", "StatsConfigurator")
-            S7DebugPrint("Configuration Profile Active.", "StatsConfigurator")
+            S7Debug:Print("=============================================================")
+            S7Debug:Print("Configuration Profile Active.")
         end
     end
 end
@@ -46,9 +46,9 @@ function UnpackCollection(keyName, content)
         for collectionName in string.gmatch(keyName, "[%w]+") do
             if collectionName ~= "COLLECTION" then
                 if Collections[collectionName] then
-                    S7DebugPrint("Unpacking collection " .. collectionName, "StatsConfigurator")
+                    S7Debug:Print("Unpacking collection " .. collectionName)
                     for statName, _ in pairs(Collections[collectionName]) do returnNameList[statName] = 1 end
-                else S7DebugPrint("No collection named " .. collectionName .. " found.", "StatsConfigurator", nil, nil, "Error") end
+                else S7Debug:Error("No collection named " .. collectionName .. " found.") end
             end
         end
     else returnNameList[keyName] = 1 end
@@ -71,11 +71,11 @@ function SafeToModify(name, key)
     if ConfigSettings.BypassSafetyCheck then return true
     else
         if string.match(dontFwith, key) then
-            S7DebugPrint("SafeToModify() prevents modification of " .. key .. " [BypassSafetyCheck: " .. tostring(ConfigSettings.BypassSafetyCheck) .. "]", "StatsConfigurator", nil, nil, "Warning")
+            S7Debug:Warn("SafeToModify() prevents modification of " .. key .. " [BypassSafetyCheck: " .. tostring(ConfigSettings.BypassSafetyCheck) .. "]")
             return false
         else
             if Ext.StatGetAttribute(name, key) then return true
-            else S7DebugPrint(key .. " is not a valid attribute for " .. name, "StatsConfigurator", nil, nil, "Warning") end
+            else S7Debug:Warn(key .. " is not a valid attribute for " .. name) end
         end
     end
 end
@@ -85,18 +85,18 @@ end
 
 function StatsSynchronize()
     if Synchronizations then
-        S7DebugPrint("Synchronizing Stats [Savegame-Persistence: " .. tostring(ConfigSettings.SyncStatPersistence) .. "]", "StatsConfigurator")
-        S7DebugPrint("=============================================================", "StatsConfigurator")
+        S7Debug:Print("Synchronizing Stats [Savegame-Persistence: " .. tostring(ConfigSettings.SyncStatPersistence) .. "]")
+        S7Debug:Print("=============================================================")
 
         for name, _ in pairs(Synchronizations) do
             if Osi.NRD_StatExists(name) then
                 Ext.SyncStat(name, ConfigSettings.SyncStatPersistence)
-                S7DebugPrint("Synchronized Stat: " .. name, "StatsConfigurator")
+                S7Debug:Print("Synchronized Stat: " .. name)
             end
         end
-        S7DebugPrint("=============================================================", "StatsConfigurator")
-        S7DebugPrint("Synchronization Complete.", nil, "SyncStat", "StatsConfigurator")
-    else S7DebugPrint("Nothing to Synchronize. toSync queue is empty.", "StatsConfigurator", "SyncStat") end
+        S7Debug:Print("=============================================================")
+        S7Debug:Print("Synchronization Complete.", {['dialogVar'] = 'SyncStat'})
+    else S7Debug:Print("Nothing to Synchronize. toSync queue is empty.", {['dialogVar'] = 'SyncStat'}) end
 end
 
 --  BUILD CONFIG-DATA
@@ -112,8 +112,8 @@ function BuildConfigData(buildData, modUUID, modName)
                 ["Content"] = buildData
             }
             SaveFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName, configTable)
-        else S7DebugPrint("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName, "StatsConfigurator") end
-    else S7DebugPrint("Invalid modName. Can't build" .. ConfigSettings.StatsLoader.FileName, "StatsConfigurator") end
+        else S7Debug:Print("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName) end
+    else S7Debug:Print("Invalid modName. Can't build" .. ConfigSettings.StatsLoader.FileName) end
 end
 
 --  ####################################################################################################################################################

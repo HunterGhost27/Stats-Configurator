@@ -8,7 +8,7 @@ IDENTIFIER = "S7_Config"
 --  VALIDATE NON-EMPTY STRING
 --  =========================
 
---- Check validity of string
+--- Check validity of string.
 ---@param str any
 function ValidString(str)
     if type(str) == "string" and str ~= "" and str ~= "{}" and str ~= "[]" then return true
@@ -19,7 +19,7 @@ end
 --  INTEGRATE
 --  =========
 
---- Merge source and target. Existing source elements have priority
+--- Merge source and target. Existing source elements have priority.
 ---@param target table
 ---@param source table
 ---@return table source
@@ -89,42 +89,47 @@ end
 --  DEBUG PRINT
 --  ===========
 
+S7Debug = {
+    ['IDENTIFIER'] = IDENTIFIER,
+    ['printFunction'] = Ext.Print,
+    ['ignoreDevMode'] = false,
+    ['highlight'] = "",
+}
+
+function S7Debug:Update(t) self = Integrate(self, t) end
+
 --- Debug Print
----@param logMsg string DebugPrint message
----@param logSource string Source of the debugPrint
----@param dialogVar string DialogVariable
----@param dialogVal string (Optional) Dialog Value
----@param logType string The type of message (Log, Warning, Error)
----@param ignoreDevMode boolean Prints message regardless of DeveloperMode if true
----@param highlight boolean Highlights the message if true
----@param highlightChar string Highlighting character
-function S7DebugPrint(logMsg, logSource, dialogVar, dialogVal, logType, ignoreDevMode, highlight, highlightChar)
-    local logMsg = logMsg or ""
-    local logSource = logSource or ""
-    local dialogVar = dialogVar or ""
-    local dialogVal = dialogVal or logMsg or ""
-    local logType = logType or "Log"
-    local ignoreDevMode = ignoreDevMode or false
-    local highlight = highlight or false
-    local highlightChar = highlightChar or "="
+---@param t table Table of elements
+---@param config table Configuration table
+function S7Debug:Print(t, config)
+    local x = {}
+    local config = Integrate(self, config)
+    if type(t) ~= 'table' then x[1] = t else x = Rematerialize(t) end
 
-    if ValidString(dialogVar) then DialogVars[dialogVar] = dialogVal end
+    if ValidString(config.dialogVar) then DialogVars[config.dialogVar] = config.dialogVal or tostring(x[1]) end
 
-    if Ext.IsDeveloperMode() or ignoreDevMode then
-        local context = ""
-        if Ext.IsClient() then context = "C"
-        elseif Ext.IsServer() then context = "S" end
+    if Ext.IsDeveloperMode() or config.ignoreDevMode then
+        local context = Ext.IsServer() and '(S)' or '(C)'
+        local displayString = "[" .. config.IDENTIFIER .. context .. "] - "
+        displayString = displayString .. tostring(table.remove(x, 1))
+        local len = string.len(displayString)
 
-        local logFunctions = {["Log"] = Ext.Print, ["Warning"] = Ext.PrintWarning, ["Error"] = Ext.PrintError}
-        local printFunction = logFunctions[logType]
-
-        local displayString = "[" .. IDENTIFIER .. ":Lua(" .. context .. "):" .. logSource .. "] --- " .. logMsg
-
-        if highlight then printFunction(string.rep(highlightChar, string.len(displayString))) end
-        printFunction(displayString)
-        if highlight then printFunction(string.rep(highlightChar, string.len(displayString))) end
+        if ValidString(config.highlight) then config.printFunction(string.rep(config.highlight, len)) end
+        if x then config.printFunction(displayString, table.unpack(x)) else config.printFunction(displayString) end
+        if ValidString(config.highlight) then config.printFunction(string.rep(config.highlight, len)) end
     end
 end
+function S7Debug:FPrint(t, config) self.Print(t, Integrate({['ignoreDevMode'] = true}, config)) end
+function S7Debug:HFPrint(t, config) self.Print(t, Integrate({['ignoreDevMode'] = true, ['highlight'] = '='}, config)) end
+
+function S7Debug:Warn(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintWarning}, config)) end
+function S7Debug:FWarn(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintWarning, ['ignoreDevMode'] = true}, config)) end
+function S7Debug:HFWarn(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintWarning, ['ignoreDevMode'] = true, ['highlight'] = '='}, config)) end
+
+function S7Debug:Error(t, config) self.Print(t, Integrate({['printFunction'] = Ext.PrintError})) end
+function S7Debug:FError(t, config) self.Print(t, Integrate({['printFunction'] = Ext.PrintError, ['ignoreDevMode'] = true}, config)) end
+function S7Debug:HFError(t, config) self.Print(t, Integrate({['printFunction'] = Ext.PrintError, ['ignoreDevMode'] = true, ['highlight'] = '*'}, config)) end
+
 
 --  ==============
 --  SORT-&-ITERATE
@@ -135,10 +140,11 @@ end
 ---@param order string|function "ascending", "descending" or a custom function for table.sort
 function Spairs(t, order)
     if type(t) ~= "table" then return end
+
     local keys = {}
     if type(order) == 'string' then order = string.lower(order) end
 
-    for k, _ in pairs(t) do keys[#keys+1] = k end
+    for k, _ in pairs(t) do keys[#keys + 1] = k end
     if order == "ascending" then table.sort(keys, function(a, b) return tonumber(a) < tonumber(b) end)
     elseif order == "descending" then table.sort(keys, function(a, b) return tonumber(a) > tonumber(b) end)
     elseif type(order) == 'function' then table.sort(keys, function(a, b) return order(t, a, b) end)
@@ -174,12 +180,9 @@ end
 --- Save file
 ---@param fileName string FilePath
 ---@param contents any File Contents to save
----@param config table Configuration table
-function SaveFile(fileName, contents, config)
-    local config = Integrate({["stringifiableOnly"] = true}, config)
-    local content = {}
+function SaveFile(fileName, contents)
     if ValidString(fileName) then
-        if config.stringifiableOnly then content = Rematerialize(contents) end
+        local content = Rematerialize(contents)
         local fileContents = Ext.JsonStringify(content)
         Ext.SaveFile(fileName, fileContents)
     end
@@ -236,18 +239,19 @@ SaveFile("S7Central.json", CENTRAL)
 DefaultSettings = defaultModInfo.ModSettings
 ConfigSettings = Rematerialize(DefaultSettings) --  just to initialize ConfigSettings.
 
-function RefreshSettings() --  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
-    local settings = "Settings: Default"
+---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
+function RefreshSettings()
+    local dialogVal = "Settings: Default"
     CENTRAL = LoadFile("S7Central.json") or {}
-    S7DebugPrint("Synchronizing ModSettings", "Auxiliary", nil, nil, "Log", true, true)
+    S7Debug:HFPrint("Synchronizing ModSettings")
     for setting, value in pairs(defaultModInfo.ModSettings) do
         if ConfigSettings[setting] ~= DefaultSettings[setting] then
             ConfigSettings[setting] = value
-            S7DebugPrint(setting .. ": " .. tostring(value), "Auxiliary", nil, nil,"Log", true)
-            settings = "Settings: Custom"
+            S7Debug:FPrint(setting .. ": " .. tostring(value))
+            dialogVal = "Settings: Custom"
         end
     end
-    S7DebugPrint("Synchronized ModSettings", "Auxiliary", "Settings", settings)
+    S7Debug:Print("Synchronized ModSettings", {['dialogVar'] = "Settings", ['dialogVal'] = dialogVal})
 end
 
 --  ======================================================
@@ -312,10 +316,30 @@ end
 
 DialogVars = {}
 
+--  UPDATE DIALOG-VARS
+--  ==================
+
+function DialogVars:Update()
+    self["ConfigFile"] = ConfigSettings.ConfigFile
+    self["ConfigData"] = ConfigSettings.StatsLoader.FileName
+
+    local settingsLooper = {
+        ["StatsLoader"] = ConfigSettings.StatsLoader.Enable,
+        ["SyncStatPersistence"] = ConfigSettings.SyncStatPersistence,
+        ["BypassSafetyCheck"] = ConfigSettings.BypassSafetyCheck,
+        ["S7_ConfigLog"] = ConfigSettings.ConfigLog.Enable
+    }
+
+    for key, setting in pairs(settingsLooper) do if setting then self[key] = "Activated." else self[key] = "Deactivated." end end
+
+    if Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) then self["Settings"] = "Default" else self["Settings"] = "Custom" end
+end
+
 --  SET DIALOG VARIABLES
 --  ====================
 
-function DialogVars:Set() --  Short-hand for DialogSetVariableFixedString(). Isn't called instantly so changes are applied when Osiris is available. 
+function DialogVars:Set() --  Short-hand for DialogSetVariableFixedString(). Isn't called instantly so changes are applied when Osiris is available.
+    self.Update()
 
     local dialogAlias = {
         ["StatsLoader"] = "S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37",
@@ -333,41 +357,13 @@ function DialogVars:Set() --  Short-hand for DialogSetVariableFixedString(). Isn
         ["ConfigData"] = "S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8",
         ["ConfigFile"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
     }
-    
 
-    --  UPDATE DIALOG-VARS
-    --  ==================
-
-    self["ConfigFile"] = ConfigSettings.ConfigFile
-    self["ConfigData"] = ConfigSettings.StatsLoader.FileName
-
-    local settingsLooper = {
-        ["StatsLoader"] = ConfigSettings.StatsLoader.Enable,
-        ["SyncStatPersistence"] = ConfigSettings.SyncStatPersistence,
-        ["BypassSafetyCheck"] = ConfigSettings.BypassSafetyCheck,
-        ["S7_ConfigLog"] = ConfigSettings.ConfigLog.Enable
-    }
-
-    for key, setting in pairs(settingsLooper) do
-        if setting then self[key] = "Activated."
-        else self[key] = "Deactivated." end
-    end
-
-    if Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) then self["Settings"] = "Default"
-    else self["Settings"] = "Custom" end
-
-    --  SET DIALOG-VARS
-    --  ===============
-
-    for dialogVar, dialogVal in pairs(self) do --  for entries in toSetDialogVar
+    for dialogVar, dialogVal in pairs(self) do
         for dialogName, dialogVariable in pairs(dialogAlias) do
-            if dialogVar == dialogName then --  If entries match those in dialogCase
-                Osi.DialogSetVariableFixedString("S7_Config_ModMenu", dialogVariable, dialogVal) -- Set DialogVariables.
-            end
+            if dialogVar == dialogName then Osi.DialogSetVariableFixedString("S7_Config_ModMenu", dialogVariable, dialogVal) end
         end
     end
 end
-
 
 --  ===================
 --  EXPORT STATS TO TSV
@@ -385,6 +381,6 @@ function StatsExportTSV()
             content = content .. key .. "\t" .. type .. "\t" .. value .. "\n" --  Tab Separated Values format.
         end
     end
-    SaveFile(SubdirectoryPrefix .. ConfigSettings.ExportStatIDtoTSV.FileName, content) --  Save TSV files.
-    S7DebugPrint("Stats exported to TSV file.", "Auxiliary", "ExportStats")
+    SaveFile(SubdirectoryPrefix .. ConfigSettings.ExportStatIDtoTSV.FileName, content)
+    S7Debug:Print("Stats exported to TSV file", {['DialogVar'] = "ExportStats"})
 end

@@ -22,7 +22,7 @@ function RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) cond
         ["configData"] = {}, -- Table temporarily holds the user's configuration during the session.
         ["inDialog"] = false --  boolean. true if host-character is currently in dialog.
     }
-    S7DebugPrint("Dynamic Quick-Menu Refreshed.")
+    S7Debug:Print("Dynamic Quick-Menu Refreshed.")
 end
 
 RefreshQuickMenuVars() --  quickMenuVars initialization.
@@ -62,7 +62,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
             --  START DIALOG
             --  ------------
 
-            S7DebugPrint("Start " .. QuickMenuVars.modName .. "'s Dynamic Quick-Configuration Dialog.")
+            S7Debug:Print("Start " .. QuickMenuVars.modName .. "'s Dynamic Quick-Configuration Dialog.")
             Osi.Proc_StartDialog(1, "S7_Config_QuickMenu", Osi.CharacterGetHostCharacter()) --  host-character starts dialog.
             QuickMenuVars.inDialog = true --  Dynamic Quick-Menu dialog now in session.
         end
@@ -125,7 +125,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
         --  ====================
 
         if signal == "S7_Config_ExitCleanUp" then --  Called upon dialog exit. Cleans up quickMenuVars for the next session.
-            S7DebugPrint(QuickMenuVars.modName .. " dialog ends.")
+            S7Debug:Print(QuickMenuVars.modName .. " dialog ends.")
             RefreshQuickMenuVars() --  Resets quickMenuVars.
         end
     end

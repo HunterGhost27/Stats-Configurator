@@ -64,12 +64,10 @@ local function ModUpdater(oldVersion, newVersion, forceUpdate)
     end
 
     if isUpdatedRequired or forceUpdate then
-        S7DebugPrint("Updating " .. IDENTIFIER .. ": " .. ParseVersion(oldVersion, "string") .. " --> " .. ParseVersion(newVersion, "string"), "ModVersioning", "Log", true, true)
-
+        S7Debug:HFPrint("Updating " .. IDENTIFIER .. ": " .. ParseVersion(oldVersion, "string") .. " --> " .. ParseVersion(newVersion, "string"))
         --  ===============
         --  DO UPDATE STUFF
         --  ===============
-
     end
 end
 
