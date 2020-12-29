@@ -16,10 +16,10 @@ import pandas_read_xml as pdx   # To convert XML to fancy dataframes.
 #   =============
 
 enumerationsDataFrame = pdx.read_xml(
-    "Ref_Enumerations.xml", ["root", "enumerations", "enumeration"])
+    "Enumerations.xml", ["root", "enumerations", "enumeration"])
 
 statObjectDefsDataFrame = pdx.read_xml(
-    "Ref_StatObjectDefinitions.xml", ["root", "stat_object_definitions", "stat_object_definition"])
+    "StatObjectDefinitions.xml", ["root", "stat_object_definitions", "stat_object_definition"])
 
 #   ==================
 #   WRITE LUA CONTENTS
