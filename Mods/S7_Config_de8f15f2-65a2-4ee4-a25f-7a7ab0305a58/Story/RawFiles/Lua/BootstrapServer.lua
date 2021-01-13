@@ -3,17 +3,15 @@
 --  =======
 
 Ext.Require("Auxiliary.lua")
-Ext.Require("Auxiliary/PlayerInfo.lua")
-Ext.Require("DialogMenus/DialogVars.lua")
-Ext.Require("DialogMenus/ModMenu.lua")
-Ext.Require("DialogMenus/ModInterface.lua")
-Ext.Require("Networking/Server.lua")
-Ext.Require("Configurator/Collections.lua")
-Ext.Require("StatsConfigurator.lua")
+Ext.Require("Server/DialogMenus/DialogVars.lua")
+Ext.Require("Server/DialogMenus/ModMenu.lua")
+Ext.Require("Server/DialogMenus/ModInterface.lua")
+Ext.Require("Server/Networking.lua")
+Ext.Require("Shared/Collections.lua")
+Ext.Require("Shared/StatsConfigurator.lua")
 
 if Ext.IsDeveloperMode() then
-    Ext.Require("Development/ConsoleCommander.lua")
-    Ext.Require("Development/DevMode.lua")
+    Ext.Require("Server/ConsoleCommander.lua")
 end
 
 --  ==========

@@ -3,9 +3,9 @@
 --  =======
 
 Ext.Require("Auxiliary.lua")
-Ext.Require("Configurator/Collections.lua")
-Ext.Require("StatsConfigurator.lua")
-Ext.Require("Networking/Client.lua")
+Ext.Require("Shared/Collections.lua")
+Ext.Require("Shared/StatsConfigurator.lua")
+Ext.Require("Client/Networking.lua")
 
 --  ============
 --  STATS LOADER
