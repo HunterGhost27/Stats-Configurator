@@ -6,7 +6,7 @@
 --  BROADCASTED CONFIG-DATA
 --  =======================
 
-Ext.RegisterNetListener('S7_ConfigData', function (channel, payload)
+Ext.RegisterNetListener('S7_Config::ConfigData', function (channel, payload)
     Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
     SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName, payload)
 end)
@@ -14,7 +14,7 @@ end)
 --  CLIENT CONFIG VALIDATION
 --  ========================
 
-Ext.RegisterNetListener('S7_ValidateClientConfig', function (channel, payload)
+Ext.RegisterNetListener('S7_Config::ValidateConfig', function (channel, payload)
     local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
 
     for clientID, compare in pairs(Ext.JsonParse(payload)) do

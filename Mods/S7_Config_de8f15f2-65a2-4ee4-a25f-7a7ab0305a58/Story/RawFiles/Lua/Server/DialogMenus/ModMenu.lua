@@ -71,7 +71,7 @@ function ModMenuRelay(signal)
     if signal == "S7_BroadcastConfigData" then
         local broadcast = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
         if ValidString(broadcast) then
-            Ext.BroadcastMessage("S7_ConfigData", broadcast)
+            Ext.BroadcastMessage("S7_Config::ConfigData", broadcast)
             Debug:Print("Server broadcasted their configuration file.")
         else Debug:Error("Failed to broadcast the configuration file.") end
     end

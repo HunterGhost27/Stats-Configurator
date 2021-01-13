@@ -57,6 +57,12 @@ end
 --  MOD-SETTINGS
 --  ============
 
+---@class ConfigSettings: Settings
+---@field ConfigFile string
+---@field StatsLoader table
+---@field SyncStatPersistence boolean
+---@field BypassSafetyCheck boolean
+---@field CustomCollections table
 ConfigSettings = MODINFO.ModSettings
 
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
