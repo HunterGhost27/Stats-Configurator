@@ -38,7 +38,7 @@ ModMenuRelay = {
 
     --  STATS-CONFIGURATOR
     --  ==================
-    
+
     ['S7_StatsConfigurator'] = function ()
         local file = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
         if ValidString(file) then
@@ -53,16 +53,16 @@ ModMenuRelay = {
         Configurations = {}
         Debug:Print("StatsConfiguration Finished.")
     end,
-    
+
     --  BUILD CONFIG DATA
     --  =================
-    
+
     ['S7_BuildConfigData'] = function()
         local buildData = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
         BuildConfigData(buildData, MODINFO.UUID, "S7_Config")
         Debug:Print("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
     end,
-    
+
     --  BROADCAST CONFIG-DATA
     --  =====================
 
@@ -77,22 +77,20 @@ ModMenuRelay = {
     --  VALIDATE CLIENT CONFIG
     --  ======================
 
-    ['S7_ValidateClientConfigs'] = function ()
-        ValidateClientConfigs()
-    end,
+    ['S7_ValidateClientConfigs'] = function () ValidateClientConfigs() end,
 
     --  REFRESH SETTINGS
     --  ================
-    
+
     ['S7_RefreshSettings'] = function ()
         RefreshSettings()
         Collections:Rebuild()
         Debug:Print("Settings refreshed.")
     end,
-    
+
     --  PRINT MOD-REGISTRY
     --  ==================
-    
+
     ['S7_PrintModRegistry'] = function ()
         local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
         Stringer:SetHeader("Mods registered to Stats-Configurator")
@@ -121,9 +119,7 @@ ModMenuRelay = {
         Debug:Print("Using default settings.")
     end,
 
-    ['S7_RebuildCollections'] = function ()
-        Collections:Rebuild()
-    end,
+    ['S7_RebuildCollections'] = function () Collections:Rebuild() end,
 
     ['S7_ExportCurrentSettings'] = function ()
         SaveFile(MODINFO.SubdirPrefix .. "S7_ConfigSettings.json", ConfigSettings)
