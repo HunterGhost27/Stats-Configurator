@@ -11,7 +11,6 @@
 ---@field Context string Context: "Shared", "Server" or "Client"
 ---@field Description string Help-Messsage
 ---@field Params table<number, string> Parameters
----@field New function Creates new instance
 Command = {
     ['Name'] = "",
     ['Action'] = function() end,
@@ -67,10 +66,11 @@ function ConsoleCommanderHelp(target)
         end
         helpMsg = Stringer:Build()
     else
+        Stringer:SetHeader('COMMAND\t\t\tDESCRIPTION')
         for name, CMD in pairs(ConsoleCommander) do
             if type(CMD) == 'table' and isValidContext(CMD) then
-                Stringer:Add("COMMAND: ".. name)
-                Stringer:Add("DESCRIPTION: " .. CMD.Description)
+                Stringer:Add(name)
+                Stringer:Append("\t\t\t" .. CMD.Description)
                 Stringer:LineBreak("-")
             end
         end
@@ -84,7 +84,7 @@ ConsoleCommander:Register({
     ['Name'] = "Help",
     ['Action'] = ConsoleCommanderHelp,
     ['Context'] = "Shared",
-    ['Description'] = "Displays a list of all console-commands",
+    ['Description'] = "Displays a list of all console-commands. <param1:SpecificCommand>",
     ['Params'] = {[1] = "Target Command-Name"}
 })
 

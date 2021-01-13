@@ -2,6 +2,7 @@
 --  USER INFO
 --  =========
 
+---@class UserInfo @Manages UserInformation
 UserInformation = {
     ['Host'] = {},
     ['Clients'] = {},

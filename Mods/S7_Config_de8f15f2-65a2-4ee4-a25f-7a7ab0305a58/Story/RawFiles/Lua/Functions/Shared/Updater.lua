@@ -2,6 +2,7 @@
 --  MOD-UPDATER
 --  ===========
 
+---@class Update @Updater
 Update = {
     ['isRequired'] = false,
     ['force'] = false,
@@ -46,10 +47,10 @@ end
 --  INITIAL CHECK
 --  =============
 
-CENTRAL = CENTRAL:Load()
-local prevVersion = Version:Parse(CENTRAL[IDENTIFIER]["ModVersion"])
-local currVersion = Version:Parse(MODINFO.Version)
-Update:Check(prevVersion, currVersion)
-MODINFO.ModVersion = currVersion:String()
-CENTRAL:Sync()
-CENTRAL:Save()
+CENTRAL = CENTRAL:Load() -- Loads CENTRAL file
+local prevVersion = Version:Parse(CENTRAL[IDENTIFIER]["ModVersion"]) -- Reads previous version
+local currVersion = Version:Parse(MODINFO.Version) -- Reads current version
+Update:Check(prevVersion, currVersion) -- Performs update check
+MODINFO.ModVersion = currVersion:String() -- Updates CENTRAL mod-version
+CENTRAL:Sync() -- Synchronizes CENTRAL file
+CENTRAL:Save() -- Saves CENTRAL file

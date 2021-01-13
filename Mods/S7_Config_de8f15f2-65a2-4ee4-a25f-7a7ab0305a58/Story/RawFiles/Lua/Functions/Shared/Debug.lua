@@ -45,10 +45,11 @@ function Scan:Element(e)
     self.level = 0
 end
 
---  ===========
---  DEBUG PRINT
---  ===========
+--  =====
+--  DEBUG
+--  =====
 
+---@class Debug @Debug Utilities
 Debug = {
     ['IDENTIFIER'] = IDENTIFIER,
     ['printFunction'] = Ext.Print,
@@ -58,7 +59,7 @@ Debug = {
 
 --- Debug Print
 ---@param t table Table of elements
----@param config table Configuration table
+---@param config Debug Configuration table
 function Debug:Print(t, config)
     local x = {}
     local config = Integrate(self, config)
@@ -76,13 +77,44 @@ function Debug:Print(t, config)
     end
 end
 
+---Force Prints to Console. Ignores DevMode
+---@param t table Table of elements
+---@param config Debug Configuration table
 function Debug:FPrint(t, config)self:Print(t, Integrate({['ignoreDevMode'] = true}, config)) end
+
+---Force Prints and Highlights. Ignores DevMode
+---@param t table Table of elements
+---@param config Debug Configuration table
 function Debug:HFPrint(t, config) self:Print(t, Integrate({['ignoreDevMode'] = true, ['highlight'] = '='}, config)) end
 
+---Prints warning to Console.
+---@param t table Table of elements
+---@param config Debug Configuration
 function Debug:Warn(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintWarning}, config)) end
+
+---Force Prints warning to Console. Ignores DevMode
+---@param t table Table of elements
+---@param config Debug Configuration table
 function Debug:FWarn(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintWarning, ['ignoreDevMode'] = true}, config)) end
+
+---Force Prints warning and Highlights. Ignores DevMode
+---@param t table Table of elements
+---@param config Debug Configuration table
 function Debug:HFWarn(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintWarning, ['ignoreDevMode'] = true, ['highlight'] = '='}, config)) end
 
+---Prints error to Console
+---@param t table Table of elements
+---@param config Debug Configuration table
 function Debug:Error(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintError}, config)) end
+
+---Force Prints error to Console. Ignores DevMode
+---@param t table Table of elements
+---@param config Debug Configuration Table
 function Debug:FError(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintError, ['ignoreDevMode'] = true}, config)) end
+
+---Force Prints error and Highlights. Ignores DevMode
+---@param t table Table of elements
+---@param config Debug Configuration table
 function Debug:HFError(t, config) self:Print(t, Integrate({['printFunction'] = Ext.PrintError, ['ignoreDevMode'] = true, ['highlight'] = '*'}, config)) end
+
+

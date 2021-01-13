@@ -11,6 +11,81 @@ function ValidString(str)
     return true
 end
 
+--  ============
+--  EXTRACT GUID
+--  ============
+
+---Extract GUID and Name parts from NameGUID
+---@param str string GUIDString
+---@return string extractGUID
+---@return string extractName
+function ExtractGUID(str)
+    if type(str) ~= 'string' then return end
+    local _, _, extractName, extractGUID = str:find("(.*)_(.-)$")
+    return extractGUID, extractName
+end
+
+--  ==============
+--  STRING BUILDER
+--  ==============
+
+---@class Stringer @Builds Multiline Strings
+---@field Header string Highlighted header
+---@field Maxlen number Largest line-length
+Stringer = {
+    ['Header'] = "",
+    ['MaxLen'] = 0,
+    ['Style'] = {
+        ['Outer'] = "=",
+        ['Inner'] = '-',
+    }
+}
+
+---Updates MaxLength
+---@param str string
+function Stringer:UpdateMaxLen(str) if str:len() > self.MaxLen then self.MaxLen = str:len() end end
+
+---Sets the Header
+---@param str string
+function Stringer:SetHeader(str) self:UpdateMaxLen(str); self.Header = str end
+
+---Sets Style options
+---@param t table<string, string>
+function Stringer:Styler(t) self.Style = Integrate(self.Style, t) end
+
+---Adds new line
+---@param str string
+function Stringer:Add(str) self:UpdateMaxLen(str); self[#self + 1] = str end
+
+---Appends string to the last element
+---@param str string
+function Stringer:Append(str) self[#self] = self[#self] .. str; self:UpdateMaxLen(self[#self]) end
+
+---Adds a line-break
+---@param char string
+function Stringer:LineBreak(char) self:Add(string.rep(char, self.MaxLen)) end
+
+---Resets Stringer to default values
+function Stringer:Clear()
+    for idx, _ in ipairs(self) do self[idx] = nil end
+    self.Style = {['Outer'] = "=", ["Inner"] = "-"}
+    self.Header = ""
+    self.MaxLen = 0
+end
+
+---Combines the entire Stringer object into a single string
+---@return string displayString
+function Stringer:Build()
+    local str = "\n"
+    if ValidString(self.Style.Outer) then str = str .. string.rep(self.Style.Outer, self.MaxLen) .. "\n" end
+    str = str .. self.Header .. "\n"
+    if ValidString(self.Style.Inner) then str = str .. string.rep(self.Style.Inner, self.MaxLen) .. "\n" end
+    for _, value in ipairs(self) do str = str .. value .. "\n" end
+    if ValidString(self.Style.Outer) then str = str .. string.rep(self.Style.Outer, self.MaxLen) .. "\n" end
+    self:Clear()
+    return str
+end
+
 --  ======
 --  COLORS
 --  ======
@@ -44,77 +119,114 @@ Color = {
 ---@return string
 local function addFontTags(color, str) return "<font color=\'" .. color .. "\'>" .. tostring(str) .. "</font>" end
 
+---Color the string Red
+---@param str string
+---@return string
 function Color:Red(str) return addFontTags(self.red, str) end
+
+---Color the string Blue
+---@param str string
+---@return string
 function Color:Blue(str) return addFontTags(self.blue, str) end
+
+---Color the string Green
+---@param str string
+---@return string
 function Color:Green(str) return addFontTags(self.green, str) end
+
+---Color the string Black
+---@param str string
+---@return string
 function Color:Black(str) return addFontTags(self.black, str) end
+
+---Color the string White
+---@param str string
+---@return string
 function Color:White(str) return addFontTags(self.white, str) end
+
+---Color the string Yellow
+---@param str string
+---@return string
 function Color:Yellow(str) return addFontTags(self.yellow, str) end
+
+---Color the string Orange
+---@param str string
+---@return string
 function Color:Orange(str) return addFontTags(self.orange, str) end
+
+---Color the string Violet
+---@param str string
+---@return string
 function Color:Violet(str) return addFontTags(self.violet, str) end
+
+---Color the string Gold
+---@param str string
+---@return string
 function Color:Gold(str) return addFontTags(self.gold, str) end
 
+--  ELEMENTAL COLORS
+--  ================
+
+---Color the string Air
+---@param str string
+---@return string
 function Color:Air(str) return addFontTags(self.air, str) end
+
+---Color the string Earth
+---@param str string
+---@return string
 function Color:Earth(str) return addFontTags(self.earth, str) end
+
+---Color the string Fire
+---@param str string
+---@return string
 function Color:Fire(str) return addFontTags(self.fire, str) end
+
+---Color the string Necromancy
+---@param str string
+---@return string
 function Color:Necromancy(str) return addFontTags(self.necromancy, str) end
+
+---Color the string Polymorph
+---@param str string
+---@return string
 function Color:Polymorph(str) return addFontTags(self.polymorph, str) end
+
+---Color the string Ranger
+---@param str string
+---@return string
 function Color:Ranger(str) return addFontTags(self.ranger, str) end
+
+---Color the string Rogue
+---@param str string
+---@return string
 function Color:Rogue(str) return addFontTags(self.rogue, str) end
+
+---Color the string Source
+---@param str string
+---@return string
 function Color:Source(str) return addFontTags(self.source, str) end
+
+---Color the string Summoning
+---@param str string
+---@return string
 function Color:Summoning(str) return addFontTags(self.summoning, str) end
+
+---Color the string Warrior
+---@param str string
+---@return string
 function Color:Warrior(str) return addFontTags(self.warrior, str) end
+
+---Color the string Water
+---@param str string
+---@return string
 function Color:Water(str) return addFontTags(self.water, str) end
 
+--  CUSTOM COLOR
+--  ============
+
+---Color the string with custom Hex-Value
+---@param hex string Color Hex-Value
+---@param str string String to color
+---@return string
 function Color:Custom(hex, str) return addFontTags(hex, str) end
-
---  ============
---  EXTRACT GUID
---  ============
-
----Extract GUID and Name parts from NameGUID
----@param str string GUIDString
----@return string extractGUID
----@return string extractName
-function ExtractGUID(str)
-    if type(str) ~= 'string' then return end
-    local _, _, extractName, extractGUID = str:find("(.*)_(.-)$")
-    return extractGUID, extractName
-end
-
---  ==============
---  STRING BUILDER
---  ==============
-
-Stringer = {
-    ['Header'] = "",
-    ['MaxLen'] = 0,
-    ['Style'] = {
-        ['Outer'] = "=",
-        ['Inner'] = '-',
-    }
-}
-
-function Stringer:UpdateMaxLen(str) if str:len() > self.MaxLen then self.MaxLen = str:len() end end
-function Stringer:SetHeader(str) self:UpdateMaxLen(str); self.Header = str end
-function Stringer:Styler(t) self.Style = Integrate(self.Style, t) end
-function Stringer:Add(str) self:UpdateMaxLen(str); self[#self+1] = str end
-function Stringer:LineBreak(char) self:Add(string.rep(char, self.MaxLen)) end
-
-function Stringer:Clear()
-    for idx, _ in ipairs(self) do self[idx] = nil end
-    self.Style = {['Outer'] = "=", ["Inner"] = "-"}
-    self.Header = ""
-    self.MaxLen = 0
-end
-
-function Stringer:Build()
-    local str = "\n"
-    if ValidString(self.Style.Outer) then str = str .. string.rep(self.Style.Outer, self.MaxLen) .. "\n" end
-    str = str .. self.Header .. "\n"
-    if ValidString(self.Style.Inner) then str = str .. string.rep(self.Style.Inner, self.MaxLen) .. "\n" end
-    for _, value in ipairs(self) do str = str .. value .. "\n" end
-    if ValidString(self.Style.Outer) then str = str .. string.rep(self.Style.Outer, self.MaxLen) .. "\n" end
-    self:Clear()
-    return str
-end
