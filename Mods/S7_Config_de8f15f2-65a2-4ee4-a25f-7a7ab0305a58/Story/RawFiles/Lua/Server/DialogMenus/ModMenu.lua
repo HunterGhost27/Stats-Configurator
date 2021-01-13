@@ -10,7 +10,7 @@ ModMenuDialog:Set({
     ['StatsLoader'] = {['dialogVar'] = 'S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37', ['dialogVal'] = tostring(ConfigSettings.StatsLoader.Enable)},
     ['SyncStatPersistence'] = {['dialogVar'] = 'S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a', ['dialogVal'] = tostring(ConfigSettings.SyncStatPersistence)},
     ['BypassSafetyCheck'] = {['dialogVar'] = 'S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64', ['dialogVal'] = tostring(ConfigSettings.BypassSafetyCheck)},
-    ['Settings'] = {['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6', ['dialogVal'] = Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) and 'Default' or 'Custom'},
+    ['Settings'] = {['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6', ['dialogVal'] = Ext.JsonStringify(Rematerialize(ConfigSettings)) == Ext.JsonStringify(Rematerialize(DefaultSettings)) and 'Default' or 'Custom'},
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb', ['dialogVal'] = ""},
     ['ExportStats'] = {['dialogVar'] = 'S7_Config_ExportedStats_e59ebc61-6f13-4e91-9200-36e474113c48', ['dialogVal'] = ""},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917', ['dialogVal'] = ""},
