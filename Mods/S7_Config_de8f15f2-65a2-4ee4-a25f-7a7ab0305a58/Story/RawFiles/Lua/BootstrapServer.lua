@@ -3,7 +3,6 @@
 --  =======
 
 Ext.Require("Auxiliary.lua")
-Ext.Require("Server/DialogMenus/DialogVars.lua")
 Ext.Require("Server/DialogMenus/ModMenu.lua")
 Ext.Require("Server/DialogMenus/ModInterface.lua")
 Ext.Require("Server/Networking.lua")
