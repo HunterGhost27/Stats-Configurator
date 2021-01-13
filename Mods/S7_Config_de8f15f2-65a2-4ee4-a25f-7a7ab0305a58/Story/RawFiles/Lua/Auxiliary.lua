@@ -61,21 +61,7 @@ end
 ConfigSettings = MODINFO.ModSettings
 
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
-function RefreshSettings()
-    local dialogVal = "Settings: Default"
-    Debug:HFPrint("Synchronizing ModSettings")
-    CENTRAL = CENTRAL:Load()
-    for setting, value in pairs(DefaultSettings) do
-        if ConfigSettings[setting] ~= DefaultSettings[setting] then
-            ConfigSettings[setting] = Rematerialize(value)
-            Debug:FPrint(setting .. ": " .. Ext.JsonStringify(value))
-            dialogVal = "Settings: Custom"
-        end
-    end
-    CENTRAL:Sync()
-    CENTRAL:Save()
-    Debug:Print("Synchronized ModSettings", {['dialogVar'] = "Settings", ['dialogVal'] = dialogVal}) -- Handle DialogVars in Debug:Print as Config:Print
-end
+function RefreshSettings() Debug:HFPrint("Synchronizing ModSettings"); CENTRAL:ReSync() end
 
 --  ======================================================
 Ext.RegisterListener("ModuleLoadStarted", RefreshSettings)
