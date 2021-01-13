@@ -31,21 +31,23 @@ Ext.Require("Functions/Auxiliary.lua")
 --  MOD-SETTINGS
 --  ============
 
-ConfigSettings = Rematerialize(DefaultSettings)
+ConfigSettings = MODINFO.ModSettings
 
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
 function RefreshSettings()
     local dialogVal = "Settings: Default"
-    CENTRAL = LoadFile("S7Central.json") or {}
+    CENTRAL = CENTRAL:Load()
     Debug:HFPrint("Synchronizing ModSettings")
     for setting, value in pairs(DefaultSettings) do
         if ConfigSettings[setting] ~= DefaultSettings[setting] then
-            ConfigSettings[setting] = value
-            Debug:FPrint(setting .. ": " .. tostring(value))
+            ConfigSettings[setting] = Rematerialize(value)
+            Debug:FPrint(setting .. ": " .. Ext.JsonStringify(value))
             dialogVal = "Settings: Custom"
         end
     end
-    Debug:Print("Synchronized ModSettings", {['dialogVar'] = "Settings", ['dialogVal'] = dialogVal})
+    CENTRAL:Sync()
+    CENTRAL:Save()
+    Debug:Print("Synchronized ModSettings", {['dialogVar'] = "Settings", ['dialogVal'] = dialogVal}) -- Handle DialogVars in Debug:Print as Config:Print
 end
 
 --  ======================================================

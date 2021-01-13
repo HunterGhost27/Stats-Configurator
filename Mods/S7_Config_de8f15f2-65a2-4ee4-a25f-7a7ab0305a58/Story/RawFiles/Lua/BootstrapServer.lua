@@ -10,9 +10,7 @@ Ext.Require("Server/Networking.lua")
 Ext.Require("Shared/Collections.lua")
 Ext.Require("Shared/StatsConfigurator.lua")
 
-if Ext.IsDeveloperMode() then
-    Ext.Require("Server/ConsoleCommander.lua")
-end
+if Ext.IsDeveloperMode() then Ext.Require("Server/ConsoleCommander.lua") end
 
 --  ==========
 --  GAME START
