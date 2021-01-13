@@ -3688,13 +3688,8 @@ function HandleStatType(statName)
 	--	SKILLDATA
 	--	=========
 	if statType == "SkillData" then
-		for splitString in string.gmatch(statName, "[^_]+") do --	Underscore splits string.
-			for _, subStatType in pairs(SkillandStatusData["SkillData"]) do -- Iterate over SkillData sub-categories.
-				if splitString == subStatType then -- if string is a sub-category of SkillData.
-					return splitString	--	return subcategory of SkillData.
-				end
-			end
-		end
+		local splitString = Disintegrate(statName, "_")
+		for _, subStatType in pairs(SkillandStatusData["SkillData"]) do if splitString == subStatType then return splitString end end
 
 	--	STATUSDATA
 	--	==========
