@@ -24,5 +24,5 @@ Ext.RegisterOsirisListener("UserConnected", 3, "after", ValidateClientConfigs)
 Ext.RegisterNetListener("S7_Config::ConfigValidationResponse", function (channel, payload)
     if string.match(payload, "Active configuration mismatch detected.") then Debug:Warn("Client Response: " .. tostring(payload))
     elseif string.match(payload, "Active configuration profile verified.") then Debug:Print("Client Response: " .. tostring(payload))
-    end    
+    end
 end)

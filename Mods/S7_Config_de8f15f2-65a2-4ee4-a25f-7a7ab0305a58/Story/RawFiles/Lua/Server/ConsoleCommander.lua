@@ -9,7 +9,7 @@ ConsoleCommander:Register({
     ['Name'] = 'AddConfigurator',
     ['Description'] = "Adds the Configurator item to the host-character's inventory",
     ['Context'] = 'Server',
-    ['Action'] = function(...)
+    ['Action'] = function()
         local hostCharacter = Osi.CharacterGetHostCharacter()
         if Osi.ItemTemplateIsInPartyInventory(hostCharacter, Inspector, 1) < 1 then
             Osi.ItemTemplateAddTo(Inspector, hostCharacter, 1)
@@ -25,7 +25,7 @@ ConsoleCommander:Register({
     ['Name'] = 'StartModMenu',
     ['Description'] = "Host-Character starts the Mod-Menu Dialog",
     ['Context'] = 'Server',
-    ['Action'] = function (...)
+    ['Action'] = function ()
         local hostCharacter = Osi.CharacterGetHostCharacter()
         if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
             Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
@@ -41,6 +41,7 @@ ConsoleCommander:Register({
     ['Name'] = 'SyncStat',
     ['Description'] = "Synchronize stat for all peers",
     ['Context'] = 'Server',
+    ['Params'] = {[1] = 'StatName', [2] = 'StatPersistence'},
     ['Action'] = function (...)
         local args = {...}
         local statName = args[1] or ""
@@ -58,6 +59,7 @@ ConsoleCommander:Register({
     ['Name'] = 'SearchStat',
     ['Description'] = "Search for (search-string) in category (stat-type)",
     ['Context'] = "Shared",
+    ['Params'] = {[1] = 'Search', [2] = 'SearchType'},
     ['Action'] = function (search, searchType)
         if not ValidString(search) then return end
         local allStat = ValidString(searchType) and Ext.GetStatEntries(searchType) or Ext.GetStatEntries()
@@ -112,6 +114,7 @@ ConsoleCommander:Register({
     ['Name'] = 'Reference',
     ['Description'] = "Lookup (StatType) and (AttributeType) in References",
     ['Context'] = 'Shared',
+    ['Params'] = {[1] = 'StatType', [2] = 'AttributeType'},
     ['Action'] = Reference
 })
 
@@ -139,5 +142,6 @@ ConsoleCommander:Register({
     ['Name'] = 'DeepDive',
     ['Description'] = "",
     ['Context'] = 'Shared',
+    ['Params'] = {[1] = 'StatName'},
     ['Action'] = DeepDive
 })
