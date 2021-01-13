@@ -26,7 +26,7 @@ local modMenuSignals = {
 Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, "after", function (character, itemTemplate, item)
     if itemTemplate ~= Inspector then return end
     local hostCharacter = Osi.CharacterGetHostCharacter()
-    if Osi.QRY_SpeakerIsAvailable(hostCharacter) then Osi.Proc_StartDialog(1, DIALOGMENU.ModMenu, hostCharacter) end
+    if Osi.QRY_SpeakerIsAvailable(hostCharacter) then Osi.Proc_StartDialog(1, ModMenuDialog.Name, hostCharacter) end
 end)
 
 --  ==============
@@ -36,7 +36,7 @@ end)
 function ModMenuRelay(signal)
     if not modMenuSignals[signal] then return end
 
-    UserInformation:Fetch()
+    UserInformation:ReSync()
 
     --  STATS-CONFIGURATOR
     -- ====================
@@ -191,19 +191,6 @@ function ModMenuRelay(signal)
 
     if signal == "S7_RebuildCollections" then
         Collections:Rebuild()
-    end
-
-    --  TOGGLE LOG
-    --  ==========
-
-    if signal == "S7_ToggleConfigLog" then
-        if ConfigSettings.ConfigLog.Enable == true then
-            ConfigSettings.ConfigLog.Enable = false
-            Debug:Print("S7_ConfigLog: Disabled")
-        else
-            ConfigSettings.ConfigLog.Enable = true
-            Debug:Print("S7_ConfigLog: Enabled")
-        end
     end
 
     DialogVars:Set() --  Request dialogVar update everytime ModMenu relays a signal.
