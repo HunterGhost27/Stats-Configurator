@@ -4,6 +4,10 @@
 
 ## [0.7.1.0] --- 13th January 2021 --- **_Restarted Remaster_**
 
+### FIXED
+
+* _Transformed_ `EnumTransformer`.
+
 ### REMOVED
 
 * Some instances of _CHANGELOG_.
