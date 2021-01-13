@@ -12,15 +12,15 @@ local function ClientNetworker(channel, payload)
     --  =======================
 
     if channel == "S7_ConfigData" then
-        S7Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
-        SaveFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName, payload)
+        Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
+        SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName, payload)
     end
 
     --  CLIENT CONFIG VALIDATION
     --  ========================
 
     if channel == "S7_ValidateClientConfig" then
-        local verify = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or ""
+        local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
 
         for clientID, compare in pairs(Ext.JsonParse(payload)) do
             local message = clientID .. " : "

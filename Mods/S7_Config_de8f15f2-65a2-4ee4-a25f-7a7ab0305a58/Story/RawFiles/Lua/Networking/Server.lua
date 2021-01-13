@@ -3,17 +3,17 @@
 --  =======================
 
 function ValidateClientConfigs()
-    S7Debug:Print("Validating Client Config...")
-    local compare = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName)
+    Debug:Print("Validating Client Config...")
+    local compare = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName)
     if ValidString(compare) then
-        PlayerInfo:Fetch()
-        for userProfileID, _ in pairs(PlayerInfo.clientCharacters) do
-            local clientID = PlayerInfo.clientCharacters[userProfileID]["currentCharacterName"] .. " (" .. PlayerInfo.clientCharacters[userProfileID]["userName"] .. ")"
+        UserInformation:Fetch()
+        for userProfileID, _ in pairs(UserInformation.Clients) do
+            local clientID = UserInformation.Clients[userProfileID]["currentCharacterName"] .. " (" .. UserInformation.Clients[userProfileID]["userName"] .. ")"
             local payload = {[clientID] = compare}
-            Ext.PostMessageToClient(PlayerInfo.clientCharacters[userProfileID]["currentCharacter"], "S7_ValidateClientConfig", Ext.JsonStringify(payload))
+            Ext.PostMessageToClient(UserInformation.Clients[userProfileID]["currentCharacter"], "S7_ValidateClientConfig", Ext.JsonStringify(payload))
         end
     else
-        S7Debug:Error("Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName)
+        Debug:Error("Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName)
     end
 end
 
@@ -28,9 +28,9 @@ Ext.RegisterOsirisListener("UserConnected", 3, "after", ValidateClientConfigs)
 function ValidateClientResponse(channel, payload)
     local clientResponse = payload
     if string.match(clientResponse, "Active configuration mismatch detected.") then
-        S7Debug:Warn("Client Response: " .. tostring(clientResponse))
+        Debug:Warn("Client Response: " .. tostring(clientResponse))
     elseif string.match(clientResponse, "Active configuration profile verified.") then
-        S7Debug:Print("Client Response: " .. tostring(clientResponse))
+        Debug:Print("Client Response: " .. tostring(clientResponse))
     end
 end
 

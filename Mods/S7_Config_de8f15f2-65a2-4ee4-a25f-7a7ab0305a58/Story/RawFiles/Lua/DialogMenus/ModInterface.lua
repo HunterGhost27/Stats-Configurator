@@ -19,7 +19,7 @@ Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", function (signal)
 end)
 
 Ext.RegisterOsirisListener("GameStarted", 2, "after", function (...)
-    Osi.DB_S7_Config_ModRegistry:Set(IDENTIFIER, ModInfo.UUID)
+    Osi.DB_S7_Config_ModRegistry:Set(IDENTIFIER, MODINFO.UUID)
 end)
 
 --  ============================
@@ -46,7 +46,7 @@ function RefreshQuickMenuVars() --  Resets quickMenuVars to initial (unset) cond
         ["configData"] = {}, -- Table temporarily holds the user's configuration during the session.
         ["inDialog"] = false --  boolean. true if host-character is currently in dialog.
     }
-    S7Debug:Print("Dynamic Quick-Menu Refreshed.")
+    Debug:Print("Dynamic Quick-Menu Refreshed.")
 end
 
 RefreshQuickMenuVars() --  quickMenuVars initialization.
@@ -74,7 +74,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
 
             --  LOAD PRE-EXISTING CONFIGURATION
             --  -------------------------------
-            local configFile = Ext.LoadFile(SubdirectoryPrefix .. "S7_ConfigData.json") or ""
+            local configFile = Ext.LoadFile(MODINFO.SubdirPrefix .. "S7_ConfigData.json") or ""
             if ValidString(configFile) then
                 for modName, content in pairs(Ext.JsonParse(configFile)) do
                     if modName == QuickMenuVars.modName then --  if configuration already exists.
@@ -86,7 +86,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
             --  START DIALOG
             --  ------------
 
-            S7Debug:Print("Start " .. QuickMenuVars.modName .. "'s Dynamic Quick-Configuration Dialog.")
+            Debug:Print("Start " .. QuickMenuVars.modName .. "'s Dynamic Quick-Configuration Dialog.")
             Osi.Proc_StartDialog(1, "S7_Config_QuickMenu", Osi.CharacterGetHostCharacter()) --  host-character starts dialog.
             QuickMenuVars.inDialog = true --  Dynamic Quick-Menu dialog now in session.
         end
@@ -149,7 +149,7 @@ function S7_Config_QuickMenuRelay(signal) --  Recieves flag from Osiris (S7_Conf
         --  ====================
 
         if signal == "S7_Config_ExitCleanUp" then --  Called upon dialog exit. Cleans up quickMenuVars for the next session.
-            S7Debug:Print(QuickMenuVars.modName .. " dialog ends.")
+            Debug:Print(QuickMenuVars.modName .. " dialog ends.")
             RefreshQuickMenuVars() --  Resets quickMenuVars.
         end
     end

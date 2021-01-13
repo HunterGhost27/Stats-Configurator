@@ -36,44 +36,44 @@ end)
 function ModMenuRelay(signal)
     if not modMenuSignals[signal] then return end
 
-    PlayerInfo:Fetch()
+    UserInformation:Fetch()
 
     --  STATS-CONFIGURATOR
     -- ====================
 
     if signal == "S7_StatsConfigurator" then
-        local file = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile) or ""
+        local file = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
         if ValidString(file) then
-            S7Debug:Print("Loading: " .. ConfigSettings.ConfigFile)
+            Debug:Print("Loading: " .. ConfigSettings.ConfigFile)
             table.insert(Configurations, {["S7_Config"] = file})
         else
-            S7Debug:Error(ConfigSettings.ConfigFile .. " not found. Creating empty file.")
-            Ext.SaveFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile, "")
+            Debug:Error(ConfigSettings.ConfigFile .. " not found. Creating empty file.")
+            Ext.SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile, "")
         end
         StatsConfigurator()
         StatsSynchronize()
         Configurations = {}
-        S7Debug:Print("StatsConfiguration Finished.")
+        Debug:Print("StatsConfiguration Finished.")
     end
 
     --  BUILD CONFIG-DATA
     --  =================
 
     if signal == "S7_BuildConfigData" then
-        local buildData = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile) or ""
-        BuildConfigData(buildData, ModInfo.UUID, "S7_Config")
-        S7Debug:Print("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
+        local buildData = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
+        BuildConfigData(buildData, MODINFO.UUID, "S7_Config")
+        Debug:Print("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
     end
 
     --  SEND CONFIG DATA
     --  ================
 
     if signal == "S7_BroadcastConfigData" then
-        local broadcast = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or ""
+        local broadcast = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
         if ValidString(broadcast) then
             Ext.BroadcastMessage("S7_ConfigData", broadcast)
-            S7Debug:Print("Server broadcasted their configuration file.")
-        else S7Debug:Error("Failed to broadcast the configuration file.") end
+            Debug:Print("Server broadcasted their configuration file.")
+        else Debug:Error("Failed to broadcast the configuration file.") end
     end
 
     --  VALIDATE CLIENT FILES
@@ -87,10 +87,10 @@ function ModMenuRelay(signal)
     if signal == "S7_ToggleStatsLoader" then
         if ConfigSettings.StatsLoader.Enable == true then
             ConfigSettings.StatsLoader.Enable = false
-            S7Debug:Print("StatsLoader: Deactivated")
+            Debug:Print("StatsLoader: Deactivated")
         else
             ConfigSettings.StatsLoader.Enable = true
-            S7Debug:Print("StatsLoader: Activated")
+            Debug:Print("StatsLoader: Activated")
         end
     end
 
@@ -100,10 +100,10 @@ function ModMenuRelay(signal)
     if signal == "S7_ToggleSyncStatPersistence" then
         if ConfigSettings.SyncStatPersistence == true then
             ConfigSettings.SyncStatPersistence = false
-            S7Debug:Print("SyncStatPersistence: Deactivated")
+            Debug:Print("SyncStatPersistence: Deactivated")
         else
             ConfigSettings.SyncStatPersistence = true
-            S7Debug:Print("SyncStatPersistence: Activated")
+            Debug:Print("SyncStatPersistence: Activated")
         end
     end
 
@@ -113,10 +113,10 @@ function ModMenuRelay(signal)
     if signal == "S7_ToggleSafetyCheck" then
         if ConfigSettings.BypassSafetyCheck == false then
             ConfigSettings.BypassSafetyCheck = true
-            S7Debug:Print("BypassSafetyCheck: Activated")
+            Debug:Print("BypassSafetyCheck: Activated")
         else
             ConfigSettings.BypassSafetyCheck = false
-            S7Debug:Print("BypassSafetyCheck: Deactivated")
+            Debug:Print("BypassSafetyCheck: Deactivated")
         end
     end
 
@@ -125,7 +125,7 @@ function ModMenuRelay(signal)
 
     if signal == "S7_SetDefaultSettings" then
         ConfigSettings = Rematerialize(DefaultSettings)
-        S7Debug:Print("Using default settings.")
+        Debug:Print("Using default settings.")
     end
 
     --  REFRESH SETTINGS
@@ -134,17 +134,17 @@ function ModMenuRelay(signal)
     if signal == "S7_RefreshSettings" then
         RefreshSettings()
         Collections:Rebuild()
-        S7Debug:Print("Settings refreshed.")
+        Debug:Print("Settings refreshed.")
     end
 
     --  EXPORT CURRENT SETTINGS
     -- =========================
 
     if signal == "S7_ExportCurrentSettings" then
-        SaveFile(SubdirectoryPrefix .. "S7_ConfigSettings.json", ConfigSettings)
-        S7Debug:Print("Exporting current ConfigSettings to S7_ConfigSettings.json")
+        SaveFile(MODINFO.SubdirPrefix .. "S7_ConfigSettings.json", ConfigSettings)
+        Debug:Print("Exporting current ConfigSettings to S7_ConfigSettings.json")
         RefreshSettings()
-        S7Debug:Print("Custom Settings Exported and Refreshed.")
+        Debug:Print("Custom Settings Exported and Refreshed.")
     end
 
     --  EXPORT STATS TO TSV FILE
@@ -167,8 +167,8 @@ function ModMenuRelay(signal)
 
     if signal == "S7_PrintModRegistry" then
         local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
-        S7Debug:Print("Mods registered to Stats-Configurator")
-        S7Debug:Print("======================================================")
+        Debug:Print("Mods registered to Stats-Configurator")
+        Debug:Print("======================================================")
         local registeredMods = ""
         for i, entry in ipairs(registry) do
             local registeredModInfo = {
@@ -182,8 +182,8 @@ function ModMenuRelay(signal)
                 registeredMods ..
                 "[" .. i .. "]" .. " - " .. registeredModInfo.Name .. " by " .. registeredModInfo.Author .. "\n"
         end
-        S7Debug:Print(registeredMods, nil, "RegisteredMods")
-        S7Debug:Print("======================================================")
+        Debug:Print(registeredMods, nil, "RegisteredMods")
+        Debug:Print("======================================================")
     end
 
     --  REBUILD COLLECTIONS
@@ -199,10 +199,10 @@ function ModMenuRelay(signal)
     if signal == "S7_ToggleConfigLog" then
         if ConfigSettings.ConfigLog.Enable == true then
             ConfigSettings.ConfigLog.Enable = false
-            S7Debug:Print("S7_ConfigLog: Disabled")
+            Debug:Print("S7_ConfigLog: Disabled")
         else
             ConfigSettings.ConfigLog.Enable = true
-            S7Debug:Print("S7_ConfigLog: Enabled")
+            Debug:Print("S7_ConfigLog: Enabled")
         end
     end
 

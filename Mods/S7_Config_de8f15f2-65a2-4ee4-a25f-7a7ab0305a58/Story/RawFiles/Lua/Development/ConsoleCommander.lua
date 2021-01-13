@@ -62,8 +62,8 @@ function S7_Config_ConsoleCommander(...)
         local hostCharacter = Osi.CharacterGetHostCharacter()
         if Osi.ItemTemplateIsInPartyInventory(hostCharacter, "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", 1) < 1 then
             Osi.ItemTemplateAddTo("S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254", hostCharacter, 1)
-            S7Debug:Print("Configurator added to Host-Character's Inventory.")
-        else S7Debug:Print("Check your bags! The party has the Configurator already.") end
+            Debug:Print("Configurator added to Host-Character's Inventory.")
+        else Debug:Print("Check your bags! The party has the Configurator already.") end
 
     elseif command == "StartModMenu" then
     
@@ -73,7 +73,7 @@ function S7_Config_ConsoleCommander(...)
         local hostCharacter = Osi.CharacterGetHostCharacter()
         if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
             Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
-            S7Debug:Print("ModMenu activated by the host-character.")
+            Debug:Print("ModMenu activated by the host-character.")
         end
     elseif command == "AddSkill" then
         --  ADD SKILL
@@ -101,9 +101,9 @@ function S7_Config_ConsoleCommander(...)
         if statName ~= "" then
             if Osi.NRD_StatExists(statName) then -- if stat-exists.
                 Ext.SyncStat(statName, statPersistence) --  Sync
-                S7Debug:Print("Synchronized Stat: " .. statName)
+                Debug:Print("Synchronized Stat: " .. statName)
             else
-                S7Debug:Print("Stat: " .. statName .. "does not exist!")
+                Debug:Print("Stat: " .. statName .. "does not exist!")
             end
         else
             StatsSynchronize() --  Synchronize toSync queue
@@ -128,14 +128,14 @@ function S7_Config_ConsoleCommander(...)
         --  =============================
         local signal = args[3] or "" --  Flag to relay. (Optional - defaults to help)
         if signal == "" or signal == "Help" then
-            S7Debug:Warn("\n" .. relayHelpMessage)
+            Debug:Warn("\n" .. relayHelpMessage)
         else
             ModMenuRelay(signal)
         end
     elseif command == "Help" or command == "" then
         --  HELP
         --  ====
-        S7Debug:Warn("\n" .. helpMessage)
+        Debug:Warn("\n" .. helpMessage)
     end
 end
 
@@ -152,58 +152,58 @@ Ext.RegisterConsoleCommand("S7_Config", S7_Config_ConsoleCommander)
 function AddSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            PlayerInfo:Fetch() --  Retrieve userData
+            UserInformation:Fetch() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  AddSkill defaults to all Clients.
-                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInformation.Clients) do
                     Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
-                    S7Debug:Print("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
+                    Debug:Print("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                 end
             elseif character == "Host" then --  if Host specified
-                Osi.CharacterAddSkill(PlayerInfo.hostCharacter["currentCharacter"], skillName, 1)
-                S7Debug:Print("Skill: " .. skillName .. " added to " .. PlayerInfo.hostCharacter["currentCharacterName"])
+                Osi.CharacterAddSkill(UserInformation.Host["currentCharacter"], skillName, 1)
+                Debug:Print("Skill: " .. skillName .. " added to " .. UserInformation.Host["currentCharacterName"])
             else
-                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInformation.Clients) do
                     if contents["currentCharacterName"] == character then
                         Osi.CharacterAddSkill(contents["currentCharacter"], skillName, 1)
-                        S7Debug:Print("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
+                        Debug:Print("Skill: " .. skillName .. " added to " .. contents["currentCharacterName"])
                     end
                 end
             end
         else
-            S7Debug:Error(skillName .. " is not a skill.")
+            Debug:Error(skillName .. " is not a skill.")
         end
     else
-        S7Debug:Error("Please enter a valid SkillName.")
+        Debug:Error("Please enter a valid SkillName.")
     end
 end
 
 function RemoveSkill(skillName, character)
     if ValidString(skillName) then
         if Osi.NRD_StatExists(skillName) and Osi.NRD_StatGetType(skillName) == "SkillData" then
-            PlayerInfo:Fetch() --  Retrieve userData
+            UserInformation:Fetch() --  Retrieve userData
 
             if character == "" or character == nil or character == "Clients" then --  Remove skill defaults to all Clients.
-                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInformation.Clients) do
                     Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
-                    S7Debug:Print("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
+                    Debug:Print("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                 end
             elseif character == "Host" then --  If Host specified.
-                Osi.CharacterRemoveSkill(PlayerInfo.hostCharacter["currentCharacter"], skillName)
-                S7Debug:Print("Skill: " .. skillName .. " removed from " .. PlayerInfo.hostCharacter["currentCharacterName"])
+                Osi.CharacterRemoveSkill(UserInformation.Host["currentCharacter"], skillName)
+                Debug:Print("Skill: " .. skillName .. " removed from " .. UserInformation.Host["currentCharacterName"])
             else
-                for userProfileID, contents in pairs(PlayerInfo.clientCharacters) do
+                for userProfileID, contents in pairs(UserInformation.Clients) do
                     if contents["currentCharacterName"] == character then
                         Osi.CharacterRemoveSkill(contents["currentCharacter"], skillName)
-                        S7Debug:Print("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
+                        Debug:Print("Skill: " .. skillName .. " removed from " .. contents["currentCharacterName"])
                     end
                 end
             end
         else
-            S7Debug:Error(skillName .. " is not a skill.")
+            Debug:Error(skillName .. " is not a skill.")
         end
     else
-        S7Debug:Error("Please enter a valid SkillName")
+        Debug:Error("Please enter a valid SkillName")
     end
 end
 
@@ -221,16 +221,16 @@ function SearchStat(search, searchType)
             allStat = Ext.GetStatEntries()
         end
 
-        S7Debug:Print("Search Results: ")
-        S7Debug:Print("=================================================")
+        Debug:Print("Search Results: ")
+        Debug:Print("=================================================")
         for i, stat in ipairs(allStat) do
             if string.match(stat, search) then
-                S7Debug:Print(stat)
+                Debug:Print(stat)
             end
         end
-        S7Debug:Print("=================================================")
+        Debug:Print("=================================================")
     else
-        S7Debug:Error("Search String Empty. Try something like Projectile_")
+        Debug:Error("Search String Empty. Try something like Projectile_")
     end
 end
 
@@ -241,18 +241,18 @@ end
 function SnapshotVars(selectedType, selectedVar)
     local varList = {
         ["data"] = {
-            ["modInfo"] = ModInfo,
+            ["modInfo"] = MODINFO,
             ["ConfigSettings"] = ConfigSettings,
-            ["userInfo"] = PlayerInfo,
+            ["userInfo"] = UserInformation,
             ["configCollections"] = Collections,
             ["quickMenuVars"] = QuickMenuVars,
             ["toConfigure"] = Configurations,
             ["toSync"] = Synchronizations
         },
         ["Files"] = {
-            ["Settings"] = Ext.LoadFile(SubdirectoryPrefix .. "S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
-            ["ConfigFile"] = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.ConfigFile) or "",
-            ["ConfigData"] = Ext.LoadFile(SubdirectoryPrefix .. ConfigSettings.StatsLoader.FileName) or ""
+            ["Settings"] = Ext.LoadFile(MODINFO.SubdirPrefix .. "S7_ConfigSettings.json") or Rematerialize(DefaultSettings),
+            ["ConfigFile"] = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or "",
+            ["ConfigData"] = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
         },
         ["Flags"] = {
             ["S7_ConfigActive"] = Osi.GlobalGetFlag("S7_ConfigActive") or 0,
@@ -290,10 +290,10 @@ function SnapshotVars(selectedType, selectedVar)
         for type, _ in pairs(varList) do
             if selectedType == type then
                 if ValidString(selectedVar) then
-                    S7Debug:Print(selectedVar .. " : " .. Ext.JsonStringify(varList[selectedType][selectedVar]))
+                    Debug:Print(selectedVar .. " : " .. Ext.JsonStringify(varList[selectedType][selectedVar]))
                 else
                     for key, value in pairs(varList[selectedType]) do
-                        S7Debug:Print("\n" .. selectedType .. " : " .. key .. " : " .. Ext.JsonStringify(value))
+                        Debug:Print("\n" .. selectedType .. " : " .. key .. " : " .. Ext.JsonStringify(value))
                     end
                 end
             end
@@ -301,7 +301,7 @@ function SnapshotVars(selectedType, selectedVar)
     else
         for type, content in pairs(varList) do
             for key, value in pairs(content) do
-                S7Debug:Print("\n" .. type .. " : " .. key .. " : " .. Ext.JsonStringify(value))
+                Debug:Print("\n" .. type .. " : " .. key .. " : " .. Ext.JsonStringify(value))
             end
         end
     end
@@ -317,30 +317,30 @@ function Reference(statType, attributeType)
             if statType ~= "SkillData" or statType ~= "StatusData" then
                 for key, value in ipairs(References.StatObjectDefinitions[statType]) do
                     if value["@name"] == attributeType then
-                        S7Debug:Print(Ext.JsonStringify(value))
+                        Debug:Print(Ext.JsonStringify(value))
                         if value["@type"] == "Enumeration" then
-                            S7Debug:Print(Ext.JsonStringify(References.Enumerations[value["@enumeration_type_name"]]))
+                            Debug:Print(Ext.JsonStringify(References.Enumerations[value["@enumeration_type_name"]]))
                         end
                     end
                 end
             end
         else
             if statType == "SkillData" or statType == "StatusData" then
-                S7Debug:Warn("Please sepecify the sub-type instead.")
+                Debug:Warn("Please sepecify the sub-type instead.")
                 for key, value in pairs(SkillandStatusData) do
                     if key == statType then
-                        S7Debug:Print(statType .. ": " .. Ext.JsonStringify(value))
+                        Debug:Print(statType .. ": " .. Ext.JsonStringify(value))
                     end
                 end
             else
                 for key, content in pairs(References.StatObjectDefinitions) do
                     if key == statType then
-                        S7Debug:Print(Ext.JsonStringify(content))
+                        Debug:Print(Ext.JsonStringify(content))
                     end
                 end
             end
         end
-    else S7Debug:Print("Please enter a type to refer.") end
+    else Debug:Print("Please enter a type to refer.") end
 end
 
 --  ===============
@@ -352,15 +352,15 @@ function DeepDive(statName)
         local statType = HandleStatType(statName)
         local statData = Ext.GetStat(statName)
 
-        S7Debug:Print("Showing details of: " .. statName .. " (" .. statType .. ")")
-        S7Debug:Print("===========================================================")
+        Debug:Print("Showing details of: " .. statName .. " (" .. statType .. ")")
+        Debug:Print("===========================================================")
         for _, content in pairs(References.StatObjectDefinitions[statType]) do
             if SafeToModify(statName, content["@name"]) then
-                S7Debug:Print(content["@name"] .. " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]]))
+                Debug:Print(content["@name"] .. " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]]))
             end
         end
-        S7Debug:Print("===========================================================")
-    else S7Debug:Print("Invalid stat. Make sure that the stat in question actually exists.") end
+        Debug:Print("===========================================================")
+    else Debug:Print("Invalid stat. Make sure that the stat in question actually exists.") end
 end
 
 --  #####################################################################################################################################################
