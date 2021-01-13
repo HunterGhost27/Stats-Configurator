@@ -14,7 +14,7 @@ local modMenuSignals = {
     ["S7_SetDefaultSettings"] = true,
     ["S7_RebuildCollections"] = true,
     ["S7_BroadcastConfigData"] = true,
-    ["S7_ValidateClientConfig"] = true,
+    ["S7_Config::ConfigValidation"] = true,
     ["S7_ExportCurrentSettings"] = true,
     ["S7_ToggleSyncStatPersistence"] = true,
 }
@@ -79,7 +79,7 @@ function ModMenuRelay(signal)
     --  VALIDATE CLIENT FILES
     --  =====================
 
-    if signal == "S7_ValidateClientConfig" then ValidateClientConfigs() end
+    if signal == "S7_Config::ConfigValidation" then ValidateClientConfigs() end
 
     --  TOGGLE STATSLOADER
     --  ==================

@@ -21,7 +21,6 @@ function DialogVars:Update()
         ["BypassSafetyCheck"] = ConfigSettings.BypassSafetyCheck,
         ["S7_ConfigLog"] = ConfigSettings.ConfigLog.Enable
     }
-
     for key, setting in pairs(settingsLooper) do if setting then self[key] = "Activated." else self[key] = "Deactivated." end end
 
     if Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) then self["Settings"] = "Default" else self["Settings"] = "Custom" end
@@ -50,9 +49,9 @@ function DialogVars:Set() --  Short-hand for DialogSetVariableFixedString(). Isn
         ["ConfigFile"] = "S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d"
     }
 
-    for dialogVar, dialogVal in pairs(self) do
-        for dialogName, dialogVariable in pairs(dialogAlias) do
-            if dialogVar == dialogName then Osi.DialogSetVariableFixedString("S7_Config_ModMenu", dialogVariable, dialogVal) end
+    for dialogName, dialogVariable in pairs(dialogAlias) do
+        if ValidString(self[dialogName]) then
+            Osi.DialogSetVariableFixedString(DIALOGMENU.ModMenu, dialogVariable, self[dialogName])
         end
     end
 end

@@ -3,40 +3,29 @@
 --  CLIENT NETWORKING
 --  =================
 
---- Listens for broadcasts from the Server
----@param channel string
----@param payload string
-local function ClientNetworker(channel, payload)
+--  BROADCASTED CONFIG-DATA
+--  =======================
 
-    --  BROADCASTED CONFIG-DATA
-    --  =======================
+Ext.RegisterNetListener('S7_ConfigData', function (channel, payload)
+    Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
+    SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName, payload)
+end)
 
-    if channel == "S7_ConfigData" then
-        Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
-        SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName, payload)
-    end
+--  CLIENT CONFIG VALIDATION
+--  ========================
 
-    --  CLIENT CONFIG VALIDATION
-    --  ========================
+Ext.RegisterNetListener('S7_ValidateClientConfig', function (channel, payload)
+    local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
 
-    if channel == "S7_ValidateClientConfig" then
-        local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
+    for clientID, compare in pairs(Ext.JsonParse(payload)) do
+        local message = clientID .. " : "
 
-        for clientID, compare in pairs(Ext.JsonParse(payload)) do
-            local message = clientID .. " : "
-
-            if ValidString(verify) and compare == verify then
-                message = message .. "Active configuration profile verified."
-                Ext.PostMessageToServer("S7_ValidateClientResponse", message)
-            else
-                message = message .. "Active configuration mismatch detected."
-                Ext.PostMessageToServer("S7_ValidateClientResponse", message)
-            end
+        if ValidString(verify) and compare == verify then
+            message = message .. "Active configuration profile verified."
+            Ext.PostMessageToServer("S7_Config::ConfigValidationResponse", message)
+        else
+            message = message .. "Active configuration mismatch detected."
+            Ext.PostMessageToServer("S7_Config::ConfigValidationResponse", message)
         end
     end
-end
-
---  ===============================================================
-Ext.RegisterNetListener("S7_ConfigData", ClientNetworker)
-Ext.RegisterNetListener("S7_ValidateClientConfig", ClientNetworker)
---  ===============================================================
+end)

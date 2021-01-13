@@ -7038,7 +7038,7 @@
 													{
 														"name": {
 															"type": 22,
-															"value": "S7_ValidateClientConfig"
+															"value": "S7_Config::ConfigValidation"
 														},
 														"value": {
 															"type": 19,
