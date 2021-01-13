@@ -19,6 +19,7 @@ Ext.Require('Functions/Shared/Versioning.lua')
 Ext.Require('Functions/Shared/Centralize.lua')
 Ext.Require('Functions/Shared/Networker.lua')
 Ext.Require('Functions/Shared/ConsoleCommander.lua')
+Ext.Require('Functions/Shared/DialogManager.lua')
 
 --  UPDATER
 --  =======

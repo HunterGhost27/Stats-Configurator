@@ -43,6 +43,7 @@ function Dialog:Set(vars)
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
+    if not self['Vars'] then return end
     for alias, dialogVariable in pairs(self['Vars']) do
         if type(dialogVariable) ~= 'table' then return end
         if ValidString(dialogVariable.dialogType) then setterFunction[dialogVariable.dialogType](self.Name, dialogVariable.dialogVar, dialogVariable.dialogVal)

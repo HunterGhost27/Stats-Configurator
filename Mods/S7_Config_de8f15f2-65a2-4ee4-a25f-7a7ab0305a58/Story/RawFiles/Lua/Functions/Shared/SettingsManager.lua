@@ -25,6 +25,6 @@ function Settings:Update(settings)
     self:Sync()
 end
 
---  =================================================================
-Ext.RegisterOsirisListener('GameStarted', 2, 'before', Settings.Sync)
---  =================================================================
+--  ============================================================================================
+if Ext.IsServer() then Ext.RegisterOsirisListener('GameStarted', 2, 'before', Settings.Sync) end
+--  ============================================================================================

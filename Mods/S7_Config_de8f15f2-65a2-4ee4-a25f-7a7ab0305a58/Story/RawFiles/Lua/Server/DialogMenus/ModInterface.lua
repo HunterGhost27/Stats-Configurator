@@ -18,9 +18,9 @@ Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", function (signal)
     end
 end)
 
-Ext.RegisterOsirisListener("GameStarted", 2, "after", function (...)
-    Osi.DB_S7_Config_ModRegistry:Set(IDENTIFIER, MODINFO.UUID)
-end)
+-- Ext.RegisterOsirisListener("GameStarted", 2, "after", function (...)
+--     Osi.DB_S7_Config_ModRegistry:Set(IDENTIFIER, MODINFO.UUID)
+-- end)
 
 --  ============================
 --  REFRESH QUICK-MENU VARIABLES
