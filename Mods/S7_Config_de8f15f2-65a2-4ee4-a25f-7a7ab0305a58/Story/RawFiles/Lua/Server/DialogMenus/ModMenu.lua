@@ -1,3 +1,26 @@
+--  ===============
+--  MOD MENU DIALOG
+--  ===============
+
+ModMenuDialog = Dialog:New({['Name'] = 'S7_Config_ModMenu'})
+
+ModMenuDialog:Set({
+    ['ConfigFile'] = {['dialogVar'] = 'S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d', ['dialogVal'] = tostring(ConfigSettings.ConfigFile)},
+    ['ConfigData'] = {['dialogVar'] = 'S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8', ['dialogVal'] = tostring(ConfigSettings.StatsLoader.FileName)},
+    ['StatsLoader'] = {['dialogVar'] = 'S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37', ['dialogVal'] = tostring(ConfigSettings.StatsLoader.Enable)},
+    ['SyncStatPersistence'] = {['dialogVar'] = 'S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a', ['dialogVal'] = tostring(ConfigSettings.SyncStatPersistence)},
+    ['BypassSafetyCheck'] = {['dialogVar'] = 'S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64', ['dialogVal'] = tostring(ConfigSettings.BypassSafetyCheck)},
+    ['Settings'] = {['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6', ['dialogVal'] = Ext.JsonStringify(ConfigSettings) == Ext.JsonStringify(DefaultSettings) and 'Default' or 'Custom'},
+    ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb', ['dialogVal'] = ""},
+    ['ExportStats'] = {['dialogVar'] = 'S7_Config_ExportedStats_e59ebc61-6f13-4e91-9200-36e474113c48', ['dialogVal'] = ""},
+    ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917', ['dialogVal'] = ""},
+    ['ModAddedTo'] = {['dialogVar'] = 'S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6', ['dialogVal'] = ""},
+    ['ModID'] = {['dialogVar'] = 'S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa', ['dialogVal'] = ""},
+    ['ValidateClientConfigs'] = {['dialogVar'] = 'S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698', ['dialogVal'] = ""},
+    ['RegisteredMods'] = {['dialogVar'] = 'S7_RegisteredMods_4ff2880e-6a62-4ed3-9f6f-28eaa30165b1"', ['dialogVal'] = ""},
+})
+
+
 --  ======================
 --  MOD-MENU RELAY SIGNALS
 --  ======================
@@ -25,8 +48,7 @@ local modMenuSignals = {
 
 Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, "after", function (character, itemTemplate, item)
     if itemTemplate ~= Inspector then return end
-    local hostCharacter = Osi.CharacterGetHostCharacter()
-    if Osi.QRY_SpeakerIsAvailable(hostCharacter) then Osi.Proc_StartDialog(1, ModMenuDialog.Name, hostCharacter) end
+    ModMenuDialog:Start()
 end)
 
 --  ==============
@@ -147,21 +169,6 @@ function ModMenuRelay(signal)
         Debug:Print("Custom Settings Exported and Refreshed.")
     end
 
-    --  EXPORT STATS TO TSV FILE
-    -- ==========================
-
-    -- if Signal == "S7_StatsExportTSV" then
-    --     S7Debug:Print("Exporting StatIDs to " .. ConfigSettings.ExportStatIDtoTSV.FileName)
-    --     StatsExportTSV()
-    -- end
-
-    --  CHANGELOG
-    -- ===========
-
-    if signal == "S7_Config_CHANGELOG" then
-        Osi.Proc_S7_Config_ChangelogRequest()
-    end
-
     --  MOD-REGISTRY
     --  ============
 
@@ -193,7 +200,7 @@ function ModMenuRelay(signal)
         Collections:Rebuild()
     end
 
-    DialogVars:Set() --  Request dialogVar update everytime ModMenu relays a signal.
+    ModMenuDialog:Set() --  Request dialogVar update everytime ModMenu relays a signal.
     Osi.GlobalClearFlag(signal)
 end
 

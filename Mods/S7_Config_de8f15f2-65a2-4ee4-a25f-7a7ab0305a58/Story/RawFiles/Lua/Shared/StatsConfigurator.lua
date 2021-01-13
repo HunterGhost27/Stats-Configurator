@@ -13,28 +13,27 @@ function StatsConfigurator()
         for modID, JSONstring in pairs(config) do
             if not ValidString(JSONstring) then Debug:Error("Failed to apply configuration.", {['dialogVar'] = "StatsConfigurator"}) end
             local JSONborne = Ext.JsonParse(JSONstring)
-            Debug:Print(modID .. " loaded. Applying configuration profile.")
-            Debug:Print("=============================================================")
+            Stringer:SetHeader(modID .. " loaded. Applying configuration profile.")
 
             for keyName, content in pairs(JSONborne) do
                 local nameList = UnpackCollection(keyName, content)
                 for name, _ in pairs(nameList) do
-                    Debug:Print(name)
-                    Debug:Print("-------------------------------------------------------------")
+                    Stringer:Add(name)
+                    Stringer:LineBreak('-')
                     local stat = Ext.GetStat(name)
 
                     for key, value in pairs(content) do
                         if SafeToModify(name, key) then
-                            Debug:Print(key .. ": " .. Ext.JsonStringify(value) .. " (" .. Ext.JsonStringify(stat[key]) .. ")")
+                            Stringer:Add(key .. ": " .. tostring(value) .. " (" .. tostring(stat[key]) .. ")")
                             Ext.StatSetAttribute(name, key, Rematerialize(value))
                         end
                     end
-                    Debug:Print("_____________________________________________________________")
+                    Stringer:LineBreak('_')
                     Synchronizations[name] = 1
                 end
             end
-            Debug:Print("=============================================================")
-            Debug:Print("Configuration Profile Active.")
+            Stringer:Build()
+            Debug:HFPrint("Configuration Profile Active.")
         end
     end
 end

@@ -39,7 +39,7 @@ function Debug:Print(t, config)
     local config = Integrate(self, config)
     if type(t) ~= 'table' then x[1] = t else x = Rematerialize(t) end
 
-    if ValidString(config.dialogVar) then DialogVars[config.dialogVar] = config.dialogVal or tostring(x[1]) end
+    if ValidString(config.dialogVar) then ModMenuDialog:Update({[config.dialogVar] = {['dialogVal'] = config.dialogVal or tostring(x[1])}}) end
 
     if Ext.IsDeveloperMode() or config.ignoreDevMode then
         local context = Ext.IsServer() and '(S)' or '(C)'

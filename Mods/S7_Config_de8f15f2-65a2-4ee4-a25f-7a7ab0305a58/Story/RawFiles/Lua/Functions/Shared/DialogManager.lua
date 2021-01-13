@@ -23,13 +23,7 @@ end
 
 ---Update DialogVariables
 ---@param vars table<string, DialogVar>
-function Dialog:Update(vars)
-    if type(vars) ~= 'table' then return end
-    for alias, variable in pairs(vars) do
-        if not ValidString(variable.dialogVar) or not ValidString(variable.dialogVal) then break end
-        self['Vars'][alias] = Rematerialize(variable)
-    end
-end
+function Dialog:Update(vars) self['Vars'] = Integrate(self['Vars'], vars) end
 
 ---Set DialogVars using Osiris
 ---@param vars table<string, DialogVar>|nil
@@ -43,7 +37,7 @@ function Dialog:Set(vars)
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    if not self['Vars'] then return end
+    if not Ext.OsirisIsCallable() or not self['Vars'] then return end
     for alias, dialogVariable in pairs(self['Vars']) do
         if type(dialogVariable) ~= 'table' then return end
         if ValidString(dialogVariable.dialogType) then setterFunction[dialogVariable.dialogType](self.Name, dialogVariable.dialogVar, dialogVariable.dialogVal)

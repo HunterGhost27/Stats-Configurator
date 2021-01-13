@@ -8,9 +8,8 @@ Ext.Require("Server/DialogMenus/ModMenu.lua")
 Ext.Require("Server/DialogMenus/ModInterface.lua")
 Ext.Require("Server/Networking.lua")
 Ext.Require("Shared/Collections.lua")
+Ext.Require("Server/ConsoleCommander.lua")
 Ext.Require("Shared/StatsConfigurator.lua")
-
-if Ext.IsDeveloperMode() then Ext.Require("Server/ConsoleCommander.lua") end
 
 --  ==========
 --  GAME START
