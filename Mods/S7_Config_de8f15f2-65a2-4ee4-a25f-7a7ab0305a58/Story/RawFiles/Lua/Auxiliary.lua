@@ -57,6 +57,5 @@ Ext.RegisterListener("ModuleLoadStarted", RefreshSettings)
 --  ======
 
 TEMPLATE = {
-    ["CHANGELOG"] = "S7_Config_CHANGELOG_7b4a334e-7613-4ab9-bc21-a724519d6e6e",
     ["Inspector"] = "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254",
 }

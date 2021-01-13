@@ -5,11 +5,3 @@ data "RootTemplate" "c5959819-25e9-4dbc-ae20-0f6283502254"
 data "UseAPCost" "0"
 data "Value" "9001"
 data "Unique" "1"
-
-new entry "S7_Config_CHANGELOG"
-type "Object"
-using "_Lorebooks"
-data "RootTemplate" "7b4a334e-7613-4ab9-bc21-a724519d6e6e"
-data "Value" "1"
-data "Unique" "1"
-

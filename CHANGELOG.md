@@ -2,6 +2,11 @@
 
 ---
 
+## [0.7.1.0] --- 13th January 2021 --- **_Restarted Remaster_**
+
+### REMOVED
+
+* Some instances of _CHANGELOG_.
 ## [0.7.1.0] --- 29th December 2020 --- **_Started Remaster_**
 
 ### NEW
