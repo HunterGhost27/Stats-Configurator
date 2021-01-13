@@ -20,28 +20,6 @@ ModMenuDialog:Set({
     ['RegisteredMods'] = {['dialogVar'] = 'S7_RegisteredMods_4ff2880e-6a62-4ed3-9f6f-28eaa30165b1"', ['dialogVal'] = ""},
 })
 
-
---  ======================
---  MOD-MENU RELAY SIGNALS
---  ======================
-
-local modMenuSignals = {
-    ["S7_BuildConfigData"] = true,
-    ["S7_ToggleConfigLog"] = true,
-    ["S7_RefreshSettings"] = true,
-    ["S7_PrintModRegistry"] = true,
-    ["S7_Config_CHANGELOG"] = true,
-    ["S7_StatsConfigurator"] = true,
-    ["S7_ToggleSafetyCheck"] = true,
-    ["S7_ToggleStatsLoader"] = true,
-    ["S7_SetDefaultSettings"] = true,
-    ["S7_RebuildCollections"] = true,
-    ["S7_BroadcastConfigData"] = true,
-    ["S7_Config::ConfigValidation"] = true,
-    ["S7_ExportCurrentSettings"] = true,
-    ["S7_ToggleSyncStatPersistence"] = true,
-}
-
 --  =================
 --  INITIATE MOD-MENU
 --  =================
@@ -51,19 +29,17 @@ Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, "after", function (ch
     ModMenuDialog:Start()
 end)
 
---  ==============
---  MOD-MENU RELAY
---  ==============
 
-function ModMenuRelay(signal)
-    if not modMenuSignals[signal] then return end
+--  ======================
+--  MOD-MENU RELAY SIGNALS
+--  ======================
 
-    UserInformation:ReSync()
+ModMenuRelay = {
 
     --  STATS-CONFIGURATOR
-    -- ====================
-
-    if signal == "S7_StatsConfigurator" then
+    --  ==================
+    
+    ['S7_StatsConfigurator'] = function ()
         local file = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
         if ValidString(file) then
             Debug:Print("Loading: " .. ConfigSettings.ConfigFile)
@@ -76,134 +52,96 @@ function ModMenuRelay(signal)
         StatsSynchronize()
         Configurations = {}
         Debug:Print("StatsConfiguration Finished.")
-    end
-
-    --  BUILD CONFIG-DATA
+    end,
+    
+    --  BUILD CONFIG DATA
     --  =================
-
-    if signal == "S7_BuildConfigData" then
+    
+    ['S7_BuildConfigData'] = function()
         local buildData = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
         BuildConfigData(buildData, MODINFO.UUID, "S7_Config")
         Debug:Print("Rebuilt " .. ConfigSettings.StatsLoader.FileName .. " using " .. ConfigSettings.ConfigFile)
-    end
+    end,
+    
+    --  BROADCAST CONFIG-DATA
+    --  =====================
 
-    --  SEND CONFIG DATA
-    --  ================
-
-    if signal == "S7_BroadcastConfigData" then
+    ['S7_BroadcastConfigData'] = function ()
         local broadcast = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
         if ValidString(broadcast) then
             Ext.BroadcastMessage("S7_Config::ConfigData", broadcast)
             Debug:Print("Server broadcasted their configuration file.")
         else Debug:Error("Failed to broadcast the configuration file.") end
-    end
+    end,
 
-    --  VALIDATE CLIENT FILES
-    --  =====================
+    --  VALIDATE CLIENT CONFIG
+    --  ======================
 
-    if signal == "S7_Config::ConfigValidation" then ValidateClientConfigs() end
-
-    --  TOGGLE STATSLOADER
-    --  ==================
-
-    if signal == "S7_ToggleStatsLoader" then
-        if ConfigSettings.StatsLoader.Enable == true then
-            ConfigSettings.StatsLoader.Enable = false
-            Debug:Print("StatsLoader: Deactivated")
-        else
-            ConfigSettings.StatsLoader.Enable = true
-            Debug:Print("StatsLoader: Activated")
-        end
-    end
-
-    --  TOGGLE SYNC-STAT PERSISTENCE
-    --  ============================
-
-    if signal == "S7_ToggleSyncStatPersistence" then
-        if ConfigSettings.SyncStatPersistence == true then
-            ConfigSettings.SyncStatPersistence = false
-            Debug:Print("SyncStatPersistence: Deactivated")
-        else
-            ConfigSettings.SyncStatPersistence = true
-            Debug:Print("SyncStatPersistence: Activated")
-        end
-    end
-
-    --  TOGGLE BYPASS-SAFETY-CHECK
-    --  ==========================
-
-    if signal == "S7_ToggleSafetyCheck" then
-        if ConfigSettings.BypassSafetyCheck == false then
-            ConfigSettings.BypassSafetyCheck = true
-            Debug:Print("BypassSafetyCheck: Activated")
-        else
-            ConfigSettings.BypassSafetyCheck = false
-            Debug:Print("BypassSafetyCheck: Deactivated")
-        end
-    end
-
-    --  SET DEFAULT SETTINGS
-    -- ======================
-
-    if signal == "S7_SetDefaultSettings" then
-        ConfigSettings = Rematerialize(DefaultSettings)
-        Debug:Print("Using default settings.")
-    end
+    ['S7_ValidateClientConfigs'] = function ()
+        ValidateClientConfigs()
+    end,
 
     --  REFRESH SETTINGS
-    -- ==================
-
-    if signal == "S7_RefreshSettings" then
+    --  ================
+    
+    ['S7_RefreshSettings'] = function ()
         RefreshSettings()
         Collections:Rebuild()
         Debug:Print("Settings refreshed.")
-    end
+    end,
+    
+    --  PRINT MOD-REGISTRY
+    --  ==================
+    
+    ['S7_PrintModRegistry'] = function ()
+        local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
+        Stringer:SetHeader("Mods registered to Stats-Configurator")
+        local registeredMods = ""
+        for i, entry in ipairs(registry) do
+            local registeredModInfo = {["Name"] = "Unspecified", ["Author"] = "Unspecified"}
+            if entry[2] ~= nil then registeredModInfo = Ext.GetModInfo(entry[2]) end
+            registeredMods = registeredMods .. "[" .. i .. "]" .. " - " .. registeredModInfo.Name .. " by " .. registeredModInfo.Author .. "\n"
+        end
+        Stringer:Add(registeredMods)
+        Stringer:Build()
+    end,
 
-    --  EXPORT CURRENT SETTINGS
-    -- =========================
+    --  TOGGLES
+    --  =======
 
-    if signal == "S7_ExportCurrentSettings" then
+    ['S7_ToggleSafetyCheck'] = function () ConfigSettings.BypassSafetyCheck = not ConfigSettings.BypassSafetyCheck end,
+    ['S7_ToggleStatsLoader'] = function () ConfigSettings.StatsLoader.Enable = not ConfigSettings.StatsLoader.Enable end,
+    ['S7_ToggleSyncStatPersistence'] = function () ConfigSettings.SyncStatPersistence = not ConfigSettings.SyncStatPersistence end,
+
+    --  SETTINGS
+    --  ========
+
+    ['S7_SetDefaultSettings'] = function ()
+        ConfigSettings = Rematerialize(DefaultSettings)
+        Debug:Print("Using default settings.")
+    end,
+
+    ['S7_RebuildCollections'] = function ()
+        Collections:Rebuild()
+    end,
+
+    ['S7_ExportCurrentSettings'] = function ()
         SaveFile(MODINFO.SubdirPrefix .. "S7_ConfigSettings.json", ConfigSettings)
         Debug:Print("Exporting current ConfigSettings to S7_ConfigSettings.json")
         RefreshSettings()
         Debug:Print("Custom Settings Exported and Refreshed.")
     end
 
-    --  MOD-REGISTRY
-    --  ============
+}
 
-    if signal == "S7_PrintModRegistry" then
-        local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
-        Debug:Print("Mods registered to Stats-Configurator")
-        Debug:Print("======================================================")
-        local registeredMods = ""
-        for i, entry in ipairs(registry) do
-            local registeredModInfo = {
-                ["Name"] = "Unspecified",
-                ["Author"] = "Unspecified"
-            }
-            if entry[2] ~= nil then
-                registeredModInfo = Ext.GetModInfo(entry[2])
-            end
-            registeredMods =
-                registeredMods ..
-                "[" .. i .. "]" .. " - " .. registeredModInfo.Name .. " by " .. registeredModInfo.Author .. "\n"
-        end
-        Debug:Print(registeredMods, nil, "RegisteredMods")
-        Debug:Print("======================================================")
-    end
+--  ==============
+--  MOD-MENU RELAY
+--  ==============
 
-    --  REBUILD COLLECTIONS
-    --  ===================
-
-    if signal == "S7_RebuildCollections" then
-        Collections:Rebuild()
-    end
-
-    ModMenuDialog:Set() --  Request dialogVar update everytime ModMenu relays a signal.
+Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", function (signal)
+    if not ModMenuRelay[signal] then return end
+    UserInformation:ReSync()
+    ModMenuRelay[signal]()
+    ModMenuDialog:Set()
     Osi.GlobalClearFlag(signal)
-end
-
---  =================================================================
-Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", ModMenuRelay)
---  =================================================================
+end)
