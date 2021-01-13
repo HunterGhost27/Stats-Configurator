@@ -24,7 +24,7 @@ local modMenuSignals = {
 --  =================
 
 Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, "after", function (character, itemTemplate, item)
-    if itemTemplate ~= TEMPLATE.Inspector then return end
+    if itemTemplate ~= Inspector then return end
     local hostCharacter = Osi.CharacterGetHostCharacter()
     if Osi.QRY_SpeakerIsAvailable(hostCharacter) then Osi.Proc_StartDialog(1, DIALOGMENU.ModMenu, hostCharacter) end
 end)

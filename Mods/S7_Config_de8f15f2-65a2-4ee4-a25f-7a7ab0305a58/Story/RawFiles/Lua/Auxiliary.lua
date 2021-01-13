@@ -27,6 +27,33 @@ Ext.Require("Functions/Auxiliary.lua")
 --==============================================================
 ----------------------------------------------------------------
 
+--  ====================
+--  OVERRIDE DEBUG PRINT
+--  ====================
+
+---Overrides the base Aux-Function
+---@param t table Table of elements
+---@param config table Configuration table
+function Debug:Print(t, config)
+    local x = {}
+    local config = Integrate(self, config)
+    if type(t) ~= 'table' then x[1] = t else x = Rematerialize(t) end
+
+    if ValidString(config.dialogVar) then DialogVars[config.dialogVar] = config.dialogVal or tostring(x[1]) end
+
+    if Ext.IsDeveloperMode() or config.ignoreDevMode then
+        local context = Ext.IsServer() and '(S)' or '(C)'
+        local displayString = "[" .. config.IDENTIFIER .. context .. "] - "
+        displayString = displayString .. tostring(table.remove(x, 1))
+        local len = string.len(displayString)
+
+        if ValidString(config.highlight) then config.printFunction(string.rep(config.highlight, len)) end
+        if x then config.printFunction(displayString, table.unpack(x)) else config.printFunction(displayString) end
+        if ValidString(config.highlight) then config.printFunction(string.rep(config.highlight, len)) end
+    end
+end
+
+
 --  ============
 --  MOD-SETTINGS
 --  ============
@@ -36,8 +63,8 @@ ConfigSettings = MODINFO.ModSettings
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
 function RefreshSettings()
     local dialogVal = "Settings: Default"
-    CENTRAL = CENTRAL:Load()
     Debug:HFPrint("Synchronizing ModSettings")
+    CENTRAL = CENTRAL:Load()
     for setting, value in pairs(DefaultSettings) do
         if ConfigSettings[setting] ~= DefaultSettings[setting] then
             ConfigSettings[setting] = Rematerialize(value)
@@ -58,6 +85,4 @@ Ext.RegisterListener("ModuleLoadStarted", RefreshSettings)
 --  VARDEC
 --  ======
 
-TEMPLATE = {
-    ["Inspector"] = "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254",
-}
+Inspector = "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254"
