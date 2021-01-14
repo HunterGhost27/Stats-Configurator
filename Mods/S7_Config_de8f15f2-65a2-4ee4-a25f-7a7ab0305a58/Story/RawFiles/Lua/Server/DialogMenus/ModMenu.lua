@@ -32,7 +32,6 @@ ModMenuDialog:Update({
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb'},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917'},
     ['ValidateClientConfigs'] = {['dialogVar'] = 'S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698'},
-    ['RegisteredMods'] = {['dialogVar'] = 'S7_RegisteredMods_4ff2880e-6a62-4ed3-9f6f-28eaa30165b1"'},
 })
 
 --  =================
@@ -95,22 +94,6 @@ ModMenuRelay = {
 
     ['S7_ValidateClientConfigs'] = function () ValidateClientConfigs() end,
 
-    --  PRINT MOD-REGISTRY
-    --  ==================
-
-    ['S7_PrintModRegistry'] = function ()
-        local registry = Osi.DB_S7_Config_ModRegistry:Get(nil, nil, nil)
-        Stringer:SetHeader("Mods registered to Stats-Configurator")
-        local registeredMods = ""
-        for i, entry in ipairs(registry) do
-            local registeredModInfo = {["Name"] = "Unspecified", ["Author"] = "Unspecified"}
-            if entry[2] ~= nil then registeredModInfo = Ext.GetModInfo(entry[2]) end
-            registeredMods = registeredMods .. "[" .. i .. "]" .. " - " .. registeredModInfo.Name .. " by " .. registeredModInfo.Author .. "\n"
-        end
-        Stringer:Add(registeredMods)
-        Stringer:Build()
-    end,
-
     --  TOGGLES
     --  =======
 
@@ -124,20 +107,17 @@ ModMenuRelay = {
     ['S7_RefreshSettings'] = function ()
         RefreshSettings()
         Collections:Rebuild()
-        Debug:Print("Settings refreshed.")
+        Debug:Print("Config-Settings refreshed")
     end,
 
     ['S7_SetDefaultSettings'] = function ()
         ConfigSettings:Update()
         ConfigSettings:Save()
-        Debug:Print("Using default settings.")
+        Debug:Print("Default-Settings restored")
     end,
 
     ['S7_RebuildCollections'] = function () Collections:Rebuild() end,
-
-    ['S7_ExportCurrentSettings'] = function ()
-        ConfigSettings:Save()
-    end
+    ['S7_ExportCurrentSettings'] = function () ConfigSettings:Save() end
 
 }
 
