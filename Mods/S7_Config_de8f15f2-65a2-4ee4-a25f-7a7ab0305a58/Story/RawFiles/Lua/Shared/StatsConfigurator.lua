@@ -33,7 +33,7 @@ function StatsConfigurator()
                 end
             end
             Stringer:Build()
-            Debug:HFPrint("Configuration Profile Active.")
+            Debug:FPrint("Configuration Profile Active.")
         end
     end
 end
