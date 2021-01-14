@@ -20,8 +20,4 @@ Ext.Require('Functions/Shared/Centralize.lua')
 Ext.Require('Functions/Shared/Networker.lua')
 Ext.Require('Functions/Shared/ConsoleCommander.lua')
 Ext.Require('Functions/Shared/DialogManager.lua')
-
---  UPDATER
---  =======
-
 Ext.Require('Functions/Shared/Updater.lua')

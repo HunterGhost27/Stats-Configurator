@@ -2,7 +2,9 @@
 --  CENTRALIZE
 --  ==========
 
----@class CENTRAL @Holds information about my mods
+CENTRALFILE = 'S7Central.json'
+
+---@class CENTRAL @Holds information about mods
 CENTRAL = {}
 CENTRAL[IDENTIFIER] = {
     ["Author"] = MODINFO.Author,
@@ -16,17 +18,17 @@ CENTRAL[IDENTIFIER] = {
 ---Loads `S7Central.json` and updates information
 ---@return CENTRAL
 function CENTRAL:Load()
-    local file = LoadFile('S7Central.json') or {}
+    local file = LoadFile(CENTRALFILE) or {}
     self = Integrate(self, file)
-    Settings:Update(self[IDENTIFIER].ModSettings)
+    if Settings then Settings:Update(CENTRAL[IDENTIFIER].ModSettings) end
     return self
 end
 
 ---Synchronizes CENTRAL information and MODINFO
-function CENTRAL:Sync() for key, _ in pairs(self[IDENTIFIER]) do if IsValid(MODINFO[key]) then self[IDENTIFIER][key] = MODINFO[key] end end end
+function CENTRAL:Sync() self[IDENTIFIER] = Integrate(self[IDENTIFIER], MODINFO) end
 
 ---Saves CENTRAL information in `S7Central.json`
-function CENTRAL:Save() SaveFile('S7Central.json', Rematerialize(self)) end
+function CENTRAL:Save() SaveFile(CENTRALFILE, Rematerialize(self)) end
 
 ---Loads, Syncs and Saves CENTRAL
 function CENTRAL:ReSync() self:Load(); self:Sync(); self:Save() end
