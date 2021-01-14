@@ -41,7 +41,7 @@ function Dialog:Set(vars)
 
     for alias, Var in pairs(self['Vars']) do
         if type(Var) ~= 'table' then return end
-        Var.dialogVal = IsValid(Var.dialogValUpdater()) and Var.dialogValUpdater() or Var.dialogVal
+        Var.dialogVal = IsValid(Var.dialogValUpdater) and Var.dialogValUpdater() or Var.dialogVal
         if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, Var.dialogVal)
         else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(Var.dialogVal)) end
      end

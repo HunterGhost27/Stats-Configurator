@@ -8,8 +8,8 @@ function ValidateClientConfigs()
     if not ValidString(compare) then Debug:Error("Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName) end
 
     for userProfileID, _ in pairs(UserInformation.Clients) do
-        local clientID = UserInformation.Clients[userProfileID]["currentCharacterName"] .. " (" .. UserInformation.Clients[userProfileID]["userName"] .. ")"
-        Ext.PostMessageToClient(UserInformation.Clients[userProfileID]["currentCharacter"], "S7_Config::ConfigValidation", Ext.JsonStringify({[clientID] = compare}))
+        local clientID = UserInformation.Clients[userProfileID]["DisplayName"] .. " (" .. UserInformation.Clients[userProfileID]["UserName"] .. ")"
+        Ext.PostMessageToClient(UserInformation.Clients[userProfileID]["CurrentCharacter"], "S7_Config::ConfigValidation", Ext.JsonStringify({[clientID] = compare}))
     end
 end
 

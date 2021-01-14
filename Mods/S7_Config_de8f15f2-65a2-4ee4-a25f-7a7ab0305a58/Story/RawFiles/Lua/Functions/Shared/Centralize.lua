@@ -31,4 +31,4 @@ function CENTRAL:Sync() for key, _ in pairs(self[IDENTIFIER]) do if IsValid(MODI
 function CENTRAL:Save() SaveFile(CENTRALFILE, Rematerialize(self)) end
 
 ---Loads, Syncs and Saves CENTRAL
-function CENTRAL:ReSync() self:Load(); self:Sync(); self:Save() end
+function CENTRAL:ReSync() self = self:Load(); self:Sync(); self:Save() end

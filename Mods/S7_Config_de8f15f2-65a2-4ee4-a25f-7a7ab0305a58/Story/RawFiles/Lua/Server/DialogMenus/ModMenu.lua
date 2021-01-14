@@ -60,16 +60,17 @@ ModMenuRelay = {
     ['S7_StatsConfigurator'] = function ()
         local file = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile) or ""
         if ValidString(file) then
-            Debug:Print("Loading: " .. ConfigSettings.ConfigFile)
+            Debug:Print("Loading: " .. ConfigSettings.ConfigFile, {['dialogVar'] = 'StatsConfigurator'})
             table.insert(Configurations, {["S7_Config"] = file})
         else
-            Debug:Error(ConfigSettings.ConfigFile .. " not found. Creating empty file.")
+            Debug:Error(ConfigSettings.ConfigFile .. " not found. Creating empty file.", {['dialogVar'] = 'StatsConfigurator'})
             Ext.SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.ConfigFile, "")
+            return
         end
         StatsConfigurator()
         StatsSynchronize()
         Configurations = {}
-        Debug:Print("StatsConfiguration Finished.")
+        Debug:Print("StatsConfiguration Finished.", {['dialogVar'] = 'StatsConfigurator'})
     end,
 
     --  BUILD CONFIG DATA
