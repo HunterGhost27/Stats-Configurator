@@ -59,11 +59,36 @@ function Stringer:Add(str) self:UpdateMaxLen(str); self[#self + 1] = str end
 
 ---Appends string to the last element
 ---@param str string
-function Stringer:Append(str) self[#self] = self[#self] .. str; self:UpdateMaxLen(self[#self]) end
+function Stringer:Append(str) if self[#self] then self[#self] = self[#self] .. str else self[#self+1] = str end end
 
 ---Adds a line-break
 ---@param char string
 function Stringer:LineBreak(char) self:Add(string.rep(char, self.MaxLen)) end
+
+---Creates a 2D string table
+---@param t table
+---@return string
+function Stringer:Tabulate(t)
+    if type(t) ~= 'table' then return end
+    local t = Rematerialize(t) or {}
+    local keys = ExtractKeys(t)
+    local maxLen = 0
+    for _, key in pairs(keys) do
+        local len = string.len(tostring(key))
+        if len > maxLen then maxLen = len end
+    end
+    local displayStr = "\n"
+    for key, value in pairs(t) do
+        key = tostring(key)
+        local keyLen = string.len(key)
+        if keyLen < maxLen then key = key .. string.rep(" ", maxLen - keyLen) end
+        local str = key .. "\t\t" .. tostring(value) .. "\n"
+        self:UpdateMaxLen(str)
+        displayStr = displayStr .. str
+    end
+    self:Append(displayStr)
+end
+
 
 ---Resets Stringer to default values
 function Stringer:Clear()

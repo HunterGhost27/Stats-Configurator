@@ -66,14 +66,11 @@ function ConsoleCommanderHelp(target)
         end
         helpMsg = Stringer:Build()
     else
+        local helpTable = {}
+        for cmdName, value in pairs(Rematerialize(ConsoleCommander)) do helpTable[cmdName] = value.Description end
+
         Stringer:SetHeader('COMMAND\t\t\tDESCRIPTION')
-        for name, CMD in pairs(ConsoleCommander) do
-            if type(CMD) == 'table' and isValidContext(CMD) then
-                Stringer:Add(name)
-                Stringer:Append("\t\t\t" .. CMD.Description)
-                Stringer:LineBreak("-")
-            end
-        end
+        Stringer:Tabulate(helpTable)
         Stringer:Add("!S7_Forgetinator Help <CommandName> for more info")
         helpMsg = Stringer:Build()
     end

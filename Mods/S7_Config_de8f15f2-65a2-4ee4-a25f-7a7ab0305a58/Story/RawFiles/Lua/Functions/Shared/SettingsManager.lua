@@ -19,10 +19,10 @@ end
 ---@param settings Settings
 ---@param default Settings
 local function updateSetting(parent, settings, default)
+    if not IsValid(parent) or not IsValid(settings) then return end
     for key, value in pairs(default) do
         if type(value) == 'table' then updateSetting(parent[key], settings[key], value) end
         if parent[key] == settings[key] then break end
-        Stringer:Add(key .. ": " .. tostring{parent[key] .. " -> " .. tostring(settings[key])})
         parent[key] = settings[key] or value
     end
 end
@@ -31,9 +31,7 @@ end
 ---@param settings Settings
 function Settings:Update(settings)
     local settings = settings or {}
-    Stringer:SetHeader('Updating Mod-Settings')
     updateSetting(self, settings, DefaultSettings)
-    Debug:Print(Stringer:Build())
     self:Sync()
 end
 

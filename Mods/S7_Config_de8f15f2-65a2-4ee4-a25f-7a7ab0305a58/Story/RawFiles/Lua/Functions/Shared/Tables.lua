@@ -1,3 +1,17 @@
+--  ============
+--  EXTRACT KEYS
+--  ============
+
+---Extracts a list of keys from a table
+---@param t table
+---@return table keys Array of keys
+function ExtractKeys(t)
+    if type(t) ~= 'table' then return end
+    local keys = {}
+    for key, _ in pairs(t) do table.insert(keys, key) end
+    return keys
+end
+
 --  ===================
 --  DESTRINGIFY NUMBERS
 --  ===================
@@ -56,4 +70,18 @@ function Destructure(tar, t)
         if tar[key] then temp[idx] = tar[key] end
     end
     return table.unpack(temp)
+end
+
+--  ========
+--  EQUALITY
+--  ========
+
+---Checks equality of tables
+---@param target table
+---@param source table
+---@return boolean res
+function IsEqual(target, source)
+    local tar = target or {}
+    local src = source or {}
+    return Ext.JsonStringify(tar) == Ext.JsonStringify(source)
 end
