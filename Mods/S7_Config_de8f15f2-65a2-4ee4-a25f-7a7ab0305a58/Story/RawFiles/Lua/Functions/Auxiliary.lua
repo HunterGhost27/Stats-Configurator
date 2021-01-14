@@ -19,5 +19,22 @@ Ext.Require('Functions/Shared/Versioning.lua')
 Ext.Require('Functions/Shared/Centralize.lua')
 Ext.Require('Functions/Shared/Networker.lua')
 Ext.Require('Functions/Shared/ConsoleCommander.lua')
-Ext.Require('Functions/Shared/DialogManager.lua')
+
+--  SERVER-SPECIFIC
+--  ---------------
+
+if Ext.IsServer() then
+    Ext.Require('Functions/Server/DialogManager.lua')
+end
+
+--  CLIENT-SPECIFIC
+--  ---------------
+
+if Ext.IsClient() then
+
+end
+
+--  LATE LOADER
+--  ===========
+
 Ext.Require('Functions/Shared/Updater.lua')

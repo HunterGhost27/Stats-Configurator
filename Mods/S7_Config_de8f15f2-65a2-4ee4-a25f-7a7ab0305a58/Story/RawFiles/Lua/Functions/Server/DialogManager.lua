@@ -5,6 +5,7 @@
 ---@class DialogVar
 ---@field dialogVar string DialogVariable
 ---@field dialogVal string DialogVariable's value
+---@field dialogValUpdater function Automatically re-evaluate dialogVal
 ---@field dialogType string DialogVariable's type
 
 ---@class Dialog
@@ -28,7 +29,8 @@ function Dialog:Update(vars) self['Vars'] = Integrate(self['Vars'], vars) end
 ---Set DialogVars using Osiris
 ---@param vars table<string, DialogVar>|nil
 function Dialog:Set(vars)
-    self:Update(vars)
+    if not Ext.OsirisIsCallable() or not self['Vars'] then return end
+    if vars then self:Update(vars) end
 
     local setterFunction = {
         ['String'] = Osi.DialogSetVariableString,
@@ -37,11 +39,11 @@ function Dialog:Set(vars)
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    if not Ext.OsirisIsCallable() or not self['Vars'] then return end
-    for alias, dialogVariable in pairs(self['Vars']) do
-        if type(dialogVariable) ~= 'table' then return end
-        if ValidString(dialogVariable.dialogType) then setterFunction[dialogVariable.dialogType](self.Name, dialogVariable.dialogVar, dialogVariable.dialogVal)
-        else Osi.DialogSetVariableFixedString(self.Name, dialogVariable.dialogVar, tostring(dialogVariable.dialogVal)) end
+    for alias, Var in pairs(self['Vars']) do
+        if type(Var) ~= 'table' then return end
+        Var.dialogVal = IsValid(Var.dialogValUpdater()) and Var.dialogValUpdater() or Var.dialogVal
+        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, Var.dialogVal)
+        else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(Var.dialogVal)) end
      end
 end
 
