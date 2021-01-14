@@ -25,7 +25,7 @@ function CENTRAL:Load()
 end
 
 ---Synchronizes CENTRAL information and MODINFO
-function CENTRAL:Sync() self[IDENTIFIER] = Integrate(self[IDENTIFIER], MODINFO) end
+function CENTRAL:Sync() for key, _ in pairs(self[IDENTIFIER]) do if IsValid(MODINFO[key]) then self[IDENTIFIER][key] = MODINFO[key] end end end
 
 ---Saves CENTRAL information in `S7Central.json`
 function CENTRAL:Save() SaveFile(CENTRALFILE, Rematerialize(self)) end
