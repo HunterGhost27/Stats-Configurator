@@ -5,7 +5,6 @@
 ---@class Settings @Mod-Settings
 Settings = {}
 DefaultSettings = DefaultSettings or {}
-
 Settings = Integrate(DefaultSettings, MODINFO.ModSettings)
 
 ---Loads CENTRAL file and Updates settings
@@ -36,10 +35,7 @@ function Settings:Update(settings)
 end
 
 ---Synchronizes Settings with MODINFO.ModSettings and PersistentVars.Settings
-function Settings:Sync()
-    MODINFO.ModSettings = self
-    PersistentVars.Settings = Rematerialize(self)
-end
+function Settings:Sync() MODINFO.ModSettings = Rematerialize(self) end
 
 ---Saves Settings in CENTRAL file
 function Settings:Save()
