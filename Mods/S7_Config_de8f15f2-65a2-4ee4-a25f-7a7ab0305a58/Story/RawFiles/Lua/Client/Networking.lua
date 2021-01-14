@@ -14,7 +14,7 @@ end)
 --  CLIENT CONFIG VALIDATION
 --  ========================
 
-Ext.RegisterNetListener('S7_Config::ValidateConfig', function (channel, payload)
+Ext.RegisterNetListener('S7_Config::ConfigValidation', function (channel, payload)
     local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
 
     for clientID, compare in pairs(Ext.JsonParse(payload)) do
