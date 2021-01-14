@@ -35,27 +35,6 @@
                 </node>
                 <node id="DialogVariable">
                     <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="Export to TSV." type="23" />
-                    <attribute id="UUID" value="e59ebc61-6f13-4e91-9200-36e474113c48" type="31" />
-                    <attribute id="name" value="S7_Config_ExportedStats" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="ModAddedTo" type="23" />
-                    <attribute id="UUID" value="70f2c40a-2237-4041-aed6-d1f1623d0ab6" type="31" />
-                    <attribute id="name" value="S7_Config_ModAddedTo" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="Mod-Identifier" type="23" />
-                    <attribute id="UUID" value="76d92488-990f-45d4-828a-525bf966efaa" type="31" />
-                    <attribute id="name" value="S7_Config_ModID" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="8523d721-fae5-4f64-81ee-749130f1c4eb" type="31" />
                     <attribute id="name" value="S7_Config_Opt1" type="22" />

@@ -30,10 +30,7 @@ ModMenuDialog:Update({
         ['dialogValUpdater'] = function() return Ext.JsonStringify(Rematerialize(ConfigSettings)) == Ext.JsonStringify(Rematerialize(DefaultSettings)) and 'Default' or 'Custom' end
     },
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb'},
-    ['ExportStats'] = {['dialogVar'] = 'S7_Config_ExportedStats_e59ebc61-6f13-4e91-9200-36e474113c48'},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917'},
-    ['ModAddedTo'] = {['dialogVar'] = 'S7_Config_ModAddedTo_70f2c40a-2237-4041-aed6-d1f1623d0ab6'},
-    ['ModID'] = {['dialogVar'] = 'S7_Config_ModID_76d92488-990f-45d4-828a-525bf966efaa'},
     ['ValidateClientConfigs'] = {['dialogVar'] = 'S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698'},
     ['RegisteredMods'] = {['dialogVar'] = 'S7_RegisteredMods_4ff2880e-6a62-4ed3-9f6f-28eaa30165b1"'},
 })
