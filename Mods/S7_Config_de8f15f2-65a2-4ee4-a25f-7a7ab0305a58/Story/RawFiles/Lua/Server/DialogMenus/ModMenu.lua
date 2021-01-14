@@ -7,27 +7,27 @@ ModMenuDialog = Dialog:New({['Name'] = 'S7_Config_ModMenu'})
 ModMenuDialog:Update({
     ['ConfigFile'] = {
         ['dialogVar'] = 'S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d',
-        ['dialogValUpdater'] = function() return tostring(ConfigSettings.ConfigFile) end
+        ['dialogVal'] = function() return tostring(ConfigSettings.ConfigFile) end
     },
     ['ConfigData'] = {
         ['dialogVar'] = 'S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8',
-        ['dialogValUpdater'] = function() return tostring(ConfigSettings.StatsLoader.FileName) end
+        ['dialogVal'] = function() return tostring(ConfigSettings.StatsLoader.FileName) end
     },
     ['StatsLoader'] = {
         ['dialogVar'] = 'S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37',
-        ['dialogValUpdater'] = function() return tostring(ConfigSettings.StatsLoader.Enable)end
+        ['dialogVal'] = function() return tostring(ConfigSettings.StatsLoader.Enable)end
     },
     ['SyncStatPersistence'] = {
         ['dialogVar'] = 'S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a',
-        ['dialogValUpdater'] = function() return tostring(ConfigSettings.SyncStatPersistence)end
+        ['dialogVal'] = function() return tostring(ConfigSettings.SyncStatPersistence)end
     },
     ['BypassSafetyCheck'] = {
         ['dialogVar'] = 'S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64',
-        ['dialogValUpdater'] = function() return tostring(ConfigSettings.BypassSafetyCheck)end
+        ['dialogVal'] = function() return tostring(ConfigSettings.BypassSafetyCheck)end
     },
     ['Settings'] = {
         ['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6',
-        ['dialogValUpdater'] = function() return Ext.JsonStringify(Rematerialize(ConfigSettings)) == Ext.JsonStringify(Rematerialize(DefaultSettings)) and 'Default' or 'Custom' end
+        ['dialogVal'] = function() return Ext.JsonStringify(Rematerialize(ConfigSettings)) == Ext.JsonStringify(Rematerialize(DefaultSettings)) and 'Default' or 'Custom' end
     },
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb'},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917'},

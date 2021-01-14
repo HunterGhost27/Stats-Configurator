@@ -4,8 +4,7 @@
 
 ---@class DialogVar
 ---@field dialogVar string DialogVariable
----@field dialogVal string DialogVariable's value
----@field dialogValUpdater function Automatically re-evaluate dialogVal
+---@field dialogVal string|function DialogVariable's value
 ---@field dialogType string DialogVariable's type
 
 ---@class Dialog
@@ -41,9 +40,9 @@ function Dialog:Set(vars)
 
     for alias, Var in pairs(self['Vars']) do
         if type(Var) ~= 'table' then return end
-        Var.dialogVal = IsValid(Var.dialogValUpdater) and Var.dialogValUpdater() or Var.dialogVal
-        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, Var.dialogVal)
-        else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(Var.dialogVal)) end
+        local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal
+        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
+        else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal)) end
      end
 end
 
