@@ -45,15 +45,10 @@
                                        {
                                           "TagText" : [
                                              {
-                                                "DialogVariables" : [
-                                                   {
-                                                      "DialogVariables" : {"type" : 22, "value" : "c02bc213-de0d-4f0f-b501-7b8913d146a6"}
-                                                   }
-                                                ],
                                                 "TagText" : {
                                                    "handle" : "h2072d626g225eg4fa9g9577g47716c44a7d7",
                                                    "type" : 28,
-                                                   "value" : "Settings refreshed.<br><b>[Settings]:</b> [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]"
+                                                   "value" : "Settings refreshed."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -149,7 +144,7 @@
                                                 "TagText" : {
                                                    "handle" : "hd02b933bgaf8cg4c05gaa16gb83fac35a0c0",
                                                    "type" : 28,
-                                                   "value" : "Reapplying settings from S7_ConfigSettings.json ..."
+                                                   "value" : "Reapplying settings ..."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1189,7 +1184,7 @@
                                                 "TagText" : {
                                                    "handle" : "h4e20422dga5a5g4134g8527g0e594eef66c3",
                                                    "type" : 28,
-                                                   "value" : "Current Config-Settings exported to S7_ConfigSettings.json"
+                                                   "value" : "Current Config-Settings exported."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1603,7 +1598,7 @@
                                                 "TagText" : {
                                                    "handle" : "h5608c89fg3cc8g4feega7ffgbcd2a0cec3be",
                                                    "type" : 28,
-                                                   "value" : "<b>[Reapply Custom Settings]</b> Reload settings from S7_ConfigSettings.json"
+                                                   "value" : "<b>[Reapply Custom Settings]</b> Reload settings."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1706,15 +1701,10 @@
                                        {
                                           "TagText" : [
                                              {
-                                                "DialogVariables" : [
-                                                   {
-                                                      "DialogVariables" : {"type" : 22, "value" : "c02bc213-de0d-4f0f-b501-7b8913d146a6"}
-                                                   }
-                                                ],
                                                 "TagText" : {
                                                    "handle" : "h4710a4a7ge263g4b76ga4f7g6ca128b75abe",
                                                    "type" : 28,
-                                                   "value" : "Config-Settings restored to default values.<br><b>[Settings]:</b> [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]"
+                                                   "value" : "Config-Settings restored to default values."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2552,7 +2542,7 @@
                                                 "TagText" : {
                                                    "handle" : "h3837ed2dg4ae8g410bgb1bdg92a594e02d43",
                                                    "type" : 28,
-                                                   "value" : " Diagnostics"
+                                                   "value" : " Diagnostics Options"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4350,7 +4340,7 @@
                                                 "TagText" : {
                                                    "handle" : "h06f1b5e8g5ce8g4b7cga35fgac4d8c514b0a",
                                                    "type" : 28,
-                                                   "value" : "<b>[Export Current Settings] </b>Save the current combination of settings in S7_ConfigSettings.json"
+                                                   "value" : "<b>[Export Current Settings] </b>Save the current settings."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4953,7 +4943,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 399}
+            "nextNodeId" : {"type" : 5, "value" : 419}
          }
       }
    }

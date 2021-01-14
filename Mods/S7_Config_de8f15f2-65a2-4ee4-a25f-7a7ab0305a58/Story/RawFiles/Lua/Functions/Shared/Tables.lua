@@ -83,5 +83,5 @@ end
 function IsEqual(target, source)
     local tar = target or {}
     local src = source or {}
-    return Ext.JsonStringify(tar) == Ext.JsonStringify(source)
+    return Ext.JsonStringify(Rematerialize(tar)) == Ext.JsonStringify(Rematerialize(source))
 end

@@ -22,6 +22,7 @@ local function updateSetting(parent, settings, default)
     for key, value in pairs(default) do
         if type(value) == 'table' then updateSetting(parent[key], settings[key], value) end
         if parent[key] == settings[key] then break end
+        if settings[key] == false then parent[key] = false end
         parent[key] = settings[key] or value
     end
 end
@@ -35,7 +36,7 @@ function Settings:Update(settings)
 end
 
 ---Synchronizes Settings with MODINFO.ModSettings and PersistentVars.Settings
-function Settings:Sync() MODINFO.ModSettings = Rematerialize(self) end
+function Settings:Sync() MODINFO.ModSettings = self end
 
 ---Saves Settings in CENTRAL file
 function Settings:Save()

@@ -128,17 +128,15 @@ ModMenuRelay = {
     end,
 
     ['S7_SetDefaultSettings'] = function ()
-        ConfigSettings = Rematerialize(DefaultSettings)
+        ConfigSettings:Update()
+        ConfigSettings:Save()
         Debug:Print("Using default settings.")
     end,
 
     ['S7_RebuildCollections'] = function () Collections:Rebuild() end,
 
     ['S7_ExportCurrentSettings'] = function ()
-        SaveFile(MODINFO.SubdirPrefix .. "S7_ConfigSettings.json", ConfigSettings)
-        Debug:Print("Exporting current ConfigSettings to S7_ConfigSettings.json")
-        RefreshSettings()
-        Debug:Print("Custom Settings Exported and Refreshed.")
+        ConfigSettings:Save()
     end
 
 }

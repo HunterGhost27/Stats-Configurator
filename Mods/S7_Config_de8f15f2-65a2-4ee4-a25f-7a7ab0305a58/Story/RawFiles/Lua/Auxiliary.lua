@@ -66,7 +66,11 @@ end
 ConfigSettings = MODINFO.ModSettings
 
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
-function RefreshSettings() Debug:FPrint("Synchronizing ModSettings"); CENTRAL:ReSync() end
+function RefreshSettings()
+    Debug:FPrint("Synchronizing ModSettings")
+    ConfigSettings:Load()
+    ConfigSettings:Save()
+end
 
 --  ======================================================
 Ext.RegisterListener("ModuleLoadStarted", RefreshSettings)
