@@ -65,7 +65,7 @@ end
 ---@param config table Configuration table
 ---@return any element Rematerialized element
 function Rematerialize(element, config, clones)
-    config = Integrate({["metatables"] = false, ['nonstringifiable'] = false}, config)
+    config = Integrate({["metatables"] = false, ['deep'] = false}, config)
     clones = clones or {}
     local clone = {}
 
@@ -80,7 +80,7 @@ function Rematerialize(element, config, clones)
     else clone = element end
 
     if type(element) == "function" or type(element) == "userdata" or type(element) == "thread" then
-        if config.nonstringifiable then clone = element else clone = nil end
+        if config.deep then clone = element else clone = nil end
     end
 
     return clone

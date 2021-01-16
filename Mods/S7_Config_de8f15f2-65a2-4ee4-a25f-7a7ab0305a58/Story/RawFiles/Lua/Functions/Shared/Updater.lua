@@ -3,13 +3,16 @@
 --  ===========
 
 ---@class Update @Updater
+---@field isRequired boolean
+---@field force boolean
+---@field list table List of updates
 Update = {
     ['isRequired'] = false,
     ['force'] = false,
     ['list'] = {}
 }
 
----Register Update Event Action
+---Register Update-Event Action
 ---@param event string Listener Event or `"Now"`
 ---@param action function Update Action
 function Update:Register(event, action) table.insert(self.list, {[event] = action}) end
@@ -47,10 +50,10 @@ end
 --  INITIAL CHECK
 --  =============
 
-CENTRAL = CENTRAL:Load() -- Loads CENTRAL file
+CENTRAL = LoadFile(CENTRALFILE) or {} -- Loads CENTRAL file
 local prevVersion = Version:Parse(CENTRAL[IDENTIFIER]["ModVersion"]) -- Reads previous version
 local currVersion = Version:Parse(MODINFO.Version) -- Reads current version
 Update:Check(prevVersion, currVersion) -- Performs update check
 MODINFO.ModVersion = currVersion:String() -- Updates CENTRAL mod-version
 CENTRAL:Sync() -- Synchronizes CENTRAL file
-CENTRAL:Save() -- Saves CENTRAL file
+SaveFile(CENTRALFILE, Rematerialize(CENTRAL))

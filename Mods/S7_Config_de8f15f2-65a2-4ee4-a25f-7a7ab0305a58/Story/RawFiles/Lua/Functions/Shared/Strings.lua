@@ -32,6 +32,7 @@ end
 ---@class Stringer @Builds Multiline Strings
 ---@field Header string Highlighted header
 ---@field Maxlen number Largest line-length
+---@field Style table Styles
 Stringer = {
     ['Header'] = "",
     ['MaxLen'] = 0,
