@@ -9,8 +9,7 @@ IDENTIFIER = 'S7_Config'
 ---@field SubdirPrefix string
 MODINFO = Ext.GetModInfo('de8f15f2-65a2-4ee4-a25f-7a7ab0305a58')
 MODINFO.SubdirPrefix = "StatsConfigurator/"
-
-DefaultSettings = {
+MODINFO.DefaultSettings = {
     ["ConfigFile"] = "S7_Config.json", --  FileName of the Configuration Profile
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.

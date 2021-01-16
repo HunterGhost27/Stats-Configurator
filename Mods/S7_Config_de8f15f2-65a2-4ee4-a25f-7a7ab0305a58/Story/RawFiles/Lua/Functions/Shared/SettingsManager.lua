@@ -4,8 +4,7 @@
 
 ---@class Settings @Mod-Settings
 Settings = {}
-DefaultSettings = DefaultSettings or {}
-Settings = Integrate(DefaultSettings, MODINFO.ModSettings)
+Settings = Integrate(MODINFO.DefaultSettings, MODINFO.ModSettings)
 
 ---Loads CENTRAL file and Updates settings
 function Settings:Load()
@@ -31,7 +30,7 @@ end
 ---@param settings Settings
 function Settings:Update(settings)
     local settings = settings or {}
-    updateSetting(self, settings, DefaultSettings)
+    updateSetting(self, settings, MODINFO.DefaultSettings)
     self:Sync()
 end
 

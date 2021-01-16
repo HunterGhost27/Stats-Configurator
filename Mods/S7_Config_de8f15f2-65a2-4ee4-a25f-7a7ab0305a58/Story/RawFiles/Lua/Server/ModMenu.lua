@@ -27,7 +27,7 @@ ModMenuDialog:Update({
     },
     ['Settings'] = {
         ['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6',
-        ['dialogVal'] = function() return IsEqual(ConfigSettings, DefaultSettings) and 'Default-Settings' or 'Custom-Settings' end
+        ['dialogVal'] = function() return IsEqual(ConfigSettings, MODINFO.DefaultSettings) and 'Default-Settings' or 'Custom-Settings' end
     },
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb'},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917'},
