@@ -16,10 +16,10 @@ CENTRAL[IDENTIFIER] = {
 }
 
 ---Synchronizes CENTRAL information and MODINFO
-function CENTRAL:Sync()
-    for key, _ in pairs(self[IDENTIFIER]) do
+function CENTRALIZE()
+    for key, _ in pairs(CENTRAL[IDENTIFIER]) do
         if IsValid(MODINFO[key]) then
-            self[IDENTIFIER][key] = Rematerialize(MODINFO[key])
+            CENTRAL[IDENTIFIER][key] = Rematerialize(MODINFO[key])
         end
     end
 end

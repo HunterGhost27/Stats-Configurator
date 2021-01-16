@@ -6,6 +6,7 @@ IDENTIFIER = 'S7_Config'
 ---@class MODINFO: ModInfo
 ---@field ModVersion string
 ---@field ModSettings table
+---@field DefaultSettings table
 ---@field SubdirPrefix string
 MODINFO = Ext.GetModInfo('de8f15f2-65a2-4ee4-a25f-7a7ab0305a58')
 MODINFO.SubdirPrefix = "StatsConfigurator/"
@@ -67,8 +68,9 @@ ConfigSettings = MODINFO.ModSettings
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
 function RefreshSettings()
     Debug:FPrint("Synchronizing ModSettings")
-    ConfigSettings:Load()
-    ConfigSettings:Save()
+    CENTRAL = LoadFile(CENTRALFILE) or {}
+    ConfigSettings = Integrate(ConfigSettings, CENTRAL[IDENTIFIER].ModSettings)
+    SaveFile(CENTRALFILE, Rematerialize(CENTRAL))
 end
 
 --  ======================================================
