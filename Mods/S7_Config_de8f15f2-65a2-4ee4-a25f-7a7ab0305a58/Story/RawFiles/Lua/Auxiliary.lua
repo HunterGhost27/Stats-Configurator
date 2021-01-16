@@ -15,7 +15,6 @@ MODINFO.DefaultSettings = {
     ["StatsLoader"] = {["Enable"] = true, ["FileName"] = "S7_ConfigData.json"}, --  Enable stat-editing during ModuleLoading. FileName for ConfigData.
     ["SyncStatPersistence"] = false, --  Changes made with Ext.SyncStat() will be stored persistently if true.
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.
-    ["CustomCollections"] = {} --  Allows users to create custom collections.
 }
 
 PersistentVars = {}

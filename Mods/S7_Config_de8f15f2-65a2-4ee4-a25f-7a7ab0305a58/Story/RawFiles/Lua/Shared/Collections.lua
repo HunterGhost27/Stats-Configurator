@@ -274,5 +274,6 @@ function Collections:Rebuild()
     --  CUSTOM-COLLECTIONS
     --  ==================
 
-    if ConfigSettings.CustomCollections then Collections = Integrate(ConfigSettings.CustomCollections, Collections) end
+    local customCollections = LoadFile(MODINFO.SubdirPrefix .. "ConfigCollections.json") or {}
+    Collections = Integrate(Collections, customCollections)
 end

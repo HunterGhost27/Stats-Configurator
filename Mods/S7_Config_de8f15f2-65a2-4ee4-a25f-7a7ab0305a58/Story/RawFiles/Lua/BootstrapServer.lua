@@ -18,8 +18,8 @@ Ext.Require("Shared/StatsConfigurator.lua")
 Ext.RegisterOsirisListener("GameStarted", 2, "after", function (level, gameMode)
     if not Osi.IsGameLevel(level) then return end
 
-    Osi.GlobalSetFlag("S7_RefreshSettings")
-    Osi.GlobalSetFlag("S7_RebuildCollections")
+    RefreshSettings()
+    Collections:Rebuild()
 
     local hostCharacter = Osi.CharacterGetHostCharacter()
     if Osi.ItemTemplateIsInPartyInventory(hostCharacter, Inspector, 1) < 1 then
