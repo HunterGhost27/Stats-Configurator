@@ -52,5 +52,6 @@ function Dialog:Start(character)
     local character = character or Osi.CharacterGetHostCharacter()
     if not Ext.OsirisIsCallable() then return end
     if not Osi.QRY_SpeakerIsAvailable(character) then return end
+    self:Set()
     Osi.Proc_StartDialog(1, self.Name, character)
 end
