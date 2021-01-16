@@ -2,6 +2,8 @@
 --  MOD-UPDATER
 --  ===========
 
+MODINFO.ModVersion = "0.0.0.0"
+
 ---@class Update @Updater
 ---@field isRequired boolean
 ---@field force boolean
@@ -50,10 +52,12 @@ end
 --  INITIAL CHECK
 --  =============
 
-CENTRAL = LoadFile(CENTRALFILE) or {} -- Loads CENTRAL file
+local centralFile = LoadFile(CENTRALFILE) or {} -- Loads CENTRAL file
+CENTRAL = Integrate(CENTRAL, centralFile)
 local prevVersion = Version:Parse(CENTRAL[IDENTIFIER]["ModVersion"]) -- Reads previous version
 local currVersion = Version:Parse(MODINFO.Version) -- Reads current version
 Update:Check(prevVersion, currVersion) -- Performs update check
 MODINFO.ModVersion = currVersion:String() -- Updates CENTRAL mod-version
+MODINFO.ModSettings = Integrate(MODINFO.DefaultSettings, CENTRAL[IDENTIFIER].ModSettings)
 CENTRALIZE() -- Synchronizes CENTRAL file
 SaveFile(CENTRALFILE, Rematerialize(CENTRAL))

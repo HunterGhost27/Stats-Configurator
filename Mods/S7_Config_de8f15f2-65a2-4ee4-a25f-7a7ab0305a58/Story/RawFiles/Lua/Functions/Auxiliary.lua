@@ -14,9 +14,8 @@ Ext.Require('Functions/Shared/Debug.lua')
 --  DERIVED
 --  =======
 
-Ext.Require('Functions/Shared/SettingsManager.lua')
-Ext.Require('Functions/Shared/Versioning.lua')
 Ext.Require('Functions/Shared/Centralize.lua')
+Ext.Require('Functions/Shared/Versioning.lua')
 Ext.Require('Functions/Shared/Networker.lua')
 Ext.Require('Functions/Shared/ConsoleCommander.lua')
 

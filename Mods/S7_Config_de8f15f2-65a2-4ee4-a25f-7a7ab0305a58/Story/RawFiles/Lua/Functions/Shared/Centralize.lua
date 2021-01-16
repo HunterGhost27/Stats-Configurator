@@ -7,12 +7,12 @@ CENTRALFILE = 'S7Central.json'
 ---@class CENTRAL @Holds information about mods
 CENTRAL = {}
 CENTRAL[IDENTIFIER] = {
-    ["Author"] = Rematerialize(MODINFO.Author),
-    ["Name"] = Rematerialize(MODINFO.Name),
-    ["UUID"] = Rematerialize(MODINFO.UUID),
-    ["Version"] = Rematerialize(MODINFO.Version),
-    ["ModVersion"] = Rematerialize(MODINFO.ModVersion) or "0.0.0.0",
-    ["ModSettings"] = Rematerialize(MODINFO.ModSettings) or {},
+    ["Author"] = MODINFO.Author,
+    ["Name"] = MODINFO.Name,
+    ["UUID"] = MODINFO.UUID,
+    ["Version"] = MODINFO.Version,
+    ["ModVersion"] = MODINFO.ModVersion or "0.0.0.0",
+    ["ModSettings"] = MODINFO.ModSettings or {},
 }
 
 ---Synchronizes CENTRAL information and MODINFO
@@ -23,3 +23,10 @@ function CENTRALIZE()
         end
     end
 end
+
+--  ============
+--  MOD SETTINGS
+--  ============
+
+MODINFO.ModSettings = {}
+MODINFO.ModSettings = Integrate(MODINFO.DefaultSettings, MODINFO.ModSettings)

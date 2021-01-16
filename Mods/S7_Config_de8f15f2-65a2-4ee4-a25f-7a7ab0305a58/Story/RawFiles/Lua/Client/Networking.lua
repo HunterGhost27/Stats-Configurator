@@ -7,15 +7,15 @@
 --  =======================
 
 Ext.RegisterNetListener('S7_Config::ConfigData', function (channel, payload)
-    Debug:Print("Client recieved configuration. Saving file: " .. ConfigSettings.StatsLoader.FileName)
-    SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName, payload)
+    Debug:Print("Client recieved configuration. Saving file: " .. Settings.StatsLoader.FileName)
+    SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, payload)
 end)
 
 --  CLIENT CONFIG VALIDATION
 --  ========================
 
 Ext.RegisterNetListener('S7_Config::ConfigValidation', function (channel, payload)
-    local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or ""
+    local verify = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or ""
 
     for clientID, compare in pairs(Ext.JsonParse(payload)) do
         local message = clientID .. " : "

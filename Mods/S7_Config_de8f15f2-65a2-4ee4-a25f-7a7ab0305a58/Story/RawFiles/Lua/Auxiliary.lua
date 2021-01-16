@@ -56,19 +56,20 @@ end
 --  MOD-SETTINGS
 --  ============
 
----@class ConfigSettings: Settings
+---@class ConfigSettings
 ---@field ConfigFile string
 ---@field StatsLoader table
 ---@field SyncStatPersistence boolean
 ---@field BypassSafetyCheck boolean
 ---@field CustomCollections table
-ConfigSettings = MODINFO.ModSettings
+Settings = MODINFO.ModSettings
 
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
 function RefreshSettings()
     Debug:FPrint("Synchronizing ModSettings")
-    CENTRAL = LoadFile(CENTRALFILE) or {}
-    ConfigSettings = Integrate(ConfigSettings, CENTRAL[IDENTIFIER].ModSettings)
+    local centralFile = LoadFile(CENTRALFILE) or {}
+    CENTRAL = Integrate(CENTRAL, centralFile)
+    Settings = Integrate(Settings, CENTRAL[IDENTIFIER].ModSettings)
     SaveFile(CENTRALFILE, Rematerialize(CENTRAL))
 end
 

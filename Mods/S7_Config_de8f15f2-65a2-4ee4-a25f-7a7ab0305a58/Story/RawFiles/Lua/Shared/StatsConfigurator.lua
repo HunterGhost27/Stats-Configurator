@@ -67,10 +67,10 @@ function SafeToModify(name, key)
         "RootTemplate"
     ]] --  dont mess with these keys
 
-    if ConfigSettings.BypassSafetyCheck then return true
+    if Settings.BypassSafetyCheck then return true
     else
         if string.match(dontFwith, key) then
-            Debug:Warn("SafeToModify() prevents modification of " .. key .. " [BypassSafetyCheck: " .. tostring(ConfigSettings.BypassSafetyCheck) .. "]")
+            Debug:Warn("SafeToModify() prevents modification of " .. key .. " [BypassSafetyCheck: " .. tostring(Settings.BypassSafetyCheck) .. "]")
             return false
         else
             if Ext.StatGetAttribute(name, key) then return true
@@ -84,12 +84,12 @@ end
 
 function StatsSynchronize()
     if Synchronizations then
-        Debug:Print("Synchronizing Stats [Savegame-Persistence: " .. tostring(ConfigSettings.SyncStatPersistence) .. "]")
+        Debug:Print("Synchronizing Stats [Savegame-Persistence: " .. tostring(Settings.SyncStatPersistence) .. "]")
         Debug:Print("=============================================================")
 
         for name, _ in pairs(Synchronizations) do
             if Osi.NRD_StatExists(name) then
-                Ext.SyncStat(name, ConfigSettings.SyncStatPersistence)
+                Ext.SyncStat(name, Settings.SyncStatPersistence)
                 Debug:Print("Synchronized Stat: " .. name)
             end
         end
@@ -104,15 +104,15 @@ end
 function BuildConfigData(buildData, modUUID, modName)
     if ValidString(modName) then
         if ValidString(modUUID) then
-            local configTable = LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or {}
+            local configTable = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
             configTable[modUUID] = {
                 ["ModUUID"] = modUUID,
                 ["ModName"] = modName,
                 ["Content"] = buildData
             }
-            SaveFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName, configTable)
-        else Debug:Print("Invalid modUUID. Can't build " .. ConfigSettings.StatsLoader.FileName) end
-    else Debug:Print("Invalid modName. Can't build" .. ConfigSettings.StatsLoader.FileName) end
+            SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configTable)
+        else Debug:Print("Invalid modUUID. Can't build " .. Settings.StatsLoader.FileName) end
+    else Debug:Print("Invalid modName. Can't build" .. Settings.StatsLoader.FileName) end
 end
 
 --  ####################################################################################################################################################

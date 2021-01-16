@@ -3,15 +3,15 @@
 --  ============
 
 function StatsLoader()
-    if not ConfigSettings.StatsLoader.Enable then Debug:Warn("StatsLoader is disabled.") return end
+    if not Settings.StatsLoader.Enable then Debug:Warn("StatsLoader is disabled.") return end
 
     Collections:Rebuild()
 
     --  LOAD CONFIG-DATA
     --  ================
 
-    Debug:HFPrint("StatsLoader active. Loading " .. ConfigSettings.StatsLoader.FileName)
-    local configData = LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName) or {}
+    Debug:HFPrint("StatsLoader active. Loading " .. Settings.StatsLoader.FileName)
+    local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
 
     --  QUEUE CONFIGURATION W.R.T LOAD ORDER
     --  ====================================

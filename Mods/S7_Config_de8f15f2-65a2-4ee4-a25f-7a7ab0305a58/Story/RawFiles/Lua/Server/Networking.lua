@@ -4,8 +4,8 @@
 
 function ValidateClientConfigs()
     Debug:Print("Validating Client Config...")
-    local compare = Ext.LoadFile(MODINFO.SubdirPrefix .. ConfigSettings.StatsLoader.FileName)
-    if not ValidString(compare) then Debug:Error("Nothing to validate. Please check if the server has " .. ConfigSettings.StatsLoader.FileName) end
+    local compare = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
+    if not ValidString(compare) then Debug:Error("Nothing to validate. Please check if the server has " .. Settings.StatsLoader.FileName) end
 
     for userProfileID, _ in pairs(UserInformation.Clients) do
         local clientID = UserInformation.Clients[userProfileID]["DisplayName"] .. " (" .. UserInformation.Clients[userProfileID]["UserName"] .. ")"
