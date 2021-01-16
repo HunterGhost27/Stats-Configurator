@@ -71,7 +71,7 @@ function ConsoleCommanderHelp(target)
 
         Stringer:SetHeader('COMMAND\t\t\tDESCRIPTION')
         Stringer:Tabulate(helpTable)
-        Stringer:Add("!S7_Forgetinator Help <CommandName> for more info")
+        Stringer:Add("!" .. IDENTIFIER .." Help <CommandName> for more info")
         helpMsg = Stringer:Build()
     end
     Debug:FWarn(helpMsg)
