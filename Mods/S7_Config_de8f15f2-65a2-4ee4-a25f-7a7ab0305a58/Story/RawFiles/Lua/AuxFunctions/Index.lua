@@ -15,7 +15,6 @@ Ext.Require('Functions/Shared/Debug.lua')
 --  =======
 
 Ext.Require('Functions/Shared/Centralize.lua')
-Ext.Require('Functions/Shared/Versioning.lua')
 Ext.Require('Functions/Shared/Networker.lua')
 Ext.Require('Functions/Shared/ConsoleCommander.lua')
 
@@ -36,4 +35,4 @@ end
 --  LATE LOADER
 --  ===========
 
-Ext.Require('Functions/Shared/Updater.lua')
+Ext.Require('Functions/Shared/Versioning.lua')

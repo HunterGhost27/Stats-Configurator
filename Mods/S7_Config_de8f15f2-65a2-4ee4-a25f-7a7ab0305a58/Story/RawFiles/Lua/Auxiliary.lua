@@ -19,9 +19,9 @@ MODINFO.DefaultSettings = {
 
 PersistentVars = {}
 
---  ========  AUX FUNCTIONS  =========
-Ext.Require("Functions/Auxiliary.lua")
---  ==================================
+--  ========  AUX FUNCTIONS  ========
+Ext.Require("AuxFunctions/Index.lua")
+--  =================================
 
 --==============================================================
 ----------------------------------------------------------------
