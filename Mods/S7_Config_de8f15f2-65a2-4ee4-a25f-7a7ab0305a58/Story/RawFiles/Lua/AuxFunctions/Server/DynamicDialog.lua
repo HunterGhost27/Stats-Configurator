@@ -71,19 +71,27 @@ end
 function DynamicDialog:Set()
     if not Ext.OsirisIsCallable() then return end
     clearAvailableOptions()
+
+    local entries = ExtractKeys(self.Stage)
+    self.State.maxPage = math.floor((#entries - 1) / 5) + 1
+
     for key, value in pairs(self.Stage) do
-        if not tonumber(key) then break end
-        Osi.GlobalSetFlag('S7_DynamicDialog_AvailOpt' .. tostring(key))
-        self:Update({['S7_DynamicDialog_Opt' .. tostring(key)] = {['dialogVal'] = value.Text}})
+        local pos = tonumber(key)
+        if not pos then break end
+        if (pos < (1 + 5 * DynamicDialog.State.page)) and (pos > (5 * (DynamicDialog.State.page - 1))) then
+            local relPos = pos % 5; if relPos == 0 then relPos = 5 end
+            Osi.GlobalSetFlag('S7_DynamicDialog_AvailOpt' .. tostring(relPos))
+            self:Update({['S7_DynamicDialog_Opt' .. tostring(relPos)] = {['dialogVal'] = value.Text}})
+        end
     end
 
     if DynamicDialog.State.page == 1 and DynamicDialog.State.page ~= DynamicDialog.State.maxPage then
-        Osi.GlobalClearFlag("S7_Config_PrevPageAvailable"); Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
+        Osi.GlobalClearFlag("S7_DynamicDialog_PrevPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_NextPageAvailable")
     elseif DynamicDialog.State.page ~= 1 and DynamicDialog.State.page == DynamicDialog.State.maxPage then
-        Osi.GlobalClearFlag("S7_Config_NextPageAvailable"); Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
+        Osi.GlobalClearFlag("S7_DynamicDialog_NextPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_PrevPageAvailable")
     elseif DynamicDialog.State.page == 1 and DynamicDialog.State.page == DynamicDialog.State.maxPage then
-        Osi.GlobalClearFlag("S7_Config_NextPageAvailable"); Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
-    else Osi.GlobalSetFlag("S7_Config_NextPageAvailable"); Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
+        Osi.GlobalClearFlag("S7_DynamicDialog_NextPageAvailable"); Osi.GlobalClearFlag("S7_DynamicDialog_PrevPageAvailable")
+    else Osi.GlobalSetFlag("S7_DynamicDialog_NextPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_PrevPageAvailable")
     end
 
     local setterFunction = {
@@ -130,9 +138,18 @@ DynamicDialog.Nodes = {
         ['Action'] = function() Ext.Print('World') end,
         ['Nodes'] = {
             [1] = {['Text'] = "Three", ['Nodes'] = {
-                [1] = {['Text'] = "Three999"},
+                [1] = {['Text'] = "Three991"},
                 [2] = {['Text'] = "Four2222"},
-                [3] = {['Text'] = "ZurZZZZ"},
+                [3] = {['Text'] = "Four2223"},
+                [4] = {['Text'] = "ZurZZZZ4"},
+                [5] = {['Text'] = "ZurZZZZ5"},
+                [6] = {['Text'] = "ZurZZZZ6"},
+                [7] = {['Text'] = "ZurZZZZ7"},
+                [8] = {['Text'] = "ZurZZZZ8"},
+                [9] = {['Text'] = "ZurZZZZ9"},
+                [10] = {['Text'] = "ZurZZZZ10"},
+                [11] = {['Text'] = "ZurZZZZ11"},
+                [12] = {['Text'] = "ZurZZZZ12"},
             }},
             [2] = {['Text'] = "Four"},
         }
@@ -156,7 +173,19 @@ DynamicDialog.Nodes = {
     [5] = {
         ['Text'] = 'Tcao',
         ['Action'] = function() Ext.Print('Tcao') end,
-    }
+    },
+    [6] = {
+        ['Text'] = 'Tcao6',
+        ['Action'] = function() Ext.Print('Tcao') end,
+    },
+    [7] = {
+        ['Text'] = 'Tca7',
+        ['Action'] = function() Ext.Print('Tcao') end,
+    },
+    [8] = {
+        ['Text'] = 'Tcao8',
+        ['Action'] = function() Ext.Print('Tcao') end,
+    },
 }
 
 Ext.RegisterOsirisListener("CharacterUsedSkill", 4, "after", function (character, skill, a, b)
