@@ -57,9 +57,9 @@ DynamicDialog:AddListeners({
         DynamicDialog.State.page = 1
     end,
 })
-
 DynamicDialog:RegisterListeners()
 
+---Clears Dialog-Flag Availability
 local function clearAvailableOptions()
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt1')
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt2')
@@ -68,6 +68,7 @@ local function clearAvailableOptions()
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt5')
 end
 
+---Override base Dialog:Set
 function DynamicDialog:Set()
     if not Ext.OsirisIsCallable() then return end
     clearAvailableOptions()
@@ -78,18 +79,18 @@ function DynamicDialog:Set()
     for key, value in pairs(self.Stage) do
         local pos = tonumber(key)
         if not pos then break end
-        if (pos < (1 + 5 * DynamicDialog.State.page)) and (pos > (5 * (DynamicDialog.State.page - 1))) then
+        if (pos < (1 + 5 * self.State.page)) and (pos > (5 * (self.State.page - 1))) then
             local relPos = pos % 5; if relPos == 0 then relPos = 5 end
             Osi.GlobalSetFlag('S7_DynamicDialog_AvailOpt' .. tostring(relPos))
             self:Update({['S7_DynamicDialog_Opt' .. tostring(relPos)] = {['dialogVal'] = value.Text}})
         end
     end
 
-    if DynamicDialog.State.page == 1 and DynamicDialog.State.page ~= DynamicDialog.State.maxPage then
+    if self.State.page == 1 and self.State.page ~= self.State.maxPage then
         Osi.GlobalClearFlag("S7_DynamicDialog_PrevPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_NextPageAvailable")
-    elseif DynamicDialog.State.page ~= 1 and DynamicDialog.State.page == DynamicDialog.State.maxPage then
+    elseif self.State.page ~= 1 and self.State.page == self.State.maxPage then
         Osi.GlobalClearFlag("S7_DynamicDialog_NextPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_PrevPageAvailable")
-    elseif DynamicDialog.State.page == 1 and DynamicDialog.State.page == DynamicDialog.State.maxPage then
+    elseif self.State.page == 1 and self.State.page == self.State.maxPage then
         Osi.GlobalClearFlag("S7_DynamicDialog_NextPageAvailable"); Osi.GlobalClearFlag("S7_DynamicDialog_PrevPageAvailable")
     else Osi.GlobalSetFlag("S7_DynamicDialog_NextPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_PrevPageAvailable")
     end
@@ -101,15 +102,17 @@ function DynamicDialog:Set()
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    for alias, Var in pairs(DynamicDialog['Vars']) do
+    for alias, Var in pairs(self['Vars']) do
         if type(Var) ~= 'table' then return end
         local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal or ""
-        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](DynamicDialog.Name, Var.dialogVar, dialogVal)
-        else Osi.DialogSetVariableFixedString(DynamicDialog.Name, Var.dialogVar, tostring(dialogVal)) end
+        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
+        else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal)) end
      end
 
 end
 
+---Overrides base Dialog:Start
+---@param character string|nil CharacterGUID
 function DynamicDialog:Start(character)
     if self.Active then return end
     local character = character or Osi.CharacterGetHostCharacter()
