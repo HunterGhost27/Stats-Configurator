@@ -63,8 +63,6 @@ end
 --  MOD-UPDATER
 --  ===========
 
-MODINFO.ModVersion = "0.0.0.0"
-
 ---@class Update @Updater
 ---@field isRequired boolean
 ---@field force boolean
