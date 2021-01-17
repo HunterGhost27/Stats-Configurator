@@ -25,12 +25,9 @@ ConsoleCommander:Register({
     ['Name'] = 'StartModMenu',
     ['Description'] = "Host-Character starts the Mod-Menu Dialog",
     ['Context'] = 'Server',
-    ['Action'] = function ()
-        local hostCharacter = Osi.CharacterGetHostCharacter()
-        if Osi.QRY_SpeakerIsAvailable(hostCharacter) then
-            Osi.Proc_StartDialog(1, "S7_Config_ModMenu", hostCharacter)
-            Debug:Print("ModMenu activated by the host-character")
-        end
+    ['Action'] = function()
+        ModMenuDialog:Start()
+        Debug:Print("ModMenu activated by the host-character")
     end
 })
 
@@ -63,14 +60,9 @@ ConsoleCommander:Register({
     ['Action'] = function (search, searchType)
         if not ValidString(search) then return end
         local allStat = ValidString(searchType) and Ext.GetStatEntries(searchType) or Ext.GetStatEntries()
-        Debug:Print("Search Results: ")
-        Debug:Print("=================================================")
-        for i, stat in ipairs(allStat) do
-            if string.match(stat, search) then
-                Debug:Print(stat)
-            end
-        end
-        Debug:Print("=================================================")
+        Stringer:SetHeader("Search Results for: " .. search)
+        for _, stat in ipairs(allStat) do if string.match(stat, search) then Stringer:Add(stat) end end
+        Debug:Print(Stringer:Build())
     end
 })
 
@@ -127,20 +119,19 @@ function DeepDive(statName)
         local statType = HandleStatType(statName)
         local statData = Ext.GetStat(statName)
 
-        Debug:Print("Showing details of: " .. statName .. " (" .. statType .. ")")
-        Debug:Print("===========================================================")
+        Stringer:SetHeader("Showing details of: " .. statName .. " (" .. statType .. ")")
         for _, content in pairs(References.StatObjectDefinitions[statType]) do
             if SafeToModify(statName, content["@name"]) then
-                Debug:Print(content["@name"] .. " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]]))
+                Stringer:Add(content["@name"] .. " (" .. content["@type"] .. "): " .. Ext.JsonStringify(statData[content["@name"]]))
             end
         end
-        Debug:Print("===========================================================")
-    else Debug:Print("Invalid stat. Make sure that the stat in question actually exists.") end
+        Debug:Print(Stringer:Build())
+    else Debug:Print("Invalid stat. Make sure that the stat in question actually exists!") end
 end
 
 ConsoleCommander:Register({
     ['Name'] = 'DeepDive',
-    ['Description'] = "",
+    ['Description'] = "Print detailed information about (statName)",
     ['Context'] = 'Shared',
     ['Params'] = {[1] = 'StatName'},
     ['Action'] = DeepDive
