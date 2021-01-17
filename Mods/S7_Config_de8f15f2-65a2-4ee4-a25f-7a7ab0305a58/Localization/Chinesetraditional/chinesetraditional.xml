@@ -1,66 +1,66 @@
 <contentList>
-	<content contentuid="h9d7eb8d9g5953g4daagac23g2dd4ad4ba25e" Source="">An ancient Impish artefact.</content>
-	<content contentuid="h462e31c5g71f7g46a9g9addg010475efb80f" Source="">Stats-Configurator</content>
-	<content contentuid="had2961e1g67ccg456dg8c2cgd2aae4152c32" Source="">Tools</content>
-	<content contentuid="h05fbae3dg579eg4e9ag9652g1bf48e20ef35" Source="" Key="S7_Config_CHANGELOG">[Pre-Release]&lt;br&gt;Mod hasn&apos;t even been released!</content>
-	<content contentuid="h2072d626g225eg4fa9g9577g47716c44a7d7" Source="">Settings refreshed.</content>
-	<content contentuid="hd02b933bgaf8cg4c05gaa16gb83fac35a0c0" Source="">Reapplying settings ...</content>
-	<content contentuid="ha6d9bfb4g2319g42d1gbd91g87a318c25c4a" Source="">&lt;b&gt;[Toggle Savegame Persistence]&lt;/b&gt; Stat-edits are stored persistently in the savegame if enabled. (Default: Disabled)</content>
-	<content contentuid="h5eda87b1gd403g406aga1f0g3324d5ab60e6" Source="">&lt;b&gt;[Remove Inspect Skill]&lt;/b&gt; Remove inspect skill from the host-character.</content>
-	<content contentuid="hb36b1253gcd1eg44efga975g06ad944da640" Source="">&lt;b&gt;[Savegame Persistence]:&lt;/b&gt; [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
-	<content contentuid="h75597cf3g4b0fg4cc6gbb06g631884297378" Source="">Host Character learned Inspect Skill. Cast it on a target to inspect relevant StatIDs.</content>
-	<content contentuid="h6cec5b7cg2600g436eg96bfg01a315bb2a17" Source="">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
-	<content contentuid="h0f1c76cfg8419g4c7cgada5g7bc4f1b18407" Source="">&lt;b&gt;[Broadcast ConfigData]&lt;/b&gt; Export [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] to all Clients.</content>
-	<content contentuid="hf84da745g7582g4b17ga2fagf9355e413482" Source="">&lt;b&gt;[Learn Inspect Skill] &lt;/b&gt;The skill allows you to log statIDs associated with the target.</content>
-	<content contentuid="h4e20422dga5a5g4134g8527g0e594eef66c3" Source="">Current Config-Settings exported.</content>
-	<content contentuid="h3c6e7ea7g1879g42dcg9863g8a81ab2a6412" Source="">Please check logs for client response.</content>
-	<content contentuid="he135a3bagd492g471dg9181g7ada28f7a87c" Source="">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
-	<content contentuid="h3498a17cg57aeg4f5ag82a1g16d3f20768f2" Source="">&lt;b&gt;[Toggle StatsLoader] &lt;/b&gt;Enable to load &lt;b&gt;Active Configuration Profile &lt;/b&gt;during &lt;i&gt;ModuleLoading&lt;/i&gt;. (Default: Enabled)</content>
-	<content contentuid="h5608c89fg3cc8g4feega7ffgbcd2a0cec3be" Source="">&lt;b&gt;[Reapply Custom Settings]&lt;/b&gt; Reload settings.</content>
-	<content contentuid="h4710a4a7ge263g4b76ga4f7g6ca128b75abe" Source="">Config-Settings restored to default values.</content>
-	<content contentuid="h2eab7ffageb14g48c8gba66gd14682f7a40c" Source="">&lt;b&gt;Broadcasted&lt;/b&gt; [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] to all active clients.</content>
-	<content contentuid="h9d665774gc170g41dagb31dge49a5cec5676" Source="">&lt;b&gt;[Diagnostics]&lt;/b&gt;</content>
-	<content contentuid="he9497e58g5937g4bacgbc3agc491cf268304" Source="">&lt;b&gt;[Configuration]&lt;/b&gt;</content>
-	<content contentuid="h42cd267fga1a8g4e1bg80acg959186c3e523" Source="">&lt;b&gt;[Load Configuration]&lt;/b&gt; Load [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
-	<content contentuid="he7404fe0gb8deg4b80gb604g135dd58f00d4" Source="">Please Wait.</content>
-	<content contentuid="h18d04b4egc0f0g4adeg9d2bg3ef80457a3c5" Source="">Please Wait.</content>
-	<content contentuid="hd60e2cd6g7f8cg49fagb317g16855bf7276a" Source="">&lt;b&gt;[Rebuild Collections]&lt;/b&gt; Recreate stat-collections from presets and custom settings.</content>
-	<content contentuid="h3837ed2dg4ae8g410bgb1bdg92a594e02d43" Source=""> Diagnostics Options</content>
-	<content contentuid="hd356f502g1318g4f67gbb87gfebc6ca2f8b4" Source="">&lt;b&gt;[Exit]&lt;/b&gt;</content>
-	<content contentuid="hb6b17fbfg2a1dg43d3ga371ge27d531eb466" Source="">Please Wait.</content>
-	<content contentuid="hc4e2f222g56b3g47fcga0e4g6ea838f0ffa7" Source="">&lt;b&gt;[Validate Client Configs] &lt;/b&gt;Check if all Clients have the same&lt;b&gt; Active-Profile&lt;/b&gt;.</content>
-	<content contentuid="h989bec08g00bbg41f6g9717g47ab18799cd5" Source="">&lt;b&gt;Loaded Configuration:&lt;/b&gt; [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]&lt;br&gt;&lt;b&gt;Status: &lt;/b&gt;[S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb]</content>
-	<content contentuid="hc0073b15g1f21g4122gad42g5b288c5c8391" Source="">[S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] &lt;b&gt;Rebuilt.&lt;/b&gt;</content>
-	<content contentuid="h509c8162gad02g4ed0gabc2gfcf04b94141c" Source="">Inspect Skill removed from the Host-Character.</content>
-	<content contentuid="h2d2250cag1717g4b36gb22fgc46dcc77f9ba" Source="">&lt;b&gt;[Bypass Safety-Check]:&lt;/b&gt; [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]</content>
-	<content contentuid="h7ebaf479g4ce9g4df2g8e3dg8fdb1b27fde0" Source="">&lt;b&gt;[Settings]&lt;/b&gt;</content>
-	<content contentuid="h3e2d8175g9ca4g4967ga653gb847d9ddb3c9" Source="">&lt;b&gt;[Rebuild ConfigData] &lt;/b&gt;Rebuild [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] with the most recent version of [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
-	<content contentuid="hf483fc67gab80g4c24gb591g4c7f763ce19f" Source="">&lt;b&gt;[Reset to Default]&lt;/b&gt; Reset settings to the original default values.</content>
-	<content contentuid="h4a798876g1211g4005gb230g17485fa395cc" Source="">&lt;b&gt;[Settings]:&lt;/b&gt; [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]&lt;br&gt;&lt;b&gt;[Stats-Loader]: &lt;/b&gt;[S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;b&gt;&lt;br&gt;[Savegame Persistence]&lt;/b&gt;: [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]&lt;br&gt;&lt;b&gt;[Bypass Safety-Check]:&lt;/b&gt; [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]</content>
-	<content contentuid="h951baf2cg4e55g41c3g9d74g07151b2a2a5d" Source="">Please Wait.</content>
-	<content contentuid="h31324090gd640g429bga93cga6d246031606" Source="">&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]</content>
-	<content contentuid="h222e5f0fg0512g4227g8650g4b359c36799a" Source=""> Please Wait.</content>
-	<content contentuid="h06f1b5e8g5ce8g4b7cga35fgac4d8c514b0a" Source="">&lt;b&gt;[Export Current Settings] &lt;/b&gt;Save the current settings.</content>
-	<content contentuid="h37927456g0cdeg4554g8f94g90587f82f0eb" Source="">&lt;b&gt;[Toggle BypasscSafety-Check] &lt;/b&gt;Prevents modification of certain attributes. (Default: Disabled)</content>
-	<content contentuid="hab918836gd6d4g4edega76eg2d1532d1a616" Source="">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
-	<content contentuid="hf9209b5dgc205g4bffga63bg03bb17a32088" Source="">Collections Rebuilt.</content>
-	<content contentuid="h679ca616g08d8g4387gab58g4bc85bb24233" Source="">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
-	<content contentuid="h7e210449g4fbeg448dgb223g8b40301050e6" Source="">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
-	<content contentuid="h87d3490fg656bg452dgbbd2gbb9655616100" Source="">[Next Page]</content>
-	<content contentuid="h2cd72976ge1dbg49aagbfcdgef88b931bb87" Source="">[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="h35e12a7bg97bdg4180gb51cge8bd6f039884" Source="">[Exit]</content>
-	<content contentuid="ha278c729g3181g4df5g81eagf1064d4cdd88" Source="">[S7_Config_Opt2_aa949336-d705-4a20-b8ff-564b381583f6]</content>
-	<content contentuid="h5804530dg7922g4455gbae4g89e589994d4d" Source="">[S7_Config_Opt4_d07ece22-c225-4d76-b6e3-e94498ade0ba]</content>
-	<content contentuid="h3c4f538egf8d8g480aga44dga39d7badeb1e" Source="">[S7_Config_Opt3_1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08]</content>
-	<content contentuid="h9b6e957bg4179g4a19gb6b7g06b494e67995" Source="">[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="hd0180716g6158g49beg9aa3g51319f01c835" Source="">[Go Back]</content>
-	<content contentuid="h84971a25g6680g4527g93e1g0df7582d2298" Source="">[S7_Config_Opt5_19d98a3a-b117-4df4-b95d-9f937568ee35]</content>
-	<content contentuid="h3dd2d189g115cg4500g8726gc23b0e0f3a68" Source="">[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="hb70461fcg9d00g499bga067g17cabd1537bf" Source="">[S7_Config_Opt1_8523d721-fae5-4f64-81ee-749130f1c4eb]</content>
-	<content contentuid="h3b2d14c6ga148g405eg8575g8cfbaf93a3e0" Source="">[Prev Page]</content>
-	<content contentuid="h0150e212gac70g45edg8520g7eff1c87026d" Source="">[S7_Config_DynamicQuickMenu_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="h218ffacag4ac2g43c0gbee3gac4beb0ff1dc" Source="" Key="Target_S7_Config_Inspect_Description">Inspect the target&apos;s active skills and statuses. Prints their statsIDs to the script-extender&apos;s debug-console.</content>
-	<content contentuid="h0d186aeag65feg4ecdgb910g011dcaf0e4a7" Source="" Key="Target_S7_Config_Inspect_DisplayName">Inspect</content>
-	<content contentuid="hf84f20fbg840fg489cg9791gbc6370dc8c66" Source="" Key="Target_S7_Config_Inspect_StatsDescription">Prints statIDs to the script-extender&apos;s debug-console.</content>
-	<content contentuid="he75fd409g4766g4daeg8d20gc89f5ec2ec6f" Source="">Stats-Configurator</content>
+	<content contentuid="h9d7eb8d9g5953g4daagac23g2dd4ad4ba25e" Source="S7_Config_Inspector">An ancient Impish artefact.</content>
+	<content contentuid="h462e31c5g71f7g46a9g9addg010475efb80f" Source="S7_Config_Inspector">Stats-Configurator</content>
+	<content contentuid="had2961e1g67ccg456dg8c2cgd2aae4152c32" Source="S7_Config_Inspector">Tools</content>
+	<content contentuid="he75fd409g4766g4daeg8d20gc89f5ec2ec6f" Source="S7_Config_Inspector">Stats-Configurator</content>
+	<content contentuid="h05fbae3dg579eg4e9ag9652g1bf48e20ef35" Source="S7_Config_Items.lsb" Key="S7_Config_CHANGELOG">[Pre-Release]&lt;br&gt;Mod hasn&apos;t even been released!</content>
+	<content contentuid="h2072d626g225eg4fa9g9577g47716c44a7d7" Source="S7_Config_ModMenu.lsj">Settings refreshed.</content>
+	<content contentuid="hd02b933bgaf8cg4c05gaa16gb83fac35a0c0" Source="S7_Config_ModMenu.lsj">Reapplying settings ...</content>
+	<content contentuid="ha6d9bfb4g2319g42d1gbd91g87a318c25c4a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Toggle Savegame Persistence]&lt;/b&gt; Stat-edits are stored persistently in the savegame if enabled. (Default: Disabled)</content>
+	<content contentuid="h5eda87b1gd403g406aga1f0g3324d5ab60e6" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Remove Inspect Skill]&lt;/b&gt; Remove inspect skill from the host-character.</content>
+	<content contentuid="hb36b1253gcd1eg44efga975g06ad944da640" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Savegame Persistence]:&lt;/b&gt; [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
+	<content contentuid="h75597cf3g4b0fg4cc6gbb06g631884297378" Source="S7_Config_ModMenu.lsj">Host Character learned Inspect Skill. Cast it on a target to inspect relevant StatIDs.</content>
+	<content contentuid="h6cec5b7cg2600g436eg96bfg01a315bb2a17" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
+	<content contentuid="h0f1c76cfg8419g4c7cgada5g7bc4f1b18407" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Broadcast ConfigData]&lt;/b&gt; Export [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] to all Clients.</content>
+	<content contentuid="hf84da745g7582g4b17ga2fagf9355e413482" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Learn Inspect Skill] &lt;/b&gt;The skill allows you to log statIDs associated with the target.</content>
+	<content contentuid="h4e20422dga5a5g4134g8527g0e594eef66c3" Source="S7_Config_ModMenu.lsj">Current Config-Settings exported.</content>
+	<content contentuid="h3c6e7ea7g1879g42dcg9863g8a81ab2a6412" Source="S7_Config_ModMenu.lsj">Please check logs for client response.</content>
+	<content contentuid="he135a3bagd492g471dg9181g7ada28f7a87c" Source="S7_Config_ModMenu.lsj">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
+	<content contentuid="h3498a17cg57aeg4f5ag82a1g16d3f20768f2" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Toggle StatsLoader] &lt;/b&gt;Enable to load &lt;b&gt;Active Configuration Profile &lt;/b&gt;during &lt;i&gt;ModuleLoading&lt;/i&gt;. (Default: Enabled)</content>
+	<content contentuid="h5608c89fg3cc8g4feega7ffgbcd2a0cec3be" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Reapply Custom Settings]&lt;/b&gt; Reload settings.</content>
+	<content contentuid="h4710a4a7ge263g4b76ga4f7g6ca128b75abe" Source="S7_Config_ModMenu.lsj">Config-Settings restored to default values.</content>
+	<content contentuid="h2eab7ffageb14g48c8gba66gd14682f7a40c" Source="S7_Config_ModMenu.lsj">&lt;b&gt;Broadcasted&lt;/b&gt; [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] to all active clients.</content>
+	<content contentuid="h9d665774gc170g41dagb31dge49a5cec5676" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Diagnostics]&lt;/b&gt;</content>
+	<content contentuid="he9497e58g5937g4bacgbc3agc491cf268304" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Configuration]&lt;/b&gt;</content>
+	<content contentuid="h42cd267fga1a8g4e1bg80acg959186c3e523" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Load Configuration]&lt;/b&gt; Load [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
+	<content contentuid="he7404fe0gb8deg4b80gb604g135dd58f00d4" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
+	<content contentuid="h18d04b4egc0f0g4adeg9d2bg3ef80457a3c5" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
+	<content contentuid="hd60e2cd6g7f8cg49fagb317g16855bf7276a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Rebuild Collections]&lt;/b&gt; Recreate stat-collections from presets and custom settings.</content>
+	<content contentuid="h3837ed2dg4ae8g410bgb1bdg92a594e02d43" Source="S7_Config_ModMenu.lsj"> Diagnostics Options</content>
+	<content contentuid="hd356f502g1318g4f67gbb87gfebc6ca2f8b4" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Exit]&lt;/b&gt;</content>
+	<content contentuid="hb6b17fbfg2a1dg43d3ga371ge27d531eb466" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
+	<content contentuid="hc4e2f222g56b3g47fcga0e4g6ea838f0ffa7" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Validate Client Configs] &lt;/b&gt;Check if all Clients have the same&lt;b&gt; Active-Profile&lt;/b&gt;.</content>
+	<content contentuid="h989bec08g00bbg41f6g9717g47ab18799cd5" Source="S7_Config_ModMenu.lsj">&lt;b&gt;Loaded Configuration:&lt;/b&gt; [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]&lt;br&gt;&lt;b&gt;Status: &lt;/b&gt;[S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb]</content>
+	<content contentuid="hc0073b15g1f21g4122gad42g5b288c5c8391" Source="S7_Config_ModMenu.lsj">[S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] &lt;b&gt;Rebuilt.&lt;/b&gt;</content>
+	<content contentuid="h509c8162gad02g4ed0gabc2gfcf04b94141c" Source="S7_Config_ModMenu.lsj">Inspect Skill removed from the Host-Character.</content>
+	<content contentuid="h2d2250cag1717g4b36gb22fgc46dcc77f9ba" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Bypass Safety-Check]:&lt;/b&gt; [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]</content>
+	<content contentuid="h7ebaf479g4ce9g4df2g8e3dg8fdb1b27fde0" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Settings]&lt;/b&gt;</content>
+	<content contentuid="h3e2d8175g9ca4g4967ga653gb847d9ddb3c9" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Rebuild ConfigData] &lt;/b&gt;Rebuild [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] with the most recent version of [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
+	<content contentuid="hf483fc67gab80g4c24gb591g4c7f763ce19f" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Reset to Default]&lt;/b&gt; Reset settings to the original default values.</content>
+	<content contentuid="h4a798876g1211g4005gb230g17485fa395cc" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Settings]:&lt;/b&gt; [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]&lt;br&gt;&lt;b&gt;[Stats-Loader]: &lt;/b&gt;[S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;b&gt;&lt;br&gt;[Savegame Persistence]&lt;/b&gt;: [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]&lt;br&gt;&lt;b&gt;[Bypass Safety-Check]:&lt;/b&gt; [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]</content>
+	<content contentuid="h951baf2cg4e55g41c3g9d74g07151b2a2a5d" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
+	<content contentuid="h31324090gd640g429bga93cga6d246031606" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]</content>
+	<content contentuid="h222e5f0fg0512g4227g8650g4b359c36799a" Source="S7_Config_ModMenu.lsj"> Please Wait.</content>
+	<content contentuid="h06f1b5e8g5ce8g4b7cga35fgac4d8c514b0a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Export Current Settings] &lt;/b&gt;Save the current settings.</content>
+	<content contentuid="h37927456g0cdeg4554g8f94g90587f82f0eb" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Toggle BypasscSafety-Check] &lt;/b&gt;Prevents modification of certain attributes. (Default: Disabled)</content>
+	<content contentuid="hab918836gd6d4g4edega76eg2d1532d1a616" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
+	<content contentuid="hf9209b5dgc205g4bffga63bg03bb17a32088" Source="S7_Config_ModMenu.lsj">Collections Rebuilt.</content>
+	<content contentuid="h679ca616g08d8g4387gab58g4bc85bb24233" Source="S7_Config_ModMenu.lsj">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
+	<content contentuid="h7e210449g4fbeg448dgb223g8b40301050e6" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
+	<content contentuid="h0150e212gac70g45edg8520g7eff1c87026d" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
+	<content contentuid="h87d3490fg656bg452dgbbd2gbb9655616100" Source="S7_DynamicDialog.lsj">[Next Page]</content>
+	<content contentuid="h3b2d14c6ga148g405eg8575g8cfbaf93a3e0" Source="S7_DynamicDialog.lsj">[Prev Page]</content>
+	<content contentuid="h3c4f538egf8d8g480aga44dga39d7badeb1e" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt3_1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08]</content>
+	<content contentuid="h35e12a7bg97bdg4180gb51cge8bd6f039884" Source="S7_DynamicDialog.lsj">[Exit]</content>
+	<content contentuid="h9b6e957bg4179g4a19gb6b7g06b494e67995" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
+	<content contentuid="ha278c729g3181g4df5g81eagf1064d4cdd88" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt2_aa949336-d705-4a20-b8ff-564b381583f6]</content>
+	<content contentuid="hb70461fcg9d00g499bga067g17cabd1537bf" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt1_8523d721-fae5-4f64-81ee-749130f1c4eb]</content>
+	<content contentuid="h5804530dg7922g4455gbae4g89e589994d4d" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt4_d07ece22-c225-4d76-b6e3-e94498ade0ba]</content>
+	<content contentuid="hd0180716g6158g49beg9aa3g51319f01c835" Source="S7_DynamicDialog.lsj">[Go Back]</content>
+	<content contentuid="h2cd72976ge1dbg49aagbfcdgef88b931bb87" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
+	<content contentuid="h3dd2d189g115cg4500g8726gc23b0e0f3a68" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
+	<content contentuid="h84971a25g6680g4527g93e1g0df7582d2298" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt5_19d98a3a-b117-4df4-b95d-9f937568ee35]</content>
+	<content contentuid="h218ffacag4ac2g43c0gbee3gac4beb0ff1dc" Source="Target_Description.lsb" Key="Target_S7_Config_Inspect_Description">Inspect the target&apos;s active skills and statuses. Prints their statsIDs to the script-extender&apos;s debug-console.</content>
+	<content contentuid="h0d186aeag65feg4ecdgb910g011dcaf0e4a7" Source="Target_DisplayName.lsb" Key="Target_S7_Config_Inspect_DisplayName">Inspect</content>
+	<content contentuid="hf84f20fbg840fg489cg9791gbc6370dc8c66" Source="Target_StatsDescription.lsb" Key="Target_S7_Config_Inspect_StatsDescription">Prints statIDs to the script-extender&apos;s debug-console.</content>
 </contentList>
