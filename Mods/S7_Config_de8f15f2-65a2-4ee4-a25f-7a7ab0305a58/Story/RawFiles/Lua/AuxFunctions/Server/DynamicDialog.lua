@@ -3,8 +3,9 @@
 --  ==============
 
 ---@class DialogNode
----@field Text string
----@field Action function
+---@field Text string Dialog text
+---@field Action function Dialog action
+---@field Node DialogNode[]|nil Successive node
 
 ---@class DynamicDialog: Dialog
 ---@field Nodes DialogNode[]
@@ -15,17 +16,16 @@ DynamicDialog.State = {}
 DynamicDialog.Stage = {}
 DynamicDialog = Integrate(DynamicDialog, Dialog:New({['Name'] = 'S7_DynamicDialog'}))
 
+---Reset DynamicDialog State
 function DynamicDialog:ResetState()
     self['State'] = {
-        ['level'] = 1,
         ['page'] = 1,
         ['maxPage'] = 1,
-        ['selectedAction'] = "",
+        ['selected'] = 0,
     }
 end
 
 DynamicDialog:ResetState()
-
 DynamicDialog:Update({
     ['S7_DynamicDialogResponse'] = {['dialogVar'] = "S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2"},
     ['S7_DynamicDialog_Opt1'] = {['dialogVar'] = "S7_DynamicDialog_Opt1_8523d721-fae5-4f64-81ee-749130f1c4eb"},
@@ -34,63 +34,56 @@ DynamicDialog:Update({
     ['S7_DynamicDialog_Opt4'] = {['dialogVar'] = "S7_DynamicDialog_Opt4_d07ece22-c225-4d76-b6e3-e94498ade0ba"},
     ['S7_DynamicDialog_Opt5'] = {['dialogVar'] = "S7_DynamicDialog_Opt5_19d98a3a-b117-4df4-b95d-9f937568ee35"},
 })
-
 DynamicDialog:AddListeners({
     ['S7_DynamicDialog_NextPage'] = function () if DynamicDialog.State.page < DynamicDialog.State.maxPage then DynamicDialog.State.page = DynamicDialog.State.page + 1 end end,
     ['S7_DynamicDialog_PrevPage'] = function () if DynamicDialog.State.page > 1 then DynamicDialog.State.page = DynamicDialog.State.page - 1 end end,
-    ['S7_DynamicDialog_ExitCleanup'] = function () DynamicDialog.ResetState() end,
-    ['S7_DynamicDialog_SetOpt1'] = function() DynamicDialog['Stage'][1]['Action']() end,
-    ['S7_DynamicDialog_SetOpt2'] = function() DynamicDialog['Stage'][2]['Action']() end,
-    ['S7_DynamicDialog_SetOpt3'] = function() DynamicDialog['Stage'][3]['Action']() end,
-    ['S7_DynamicDialog_SetOpt4'] = function() DynamicDialog['Stage'][4]['Action']() end,
-    ['S7_DynamicDialog_SetOpt5'] = function() DynamicDialog['Stage'][5]['Action']() end,
+    ['S7_DynamicDialog_ExitCleanup'] = function () DynamicDialog:ResetState() end,
+    ['S7_DynamicDialog_SetOpt1'] = function() DynamicDialog.State.selected = 1; if DynamicDialog.Stage[1]['Action'] then DynamicDialog.Stage[1]['Action']() end end,
+    ['S7_DynamicDialog_SetOpt2'] = function() DynamicDialog.State.selected = 2; if DynamicDialog.Stage[2]['Action'] then DynamicDialog.Stage[2]['Action']() end end,
+    ['S7_DynamicDialog_SetOpt3'] = function() DynamicDialog.State.selected = 3; if DynamicDialog.Stage[3]['Action'] then DynamicDialog.Stage[3]['Action']() end end,
+    ['S7_DynamicDialog_SetOpt4'] = function() DynamicDialog.State.selected = 4; if DynamicDialog.Stage[4]['Action'] then DynamicDialog.Stage[4]['Action']() end end,
+    ['S7_DynamicDialog_SetOpt5'] = function() DynamicDialog.State.selected = 5; if DynamicDialog.Stage[5]['Action'] then DynamicDialog.Stage[5]['Action']() end end,
     ['S7_DynamicDialog_NextNode'] = function ()
-        if DynamicDialog.State.level < 3 then
-            DynamicDialog.State.level = DynamicDialog.State.level + 1
-            DynamicDialog.State.page = 1
-        end
+        if not IsValid(DynamicDialog.State.selected) then return end
+        if not DynamicDialog.Stage[DynamicDialog.State.selected]['Nodes'] then return end
+        local prevStage = DynamicDialog.Stage
+        DynamicDialog.Stage = Rematerialize(DynamicDialog.Stage[DynamicDialog.State.selected]['Nodes'])
+        DynamicDialog.Stage.prev = prevStage
+        DynamicDialog.State.page = 1
     end,
     ['S7_DynamicDialog_GoBack'] = function ()
-        if DynamicDialog.State.level > 1 then
-            DynamicDialog.State.level = DynamicDialog.State.level - 1
-            DynamicDialog.State.page = 1
-            DynamicDialog.State.selectedAction = nil
-        end
+        if not DynamicDialog.Stage.prev then return end
+        DynamicDialog.Stage = Rematerialize(DynamicDialog.Stage.prev)
+        DynamicDialog.State.page = 1
     end,
-    ['S7_DynamicDialog_NextPageAvailable'] = function () end,
-    ['S7_DynamicDialog_PrevPageAvailable'] = function () end,
-    ['S7_DynamicDialog_AvailOpt1'] = function() end,
-    ['S7_DynamicDialog_AvailOpt2'] = function() end,
-    ['S7_DynamicDialog_AvailOpt3'] = function() end,
-    ['S7_DynamicDialog_AvailOpt4'] = function() end,
-    ['S7_DynamicDialog_AvailOpt5'] = function() end,
 })
 
-function DynamicDialog:Set(vars)
-    if not Ext.OsirisIsCallable() then return end
+DynamicDialog:RegisterListeners()
+
+local function clearAvailableOptions()
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt1')
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt2')
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt3')
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt4')
     Osi.GlobalClearFlag('S7_DynamicDialog_AvailOpt5')
+end
+
+function DynamicDialog:Set()
+    if not Ext.OsirisIsCallable() then return end
+    clearAvailableOptions()
     for key, value in pairs(self.Stage) do
-        Ext.Print(key, value.Text)
+        if not tonumber(key) then break end
         Osi.GlobalSetFlag('S7_DynamicDialog_AvailOpt' .. tostring(key))
         self:Update({['S7_DynamicDialog_Opt' .. tostring(key)] = {['dialogVal'] = value.Text}})
     end
 
     if DynamicDialog.State.page == 1 and DynamicDialog.State.page ~= DynamicDialog.State.maxPage then
-        Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
-        Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
+        Osi.GlobalClearFlag("S7_Config_PrevPageAvailable"); Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
     elseif DynamicDialog.State.page ~= 1 and DynamicDialog.State.page == DynamicDialog.State.maxPage then
-        Osi.GlobalClearFlag("S7_Config_NextPageAvailable")
-        Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
+        Osi.GlobalClearFlag("S7_Config_NextPageAvailable"); Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
     elseif DynamicDialog.State.page == 1 and DynamicDialog.State.page == DynamicDialog.State.maxPage then
-        Osi.GlobalClearFlag("S7_Config_NextPageAvailable")
-        Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
-    else
-        Osi.GlobalSetFlag("S7_Config_NextPageAvailable")
-        Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
+        Osi.GlobalClearFlag("S7_Config_NextPageAvailable"); Osi.GlobalClearFlag("S7_Config_PrevPageAvailable")
+    else Osi.GlobalSetFlag("S7_Config_NextPageAvailable"); Osi.GlobalSetFlag("S7_Config_PrevPageAvailable")
     end
 
     local setterFunction = {
@@ -100,17 +93,11 @@ function DynamicDialog:Set(vars)
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    Ext.Print(Ext.JsonStringify(Rematerialize(self['Vars'])))
-
-    for alias, Var in pairs(self['Vars']) do
+    for alias, Var in pairs(DynamicDialog['Vars']) do
         if type(Var) ~= 'table' then return end
         local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal or ""
-        Ext.Print(dialogVal)
-        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
-        else
-            Ext.Print(self.Name, Var.dialogVar, dialogVal)
-            Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal))
-        end
+        if ValidString(Var.dialogType) then setterFunction[Var.dialogType](DynamicDialog.Name, Var.dialogVar, dialogVal)
+        else Osi.DialogSetVariableFixedString(DynamicDialog.Name, Var.dialogVar, tostring(dialogVal)) end
      end
 
 end
@@ -120,6 +107,7 @@ function DynamicDialog:Start(character)
     local character = character or Osi.CharacterGetHostCharacter()
     if not Ext.OsirisIsCallable() then return end
     if not Osi.QRY_SpeakerIsAvailable(character) then return end
+    self.Stage = Rematerialize(self.Nodes)
     self:Set()
     Osi.Proc_StartDialog(1, self.Name, character)
 end
@@ -132,18 +120,38 @@ DynamicDialog.Nodes = {
     [1] = {
         ['Text'] = 'Hello',
         ['Action'] = function() Ext.Print('Hello') end,
+        ['Nodes'] = {
+            [1] = {['Text'] = "One"},
+            [2] = {['Text'] = "Two"},
+        }
     },
     [2] = {
         ['Text'] = 'World',
         ['Action'] = function() Ext.Print('World') end,
+        ['Nodes'] = {
+            [1] = {['Text'] = "Three", ['Nodes'] = {
+                [1] = {['Text'] = "Three999"},
+                [2] = {['Text'] = "Four2222"},
+                [3] = {['Text'] = "ZurZZZZ"},
+            }},
+            [2] = {['Text'] = "Four"},
+        }
     },
     [3] = {
         ['Text'] = 'Good',
         ['Action'] = function() Ext.Print('Good') end,
+        ['Nodes'] = {
+            [1] = {['Text'] = "Five"},
+            [2] = {['Text'] = "Six"},
+        }
     },
     [4] = {
         ['Text'] = 'Bye',
         ['Action'] = function() Ext.Print('Bye') end,
+        ['Nodes'] = {
+            [1] = {['Text'] = "Seven"},
+            [2] = {['Text'] = "Eight"},
+        }
     },
     [5] = {
         ['Text'] = 'Tcao',
@@ -151,10 +159,7 @@ DynamicDialog.Nodes = {
     }
 }
 
-DynamicDialog.Stage = DynamicDialog.Nodes
-
 Ext.RegisterOsirisListener("CharacterUsedSkill", 4, "after", function (character, skill, a, b)
-    Ext.Print(skill)
     if not skill == 'Target_S7_Config_Inspect' then return end
     DynamicDialog:Start()
 end)
