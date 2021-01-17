@@ -50,11 +50,13 @@ DynamicDialog:AddListeners({
         DynamicDialog.Stage = Rematerialize(DynamicDialog.Stage[DynamicDialog.State.selected]['Nodes'])
         DynamicDialog.Stage.prev = prevStage
         DynamicDialog.State.page = 1
+        DynamicDialog:Update({['S7_DynamicDialogResponse'] = {['dialogVal'] = DynamicDialog.Stage.DialogResponse.Text}})
     end,
     ['S7_DynamicDialog_GoBack'] = function ()
         if not DynamicDialog.Stage.prev then return end
         DynamicDialog.Stage = Rematerialize(DynamicDialog.Stage.prev)
         DynamicDialog.State.page = 1
+        DynamicDialog:Update({['S7_DynamicDialogResponse'] = {['dialogVal'] = DynamicDialog.Stage.DialogResponse.Text}})
     end,
 })
 DynamicDialog:RegisterListeners()
@@ -72,6 +74,7 @@ end
 function DynamicDialog:Set()
     if not Ext.OsirisIsCallable() then return end
     clearAvailableOptions()
+    self:Update({['S7_DynamicDialogResponse'] = {['dialogVal'] = self.Stage.DialogResponse.Text}})
 
     local entries = ExtractKeys(self.Stage)
     self.State.maxPage = math.floor((#entries - 1) / 5) + 1
@@ -123,11 +126,16 @@ function DynamicDialog:Start(character)
     Osi.Proc_StartDialog(1, self.Name, character)
 end
 
+---Return a deep copy of DynamicDialog Object
+---@return DynamicDialog
+function DynamicDialog:Init() return Rematerialize(self, {['deep'] = true}) end
+
 --  ===================
 --  TEST DYNAMIC DIALOG
 --  ===================
 
 DynamicDialog.Nodes = {
+    ['DialogResponse'] = {['Text'] = 'LEVEL ONE'},
     [1] = {
         ['Text'] = 'Hello',
         ['Action'] = function() Ext.Print('Hello') end,
@@ -140,7 +148,9 @@ DynamicDialog.Nodes = {
         ['Text'] = 'World',
         ['Action'] = function() Ext.Print('World') end,
         ['Nodes'] = {
+            ['DialogResponse'] = {['Text'] = 'LEVEL TWO'},
             [1] = {['Text'] = "Three", ['Nodes'] = {
+                ['DialogResponse'] = {['Text'] = 'LEVEL THREE'},
                 [1] = {['Text'] = "Three991"},
                 [2] = {['Text'] = "Four2222"},
                 [3] = {['Text'] = "Four2223"},
