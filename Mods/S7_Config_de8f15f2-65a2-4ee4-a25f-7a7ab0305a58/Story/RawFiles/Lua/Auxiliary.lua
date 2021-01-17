@@ -17,8 +17,6 @@ MODINFO.DefaultSettings = {
     ["BypassSafetyCheck"] = false, --  Bypasses SafeToModify() and allow modification of unsupported or problematic keys.
 }
 
-PersistentVars = {}
-
 --  ========  AUX FUNCTIONS  ========
 Ext.Require("AuxFunctions/Index.lua")
 --  =================================
