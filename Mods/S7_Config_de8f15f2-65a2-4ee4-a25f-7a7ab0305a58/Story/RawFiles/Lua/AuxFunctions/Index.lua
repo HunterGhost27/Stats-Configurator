@@ -5,24 +5,24 @@
 --  FUNDAMENTAL
 --  ===========
 
-Ext.Require('Functions/Shared/General.lua')
-Ext.Require('Functions/Shared/Strings.lua')
-Ext.Require('Functions/Shared/Tables.lua')
-Ext.Require('Functions/Shared/Files.lua')
-Ext.Require('Functions/Shared/Debug.lua')
+Ext.Require('AuxFunctions/Shared/General.lua')
+Ext.Require('AuxFunctions/Shared/Strings.lua')
+Ext.Require('AuxFunctions/Shared/Tables.lua')
+Ext.Require('AuxFunctions/Shared/Files.lua')
+Ext.Require('AuxFunctions/Shared/Debug.lua')
 
 --  DERIVED
 --  =======
 
-Ext.Require('Functions/Shared/Centralize.lua')
-Ext.Require('Functions/Shared/Networker.lua')
-Ext.Require('Functions/Shared/ConsoleCommander.lua')
+Ext.Require('AuxFunctions/Shared/Centralize.lua')
+Ext.Require('AuxFunctions/Shared/Networker.lua')
+Ext.Require('AuxFunctions/Shared/ConsoleCommander.lua')
 
 --  SERVER-SPECIFIC
 --  ---------------
 
 if Ext.IsServer() then
-    Ext.Require('Functions/Server/DialogManager.lua')
+    Ext.Require('AuxFunctions/Server/DialogManager.lua')
 end
 
 --  CLIENT-SPECIFIC
@@ -35,4 +35,4 @@ end
 --  LATE LOADER
 --  ===========
 
-Ext.Require('Functions/Shared/Versioning.lua')
+Ext.Require('AuxFunctions/Shared/Versioning.lua')
