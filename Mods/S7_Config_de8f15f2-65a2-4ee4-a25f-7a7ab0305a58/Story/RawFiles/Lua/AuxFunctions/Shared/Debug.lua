@@ -2,46 +2,46 @@
 --  PINPOINT
 --  ========
 
----Returns the index of value in target table
----@param val any Value in Question
----@param tar table Target Table
----@return any key Index of Value
-function Pinpoint(val, tar, curr)
-    if type(tar) ~= 'table' then return end
-    local curr = curr or ""
+---Returns the address of value in target table
+---@param tar any Value in question
+---@param tbl table Target table
+---@return string point Address of deepest value
+---@return table addresses Table of all addresses
+function Pinpoint(tar, tbl, curr, addresses)
+    if type(tbl) ~= 'table' then return end
     local point = ""
-    for key, value in pairs(tar) do
-        if val == value then
-            point = curr .. tostring(key)
-        end
-    end
-    for key, value in pairs(tar) do
+    local curr = curr or ""
+    local addresses = addresses or {}
+    for key, value in pairs(tbl) do
         if type(value) == 'table' then
             curr = curr .. tostring(key) .. "."
-            point = Pinpoint(val, value, curr)
+            point = Pinpoint(tar, value, curr, addresses)
+        elseif tar == value then
+            point = curr .. tostring(key)
+            table.insert(addresses, point)
         end
     end
-    return point
+    return point, addresses
 end
 
 --  ====
 --  SCAN
 --  ====
 
-Scan = {["level"] = 0}
+Scan = {['level'] = 0, ['char'] = "  "}
 local function encapsulate(e) return tostring(e) .. "<" .. type(e):sub(0, 3) .. ">" end
 
 --- Prints detailed information about element to the console
 function Scan:Element(e)
     if type(e) == 'table' then
         for key, value in pairs(e) do
-            Ext.Print(string.rep("-", self.level) .. encapsulate(key) .. " " .. encapsulate(value))
+            Ext.Print(string.rep(self.char, self.level) .. encapsulate(key) .. ": " .. encapsulate(value))
             if type(value) == 'table' then
                 self.level = self.level + 1
                 Scan:Element(value)
             end
         end
-    else Ext.Print(string.rep("-", self.level) .. encapsulate(e)) end
+    else Ext.Print(string.rep(self.char, self.level) .. encapsulate(e)) end
     self.level = 0
 end
 
@@ -50,11 +50,15 @@ end
 --  =====
 
 ---@class Debug @Debug Utilities
+---@field IDENTIFIER string ModID
+---@field printFunction function
+---@field ignoreDevMode boolean
+---@field highlight string
+---@field dialog Dialog
 Debug = {
     ['IDENTIFIER'] = IDENTIFIER,
     ['printFunction'] = Ext.Print,
     ['ignoreDevMode'] = false,
-    ['highlight'] = "",
 }
 
 --- Debug Print
@@ -64,6 +68,10 @@ function Debug:Print(t, config)
     local x = {}
     local config = Integrate(self, config)
     if type(t) ~= 'table' then x[1] = t else x = Rematerialize(t) end
+
+    if IsValid(self['dialog']) and ValidString(config.dialogVar) then
+        self['dialog']:Update({[config.dialogVar] = {['dialogVal'] = config.dialogVal or tostring(x[1])}})
+    end
 
     if Ext.IsDeveloperMode() or config.ignoreDevMode then
         local context = Ext.IsServer() and '(S)' or '(C)'

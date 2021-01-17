@@ -4,6 +4,9 @@
 
 ModMenuDialog = Dialog:New({['Name'] = 'S7_Config_ModMenu'})
 
+-- Assigning dialog to debug
+Debug.dialog = ModMenuDialog
+
 ModMenuDialog:Update({
     ['ConfigFile'] = {
         ['dialogVar'] = 'S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d',
