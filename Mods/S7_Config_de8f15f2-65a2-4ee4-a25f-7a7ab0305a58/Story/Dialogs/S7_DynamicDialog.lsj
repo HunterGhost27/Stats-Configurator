@@ -380,13 +380,13 @@
                                              {
                                                 "DialogVariables" : [
                                                    {
-                                                      "DialogVariables" : {"type" : 22, "value" : "8523d721-fae5-4f64-81ee-749130f1c4eb"}
+                                                      "DialogVariables" : {"type" : 22, "value" : "1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08"}
                                                    }
                                                 ],
                                                 "TagText" : {
                                                    "handle" : "h3c4f538egf8d8g480aga44dga39d7badeb1e",
                                                    "type" : 28,
-                                                   "value" : "[S7_DynamicDialog_Opt3_8523d721-fae5-4f64-81ee-749130f1c4eb]"
+                                                   "value" : "[S7_DynamicDialog_Opt3_1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -740,13 +740,13 @@
                                              {
                                                 "DialogVariables" : [
                                                    {
-                                                      "DialogVariables" : {"type" : 22, "value" : "8523d721-fae5-4f64-81ee-749130f1c4eb"}
+                                                      "DialogVariables" : {"type" : 22, "value" : "aa949336-d705-4a20-b8ff-564b381583f6"}
                                                    }
                                                 ],
                                                 "TagText" : {
                                                    "handle" : "ha278c729g3181g4df5g81eagf1064d4cdd88",
                                                    "type" : 28,
-                                                   "value" : "[S7_DynamicDialog_Opt2_8523d721-fae5-4f64-81ee-749130f1c4eb]"
+                                                   "value" : "[S7_DynamicDialog_Opt2_aa949336-d705-4a20-b8ff-564b381583f6]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -982,13 +982,13 @@
                                              {
                                                 "DialogVariables" : [
                                                    {
-                                                      "DialogVariables" : {"type" : 22, "value" : "8523d721-fae5-4f64-81ee-749130f1c4eb"}
+                                                      "DialogVariables" : {"type" : 22, "value" : "d07ece22-c225-4d76-b6e3-e94498ade0ba"}
                                                    }
                                                 ],
                                                 "TagText" : {
                                                    "handle" : "h5804530dg7922g4455gbae4g89e589994d4d",
                                                    "type" : 28,
-                                                   "value" : "[S7_DynamicDialog_Opt4_8523d721-fae5-4f64-81ee-749130f1c4eb]"
+                                                   "value" : "[S7_DynamicDialog_Opt4_d07ece22-c225-4d76-b6e3-e94498ade0ba]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1445,13 +1445,13 @@
                                              {
                                                 "DialogVariables" : [
                                                    {
-                                                      "DialogVariables" : {"type" : 22, "value" : "8523d721-fae5-4f64-81ee-749130f1c4eb"}
+                                                      "DialogVariables" : {"type" : 22, "value" : "19d98a3a-b117-4df4-b95d-9f937568ee35"}
                                                    }
                                                 ],
                                                 "TagText" : {
                                                    "handle" : "h84971a25g6680g4527g93e1g0df7582d2298",
                                                    "type" : 28,
-                                                   "value" : "[S7_DynamicDialog_Opt5_8523d721-fae5-4f64-81ee-749130f1c4eb]"
+                                                   "value" : "[S7_DynamicDialog_Opt5_19d98a3a-b117-4df4-b95d-9f937568ee35]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -1551,7 +1551,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 40}
+            "nextNodeId" : {"type" : 5, "value" : 43}
          }
       }
    }
