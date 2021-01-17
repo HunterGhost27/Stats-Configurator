@@ -9,7 +9,9 @@
 
 ---@class Dialog
 ---@field Name string DialogName
+---@field Active string Dialog is active
 ---@field Vars table<string, DialogVar> DialogVariables
+---@field Relay table<string, function> DialogActions
 Dialog = {}
 
 ---Instantiate new Dialog object. Must specify `DialogName`.
@@ -44,6 +46,21 @@ function Dialog:Set(vars)
         if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
         else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal)) end
      end
+end
+
+---Register Flag Actions
+---@param actions table<string, function>
+function Dialog:AddListeners(actions) self['Relay'] = Integrate(self['Relay'], actions) end
+
+---Register DialogFlag Listeners
+function Dialog:RegisterListeners()
+    Ext.RegisterOsirisListener('GlobalFlagSet', 1, 'after', function (signal)
+        if not self['Relay'][signal] then return end
+        UserInformation:ReSync()
+        self['Relay'][signal]()
+        self:Set()
+        Osi.GlobalClearFlag(signal)
+    end)
 end
 
 ---Starts Dialog with character

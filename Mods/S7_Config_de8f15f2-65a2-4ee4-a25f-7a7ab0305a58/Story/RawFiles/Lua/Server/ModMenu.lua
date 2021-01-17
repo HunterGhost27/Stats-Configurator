@@ -51,7 +51,7 @@ end)
 --  MOD-MENU RELAY SIGNALS
 --  ======================
 
-ModMenuRelay = {
+ModMenuDialog:AddListeners({
 
     --  STATS-CONFIGURATOR
     --  ==================
@@ -128,16 +128,6 @@ ModMenuRelay = {
         SaveFile(CENTRALFILE, Rematerialize(CENTRAL))
     end
 
-}
+})
 
---  ==============
---  MOD-MENU RELAY
---  ==============
-
-Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", function (signal)
-    if not ModMenuRelay[signal] then return end
-    UserInformation:ReSync()
-    ModMenuRelay[signal]()
-    ModMenuDialog:Set()
-    Osi.GlobalClearFlag(signal)
-end)
+ModMenuDialog:RegisterListeners()
