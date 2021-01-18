@@ -1,39 +1,43 @@
---  ===================
+--  =============
+--  INSPECT SKILL
+--  =============
+
+local InspectSkill = 'Target_S7_Config_Inspect'
+
+Flags:Track({
+    ['flagName'] = 'S7_LearnInspect',
+    ['flagType'] = 'Global'
+})
+
 --  LEARN INSPECT SKILL
 --  ===================
 
-Ext.RegisterOsirisListener("GlobalFlagSet", 1, "after", function (flag)
-    if flag == 'S7_LearnInspect' then Osi.CharacterAddSkill(Osi.CharacterGetHostCharacter(), "Target_S7_Config_Inspect", 1) end
+Ext.RegisterOsirisListener('GlobalFlagSet', 1, 'after', function (flag)
+    if flag == 'S7_LearnInspect' then Osi.CharacterAddSkill(Osi.CharacterGetHostCharacter(), InspectSkill, 1) end
 end)
 
---  =====================
 --  UNLEARN INSPECT SKILL
 --  =====================
 
 Ext.RegisterOsirisListener("GlobalFlagCleared", 1, "after", function (flag)
-    if flag == 'S7_LearnInspect' then Osi.CharacterRemoveSkill(Osi.CharacterGetHostCharacter(), "Target_S7_Config_Inspect") end
+    if flag == 'S7_LearnInspect' then Osi.CharacterRemoveSkill(Osi.CharacterGetHostCharacter(), InspectSkill) end
 end)
 
---  ===============
---  CONSOLE-COMMAND
---  ===============
+--  TOGGLE CONSOLE-COMMAND
+--  ======================
 
 ConsoleCommander:Register({
     ['Name'] = 'ToggleInspector',
     ['Description'] = "Toggles the Inspect-Skill",
     ['Context'] = 'Server',
-    ['Action'] = function ()
-        local flag = Osi.GlobalGetFlag('S7_LearnInspect')
-        if flag == 1 then Osi.GlobalClearFlag("S7_LearnInspect") else Osi.GlobalSetFlag('S7_LearnInspect') end
-    end
+    ['Action'] = function () Flags['S7_LearnInspect']:Toggle() end
 })
 
---  =============
---  INSPECT SKILL
---  =============
+--  ACTION
+--  ======
 
 Ext.RegisterOsirisListener("CharacterUsedSkillOnTarget", 5, "after", function (char, tar, skill, ...)
-    if char ~= Osi.CharacterGetHostCharacter() and skill ~= "Target_S7_Config_Inspect" then return end
+    if char ~= Osi.CharacterGetHostCharacter() and skill ~= InspectSkill then return end
 
     local characterGUID = ExtractGUID(char)
     local character = Ext.GetCharacter(characterGUID)
