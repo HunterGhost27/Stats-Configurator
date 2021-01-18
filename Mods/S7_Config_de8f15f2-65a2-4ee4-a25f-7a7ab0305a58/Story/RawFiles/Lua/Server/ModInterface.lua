@@ -40,5 +40,24 @@ ModInterface:Register('S7_Journal', {
     ['Shout_ShedSkin'] = {
         "Magic Cost",
         "ActionPoints"
+    },
+    ['Target_S7_Config_Inspect'] = {
+        "ActionPoints"
+    },
+    ['Shout_InspireStart'] = {
+        "ActionPoints",
+        "Cooldown"
+    },
+    ['Cone_Flamebreath'] = {
+        "ActionPoints",
+        "Cooldown"
+    },
+    ['Projectile_PyroclasticRock'] = {
+        "ActionPoints",
+        "Cooldown"
+    },
+    ['Shout_Fortify'] = {
+        "ActionPoints",
+        "Cooldown"
     }
 })

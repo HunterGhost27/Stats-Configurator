@@ -45,7 +45,7 @@ function Dialog:Set(vars)
         local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal
         if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
         else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal)) end
-     end
+    end
 end
 
 ---Register Flag Actions
