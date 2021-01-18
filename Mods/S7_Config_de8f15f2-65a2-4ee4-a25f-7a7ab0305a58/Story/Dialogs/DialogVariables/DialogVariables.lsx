@@ -50,55 +50,6 @@
                 <node id="DialogVariable">
                     <attribute id="DefaultValue" value="" type="23" />
                     <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="179ad34b-afc2-4d52-9c0d-3a925e8ee4f2" type="31" />
-                    <attribute id="name" value="S7_DynamicDialogResponse" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="8523d721-fae5-4f64-81ee-749130f1c4eb" type="31" />
-                    <attribute id="name" value="S7_DynamicDialog_Opt1" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="aa949336-d705-4a20-b8ff-564b381583f6" type="31" />
-                    <attribute id="name" value="S7_DynamicDialog_Opt2" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08" type="31" />
-                    <attribute id="name" value="S7_DynamicDialog_Opt3" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="d07ece22-c225-4d76-b6e3-e94498ade0ba" type="31" />
-                    <attribute id="name" value="S7_DynamicDialog_Opt4" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="19d98a3a-b117-4df4-b95d-9f937568ee35" type="31" />
-                    <attribute id="name" value="S7_DynamicDialog_Opt5" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="4ff2880e-6a62-4ed3-9f6f-28eaa30165b1" type="31" />
-                    <attribute id="name" value="S7_RegisteredMods" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a" type="31" />
                     <attribute id="name" value="S7_SyncStatPersistence" type="22" />
                     <attribute id="type" value="FixedString" type="23" />

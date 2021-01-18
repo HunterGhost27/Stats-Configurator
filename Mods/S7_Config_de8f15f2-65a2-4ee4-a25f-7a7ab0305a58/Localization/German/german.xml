@@ -47,19 +47,6 @@
 	<content contentuid="hf9209b5dgc205g4bffga63bg03bb17a32088" Source="S7_Config_ModMenu.lsj">Collections Rebuilt.</content>
 	<content contentuid="h679ca616g08d8g4387gab58g4bc85bb24233" Source="S7_Config_ModMenu.lsj">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
 	<content contentuid="h7e210449g4fbeg448dgb223g8b40301050e6" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
-	<content contentuid="h0150e212gac70g45edg8520g7eff1c87026d" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="h87d3490fg656bg452dgbbd2gbb9655616100" Source="S7_DynamicDialog.lsj">[Next Page]</content>
-	<content contentuid="h3b2d14c6ga148g405eg8575g8cfbaf93a3e0" Source="S7_DynamicDialog.lsj">[Prev Page]</content>
-	<content contentuid="h3c4f538egf8d8g480aga44dga39d7badeb1e" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt3_1c4f9b5f-907c-4b2f-b5bc-dd4f443dbf08]</content>
-	<content contentuid="h35e12a7bg97bdg4180gb51cge8bd6f039884" Source="S7_DynamicDialog.lsj">[Exit]</content>
-	<content contentuid="h9b6e957bg4179g4a19gb6b7g06b494e67995" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="ha278c729g3181g4df5g81eagf1064d4cdd88" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt2_aa949336-d705-4a20-b8ff-564b381583f6]</content>
-	<content contentuid="hb70461fcg9d00g499bga067g17cabd1537bf" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt1_8523d721-fae5-4f64-81ee-749130f1c4eb]</content>
-	<content contentuid="h5804530dg7922g4455gbae4g89e589994d4d" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt4_d07ece22-c225-4d76-b6e3-e94498ade0ba]</content>
-	<content contentuid="hd0180716g6158g49beg9aa3g51319f01c835" Source="S7_DynamicDialog.lsj">[Go Back]</content>
-	<content contentuid="h2cd72976ge1dbg49aagbfcdgef88b931bb87" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="h3dd2d189g115cg4500g8726gc23b0e0f3a68" Source="S7_DynamicDialog.lsj">[S7_DynamicDialogResponse_179ad34b-afc2-4d52-9c0d-3a925e8ee4f2]</content>
-	<content contentuid="h84971a25g6680g4527g93e1g0df7582d2298" Source="S7_DynamicDialog.lsj">[S7_DynamicDialog_Opt5_19d98a3a-b117-4df4-b95d-9f937568ee35]</content>
 	<content contentuid="h218ffacag4ac2g43c0gbee3gac4beb0ff1dc" Source="Target_Description.lsb" Key="Target_S7_Config_Inspect_Description">Inspect the target&apos;s active skills and statuses. Prints their statsIDs to the script-extender&apos;s debug-console.</content>
 	<content contentuid="h0d186aeag65feg4ecdgb910g011dcaf0e4a7" Source="Target_DisplayName.lsb" Key="Target_S7_Config_Inspect_DisplayName">Inspect</content>
 	<content contentuid="hf84f20fbg840fg489cg9791gbc6370dc8c66" Source="Target_StatsDescription.lsb" Key="Target_S7_Config_Inspect_StatsDescription">Prints statIDs to the script-extender&apos;s debug-console.</content>

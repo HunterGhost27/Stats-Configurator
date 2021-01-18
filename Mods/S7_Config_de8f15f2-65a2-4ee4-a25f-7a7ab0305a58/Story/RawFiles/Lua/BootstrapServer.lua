@@ -4,8 +4,6 @@
 
 Ext.Require("Auxiliary.lua")
 Ext.Require("Server/ModMenu.lua")
-Ext.Require("Server/ModInterface.lua")
-Ext.Require("Server/DynamicMenu.lua")
 Ext.Require("Server/InspectSkill.lua")
 Ext.Require("Server/Networking.lua")
 Ext.Require("Shared/Collections.lua")
