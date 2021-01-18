@@ -14,6 +14,20 @@ Ext.RegisterOsirisListener("GlobalFlagCleared", 1, "after", function (flag)
     if flag == 'S7_LearnInspect' then Osi.CharacterRemoveSkill(Osi.CharacterGetHostCharacter(), "Target_S7_Config_Inspect") end
 end)
 
+--  ===============
+--  CONSOLE-COMMAND
+--  ===============
+
+ConsoleCommander:Register({
+    ['Name'] = 'ToggleInspector',
+    ['Description'] = "Toggles the Inspect-Skill",
+    ['Context'] = 'Server',
+    ['Action'] = function ()
+        local flag = Osi.GlobalGetFlag('S7_LearnInspect')
+        if flag == 1 then Osi.GlobalClearFlag("S7_LearnInspect") else Osi.GlobalSetFlag('S7_LearnInspect') end
+    end
+})
+
 --  =============
 --  INSPECT SKILL
 --  =============
