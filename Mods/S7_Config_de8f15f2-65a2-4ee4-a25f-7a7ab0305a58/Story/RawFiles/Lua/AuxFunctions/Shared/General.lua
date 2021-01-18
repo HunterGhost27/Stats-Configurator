@@ -65,23 +65,23 @@ end
 ---@param config table Configuration table
 ---@return any element Rematerialized element
 function Rematerialize(element, config, clones)
-    config = Integrate({["metatables"] = false, ['deep'] = false}, config)
-    clones = clones or {}
-    local clone = {}
+   config = Integrate({["metatables"] = false, ['deep'] = false}, config)
+   clones = clones or {}
+   local clone = {}
 
-    if type(element) == "table" then
-        if clones[element] then clone = clones[element]
-        else
-            clone = {}
-            clones[element] = clone
-            for key, value in next, element do clone[Rematerialize(key, clones)] = Rematerialize(value, clones) end
-            if config.metatables then setmetatable(clone, Rematerialize(getmetatable(element), clones)) end
-        end
-    else clone = element end
+   if type(element) == "table" then
+       if clones[element] then clone = clones[element]
+       else
+           clone = {}
+           clones[element] = clone
+           for key, value in next, element do clone[Rematerialize(key, config, clones)] = Rematerialize(value, config, clones) end
+           if config.metatables then setmetatable(clone, Rematerialize(getmetatable(element), config, clones)) end
+       end
+   else clone = element end
 
-    if type(element) == "function" or type(element) == "userdata" or type(element) == "thread" then
-        if config.deep then clone = element else clone = nil end
-    end
+   if type(element) == "function" or type(element) == "userdata" or type(element) == "thread" then
+       if config.deep then clone = element else clone = nil end
+   end
 
-    return clone
+   return clone
 end
