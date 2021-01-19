@@ -46,6 +46,18 @@ Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, "after", function (ch
     ModMenuDialog:Start()
 end)
 
+--  CONSOLE COMMAND
+--  ===============
+
+ConsoleCommander:Register({
+    ['Name'] = 'StartModMenu',
+    ['Description'] = "Host-Character starts the Mod-Menu Dialog",
+    ['Context'] = 'Server',
+    ['Action'] = function()
+        ModMenuDialog:Start()
+        Debug:Print("ModMenu activated by the host-character")
+    end
+})
 
 --  ======================
 --  MOD-MENU RELAY SIGNALS

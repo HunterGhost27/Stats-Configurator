@@ -18,18 +18,6 @@ ConsoleCommander:Register({
     end
 })
 
---  START MOD-MENU
---  ==============
-
-ConsoleCommander:Register({
-    ['Name'] = 'StartModMenu',
-    ['Description'] = "Host-Character starts the Mod-Menu Dialog",
-    ['Context'] = 'Server',
-    ['Action'] = function()
-        ModMenuDialog:Start()
-        Debug:Print("ModMenu activated by the host-character")
-    end
-})
 
 --  SYNCHRONIZE STAT
 --  ================

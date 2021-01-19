@@ -8,7 +8,7 @@ Ext.Require("Server/InspectSkill.lua")
 Ext.Require("Server/Networking.lua")
 Ext.Require("Shared/Collections.lua")
 Ext.Require("Shared/References.lua")
-Ext.Require("Server/ConsoleCommander.lua")
+Ext.Require("Server/ConsoleCommands.lua")
 Ext.Require("Shared/StatsConfigurator.lua")
 
 --  ==========
