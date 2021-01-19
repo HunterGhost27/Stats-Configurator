@@ -121,7 +121,7 @@ ModMenuDialog:AddListeners({
 
     ['S7_RefreshSettings'] = function ()
         RefreshSettings()
-        Collections:Rebuild()
+        Collections:CustomRebuild()
         Debug:Print("Config-Settings refreshed")
     end,
 

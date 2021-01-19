@@ -149,10 +149,18 @@ Collections = {
 --  REBUILD COLLECTIONS
 --  ===================
 
-function Collections:Rebuild()
+--  CUSTOM-COLLECTIONS
+--  ==================
 
-    --  DYNAMIC-COLLECTIONS
-    --  ===================
+function Collections:CustomRebuild()
+    local customCollections = LoadFile(MODINFO.SubdirPrefix .. "ConfigCollections.json") or {}
+    Collections = Integrate(Collections, customCollections)
+end
+
+--  PREDEF-COLLECTIONS
+--  ==================
+
+function Collections:Rebuild()
 
     local statTypeTable = {
         "Armor",
@@ -198,14 +206,14 @@ function Collections:Rebuild()
 
                 --  ARMOR TYPE
 
-                if statData["ArmorType"] ~= "None" and ValidString(statData["ArmorType"]) then -- Filter based on ArmorType
-                    Collections["ArmorType" .. statData["ArmorType"]][stat] = true --  Add to ArmorType collections
+                if statData["ArmorType"] ~= "None" and ValidString(statData["ArmorType"]) then
+                    Collections["ArmorType" .. statData["ArmorType"]][stat] = true
                 end
 
                 --  ARMOR SLOTS
 
-                if ValidString(statData["Slot"]) then --  Filter based on ArmorSlot
-                    Collections["ArmorSlot" .. statData["Slot"]][stat] = true --  Add to ArmorSlot collections
+                if ValidString(statData["Slot"]) then
+                    Collections["ArmorSlot" .. statData["Slot"]][stat] = true
                 end
 
             --  POTION
@@ -228,8 +236,8 @@ function Collections:Rebuild()
 
                 --  WEAPON-TYPE
 
-                if statData["WeaponType"] ~= "None" and ValidString(statData["WeaponType"]) then --  Filter based on WeaponType
-                    Collections["WeaponType" .. statData["WeaponType"]][stat] = true -- Add to corresponding collection
+                if statData["WeaponType"] ~= "None" and ValidString(statData["WeaponType"]) then
+                    Collections["WeaponType" .. statData["WeaponType"]][stat] = true
                 end
 
                 --  IS-TWO-HANDED
@@ -243,18 +251,18 @@ function Collections:Rebuild()
             elseif statType == "SkillData" then
 
                 --  ABILITY
-                -- if ValidString(statData["Ability"]) then --  Filter based on Ability
-                --     Collections["SkillAbility" .. statData["Ability"]][stat] = true --  Add to corresponding collection
+                -- if ValidString(statData["Ability"]) then
+                --     Collections["SkillAbility" .. statData["Ability"]][stat] = true
                 -- end
 
                 --  DAMAGE TYPE
-                -- if ValidString(statData["DamageType"]) then --  Filter based on DamageType
-                --     Collections["DamageType" .. statData["DamageType"]][stat] = true --  Add to corresponding collection
+                -- if ValidString(statData["DamageType"]) then
+                --     Collections["DamageType" .. statData["DamageType"]][stat] = true
                 -- end
 
                 --  IS SOURCE SKILL
-                -- if statData["Magic Cost"] ~= nil and statData["Magic Cost"] > 0 then --  Is a Source-Skill
-                --     Collections["IsSourceSkill"][stat] = true --  Add to IsSourceSkill collection
+                -- if statData["Magic Cost"] ~= nil and statData["Magic Cost"] > 0 then
+                --     Collections["IsSourceSkill"][stat] = true
                 -- end
 
             --  STATUS DATA
@@ -264,16 +272,27 @@ function Collections:Rebuild()
 
             --  HEALING STATUS DATA
 
-            -- if statData["HealStat"] ~= nil then --  If HealStat specified
-            --     Collections["HealStatus" .. statData["HealStat"]][stat] = true --  Add to HealStatus collections
+            -- if statData["HealStat"] ~= nil then
+            --     Collections["HealStatus" .. statData["HealStat"]][stat] = true
             -- end
             end
         end
     end
 
-    --  CUSTOM-COLLECTIONS
-    --  ==================
+    --  CUSTOM COLLECTIONS
+    --  ------------------
 
-    local customCollections = LoadFile(MODINFO.SubdirPrefix .. "ConfigCollections.json") or {}
-    Collections = Integrate(Collections, customCollections)
+    Collections:CustomRebuild()
+
+    Debug:FPrint('Collections Rebuilt')
 end
+
+--  CONSOLE-COMMAND
+--  ===============
+
+ConsoleCommander:Register({
+    ['Name'] = 'RebuildCollections',
+    ['Description'] = 'Rebuilds Collection Data',
+    ['Context'] = 'Shared',
+    ['Action'] = Collections.Rebuild
+})
