@@ -19,7 +19,7 @@ function Version:Parse(version)
     local versionTable = {}
 
     if type(version) == "string" then
-        if string.gmatch(version, "[^.]+") ~= nil then
+        if string.gmatch(version, "[^.]+") then
             for v in string.gmatch(version, "[^.]+") do versionTable[#versionTable + 1] = tonumber(v) end
         else
             version = math.floor(tonumber(version))
@@ -28,6 +28,7 @@ function Version:Parse(version)
     elseif type(version) == "table" then versionTable = version
     elseif type(version) == "number" then
         local major, minor, revision, build = 0, 0, 0, 0
+        -- Thanks to @LaughingLeader for the following black-magic
         version = math.tointeger(version)
         major = math.floor(version >> 28)
         minor = math.floor(version >> 24) & 0x0F
@@ -40,11 +41,11 @@ function Version:Parse(version)
     return versionTable
 end
 
----Returns Version Table
+---Returns Version table
 ---@return table
 function Version:Table() return Rematerialize(self) end
 
----Returns Formatted Version String
+---Returns formatted Version string
 ---@return string
 function Version:String() return string.format("%s.%s.%s.%s", self[1], self[2], self[3], self[4]) end
 
@@ -70,7 +71,6 @@ end
 Update = {
     ['isRequired'] = false,
     ['force'] = false,
-    ['list'] = {}
 }
 
 ---Register Update-Event Action
@@ -111,12 +111,12 @@ end
 --  INITIAL CHECK
 --  =============
 
-local centralFile = LoadFile(CENTRALFILE) or {} -- Loads CENTRAL file
+local centralFile = LoadFile(CENTRALFILE) or {}
 CENTRAL = Integrate(CENTRAL, centralFile)
-local prevVersion = Version:Parse(CENTRAL[IDENTIFIER]["ModVersion"]) -- Reads previous version
-local currVersion = Version:Parse(MODINFO.Version) -- Reads current version
-Update:Check(prevVersion, currVersion) -- Performs update check
-MODINFO.ModVersion = currVersion:String() -- Updates CENTRAL mod-version
+local prevVersion = Version:Parse(CENTRAL[IDENTIFIER]["ModVersion"])
+local currVersion = Version:Parse(MODINFO.Version)
+Update:Check(prevVersion, currVersion)
+MODINFO.ModVersion = currVersion:String()
 MODINFO.ModSettings = Integrate(MODINFO.DefaultSettings, CENTRAL[IDENTIFIER].ModSettings)
-CENTRALIZE() -- Synchronizes CENTRAL file
+CENTRALIZE()
 SaveFile(CENTRALFILE, Rematerialize(CENTRAL))

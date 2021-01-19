@@ -2,21 +2,6 @@
 --  FLAGS MANAGER
 --  =============
 
---  FLAG FUNCTIONS
---  ==============
-
-local getters = {
-    ['Global'] = Osi.GlobalGetFlag
-}
-
-local setters = {
-    ['Global'] = Osi.GlobalSetFlag
-}
-
-local clearers = {
-    ['Global'] = Osi.GlobalClearFlag
-}
-
 --  FLAG OBJECT
 --  ===========
 
@@ -25,8 +10,6 @@ local clearers = {
 ---@field flagType string 'Global', 'Item', 'Character'
 ---@field state number 0 or 1
 ---@field boolState boolean false or true
----@field onSet function[] Set Actions
----@field onClear functions[] Clear Actions
 FlagObject = {
     ['flagName'] = '',
     ['flagType'] = 'Global',
@@ -46,25 +29,19 @@ end
 ---Updates and returns the FlagObject
 ---@return FlagObject self
 function FlagObject:Get()
-    self.state = getters[self.flagType](self.flagName)
+    self.state = Osi.GlobalGetFlag(self.flagName)
     self.boolState = self.state == 1 and true or false
     return self
 end
 
 ---Sets the Flags Value
-function FlagObject:Set()
-    setters[self.flagType](self.flagName)
-end
+function FlagObject:Set() Osi.GlobalSetFlag(self.flagName) end
 
 ---Clears the corresponding Flag
-function FlagObject:Clear()
-    clearers[self.flagType](self.flagName)
-end
+function FlagObject:Clear() Osi.GlobalClearFlag(self.flagName) end
 
 ---Toggles the Flags Value
-function FlagObject:Toggle()
-    self:Get()
-    if self.boolState then self:Clear() else self:Set() end
+function FlagObject:Toggle() self:Get(); if self.boolState then self:Clear() else self:Set() end
 end
 
 --  FLAGS MANAGER
@@ -76,8 +53,7 @@ Flags = {}
 ---Track new flag
 ---@param flag FlagObject|table
 function Flags:Track(flag)
-    if type(flag) ~= 'table' then return end
-    if not ValidString(flag.flagName) then return end
+    if not ValidInputTable(flag, {'flagName'}) then return end
     self[flag.flagName] = FlagObject:New(flag)
 end
 

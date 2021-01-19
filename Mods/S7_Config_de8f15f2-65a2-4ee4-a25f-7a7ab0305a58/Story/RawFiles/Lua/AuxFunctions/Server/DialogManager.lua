@@ -9,28 +9,32 @@
 
 ---@class Dialog
 ---@field Name string DialogName
----@field Active string Dialog is active
+---@field isAutomated integer Automated or Non-Automated Dialog
+---@field isActive boolean Dialog in session
 ---@field Vars table<string, DialogVar> DialogVariables
 ---@field Relay table<string, function> DialogActions
-Dialog = {}
+Dialog = {
+    ['isAutomated'] = 0,
+    ['isActive'] = false,
+}
 
----Instantiate new Dialog object. Must specify `DialogName`.
+---Instantiate new Dialog object.
 ---@param object table
 ---@return Dialog
 function Dialog:New(object)
-    if type(object) ~= 'table' or not ValidString(object.Name) then return end
+    if not ValidInputTable(object, {'Name'}) then return end
     object = Integrate(self, object)
     return object
 end
 
 ---Update DialogVariables
 ---@param vars table<string, DialogVar>
-function Dialog:Update(vars) self['Vars'] = Integrate(self['Vars'], vars) end
+function Dialog:Update(vars) self.Vars = Integrate(self.Vars, vars) end
 
 ---Set DialogVars using Osiris
 ---@param vars table<string, DialogVar>|nil
 function Dialog:Set(vars)
-    if not Ext.OsirisIsCallable() or not self['Vars'] then return end
+    if not Ext.OsirisIsCallable() or not self.Vars then return end
     if vars then self:Update(vars) end
 
     local setterFunction = {
@@ -40,7 +44,7 @@ function Dialog:Set(vars)
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    for alias, Var in pairs(self['Vars']) do
+    for alias, Var in pairs(self.Vars) do
         if type(Var) ~= 'table' then return end
         local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal
         if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
@@ -48,16 +52,18 @@ function Dialog:Set(vars)
     end
 end
 
----Register Flag Actions
+---Register Flag actions
 ---@param actions table<string, function>
-function Dialog:AddListeners(actions) self['Relay'] = Integrate(self['Relay'], actions) end
+function Dialog:AddListeners(actions) self.Relay = Integrate(self.Relay, actions) end
 
 ---Register DialogFlag Listeners
 function Dialog:RegisterListeners()
+    Ext.RegisterOsirisListener('DialogStarted', 2, 'after', function (dialogName, instanceID) self.isActive[dialogName] = instanceID end)
+    Ext.RegisterOsirisListener('DialogEnded', 2, 'after', function (dialogName, instanceID) self.isActive[dialogName] = instanceID end)
     Ext.RegisterOsirisListener('GlobalFlagSet', 1, 'after', function (signal)
-        if not self['Relay'][signal] then return end
+        if not self.Relay[signal] then return end
         UserInformation:ReSync()
-        self['Relay'][signal]()
+        self.Relay[signal]()
         self:Set()
         Osi.GlobalClearFlag(signal)
     end)
@@ -66,9 +72,9 @@ end
 ---Starts Dialog with character
 ---@param character string|nil CharacterGUID
 function Dialog:Start(character)
-    local character = character or Osi.CharacterGetHostCharacter()
     if not Ext.OsirisIsCallable() then return end
+    local character = character or Osi.CharacterGetHostCharacter()
     if not Osi.QRY_SpeakerIsAvailable(character) then return end
     self:Set()
-    Osi.Proc_StartDialog(1, self.Name, character)
+    Osi.Proc_StartDialog(self.isAutomated, self.Name, character)
 end

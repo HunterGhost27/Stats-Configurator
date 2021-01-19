@@ -3,11 +3,11 @@
 --  ============
 
 ---Extracts a list of keys from a table
----@param t table
+---@param t table Target table
 ---@return table keys Array of keys
 function ExtractKeys(t)
-    if type(t) ~= 'table' then return end
     local keys = {}
+    if type(t) ~= 'table' then return end
     for key, _ in pairs(t) do table.insert(keys, key) end
     return keys
 end
@@ -55,21 +55,25 @@ function Spairs(t, order)
     end
 end
 
---  =============
---  DESTRUCTURING
---  =============
+--  ====================
+--  VALIDATE INPUT TABLE
+--  ====================
 
----Destructure a table
----@param tar table Target Table
----@param t table Keys[] to destructure
-function Destructure(tar, t)
-    if type(t) ~= 'table' then return end
-    local temp = {}
-    for idx, key in Spairs(t) do
-        if type(tar[key]) == 'table' then temp[idx] = Destructure(tar[key], t) end
-        if tar[key] then temp[idx] = tar[key] end
+---Checks if target is a table and has required fields
+---@param target any Input-parameter to validate
+---@param toValidate string[] Array of keys
+---@return boolean
+function ValidInputTable(target, toValidate)
+    if type(target) ~= 'tbl' then else Debug:Error('Input-parameter needs to be a table') return end
+    if toValidate then
+        for _, val in pairs(toValidate) do
+            if not IsValid(target[val]) then
+                Debug:Error('Please provide valid: ' .. tostring(val))
+                return false
+            end
+        end
     end
-    return table.unpack(temp)
+    return true
 end
 
 --  ========
@@ -83,5 +87,22 @@ end
 function IsEqual(target, source)
     local tar = target or {}
     local src = source or {}
-    return Ext.JsonStringify(Rematerialize(tar)) == Ext.JsonStringify(Rematerialize(source))
+    return Ext.JsonStringify(Rematerialize(tar)) == Ext.JsonStringify(Rematerialize(src))
+end
+
+--  =============
+--  DESTRUCTURING
+--  =============
+
+---Destructure a table
+---@param tar table Target table
+---@param t table Keys[] to destructure
+function Destructure(tar, t)
+    if type(t) ~= 'table' then return end
+    local temp = {}
+    for idx, key in Spairs(t) do
+        if type(tar[key]) == 'table' then temp[idx] = Destructure(tar[key], t) end
+        if tar[key] then temp[idx] = tar[key] end
+    end
+    return table.unpack(temp)
 end

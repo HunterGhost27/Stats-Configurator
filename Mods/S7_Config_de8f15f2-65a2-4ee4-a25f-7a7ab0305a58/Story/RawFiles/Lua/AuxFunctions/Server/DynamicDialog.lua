@@ -1,6 +1,6 @@
---  ==============
---  DYNAMIC DIALOG
---  ==============
+--  ====================================
+--  DYNAMIC DIALOG (HIGHLY EXPERIMENTAL)
+--  ====================================
 
 ---@class DialogNode
 ---@field Text string Dialog text
@@ -54,7 +54,6 @@ DynamicDialog:AddListeners({
         DynamicDialog.State.level = DynamicDialog.State.level + 1
         DynamicDialog.Stage = DynamicDialog.Nodes[DynamicDialog.State.level][DynamicDialog.State.selected]
         DynamicDialog.State.page = 1
-        Ext.Print(Ext.JsonStringify(Rematerialize(DynamicDialog.State)))
     end,
     ['S7_DynamicDialog_GoBack'] = function ()
         if DynamicDialog.State.level <= 1 then return end
@@ -64,7 +63,6 @@ DynamicDialog:AddListeners({
         DynamicDialog.State.history[#DynamicDialog.State.history] = nil
         DynamicDialog.Stage = DynamicDialog.Nodes[DynamicDialog.State.level][DynamicDialog.State.selected]
         DynamicDialog.State.page = 1
-        Ext.Print(Ext.JsonStringify(Rematerialize(DynamicDialog.State)))
     end,
 })
 DynamicDialog:RegisterListeners()
@@ -122,13 +120,13 @@ end
 ---Overrides base Dialog:Start
 ---@param character string|nil CharacterGUID
 function DynamicDialog:Start(character)
-    if self.Active then return end
+    if self.isActive then return end
     local character = character or Osi.CharacterGetHostCharacter()
     if not Ext.OsirisIsCallable() then return end
     if not Osi.QRY_SpeakerIsAvailable(character) then return end
     self.Stage = self.Nodes[self.State.level]['DIALOGSTART']
     self:Set()
-    Osi.Proc_StartDialog(1, self.Name, character)
+    Osi.Proc_StartDialog(self.isAutomated, self.Name, character)
 end
 
 ---Update Nodes
