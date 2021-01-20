@@ -40,7 +40,7 @@ end
 ---@param context string Path-Context
 ---@return table files Table of files
 function LoadFiles(fileNames, context)
-    local files
+    local files = {}
     if type(fileNames) ~= 'table' then return end
     for _, fileName in ipairs(fileNames) do
         local _, fileContents = pcall(Ext.LoadFile, fileName, context)

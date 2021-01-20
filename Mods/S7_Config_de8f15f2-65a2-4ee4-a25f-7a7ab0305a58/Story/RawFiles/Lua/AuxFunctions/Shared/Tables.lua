@@ -106,3 +106,70 @@ function Destructure(tar, t)
     end
     return table.unpack(temp)
 end
+
+--  ======
+--  FILTER
+--  ======
+
+---Higher-Order Filter Method
+---@param t table
+---@param callback function Takes `Key` and `Value` as arguments
+---@return table filtered Filtered table
+function Filter(t, callback)
+    local filtered = {}
+    if type(t) ~= 'table' then return end
+    for key, value in pairs(t) do
+        if callback(key, value, t) then filtered[key] = value end
+    end
+    return filtered
+end
+
+--  ===
+--  MAP
+--  ===
+
+---Higher-Order Map Method
+---@param t table
+---@param callback function Takes `Key` and `Value` as arguments
+---@return table mapped Mapped table
+function Map(t, callback)
+    local mapped = {}
+    if type(t) ~= 'table' then return end
+    for key, value in pairs(t) do
+        local newKey, newValue = callback(key, value, t)
+        mapped[newKey] = newValue
+    end
+    return mapped
+end
+
+--  ========
+--  FOR EACH
+--  ========
+
+---Execute callback ForEach entry
+---@param t table
+---@param callback function
+function ForEach(t, callback)
+    if type(t) ~= 'table' then return end
+    for key, value in pairs(t) do
+        callback(key, value, t)
+    end
+end
+
+--  ======
+--  REDUCE
+--  ======
+
+---Higher Order Reduce Method
+---@param t table
+---@param prop any Property
+---@param callback function
+---@param initialProp any Default Value of prop
+---@return any prop
+function Reduce(t, prop, callback, initialProp)
+    local prop = prop or initialProp
+    for key, value in pairs(t) do
+        prop = callback(prop, key, value, t)
+    end
+    return prop
+end
