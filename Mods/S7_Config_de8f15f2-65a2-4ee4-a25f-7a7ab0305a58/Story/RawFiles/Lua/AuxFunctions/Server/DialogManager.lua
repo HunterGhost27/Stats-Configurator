@@ -11,12 +11,10 @@
 ---@field Name string DialogName
 ---@field isAutomated integer Automated or Non-Automated Dialog
 ---@field isActive boolean Dialog in session
+---@field instanceID number instanceID
 ---@field Vars table<string, DialogVar> DialogVariables
 ---@field Relay table<string, function> DialogActions
-Dialog = {
-    ['isAutomated'] = 0,
-    ['isActive'] = false,
-}
+Dialog = {['isAutomated'] = 0}
 
 ---Instantiate new Dialog object.
 ---@param object table
@@ -58,8 +56,8 @@ function Dialog:AddListeners(actions) self.Relay = Integrate(self.Relay, actions
 
 ---Register DialogFlag Listeners
 function Dialog:RegisterListeners()
-    Ext.RegisterOsirisListener('DialogStarted', 2, 'after', function (dialogName, instanceID) self.isActive[dialogName] = instanceID end)
-    Ext.RegisterOsirisListener('DialogEnded', 2, 'after', function (dialogName, instanceID) self.isActive[dialogName] = instanceID end)
+    Ext.RegisterOsirisListener('DialogStarted', 2, 'after', function (dialogName, instanceID) self.isActive = true; self.instanceID = instanceID end)
+    Ext.RegisterOsirisListener('DialogEnded', 2, 'after', function (dialogName, instanceID) self.isActive = false; self.instanceID = nil end)
     Ext.RegisterOsirisListener('GlobalFlagSet', 1, 'after', function (signal)
         if not self.Relay[signal] then return end
         UserInformation:ReSync()

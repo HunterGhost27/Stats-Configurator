@@ -287,6 +287,17 @@ function Collections:Rebuild()
     Debug:FPrint('Collections Rebuilt')
 end
 
+function Collections:Unpack(keyName)
+    local returnNameList = {}
+    local collectionName = string.match(keyName, "COLLECTION (.-)$")
+    if not collectionName then returnNameList[keyName] = true; return returnNameList end
+    if self[collectionName] then
+        Debug:Print("Unpacking collection " .. collectionName)
+        for statName, _ in pairs(self[collectionName]) do returnNameList[statName] = true end
+    else Debug:Error("No collection named " .. collectionName .. " found.") end
+    return returnNameList
+end
+
 --  CONSOLE-COMMAND
 --  ===============
 

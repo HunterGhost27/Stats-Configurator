@@ -72,15 +72,16 @@ ModMenuDialog:AddListeners({
         local file = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.ConfigFile) or ""
         if ValidString(file) then
             Debug:Print("Loading: " .. Settings.ConfigFile, {['dialogVar'] = 'StatsConfigurator'})
-            table.insert(Configurations, {["S7_Config"] = file})
+            for key, value in pairs(Ext.JsonParse(file)) do
+                Stats.Configurations[key] = value
+            end
         else
             Debug:Error(Settings.ConfigFile .. " not found. Creating empty file.", {['dialogVar'] = 'StatsConfigurator'})
             Ext.SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFile, "")
             return
         end
-        StatsConfigurator()
-        StatsSynchronize()
-        Configurations = {}
+        Stats:Configurator()
+        Stats:Synchronize()
         Debug:Print("StatsConfiguration Finished.", {['dialogVar'] = 'StatsConfigurator'})
     end,
 
@@ -88,8 +89,8 @@ ModMenuDialog:AddListeners({
     --  =================
 
     ['S7_BuildConfigData'] = function()
-        local buildData = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.ConfigFile) or ""
-        BuildConfigData(buildData, MODINFO.UUID, "S7_Config")
+        local buildData = LoadFile(MODINFO.SubdirPrefix .. Settings.ConfigFile) or {}
+        BuildConfigData(buildData)
         Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName .. " using " .. Settings.ConfigFile)
     end,
 

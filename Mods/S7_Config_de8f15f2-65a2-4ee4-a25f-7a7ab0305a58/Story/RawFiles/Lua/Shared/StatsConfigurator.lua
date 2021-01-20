@@ -2,117 +2,80 @@
 --  STATS-CONFIGURATOR
 --  ==================
 
-Configurations = {}
-Synchronizations = {}
+Stats = {
+    ['Configurations'] = {},
+    ['Synchronizations'] = {}
+}
 
---  STATS CONFIGURATOR
---  ==================
+function Stats:Configurator()
+    Stringer:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile.")
+    for statName, config in pairs(self.Configurations) do
+        if type(config) ~= 'table' then return end
+        local statList = Collections:Unpack(statName)
+        for name, bool in pairs(statList) do
+            local stat = Ext.GetStat(name)
+            if not stat then return end
+            Stringer:Add(name)
+            Stringer:LineBreak('-')
 
-function StatsConfigurator()
-    for _, config in Spairs(Configurations, 'ascending') do
-        for modID, JSONstring in pairs(config) do
-            if not ValidString(JSONstring) then Debug:Error("Failed to apply configuration.", {['dialogVar'] = "StatsConfigurator"}) end
-            local JSONborne = Ext.JsonParse(JSONstring)
-            Stringer:SetHeader(modID .. " loaded. Applying configuration profile.")
-
-            for keyName, content in pairs(JSONborne) do
-                local nameList = UnpackCollection(keyName, content)
-                for name, _ in pairs(nameList) do
-                    Stringer:Add(name)
-                    Stringer:LineBreak('-')
-                    local stat = Ext.GetStat(name)
-
-                    for key, value in pairs(content) do
-                        if SafeToModify(name, key) then
-                            Stringer:Add(key .. ": " .. tostring(value) .. " (" .. tostring(stat[key]) .. ")")
-                            Ext.StatSetAttribute(name, key, Rematerialize(value))
-                        end
-                    end
-                    Stringer:LineBreak('_')
-                    Synchronizations[name] = 1
+            for key, value in pairs(config) do
+                if not SafeToModify(name, key) then else
+                Stringer:Add(tostring(key) .. ": " .. tostring(value) .. " (" .. tostring(stat[key]) .. ")")
+                stat[key] = value
                 end
             end
-            Stringer:Build()
-            Debug:FPrint("Configuration Profile Active.")
+            Stringer:LineBreak('_')
+            self.Synchronizations[name] = true
         end
+        self.Configurations[statName] = nil
     end
-end
-
-function UnpackCollection(keyName, content)
-    local returnNameList = {}
-
-    if string.match(keyName, "COLLECTION") then
-        for collectionName in string.gmatch(keyName, "[%w]+") do
-            if collectionName ~= "COLLECTION" then
-                if Collections[collectionName] then
-                    Debug:Print("Unpacking collection " .. collectionName)
-                    for statName, _ in pairs(Collections[collectionName]) do returnNameList[statName] = 1 end
-                else Debug:Error("No collection named " .. collectionName .. " found.") end
-            end
-        end
-    else returnNameList[keyName] = 1 end
-    return returnNameList
+    Debug:Print(Stringer:Build())
+    Debug:FPrint('Configuration Profile Active')
 end
 
 function SafeToModify(name, key)
-    local dontFwith =
-        [[
-        "AoEConditions",
-        "TargetConditions",
-        "ForkingConditions",
-        "CycleConditions",
-        "SkillProperties",
-        "WinBoost",
-        "LoseBoost",
-        "RootTemplate"
-    ]] --  dont mess with these keys
+    if Settings.BypassSafetyCheck then return true end
 
-    if Settings.BypassSafetyCheck then return true
+    local dontFwith = {
+        ["AoEConditions"] = true,
+        ["TargetConditions"] = true,
+        ["ForkingConditions"] = true,
+        ["CycleConditions"] = true,
+        ["SkillProperties"] = true,
+        ["WinBoost"] = true,
+        ["LoseBoost"] = true,
+        ["RootTemplate"] = true
+    } --  dont mess with these keys
+
+
+    if dontFwith[key] then
+        Debug:Warn("SafeToModify() prevents modification of " .. key .. " [BypassSafetyCheck: " .. tostring(Settings.BypassSafetyCheck) .. "]")
+        return false
     else
-        if string.match(dontFwith, key) then
-            Debug:Warn("SafeToModify() prevents modification of " .. key .. " [BypassSafetyCheck: " .. tostring(Settings.BypassSafetyCheck) .. "]")
-            return false
-        else
-            if Ext.StatGetAttribute(name, key) then return true
-            else Debug:Warn(key .. " is not a valid attribute for " .. name) end
-        end
+        if Ext.StatGetAttribute(name, key) then return true
+        else Debug:Warn(key .. " is not a valid attribute for " .. name) end
     end
 end
 
 --  STATS-SYNCHRONIZE
 --  =================
 
-function StatsSynchronize()
-    if Synchronizations then
-        Debug:Print("Synchronizing Stats [Savegame-Persistence: " .. tostring(Settings.SyncStatPersistence) .. "]")
-        Debug:Print("=============================================================")
-
-        for name, _ in pairs(Synchronizations) do
-            if Osi.NRD_StatExists(name) then
-                Ext.SyncStat(name, Settings.SyncStatPersistence)
-                Debug:Print("Synchronized Stat: " .. name)
-            end
-        end
-        Debug:Print("=============================================================")
-        Debug:Print("Synchronization Complete.", {['dialogVar'] = 'SyncStat'})
-    else Debug:Print("Nothing to Synchronize. toSync queue is empty.", {['dialogVar'] = 'SyncStat'}) end
+function Stats:Synchronize()
+    Stringer:SetHeader('Synchronizing Stats [Persistence: ' .. tostring(Settings.SyncStatPersistence) .. ']')
+    for stat, bool in pairs(self.Synchronizations) do
+        Ext.SyncStat(stat, Settings.SyncStatPersistence)
+        Stringer:Add('Synchronized Stat: ' .. stat)
+        self.Synchronizations[stat] = nil
+    end
+    Debug:Print(Stringer:Build())
+    Debug:Print('Synchronization Complete', {['dialogVar'] = 'SyncStat'})
 end
 
 --  BUILD CONFIG-DATA
 --  =================
 
-function BuildConfigData(buildData, modUUID, modName)
-    if ValidString(modName) then
-        if ValidString(modUUID) then
-            local configTable = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
-            configTable[modUUID] = {
-                ["ModUUID"] = modUUID,
-                ["ModName"] = modName,
-                ["Content"] = buildData
-            }
-            SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configTable)
-        else Debug:Print("Invalid modUUID. Can't build " .. Settings.StatsLoader.FileName) end
-    else Debug:Print("Invalid modName. Can't build" .. Settings.StatsLoader.FileName) end
+function BuildConfigData(buildData)
+    local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
+    for key, value in pairs(buildData) do configData[key] = value end
+    SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)
 end
-
---  ####################################################################################################################################################
