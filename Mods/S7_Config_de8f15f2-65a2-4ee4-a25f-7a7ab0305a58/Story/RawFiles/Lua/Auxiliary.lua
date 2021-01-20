@@ -11,7 +11,7 @@ IDENTIFIER = 'S7_Config'
 MODINFO = Ext.GetModInfo('de8f15f2-65a2-4ee4-a25f-7a7ab0305a58')
 MODINFO.SubdirPrefix = 'StatsConfigurator/'
 MODINFO.DefaultSettings = {
-    ['ConfigFile'] = 'Config.json',
+    ['ConfigFiles'] = {'Config.json'},
     ['StatsLoader'] = {['Enable'] = true, ['FileName'] = 'ConfigData.json'},
     ['SyncStatPersistence'] = false,
     ['BypassSafetyCheck'] = false,
@@ -29,7 +29,7 @@ Ext.Require("AuxFunctions/Index.lua")
 --  ============
 
 ---@class ConfigSettings
----@field ConfigFile string
+---@field ConfigFiles string[]
 ---@field StatsLoader table
 ---@field SyncStatPersistence boolean
 ---@field BypassSafetyCheck boolean

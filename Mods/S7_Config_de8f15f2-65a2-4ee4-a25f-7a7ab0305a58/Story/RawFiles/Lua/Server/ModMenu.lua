@@ -8,10 +8,6 @@ ModMenuDialog = Dialog:New({['Name'] = 'S7_Config_ModMenu'})
 Debug.dialog = ModMenuDialog
 
 ModMenuDialog:Update({
-    ['ConfigFile'] = {
-        ['dialogVar'] = 'S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d',
-        ['dialogVal'] = function() return ValidString(Settings.ConfigFile) and Settings.ConfigFile or 'No Config File Detected.' end
-    },
     ['ConfigData'] = {
         ['dialogVar'] = 'S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8',
         ['dialogVal'] = function() return ValidString(Settings.StatsLoader.FileName) and Settings.StatsLoader.FileName or 'No ConfigData File Detected' end
@@ -31,6 +27,13 @@ ModMenuDialog:Update({
     ['Settings'] = {
         ['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6',
         ['dialogVal'] = function() return IsEqual(Settings, MODINFO.DefaultSettings) and 'Default-Settings' or 'Custom-Settings' end
+    },
+    ['ConfigFile'] = {
+        ['dialogVar'] = 'S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d',
+        ['dialogVal'] = function()
+            local len = #Settings.ConfigFiles
+            return IsValid(len) and tostring(len) .. " Config Files detected." or 'No Config File detected.'
+        end
     },
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb'},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917'},
@@ -69,16 +72,21 @@ ModMenuDialog:AddListeners({
     --  ==================
 
     ['S7_StatsConfigurator'] = function ()
-        local file = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.ConfigFile) or ""
-        if ValidString(file) then
-            Debug:Print("Loading: " .. Settings.ConfigFile, {['dialogVar'] = 'StatsConfigurator'})
-            for key, value in pairs(Ext.JsonParse(file)) do
-                Stats.Configurations[key] = value
+        local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
+        local files = LoadFiles(fileNames) or {}
+        Ext.Print(Ext.JsonStringify(Rematerialize(files)))
+        for idx, file in pairs(files) do
+            Ext.PrintWarning(idx, type(file))
+            if ValidString(file) then
+                Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
+                for key, value in pairs(Ext.JsonParse(file)) do
+                    Stats.Configurations[key] = value
+                end
+            else
+                Debug:Error(" ConfigFiles not found. Creating empty file.", {['dialogVar'] = 'StatsConfigurator'})
+                SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFiles[idx], {})
+                return
             end
-        else
-            Debug:Error(Settings.ConfigFile .. " not found. Creating empty file.", {['dialogVar'] = 'StatsConfigurator'})
-            Ext.SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFile, "")
-            return
         end
         Stats:Configurator()
         Stats:Synchronize()
@@ -89,9 +97,12 @@ ModMenuDialog:AddListeners({
     --  =================
 
     ['S7_BuildConfigData'] = function()
-        local buildData = LoadFile(MODINFO.SubdirPrefix .. Settings.ConfigFile) or {}
-        BuildConfigData(buildData)
-        Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName .. " using " .. Settings.ConfigFile)
+        local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
+        local files = LoadFiles(fileNames) or {}
+        for idx, file in pairs(files) do
+            BuildConfigData(file)
+            Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName)
+        end
     end,
 
     --  BROADCAST CONFIG-DATA

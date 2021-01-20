@@ -54,9 +54,7 @@ function Version:String() return string.format("%s.%s.%s.%s", self[1], self[2], 
 ---@return boolean
 function Version:IsNewerThan(v)
     local version = Version:Parse(v)
-    for i, _ in Spairs(Rematerialize(self)) do
-        if self[i] > version[i] then return true end
-    end
+    for i, _ in Spairs(Rematerialize(self)) do if self[i] > version[i] then return true end end
     return false
 end
 
@@ -74,7 +72,7 @@ Update = {
 }
 
 ---Register Update-Event Action
----@param event string Listener Event or `"Now"`
+---@param event string Listener Event or `'Now'`
 ---@param action function Update Action
 function Update:Register(event, action) table.insert(self.list, {[event] = action}) end
 

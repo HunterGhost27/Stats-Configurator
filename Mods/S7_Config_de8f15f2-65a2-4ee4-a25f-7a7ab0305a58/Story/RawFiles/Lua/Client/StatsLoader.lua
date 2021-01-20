@@ -3,7 +3,7 @@
 --  ============
 
 function StatsLoader()
-    if not Settings.StatsLoader.Enable then Debug:Warn("StatsLoader is disabled.") return end
+    if not Settings.StatsLoader.Enable then Debug:FWarn("StatsLoader is disabled.") return end
 
     Collections:Rebuild()
 
@@ -14,6 +14,7 @@ function StatsLoader()
     local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
 
     for key, value in pairs(configData) do Stats.Configurations[key] = value end
+
     --  CALL CONFIGURATOR
     --  =================
 
