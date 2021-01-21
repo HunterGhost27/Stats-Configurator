@@ -16,10 +16,10 @@ import pandas_read_xml as pdx   # To convert XML to fancy dataframes.
 #   =============
 
 enumerationsDataFrame = pdx.read_xml(
-    "Enumerations.xml", ["root", "enumerations", "enumeration"])
+    "xml/Enumerations.xml", ["root", "enumerations", "enumeration"])
 
 statObjectDefsDataFrame = pdx.read_xml(
-    "StatObjectDefinitions.xml", ["root", "stat_object_definitions", "stat_object_definition"])
+    "xml/StatObjectDefinitions.xml", ["root", "stat_object_definitions", "stat_object_definition"])
 
 #   ======================
 #   CREATE MARKDOWN TABLES
@@ -135,12 +135,12 @@ statObjectDefsMarkdownContent = statObjectDefsMarkdownContent.rstrip() + "\n"
 #   ===================
 
 #   Write Enumerations.md
-with open("Enumerations.md", "w") as markdownFileEnumerations:
+with open("md/Enumerations.md", "w") as markdownFileEnumerations:
     markdownFileEnumerations.write(enumerationsMarkdownContent)
 markdownFileEnumerations.close()
 
 #   Write StatObjectDefinitions.md
-with open("StatObjectDefinitions.md", "w") as markdownFilestatObjectDefs:
+with open("md/StatObjectDefinitions.md", "w") as markdownFilestatObjectDefs:
     markdownFilestatObjectDefs.write(statObjectDefsMarkdownContent)
 markdownFilestatObjectDefs.close()
 
