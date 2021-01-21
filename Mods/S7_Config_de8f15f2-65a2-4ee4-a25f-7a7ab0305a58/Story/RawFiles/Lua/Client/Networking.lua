@@ -6,7 +6,7 @@
 --  =======================
 
 Ext.RegisterNetListener('S7_Config::ConfigData', function (channel, payload)
-    Debug:Print("Client recieved configuration. Saving file: " .. Settings.StatsLoader.FileName)
+    Debug:FPrint("Client recieved configuration. Saving file: " .. Settings.StatsLoader.FileName)
     SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, payload)
 end)
 
@@ -20,10 +20,10 @@ Ext.RegisterNetListener('S7_Config::ConfigValidation', function (channel, payloa
         local message = clientID .. " : "
 
         if ValidString(verify) and compare == verify then
-            message = message .. "Active configuration profile verified"
+            message = message .. "Config verified"
             Ext.PostMessageToServer("S7_Config::ConfigValidationResponse", message)
         else
-            message = message .. "Active configuration mismatch detected"
+            message = message .. "Config mismatch detected"
             Ext.PostMessageToServer("S7_Config::ConfigValidationResponse", message)
         end
     end

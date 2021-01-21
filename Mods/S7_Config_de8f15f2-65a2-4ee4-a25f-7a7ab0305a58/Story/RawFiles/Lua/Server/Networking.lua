@@ -3,26 +3,21 @@
 --  =======================
 
 function ValidateClientConfigs()
-    Debug:Print("Validating Client Config...")
-    local compare = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
-    if not ValidString(compare) then Debug:Error("Nothing to validate. Please check if the server has " .. Settings.StatsLoader.FileName) end
+    Debug:FPrint("Validating Client Config...")
+    local source = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
+    if not ValidString(source) then Debug:FWarn("Nothing to validate. Please check if the server has " .. Settings.StatsLoader.FileName) end
 
-    for userProfileID, _ in pairs(UserInformation.Clients) do
-        local clientID = UserInformation.Clients[userProfileID]["DisplayName"] .. " (" .. UserInformation.Clients[userProfileID]["UserName"] .. ")"
-        Ext.PostMessageToClient(UserInformation.Clients[userProfileID]["CurrentCharacter"], "S7_Config::ConfigValidation", Ext.JsonStringify({[clientID] = compare}))
+    for userProfileID, information in pairs(UserInformation.Clients) do
+        local clientID = information[userProfileID]['DisplayName'] .. " (" .. information[userProfileID]['UserName'] .. ")"
+        Ext.PostMessageToClient(information[userProfileID]['CurrentCharacter'], 'S7_Config::ConfigValidation', Ext.JsonStringify({[clientID] = source}))
     end
 end
 
---============================================================================
-Ext.RegisterOsirisListener("UserConnected", 3, "after", ValidateClientConfigs)
---============================================================================
-
---  ========================
---  VALIDATE CLIENT RESPONSE
---  ========================
-
 Ext.RegisterNetListener("S7_Config::ConfigValidationResponse", function (channel, payload)
-    if string.match(payload, "Active configuration mismatch detected.") then Debug:Warn("Client Response: " .. tostring(payload))
-    elseif string.match(payload, "Active configuration profile verified.") then Debug:Print("Client Response: " .. tostring(payload))
+    if payload == "Config mismatch detected" then
+        Debug:FWarn("Client Response: " .. payload)
+        Osi.ShowNotification(Osi.CharacterGetHostCharacter(), Color:Fire(payload))
+    elseif payload == "Config verified" then
+        Debug:FPrint("Client Response: " .. payload)
     end
 end)
