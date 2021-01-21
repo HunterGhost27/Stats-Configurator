@@ -3,21 +3,25 @@
 --  =======================
 
 function ValidateClientConfigs()
-    Debug:FPrint("Validating Client Config...")
+    Debug:FPrint("Validating Client Config...", {['dialogVar'] = 'ValidateClientConfigs'})
     local source = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
-    if not ValidString(source) then Debug:FWarn("Nothing to validate. Please check if the server has " .. Settings.StatsLoader.FileName) end
+    if not ValidString(source) then Debug:FWarn("Nothing to validate. Please check if the server has " .. Settings.StatsLoader.FileName, {['dialogVar'] = 'ValidateClientConfigs'}) end
 
-    for userProfileID, information in pairs(UserInformation.Clients) do
+    ForEach(UserInformation.Clients, function (userProfileID, information)
+        if not IsValid(userProfileID) then return end
         local clientID = information[userProfileID]['DisplayName'] .. " (" .. information[userProfileID]['UserName'] .. ")"
         Ext.PostMessageToClient(information[userProfileID]['CurrentCharacter'], 'S7_Config::ConfigValidation', Ext.JsonStringify({[clientID] = source}))
-    end
+    end)
 end
 
-Ext.RegisterNetListener("S7_Config::ConfigValidationResponse", function (channel, payload)
-    if payload == "Config mismatch detected" then
+Ext.RegisterNetListener('S7_Config::ConfigValidationResponse', function (channel, payload)
+    local displayMessage = "Verification Complete"
+    if payload == 'Config mismatch detected' then
         Debug:FWarn("Client Response: " .. payload)
         Osi.ShowNotification(Osi.CharacterGetHostCharacter(), Color:Fire(payload))
-    elseif payload == "Config verified" then
+        displayMessage = "Client Configs mismatch detected"
+    elseif payload == 'Config verified' then
         Debug:FPrint("Client Response: " .. payload)
     end
+    Debug:Print(displayMessage, {['dialogVar'] = 'ValidateClientConfigs'})
 end)

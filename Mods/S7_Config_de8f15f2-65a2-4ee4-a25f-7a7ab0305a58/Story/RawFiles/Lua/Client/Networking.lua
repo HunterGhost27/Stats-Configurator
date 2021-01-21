@@ -18,13 +18,7 @@ Ext.RegisterNetListener('S7_Config::ConfigValidation', function (channel, payloa
 
     for clientID, compare in pairs(Ext.JsonParse(payload)) do
         local message = clientID .. " : "
-
-        if ValidString(verify) and compare == verify then
-            message = message .. "Config verified"
-            Ext.PostMessageToServer("S7_Config::ConfigValidationResponse", message)
-        else
-            message = message .. "Config mismatch detected"
-            Ext.PostMessageToServer("S7_Config::ConfigValidationResponse", message)
-        end
+        if ValidString(verify) and compare == verify then Ext.PostMessageToServer('S7_Config::ConfigValidationResponse', message .. "Config verified")
+        else Ext.PostMessageToServer('S7_Config::ConfigValidationResponse', message .. "Config mismatch detected") end
     end
 end)

@@ -1075,10 +1075,15 @@
                                        {
                                           "TagText" : [
                                              {
+                                                "DialogVariables" : [
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "7b9be638-58ed-44ff-ab3e-6245efdee698"}
+                                                   }
+                                                ],
                                                 "TagText" : {
                                                    "handle" : "h3c6e7ea7g1879g42dcg9863g8a81ab2a6412",
                                                    "type" : 28,
-                                                   "value" : "Please check logs for client response."
+                                                   "value" : "[S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2919,12 +2924,15 @@
                                                 "DialogVariables" : [
                                                    {
                                                       "DialogVariables" : {"type" : 22, "value" : "50855cec-1d18-4305-9292-f47ae56735c8"}
+                                                   },
+                                                   {
+                                                      "DialogVariables" : {"type" : 22, "value" : "d1802751-5b8f-4cc2-91bb-0ed459bf920d"}
                                                    }
                                                 ],
                                                 "TagText" : {
                                                    "handle" : "hc0073b15g1f21g4122gad42g5b288c5c8391",
                                                    "type" : 28,
-                                                   "value" : "[S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] <b>Rebuilt.</b>"
+                                                   "value" : "[S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] <b>Rebuilt</b> using [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -3353,15 +3361,12 @@
                                                 "DialogVariables" : [
                                                    {
                                                       "DialogVariables" : {"type" : 22, "value" : "50855cec-1d18-4305-9292-f47ae56735c8"}
-                                                   },
-                                                   {
-                                                      "DialogVariables" : {"type" : 22, "value" : "d1802751-5b8f-4cc2-91bb-0ed459bf920d"}
                                                    }
                                                 ],
                                                 "TagText" : {
                                                    "handle" : "h3e2d8175g9ca4g4967ga653gb847d9ddb3c9",
                                                    "type" : 28,
-                                                   "value" : "<b>[Rebuild ConfigData] </b>Rebuild [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] with the most recent version of [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]"
+                                                   "value" : "<b>[Rebuild ConfigData] </b>Rebuild [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] File."
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4637,7 +4642,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 424}
+            "nextNodeId" : {"type" : 5, "value" : 434}
          }
       }
    }

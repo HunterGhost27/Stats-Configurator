@@ -35,14 +35,14 @@ function UserInformation:ReSync()
 
     for _, user in pairs(tempUsers) do
         local profileID = Osi.GetUserProfileID(user)
-        if not self.Clients.profileID then self.Clients.profileID = {} end
+        if not self.Clients[profileID] then self.Clients[profileID] = {} end
 
-        self.Clients.profileID.UserID = user
-        self.Clients.profileID.ProfileID = profileID
-        self.Clients.profileID.UserName = Osi.GetUserName(user)
-        self.Clients.profileID.CurrentCharacter = Osi.GetCurrentCharacter(user)
-        _, self.Clients.profileID.DisplayName = Osi.CharacterGetDisplayName(self.Clients.profileID.CurrentCharacter)
-        Ext.PostMessageToUser(user, 'S7_UserInformationSync', Ext.JsonStringify(self.Clients.profileID))
+        self.Clients[profileID].UserID = user
+        self.Clients[profileID].ProfileID = profileID
+        self.Clients[profileID].UserName = Osi.GetUserName(user)
+        self.Clients[profileID].CurrentCharacter = Osi.GetCurrentCharacter(user)
+        _, self.Clients[profileID].DisplayName = Osi.CharacterGetDisplayName(self.Clients[profileID].CurrentCharacter)
+        Ext.PostMessageToUser(user, 'S7_UserInformationSync', Ext.JsonStringify(self.Clients[profileID]))
     end
 
     self.isProcessing = false

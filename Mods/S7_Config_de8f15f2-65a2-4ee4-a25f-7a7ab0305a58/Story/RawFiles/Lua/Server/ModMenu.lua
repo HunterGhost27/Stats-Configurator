@@ -32,12 +32,18 @@ ModMenuDialog:Update({
         ['dialogVar'] = 'S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d',
         ['dialogVal'] = function()
             local len = #Settings.ConfigFiles
-            return IsValid(len) and tostring(len) .. " Config Files detected." or 'No Config File detected.'
+            local dispMessage = 'No Config Files'
+            if len == 1 then dispMessage = tostring(Settings.ConfigFiles[1])
+            elseif len >= 2 then dispMessage = tostring(len) .. " Config Files" end
+            return dispMessage
         end
+    },
+    ['ValidateClientConfigs'] = {
+        ['dialogVar'] = 'S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698',
+        ['dialogVal'] = "Check the Script-Extender's DebugConsole for results"
     },
     ['StatsConfigurator'] = {['dialogVar'] = 'S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb'},
     ['SyncStat'] = {['dialogVar'] = 'S7_Config_SyncStat_7506390a-9fa8-4300-8abd-5dc476e6b917'},
-    ['ValidateClientConfigs'] = {['dialogVar'] = 'S7_ValidateConfigResponse_7b9be638-58ed-44ff-ab3e-6245efdee698'},
 })
 
 --  =================
@@ -74,23 +80,17 @@ ModMenuDialog:AddListeners({
     ['S7_StatsConfigurator'] = function ()
         local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
         local files = LoadFiles(fileNames) or {}
-        Ext.Print(Ext.JsonStringify(Rematerialize(files)))
-        for idx, file in pairs(files) do
-            Ext.PrintWarning(idx, type(file))
-            if ValidString(file) then
-                Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
-                for key, value in pairs(Ext.JsonParse(file)) do
-                    Stats.Configurations[key] = value
-                end
-            else
-                Debug:Error(" ConfigFiles not found. Creating empty file.", {['dialogVar'] = 'StatsConfigurator'})
-                SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFiles[idx], {})
-                return
+        Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
+        ForEach(files, function (fileName, fileContent)
+            if not IsValid(fileContent) then
+                Debug:FError(fileName .. " not found. Creating empty file", {['dialogVar'] = 'StatsConfigurator'})
+                SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFiles[Pinpoint(fileName, Settings.ConfigFiles)], {})
             end
-        end
+            ForEach(fileContent, function(key, value) Stats.Configurations[key] = value end)
+        end)
         Stats:Configurator()
         Stats:Synchronize()
-        Debug:Print("StatsConfiguration Finished.", {['dialogVar'] = 'StatsConfigurator'})
+        Debug:Print("StatsConfiguration Finished", {['dialogVar'] = 'StatsConfigurator'})
     end,
 
     --  BUILD CONFIG DATA
@@ -99,10 +99,8 @@ ModMenuDialog:AddListeners({
     ['S7_BuildConfigData'] = function()
         local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
         local files = LoadFiles(fileNames) or {}
-        for idx, file in pairs(files) do
-            BuildConfigData(file)
-            Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName)
-        end
+        for idx, file in pairs(files) do BuildConfigData(file) end
+        Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName)
     end,
 
     --  BROADCAST CONFIG-DATA
@@ -112,8 +110,8 @@ ModMenuDialog:AddListeners({
         local broadcast = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or ""
         if ValidString(broadcast) then
             Ext.BroadcastMessage("S7_Config::ConfigData", broadcast)
-            Debug:Print("Server broadcasted their configuration file.")
-        else Debug:Error("Failed to broadcast the configuration file.") end
+            Debug:Print("Server broadcasted their configuration file")
+        else Debug:Error("Failed to broadcast the configuration file") end
     end,
 
     --  VALIDATE CLIENT CONFIG
