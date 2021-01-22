@@ -12,6 +12,8 @@ function Stats:Configurator()
     ForEach(self.Configurations, function(key, config)
         if type(config) ~= 'table' then return end
 
+        local keyToken, key, keyType = string.match(key, '^(%p)(.*):(.-)$')
+
         local statList = Collections:Unpack(key)
         ForEach(statList, function(statName, bool)
             if not bool then return end
@@ -52,7 +54,7 @@ end
 --  BUILD CONFIG-DATA
 --  =================
 
-function BuildConfigData(buildData)
+function Stats:BuildConfigData(buildData)
     local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
     for key, value in pairs(buildData) do configData[key] = value end
     SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)

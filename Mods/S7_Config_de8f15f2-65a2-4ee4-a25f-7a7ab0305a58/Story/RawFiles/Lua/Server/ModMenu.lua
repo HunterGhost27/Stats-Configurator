@@ -95,7 +95,7 @@ ModMenuDialog:AddListeners({
     ['S7_BuildConfigData'] = function()
         local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
         local files = LoadFiles(fileNames) or {}
-        for idx, file in pairs(files) do BuildConfigData(file) end
+        for idx, file in pairs(files) do Stats:BuildConfigData(file) end
         Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName)
     end,
 
