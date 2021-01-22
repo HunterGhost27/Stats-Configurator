@@ -289,7 +289,7 @@ end
 
 function Collections:Unpack(keyName)
     local returnNameList = {}
-    local collectionName = string.match(keyName, "COLLECTION (.-)$")
+    local collectionName = string.match(keyName, "^#(.-)$")
     if not collectionName then returnNameList[keyName] = true; return returnNameList end
     if self[collectionName] then
         Debug:Print("Unpacking collection " .. collectionName)
