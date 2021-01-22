@@ -24,7 +24,7 @@ ConsoleCommander:Register({
 
 ConsoleCommander:Register({
     ['Name'] = 'SyncStat',
-    ['Description'] = "Synchronize stat for all peers",
+    ['Description'] = "Synchronize (stat) for all peers",
     ['Context'] = 'Server',
     ['Params'] = {[1] = 'StatName', [2] = 'StatPersistence'},
     ['Action'] = function (...)

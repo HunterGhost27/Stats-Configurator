@@ -20,13 +20,13 @@
 	<content contentuid="h5608c89fg3cc8g4feega7ffgbcd2a0cec3be" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Reapply Custom Settings]&lt;/b&gt; Reload settings.</content>
 	<content contentuid="h4710a4a7ge263g4b76ga4f7g6ca128b75abe" Source="S7_Config_ModMenu.lsj">Config-Settings restored to default values.</content>
 	<content contentuid="h2eab7ffageb14g48c8gba66gd14682f7a40c" Source="S7_Config_ModMenu.lsj">&lt;b&gt;Broadcasted&lt;/b&gt; [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] to all active clients.</content>
-	<content contentuid="h9d665774gc170g41dagb31dge49a5cec5676" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Diagnostics]&lt;/b&gt;</content>
+	<content contentuid="h9d665774gc170g41dagb31dge49a5cec5676" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Miscellaneous]&lt;/b&gt;</content>
 	<content contentuid="he9497e58g5937g4bacgbc3agc491cf268304" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Configuration]&lt;/b&gt;</content>
 	<content contentuid="h42cd267fga1a8g4e1bg80acg959186c3e523" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Load Configuration]&lt;/b&gt; Load [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
 	<content contentuid="he7404fe0gb8deg4b80gb604g135dd58f00d4" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
 	<content contentuid="h18d04b4egc0f0g4adeg9d2bg3ef80457a3c5" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
 	<content contentuid="hd60e2cd6g7f8cg49fagb317g16855bf7276a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Rebuild Collections]&lt;/b&gt; Recreate stat-collections from presets and custom settings.</content>
-	<content contentuid="h3837ed2dg4ae8g410bgb1bdg92a594e02d43" Source="S7_Config_ModMenu.lsj"> Diagnostics Options</content>
+	<content contentuid="h3837ed2dg4ae8g410bgb1bdg92a594e02d43" Source="S7_Config_ModMenu.lsj">Miscellaneous Options</content>
 	<content contentuid="hd356f502g1318g4f67gbb87gfebc6ca2f8b4" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Exit]&lt;/b&gt;</content>
 	<content contentuid="hb6b17fbfg2a1dg43d3ga371ge27d531eb466" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
 	<content contentuid="hc4e2f222g56b3g47fcga0e4g6ea838f0ffa7" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Validate Client Configs] &lt;/b&gt;Check if all Clients have the same&lt;b&gt; Active-Profile&lt;/b&gt;.</content>

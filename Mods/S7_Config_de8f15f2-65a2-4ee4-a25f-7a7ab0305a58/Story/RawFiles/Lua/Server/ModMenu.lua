@@ -34,7 +34,7 @@ ModMenuDialog:Update({
             local len = #Settings.ConfigFiles
             local dispMessage = 'No Config Files'
             if len == 1 then dispMessage = tostring(Settings.ConfigFiles[1])
-            elseif len >= 2 then dispMessage = tostring(len) .. " Config Files" end
+            elseif len >= 2 then dispMessage = tostring(len) .. ' Config Files' end
             return dispMessage
         end
     },
@@ -50,7 +50,7 @@ ModMenuDialog:Update({
 --  INITIATE MOD-MENU
 --  =================
 
-Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, "after", function (character, itemTemplate, item)
+Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, 'after', function (character, itemTemplate, item)
     if itemTemplate ~= Inspector then return end
     ModMenuDialog:Start()
 end)

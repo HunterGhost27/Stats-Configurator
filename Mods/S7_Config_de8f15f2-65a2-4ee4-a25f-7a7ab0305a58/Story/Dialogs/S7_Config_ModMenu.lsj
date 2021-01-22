@@ -1744,7 +1744,7 @@
                                                 "TagText" : {
                                                    "handle" : "h9d665774gc170g41dagb31dge49a5cec5676",
                                                    "type" : 28,
-                                                   "value" : "<b>[Diagnostics]</b>"
+                                                   "value" : "<b>[Miscellaneous]</b>"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -2345,7 +2345,7 @@
                                                 "TagText" : {
                                                    "handle" : "h3837ed2dg4ae8g410bgb1bdg92a594e02d43",
                                                    "type" : 28,
-                                                   "value" : " Diagnostics Options"
+                                                   "value" : "Miscellaneous Options"
                                                 },
                                                 "stub" : {"type" : 19, "value" : 1}
                                              }
@@ -4642,7 +4642,7 @@
          },
          "editorData" : {
             "needLayout" : {"type" : 19, "value" : 0},
-            "nextNodeId" : {"type" : 5, "value" : 434}
+            "nextNodeId" : {"type" : 5, "value" : 439}
          }
       }
    }
