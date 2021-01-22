@@ -12,8 +12,6 @@ function Stats:Configurator()
     ForEach(self.Configurations, function(key, config)
         if type(config) ~= 'table' then return end
 
-        local keyToken, key, keyType = string.match(key, '^(%p)(.*):(.-)$')
-
         local statList = Collections:Unpack(key)
         ForEach(statList, function(statName, bool)
             if not bool then return end
