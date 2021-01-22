@@ -13,13 +13,6 @@
                     <attribute id="type" value="FixedString" type="23" />
                 </node>
                 <node id="DialogVariable">
-                    <attribute id="DefaultValue" value="" type="23" />
-                    <attribute id="Description" value="" type="23" />
-                    <attribute id="UUID" value="06618d4e-dff1-4bfb-a0e2-14865b5dfb64" type="31" />
-                    <attribute id="name" value="S7_Config_BypassSafety" type="22" />
-                    <attribute id="type" value="FixedString" type="23" />
-                </node>
-                <node id="DialogVariable">
                     <attribute id="DefaultValue" value="N/A" type="23" />
                     <attribute id="Description" value="" type="23" />
                     <attribute id="UUID" value="d1802751-5b8f-4cc2-91bb-0ed459bf920d" type="31" />

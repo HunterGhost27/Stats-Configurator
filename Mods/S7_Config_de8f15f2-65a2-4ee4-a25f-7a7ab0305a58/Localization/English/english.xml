@@ -24,7 +24,6 @@
 	<content contentuid="he9497e58g5937g4bacgbc3agc491cf268304" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Configuration]&lt;/b&gt;</content>
 	<content contentuid="h42cd267fga1a8g4e1bg80acg959186c3e523" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Load Configuration]&lt;/b&gt; Load [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
 	<content contentuid="he7404fe0gb8deg4b80gb604g135dd58f00d4" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
-	<content contentuid="h18d04b4egc0f0g4adeg9d2bg3ef80457a3c5" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
 	<content contentuid="hd60e2cd6g7f8cg49fagb317g16855bf7276a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Rebuild Collections]&lt;/b&gt; Recreate stat-collections from presets and custom settings.</content>
 	<content contentuid="h3837ed2dg4ae8g410bgb1bdg92a594e02d43" Source="S7_Config_ModMenu.lsj">Miscellaneous Options</content>
 	<content contentuid="hd356f502g1318g4f67gbb87gfebc6ca2f8b4" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Exit]&lt;/b&gt;</content>
@@ -33,16 +32,14 @@
 	<content contentuid="h989bec08g00bbg41f6g9717g47ab18799cd5" Source="S7_Config_ModMenu.lsj">&lt;b&gt;Loaded Configuration:&lt;/b&gt; [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]&lt;br&gt;&lt;b&gt;Status: &lt;/b&gt;[S7_Config_StatsConfiguratorResponse_68b60e77-cbff-460d-8a78-5a264fe0bbcb]</content>
 	<content contentuid="hc0073b15g1f21g4122gad42g5b288c5c8391" Source="S7_Config_ModMenu.lsj">[S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] &lt;b&gt;Rebuilt&lt;/b&gt; using [S7_Config_ConfigFile_d1802751-5b8f-4cc2-91bb-0ed459bf920d]</content>
 	<content contentuid="h509c8162gad02g4ed0gabc2gfcf04b94141c" Source="S7_Config_ModMenu.lsj">Inspect Skill removed from the Host-Character.</content>
-	<content contentuid="h2d2250cag1717g4b36gb22fgc46dcc77f9ba" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Bypass Safety-Check]:&lt;/b&gt; [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]</content>
 	<content contentuid="h7ebaf479g4ce9g4df2g8e3dg8fdb1b27fde0" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Settings]&lt;/b&gt;</content>
 	<content contentuid="h3e2d8175g9ca4g4967ga653gb847d9ddb3c9" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Rebuild ConfigData] &lt;/b&gt;Rebuild [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8] File.</content>
 	<content contentuid="hf483fc67gab80g4c24gb591g4c7f763ce19f" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Reset to Default]&lt;/b&gt; Reset settings to the original default values.</content>
-	<content contentuid="h4a798876g1211g4005gb230g17485fa395cc" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Settings]:&lt;/b&gt; [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]&lt;br&gt;&lt;b&gt;[Stats-Loader]: &lt;/b&gt;[S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;b&gt;&lt;br&gt;[Savegame Persistence]&lt;/b&gt;: [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]&lt;br&gt;&lt;b&gt;[Bypass Safety-Check]:&lt;/b&gt; [S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64]</content>
+	<content contentuid="h4a798876g1211g4005gb230g17485fa395cc" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Settings]:&lt;/b&gt; [S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6]&lt;br&gt;&lt;b&gt;[Stats-Loader]: &lt;/b&gt;[S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;b&gt;&lt;br&gt;[Savegame Persistence]&lt;/b&gt;: [S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
 	<content contentuid="h951baf2cg4e55g41c3g9d74g07151b2a2a5d" Source="S7_Config_ModMenu.lsj">Please Wait.</content>
 	<content contentuid="h31324090gd640g429bga93cga6d246031606" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]</content>
 	<content contentuid="h222e5f0fg0512g4227g8650g4b359c36799a" Source="S7_Config_ModMenu.lsj"> Please Wait.</content>
 	<content contentuid="h06f1b5e8g5ce8g4b7cga35fgac4d8c514b0a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Export Current Settings] &lt;/b&gt;Save the current settings.</content>
-	<content contentuid="h37927456g0cdeg4554g8f94g90587f82f0eb" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Toggle BypasscSafety-Check] &lt;/b&gt;Prevents modification of certain attributes. (Default: Disabled)</content>
 	<content contentuid="hab918836gd6d4g4edega76eg2d1532d1a616" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
 	<content contentuid="hf9209b5dgc205g4bffga63bg03bb17a32088" Source="S7_Config_ModMenu.lsj">Collections Rebuilt.</content>
 	<content contentuid="h679ca616g08d8g4387gab58g4bc85bb24233" Source="S7_Config_ModMenu.lsj">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>

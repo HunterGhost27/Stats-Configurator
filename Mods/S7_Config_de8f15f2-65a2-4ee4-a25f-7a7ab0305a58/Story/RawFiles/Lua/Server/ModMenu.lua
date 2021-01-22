@@ -20,10 +20,6 @@ ModMenuDialog:Update({
         ['dialogVar'] = 'S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a',
         ['dialogVal'] = function() return Settings.SyncStatPersistence == true and 'Enabled' or 'Disabled' end
     },
-    ['BypassSafetyCheck'] = {
-        ['dialogVar'] = 'S7_Config_BypassSafety_06618d4e-dff1-4bfb-a0e2-14865b5dfb64',
-        ['dialogVal'] = function() return Settings.BypassSafetyCheck == true and 'Enabled' or 'Disabled' end
-    },
     ['Settings'] = {
         ['dialogVar'] = 'S7_Config_Settings_c02bc213-de0d-4f0f-b501-7b8913d146a6',
         ['dialogVal'] = function() return IsEqual(Settings, MODINFO.DefaultSettings) and 'Default-Settings' or 'Custom-Settings' end
@@ -122,7 +118,6 @@ ModMenuDialog:AddListeners({
     --  TOGGLES
     --  =======
 
-    ['S7_ToggleSafetyCheck'] = function () Settings.BypassSafetyCheck = not Settings.BypassSafetyCheck end,
     ['S7_ToggleStatsLoader'] = function () Settings.StatsLoader.Enable = not Settings.StatsLoader.Enable end,
     ['S7_ToggleSyncStatPersistence'] = function () Settings.SyncStatPersistence = not Settings.SyncStatPersistence end,
 

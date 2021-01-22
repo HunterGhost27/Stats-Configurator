@@ -22,7 +22,6 @@ function Stats:Configurator()
             Stringer:Add(statName)
             Stringer:LineBreak('-')
             ForEach(config, function(attribute, value)
-                if not SafeToModify(statName, attribute) then return end
                 Stringer:Add(tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
                 stat[attribute] = value
             end)
@@ -57,32 +56,4 @@ function BuildConfigData(buildData)
     local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
     for key, value in pairs(buildData) do configData[key] = value end
     SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)
-end
-
---  ==============
---  SAFE TO MODIFY
---  ==============
-
-function SafeToModify(statName, attribute)
-    if Settings.BypassSafetyCheck then return true end
-
-    local dontFwith = {
-        ["AoEConditions"] = true,
-        ["TargetConditions"] = true,
-        ["ForkingConditions"] = true,
-        ["CycleConditions"] = true,
-        ["SkillProperties"] = true,
-        ["WinBoost"] = true,
-        ["LoseBoost"] = true,
-        ["RootTemplate"] = true
-    } --  dont mess with these keys
-
-
-    if dontFwith[attribute] then
-        Debug:Warn("SafeToModify() prevents modification of " .. attribute .. " [BypassSafetyCheck: " .. tostring(Settings.BypassSafetyCheck) .. "]")
-        return false
-    else
-        if Ext.StatGetAttribute(statName, attribute) then return true
-        else Debug:Warn(attribute .. " is not a valid attribute for " .. statName) return false end
-    end
 end
