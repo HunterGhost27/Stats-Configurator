@@ -95,11 +95,11 @@ end
 function Update:Update(oldVersion, newVersion)
     Debug:HFPrint("Updating " .. IDENTIFIER .. ": " .. oldVersion:String() .. " --> " .. newVersion:String())
 
-    for idx, update in pairs(self.list) do
+    ForEach(self.list, function(idx, update)
         if update.event == "Now" then update.action()
         else Ext.RegisterListener(update.event, update.action) end
         self.list[idx] = nil
-    end
+    end)
 
     self.isRequired = false
     self.force = false
