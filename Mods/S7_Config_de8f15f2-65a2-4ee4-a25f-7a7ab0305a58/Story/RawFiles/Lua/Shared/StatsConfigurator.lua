@@ -21,7 +21,8 @@ function Stats:Configurator()
 
             Stringer:Add(statName)
             Stringer:LineBreak('-')
-            ForEach(config, function(attribute, value)
+            ForEach(config, function(key, value)
+                local attribute, value = HandleAttributeTokens(stat, key, value)
                 Stringer:Add(tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
                 stat[attribute] = value
             end)
@@ -29,7 +30,6 @@ function Stats:Configurator()
             self.Synchronizations[statName] = true
         end)
         self.Configurations[key] = nil
-    
     end)
     Debug:Print(Stringer:Build())
     Debug:FPrint('Configuration Profile Active')
@@ -56,4 +56,20 @@ function Stats:BuildConfigData(buildData)
     local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
     for key, value in pairs(buildData) do configData[key] = value end
     SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)
+end
+
+--  ATTRIBUTE TOKENS
+--  ================
+
+function HandleAttributeTokens(stat, key, value)
+    local token, attribute = string.match(key, "^(%p?)(.-)$")
+    if token == "+" then
+        if type(value) == 'string' then value = stat[attribute] .. ";" .. tostring(value) .. ";"
+        else value = stat[attribute] + value end
+    elseif token == "-" then value = stat[attribute] - value
+    elseif token == "*" then value = stat[attribute] * value
+    elseif token == "/" then value = stat[attribute] / value
+    elseif token == "$" then value = Ext.StatGetAttribute('value', attribute) or stat[attribute]
+    end
+    return attribute, value
 end
