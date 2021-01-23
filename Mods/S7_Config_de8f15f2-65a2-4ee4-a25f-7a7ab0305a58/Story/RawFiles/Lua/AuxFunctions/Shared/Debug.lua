@@ -38,7 +38,9 @@ function Scan(e)
             return encapsulate(key), encapsulate(value)
         end, true)
     end
-    Debug:Print(Yamlify(e))
+    local ret = Yamlify(e)
+    Debug:Print(ret)
+    return ret
 end
 
 --  =====
