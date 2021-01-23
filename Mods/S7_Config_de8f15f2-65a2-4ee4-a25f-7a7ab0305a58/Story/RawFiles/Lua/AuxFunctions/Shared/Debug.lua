@@ -28,21 +28,17 @@ end
 --  SCAN
 --  ====
 
-Scan = {['level'] = 0, ['char'] = "  "}
 local function encapsulate(e) return tostring(e) .. "<" .. type(e):sub(0, 3) .. ">" end
 
 --- Prints detailed information about element to the console
-function Scan:Element(e)
+function Scan(e)
+    local e = e or ""
     if type(e) == 'table' then
-        for key, value in pairs(e) do
-            Ext.Print(string.rep(self.char, self.level) .. encapsulate(key) .. ": " .. encapsulate(value))
-            if type(value) == 'table' then
-                self.level = self.level + 1
-                Scan:Element(value)
-            end
-        end
-    else Ext.Print(string.rep(self.char, self.level) .. encapsulate(e)) end
-    self.level = 0
+        e = Map(e, function(key, value)
+            return encapsulate(key), encapsulate(value)
+        end, true)
+    end
+    Debug:Print(Yamlify(e))
 end
 
 --  =====

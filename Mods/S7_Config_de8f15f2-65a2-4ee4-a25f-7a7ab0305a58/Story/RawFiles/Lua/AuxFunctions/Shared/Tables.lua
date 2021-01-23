@@ -131,12 +131,17 @@ end
 ---Higher-Order Map Method
 ---@param t table
 ---@param callback function Takes `Key` and `Value` as arguments
+---@param recursive boolean Recursion `true` or `false`
 ---@return table mapped Mapped table
-function Map(t, callback)
+function Map(t, callback, recursive)
     local mapped = {}
+    local recursive = recursive or false
     if type(t) ~= 'table' then return end
+
     for key, value in pairs(t) do
-        local newKey, newValue = callback(key, value, t)
+        local newKey, newValue = key, value
+        if type(value) == 'table' then newValue = recursive and Map(value, callback, recursive) or value
+        else newKey, newValue = callback(key, value, recursive) end
         mapped[newKey] = newValue
     end
     return mapped

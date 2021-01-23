@@ -8,6 +8,7 @@
 Ext.Require('AuxFunctions/Shared/General.lua')
 Ext.Require('AuxFunctions/Shared/Strings.lua')
 Ext.Require('AuxFunctions/Shared/Tables.lua')
+Ext.Require('AuxFunctions/Shared/Yamlifier.lua')
 Ext.Require('AuxFunctions/Shared/Files.lua')
 Ext.Require('AuxFunctions/Shared/Debug.lua')
 
