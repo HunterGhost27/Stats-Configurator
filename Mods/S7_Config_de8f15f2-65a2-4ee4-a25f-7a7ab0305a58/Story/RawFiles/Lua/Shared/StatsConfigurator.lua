@@ -69,7 +69,10 @@ function HandleAttributeTokens(stat, key, value)
     elseif token == "-" then value = stat[attribute] - value
     elseif token == "*" then value = stat[attribute] * value
     elseif token == "/" then value = stat[attribute] / value
+    elseif token == "%" then value = stat[attribute] % value
+    elseif token == "^" then local v = 1 for i = 1, value do v = v * stat[attribute] end value = v
     elseif token == "$" then value = Ext.StatGetAttribute('value', attribute) or stat[attribute]
+    elseif token == "?" then value = Ext.Random(0, value)
     end
     return attribute, value
 end
