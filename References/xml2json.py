@@ -27,6 +27,7 @@ statObjectDefsDataFrame = pdx.read_xml(
 #   -----------------------
 
 jsonContent = {}
+maps = {}
 for index, content in statObjectDefsDataFrame.iterrows():
 
     #   Extract data as data-frame
@@ -55,8 +56,14 @@ for index, content in statObjectDefsDataFrame.iterrows():
         else:
             jsonContent[value['@name']] = value['@type']
 
-    with open("json/StatObjectDefinitions.json", "w") as jsonFile:
-        jsonFile.write(json.dumps(jsonContent))
-    jsonFile.close()
+    maps[content['@name']] = list(fieldDefsDataFrame['@name'])
+
+with open("json/StatObjectDefinitions.json", "w") as jsonFile:
+    jsonFile.write(json.dumps(jsonContent))
+jsonFile.close()
+
+with open("json/AttributeMaps.json", "w") as mapFile:
+    mapFile.write(json.dumps(maps))
+mapFile.close()
 
 #   #########################################################################################################################################
