@@ -53,3 +53,24 @@ ConsoleCommander:Register({
         Debug:Print(Stringer:Build())
     end
 })
+
+--  DEEP DIVE
+--  =========
+
+ConsoleCommander:Register({
+    ['Name'] = 'DeepDive',
+    ['Description'] = "Prints detailed information about (statName)",
+    ['Context'] = 'Shared',
+    ['Params'] = {[1] = 'statName'},
+    ['Action'] = function(statName)
+        local stat = Ext.GetStat(statName)
+        if not stat then return Debug:Warn('No such stat found!') end
+        local statType = DetermineStatType(statName)
+        local attributes = table.pack(Disintegrate(AttributeMaps[statType], ","))
+        Stringer:SetHeader('DeepDive into ' .. statName)
+        for _, attribute in pairs(attributes) do
+            Stringer:Add(attribute .. ": " .. Ext.JsonStringify(stat[attribute]))
+        end
+        Debug:Print(Stringer:Build())
+    end
+})
