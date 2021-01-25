@@ -42,48 +42,48 @@ Ext.RegisterOsirisListener('CharacterUsedSkillOnTarget', 5, 'after', function (c
     local targetGUID = ExtractGUID(tar)
     local target = Osi.ObjectIsCharacter(targetGUID) == 1 and Ext.GetCharacter(targetGUID) or Ext.GetItem(targetGUID)
 
-    Stringer:SetHeader('Inspecting: ' .. tostring(tar))
+    Write:SetHeader('Inspecting: ' .. tostring(tar))
 
     if Osi.ObjectIsCharacter(targetGUID) == 1 then
         local skills = target:GetSkills()
-        Stringer:Add('Skills:')
-        Stringer:LineBreak('-')
-        for _, skill in pairs(skills) do Stringer:Add("  " .. skill) end
-        Stringer:LineBreak('_')
+        Write:NewLine('Skills:')
+        Write:LineBreak('-')
+        for _, skill in pairs(skills) do Write:NewLine("  " .. skill) end
+        Write:LineBreak('_')
     end
 
     local statuses = target:GetStatuses()
     if IsValid(statuses) then
-        Stringer:Add('Statuses: ')
-        Stringer:LineBreak('-')
-        for _, status in pairs(statuses) do Stringer:Add("  " .. status) end
-        Stringer:LineBreak('_')
+        Write:NewLine('Statuses: ')
+        Write:LineBreak('-')
+        for _, status in pairs(statuses) do Write:NewLine("  " .. status) end
+        Write:LineBreak('_')
     end
 
-    Debug:FPrint(Stringer:Build())
+    Debug:FPrint(Write:Display())
 end)
 
 Ext.RegisterOsirisListener('CharacterUsedSkillAtPosition', 7, 'after', function(char, x, y, z, skill, ...)
     if char ~= Osi.CharacterGetHostCharacter() and skill ~= InspectSkill then return end
 
-    Stringer:SetHeader('Inspecting Vicinity: ' .. "x: " .. x .. " y: " .. y .. " z: " .. z)
+    Write:SetHeader('Inspecting Vicinity: ' .. "x: " .. x .. " y: " .. y .. " z: " .. z)
     local characters = Ext.GetCharactersAroundPosition(x, y, z, 15)
     local items = Ext.GetItemsAroundPosition(x, y, z, 15)
 
-    Stringer:Add('Characters: ')
-    Stringer:LineBreak('-')
+    Write:NewLine('Characters: ')
+    Write:LineBreak('-')
     for _, character in pairs(characters) do
         local c = Ext.GetCharacter(character)
-        Stringer:Add("  " .. c.DisplayName .. "\t" .. c.RootTemplate.Stats)
+        Write:NewLine("  " .. c.DisplayName .. "\t" .. c.RootTemplate.Stats)
     end
-    Stringer:LineBreak('_')
-    Stringer:Add('Items: ')
-    Stringer:LineBreak('-')
+    Write:LineBreak('_')
+    Write:NewLine('Items: ')
+    Write:LineBreak('-')
     for _, item in pairs(items) do
         local i = Ext.GetItem(item)
-        Stringer:Add("  " .. i.DisplayName .. "\t" .. i.StatsId)
+        Write:NewLine("  " .. i.DisplayName .. "\t" .. i.StatsId)
     end
-    Stringer:LineBreak('_')
+    Write:LineBreak('_')
 
-    Debug:FPrint(Stringer:Build())
+    Debug:FPrint(Write:Display())
 end)

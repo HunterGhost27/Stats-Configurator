@@ -58,21 +58,21 @@ function ConsoleCommanderHelp(target)
     local helpMsg = ""
 
     if ConsoleCommander[target] and isValidContext(ConsoleCommander[target]) then
-        Stringer:SetHeader(target .. ": " .. ConsoleCommander[target].Description)
+        Write:SetHeader(target .. ": " .. ConsoleCommander[target].Description)
         if ConsoleCommander[target].Params then
             for key, value in ipairs(ConsoleCommander[target].Params) do
-                Stringer:Add("\t" .. "Parameter" .. key .. ": " .. value)
+                Write:NewLine("\t" .. "Parameter" .. key .. ": " .. value)
             end
         end
-        helpMsg = Stringer:Build()
+        helpMsg = Write:Display()
     else
         local helpTable = {}
         for cmdName, value in pairs(Rematerialize(ConsoleCommander)) do helpTable[cmdName] = value.Description end
 
-        Stringer:SetHeader('COMMAND\t\t\tDESCRIPTION')
-        Stringer:Tabulate(helpTable)
-        Stringer:Add("!" .. IDENTIFIER .." Help <CommandName> for more info")
-        helpMsg = Stringer:Build()
+        Write:SetHeader('COMMAND\t\t\tDESCRIPTION')
+        Write:Tabulate(helpTable)
+        Write:NewLine("!" .. IDENTIFIER .." Help <CommandName> for more info")
+        helpMsg = Write:Display()
     end
     Debug:FWarn(helpMsg)
 end

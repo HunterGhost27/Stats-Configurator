@@ -48,9 +48,9 @@ ConsoleCommander:Register({
     ['Action'] = function (search, searchType)
         if not ValidString(search) then return end
         local allStat = ValidString(searchType) and Ext.GetStatEntries(searchType) or Ext.GetStatEntries()
-        Stringer:SetHeader("Search Results for: " .. search)
-        for _, stat in ipairs(allStat) do if string.match(stat, search) then Stringer:Add(stat) end end
-        Debug:Print(Stringer:Build())
+        Write:SetHeader("Search Results for: " .. search)
+        for _, stat in ipairs(allStat) do if string.match(stat, search) then Write:NewLine(stat) end end
+        Debug:Print(Write:Display())
     end
 })
 
@@ -67,10 +67,10 @@ ConsoleCommander:Register({
         if not stat then return Debug:Warn('No such stat found!') end
         local statType = DetermineStatType(statName)
         local attributes = table.pack(Disintegrate(AttributeMaps[statType], ","))
-        Stringer:SetHeader('DeepDive into ' .. statName)
+        Write:SetHeader('DeepDive into ' .. statName)
         for _, attribute in pairs(attributes) do
-            Stringer:Add(attribute .. ": " .. Ext.JsonStringify(stat[attribute]))
+            Write:NewLine(attribute .. ": " .. Ext.JsonStringify(stat[attribute]))
         end
-        Debug:Print(Stringer:Build())
+        Debug:Print(Write:Display())
     end
 })

@@ -8,7 +8,7 @@ Stats = {
 }
 
 function Stats:Configurator()
-    Stringer:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile.")
+    Write:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile.")
     ForEach(self.Configurations, function(key, config)
         if type(config) ~= 'table' then return end
 
@@ -19,19 +19,19 @@ function Stats:Configurator()
             local stat = Ext.GetStat(statName)
             if not stat then return end
 
-            Stringer:Add(statName)
-            Stringer:LineBreak('-')
+            Write:NewLine(statName)
+            Write:LineBreak('-')
             ForEach(config, function(key, value)
                 local attribute, value = HandleAttributeTokens(stat, key, value)
-                Stringer:Add(tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
+                Write:NewLine(tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
                 stat[attribute] = value
             end)
-            Stringer:LineBreak('_')
+            Write:LineBreak('_')
             self.Synchronizations[statName] = true
         end)
         self.Configurations[key] = nil
     end)
-    Debug:Print(Stringer:Build())
+    Debug:Print(Write:Display())
     Debug:FPrint('Configuration Profile Active')
 end
 
@@ -39,13 +39,13 @@ end
 --  =================
 
 function Stats:Synchronize()
-    Stringer:SetHeader('Synchronizing Stats [Persistence: ' .. tostring(Settings.SyncStatPersistence) .. ']')
+    Write:SetHeader('Synchronizing Stats [Persistence: ' .. tostring(Settings.SyncStatPersistence) .. ']')
     for stat, bool in pairs(self.Synchronizations) do
         Ext.SyncStat(stat, Settings.SyncStatPersistence)
-        Stringer:Add('Synchronized Stat: ' .. stat)
+        Write:NewLine('Synchronized Stat: ' .. stat)
         self.Synchronizations[stat] = nil
     end
-    Debug:Print(Stringer:Build())
+    Debug:Print(Write:Display())
     Debug:Print('Synchronization Complete', {['dialogVar'] = 'SyncStat'})
 end
 
