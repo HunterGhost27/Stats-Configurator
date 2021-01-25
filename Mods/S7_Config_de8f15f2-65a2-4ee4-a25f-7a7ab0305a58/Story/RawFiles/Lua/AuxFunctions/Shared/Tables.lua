@@ -55,6 +55,24 @@ function Spairs(t, order)
     end
 end
 
+--  ===============
+--  ARRAY TO STRING
+--  ===============
+
+---Converts array into a string
+---@param t table
+---@param sep string
+---@return string
+function ArrayToString(t, sep)
+    if type(t) ~= 'table' then return end
+    local str = ""
+    local sep = sep or ";"
+    for key, value in pairs(t) do
+        str = str .. tostring(value) .. sep
+    end
+    return str
+end
+
 --  ====================
 --  VALIDATE INPUT TABLE
 --  ====================

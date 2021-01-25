@@ -8,7 +8,6 @@
 ---@field Expiry string Event
 Memo = {}
 
----@type table<string, Memo>
 Memoizer = {}
 
 function Memoizer:Init(object)
