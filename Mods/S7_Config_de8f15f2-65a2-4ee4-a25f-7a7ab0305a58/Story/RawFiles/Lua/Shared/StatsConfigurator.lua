@@ -61,18 +61,48 @@ end
 --  ATTRIBUTE TOKENS
 --  ================
 
-function HandleAttributeTokens(stat, key, value)
-    local token, attribute = string.match(key, "^(%p?)(.-)$")
-    if token == "+" then
-        if type(value) == 'string' then value = stat[attribute] .. ";" .. tostring(value) .. ";"
-        else value = stat[attribute] + value end
-    elseif token == "-" then value = stat[attribute] - value
-    elseif token == "*" then value = stat[attribute] * value
-    elseif token == "/" then value = stat[attribute] / value
-    elseif token == "%" then value = stat[attribute] % value
-    elseif token == "^" then local v = 1 for i = 1, value do v = v * stat[attribute] end value = v
-    elseif token == "$" then value = Ext.StatGetAttribute('value', attribute) or stat[attribute]
-    elseif token == "?" then value = Ext.Random(0, value)
+function HandleAttributeTokens(stat, attribute, value)
+    local originalValue = stat[attribute]
+    local token, attribute = string.match(attribute, "^(%p?)(.-)$")
+    local attributeType = DetermineAttributeType(attribute, stat.Name)
+
+    if attributeType == 'Integer' or attributeType == 'number' then
+        if token == "+" then value = originalValue + value
+        elseif token == "-" then value = originalValue - value
+        elseif token == "*" then value = originalValue * value
+        elseif token == "/" then value = originalValue / value
+        elseif token == "%" then value = originalValue % value
+        elseif token == "^" then local v = 1 for i = 1, value do v = v * originalValue end value = v
+        elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
+        elseif token == "?" then value = Ext.Random(0, value)
+        end
     end
+
+    if attributeType == 'String' or attributeType == 'string' then
+        if token == "+" then
+            local t = table.pack(Disintegrate(originalValue), ";")
+            table.insert(t, value)
+            value = ArrayToString(t)
+        elseif token == "-" then
+            local t = table.pack(Disintegrate(value), ";")
+            table.remove(t, Pinpoint(value))
+            value = ArrayToString(t)
+        elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
+        end
+    end
+
+    if attributeType == 'Enumeration' then
+        local _, enumType = Disintegrate(attributeType, ":")
+        if type(originalValue) == 'string' then originalValue = EnumTransformer('Label2Index', enumType, originalValue) end
+        value = type(value) == 'string' and EnumTransformer('Label2Index', enumType, value) or value
+        if token == "+" then value = originalValue + value
+        elseif token == "-" then value = originalValue - value
+        elseif token == "$" then
+            local copy = Ext.StatGetAttribute(stat.Name, attribute)
+            copy = type(copy) == 'string' and EnumTransformer('Label2Index', enumType, copy) or copy
+            value =  copy or originalValue
+        end
+    end
+
     return attribute, value
 end
