@@ -4,7 +4,8 @@
 
 Stats = {
     ['Configurations'] = {},
-    ['Synchronizations'] = {}
+    ['Synchronizations'] = {},
+    ['Memoizer'] = Memoizer:Init()
 }
 
 function Stats:Configurator()
@@ -63,7 +64,9 @@ end
 
 function HandleAttributeTokens(stat, attribute, value)
     local token, attribute = string.match(attribute, "^(%p?)(.-)$")
-    local originalValue = stat[attribute]
+    if not IsValid(token) then return attribute, value end
+
+    local originalValue = Stats.Memoizer:UseMemo(stat.Name ..":" .. attribute, stat[attribute])
     local attributeType = DetermineAttributeType(attribute, stat.Name)
 
     if attributeType == 'Integer' or attributeType == 'number' then
