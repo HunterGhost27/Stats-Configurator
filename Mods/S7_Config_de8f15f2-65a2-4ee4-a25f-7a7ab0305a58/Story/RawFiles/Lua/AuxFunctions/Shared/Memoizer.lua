@@ -33,9 +33,10 @@ function Memoizer:UseMemo(alias, fallback, ...)
     local ret
     if IsValid(self[alias]['Val']) then ret = self[alias]['Val']
     else
-        self[alias]['Var'] = self[alias]['Resolver'](...) or fallback(...)
+        self[alias]['Val'] = type(self[alias]['Resolver']) == 'function' and self[alias]['Resolver'](...) or self[alias]['Resolver']
         ret = self[alias]['Val']
     end
+    if not IsValid(ret) then ret = type(fallback) == 'function' and fallback(...) or fallback end
     return ret
 end
 
