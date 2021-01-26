@@ -60,8 +60,7 @@ end
 ---Prints information about all tracked flags
 function Flags:StatusReport()
     Write:SetHeader("Status Report - Flags:")
-    local filteredSelf = Filter(self, function(flagName, flag) return type(flag) == 'table' end)
-    Write:Tabulate(Map(filteredSelf, function(flagName, flag) return flag.flagType .. " " .. flagName .. ": ", tostring(flag.boolState) end))
+    for flagName, flag in pairs(Rematerialize(self)) do if type(flag) == 'table' then Write:NewLine(tostring(flag.flagType) .. " " .. flagName .. ": " .. tostring(flag.boolState)) end end
     Debug:Print(Write:Display())
 end
 
