@@ -120,6 +120,7 @@ Thumbs.db
 #        HUNTER-GHOST-27
 #    #######################
 
+.vscode/
 *.code-workspace
 Documentation/Images/
 Documentation/Videos/
