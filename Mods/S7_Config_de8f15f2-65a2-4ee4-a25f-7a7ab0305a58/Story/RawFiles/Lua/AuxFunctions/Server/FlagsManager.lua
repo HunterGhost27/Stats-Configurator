@@ -7,7 +7,7 @@
 
 ---@class FlagObject
 ---@field flagName string
----@field flagType string 'Global', 'Item', 'Character'
+---@field flagType string 'Global' only for now
 ---@field state number 0 or 1
 ---@field boolState boolean false or true
 FlagObject = {
@@ -59,10 +59,9 @@ end
 
 ---Prints information about all tracked flags
 function Flags:StatusReport()
-    Write:SetHeader("Flags:")
-    for flagName, flag in pairs(self) do
-        if type(flag) == 'table' then Write:NewLine(flagName .. "(" .. flag.flagType .. "): " .. tostring(flag.boolState)) end
-    end
+    Write:SetHeader("Status Report - Flags:")
+    local filteredSelf = Filter(self, function(flagName, flag) return type(flag) == 'table' end)
+    Write:Tabulate(Map(filteredSelf, function(flagName, flag) return flag.flagType .. " " .. flagName .. ": ", tostring(flag.boolState) end))
     Debug:Print(Write:Display())
 end
 
@@ -70,7 +69,7 @@ if Ext.IsDeveloperMode() then
     ConsoleCommander:Register({
         ['Name'] = 'FlagsStatusReport',
         ['Context'] = 'Server',
-        ['Description'] = "Shows status of tracked flags",
+        ['Description'] = "Shows status of all tracked flags",
         ['Action'] = function() Flags:StatusReport() end
     })
 end

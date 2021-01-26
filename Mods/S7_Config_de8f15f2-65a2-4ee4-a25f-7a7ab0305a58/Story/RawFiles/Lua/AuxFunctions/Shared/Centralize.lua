@@ -7,7 +7,6 @@ CENTRALFILE = 'S7Central.json'
 ---@class CENTRAL @Holds information about mods
 CENTRAL = {}
 CENTRAL[IDENTIFIER] = {
-    ["Author"] = MODINFO.Author,
     ["Name"] = MODINFO.Name,
     ["UUID"] = MODINFO.UUID,
     ["Version"] = MODINFO.Version,

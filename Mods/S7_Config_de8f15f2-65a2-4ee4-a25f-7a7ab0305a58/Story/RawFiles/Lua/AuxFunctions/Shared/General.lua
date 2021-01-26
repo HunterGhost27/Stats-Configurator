@@ -85,3 +85,19 @@ function Rematerialize(element, config, clones)
 
    return clone
 end
+
+--  ===========
+--  IS CALLABLE
+--  ===========
+
+---Checks if the element is callable like a function or functable
+---@param e any
+---@return boolean
+function IsCallable(e)
+    if type(e) == 'function' then return true end
+    if type(e) == 'table' then
+      local mt = getmetatable(e)
+      return type(mt) == 'table' and IsCallable(mt.__call)
+    end
+    return false
+  end

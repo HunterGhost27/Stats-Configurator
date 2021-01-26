@@ -4,24 +4,55 @@
 
 ---@class Memo
 ---@field Val any
----@field Resolver any|function
----@field Expiry string Event
+---@field Resolver function
 Memo = {}
 
+---@class Memoizer
 Memoizer = {}
 
+---Initialize Memoizer
+---@param object any
+---@return table
 function Memoizer:Init(object)
     local object = object or {}
     object = Integrate(self, object)
     return object
 end
 
-function Memoizer:CreateMemo(memo)
-    if type(memo) ~='table' then return end
-    self = Integrate(self, memo)
+---Create new Memo
+---@param alias string
+---@param resolver function
+function Memoizer:CreateMemo(alias, resolver) self[alias] = {['Resolver'] = resolver} end
+
+---Use Memo
+---@param alias string
+---@param fallback function
+---@return any
+function Memoizer:UseMemo(alias, fallback, ...)
+    if not self[alias] then self:CreateMemo(alias, fallback) end
+    local ret
+    if IsValid(self[alias]['Val']) then ret = self[alias]['Val']
+    else
+        self[alias]['Var'] = self[alias]['Resolver'](...) or fallback(...)
+        ret = self[alias]['Val']
+    end
+    return ret
 end
 
-function Memoizer:Get(var)
-    if not self[var] then return end
-    return self[var]['Val'] or type(self[var]['Resolver']) == 'function' and self[var]['Resolver']() or self[var]['Resolver']
+---Forgets target Memo
+---@param alias string
+---@param thorough boolean
+function Memoizer:ScrapMemo(alias, thorough)
+    if not self[alias] then return end
+    if thorough then self[alias] = nil
+    else self[alias]['Val'] = nil end
+end
+
+---Forgets all Memos
+---@param thorough boolean
+function Memoizer:ScrapAll(thorough)
+    for key, _ in pairs(self) do
+        if thorough then self[key] = nil
+        else self[key]['Val'] = nil end
+    end
 end

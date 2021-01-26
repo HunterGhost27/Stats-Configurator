@@ -4,7 +4,7 @@
 
 ---@class DialogVar
 ---@field dialogVar string DialogVariable
----@field dialogVal string|function DialogVariable's value
+---@field dialogVal string|function DialogVariable's value or Resolver function
 ---@field dialogType string DialogVariable's type
 
 ---@class Dialog
@@ -16,7 +16,7 @@
 ---@field Relay table<string, function> DialogActions
 Dialog = {['isAutomated'] = 0}
 
----Instantiate new Dialog object.
+---Instantiate new Dialog object
 ---@param object table
 ---@return Dialog
 function Dialog:New(object)
