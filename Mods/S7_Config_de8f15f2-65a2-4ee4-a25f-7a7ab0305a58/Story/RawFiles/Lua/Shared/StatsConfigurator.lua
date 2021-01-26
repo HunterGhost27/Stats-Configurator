@@ -62,8 +62,8 @@ end
 --  ================
 
 function HandleAttributeTokens(stat, attribute, value)
-    local originalValue = stat[attribute]
     local token, attribute = string.match(attribute, "^(%p?)(.-)$")
+    local originalValue = stat[attribute]
     local attributeType = DetermineAttributeType(attribute, stat.Name)
 
     if attributeType == 'Integer' or attributeType == 'number' then
