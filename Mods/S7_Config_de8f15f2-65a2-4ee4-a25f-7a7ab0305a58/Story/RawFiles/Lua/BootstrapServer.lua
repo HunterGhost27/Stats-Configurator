@@ -23,7 +23,7 @@ end
 --  ==========
 
 Ext.RegisterOsirisListener('GameStarted', 2, 'after', function (level, gameMode)
-    if not Osi.IsGameLevel(level) then return end
+    if not IsValid(Osi.IsGameLevel(level)) then return end
 
     RefreshSettings()
     Collections:Rebuild()
