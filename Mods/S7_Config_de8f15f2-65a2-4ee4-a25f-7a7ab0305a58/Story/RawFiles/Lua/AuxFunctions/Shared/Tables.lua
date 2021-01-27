@@ -152,11 +152,11 @@ end
 ---@param recursive boolean Recursion `true` or `false`
 ---@return table mapped Mapped table
 function Map(t, callback, recursive)
+    if type(t) ~= 'table' then return end
     local mapped = {}
     local recursive = recursive or false
-    if type(t) ~= 'table' then return end
 
-    for key, value in pairs(t) do
+    for key, value in pairs(Rematerialize(t)) do
         local newKey, newValue = key, value
         if type(value) == 'table' then newValue = recursive and Map(value, callback, recursive) or value
         else newKey, newValue = callback(key, value, recursive) end
