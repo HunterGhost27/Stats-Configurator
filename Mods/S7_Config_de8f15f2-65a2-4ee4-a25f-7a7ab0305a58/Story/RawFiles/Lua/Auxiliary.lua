@@ -44,11 +44,11 @@ function RefreshSettings()
 end
 
 --  ======================================================
-Ext.RegisterListener("ModuleLoadStarted", RefreshSettings)
+Ext.RegisterListener('ModuleLoadStarted', RefreshSettings)
 --  ======================================================
 
 --  ======
 --  VARDEC
 --  ======
 
-Inspector = "S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254"
+Inspector = 'S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254'

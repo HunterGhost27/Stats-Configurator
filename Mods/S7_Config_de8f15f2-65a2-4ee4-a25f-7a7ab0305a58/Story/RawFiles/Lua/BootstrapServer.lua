@@ -2,14 +2,14 @@
 --  IMPORTS
 --  =======
 
-Ext.Require("Auxiliary.lua")
-Ext.Require("Server/ModMenu.lua")
-Ext.Require("Server/InspectSkill.lua")
-Ext.Require("Server/Networking.lua")
-Ext.Require("Shared/Collections.lua")
-Ext.Require("Shared/References.lua")
-Ext.Require("Server/ConsoleCommands.lua")
-Ext.Require("Shared/StatsConfigurator.lua")
+Ext.Require('Auxiliary.lua')
+Ext.Require('Server/ModMenu.lua')
+Ext.Require('Server/InspectSkill.lua')
+Ext.Require('Server/Networking.lua')
+Ext.Require('Shared/Collections.lua')
+Ext.Require('Shared/References.lua')
+Ext.Require('Server/ConsoleCommands.lua')
+Ext.Require('Shared/StatsConfigurator.lua')
 
 --  UI-COMPONENTS-LIBRARY INTEGRATION
 --  =================================
@@ -22,7 +22,7 @@ end
 --  GAME START
 --  ==========
 
-Ext.RegisterOsirisListener("GameStarted", 2, "after", function (level, gameMode)
+Ext.RegisterOsirisListener('GameStarted', 2, 'after', function (level, gameMode)
     if not Osi.IsGameLevel(level) then return end
 
     RefreshSettings()
