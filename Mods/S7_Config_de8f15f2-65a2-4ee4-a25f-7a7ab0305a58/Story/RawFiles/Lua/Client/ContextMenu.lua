@@ -1,16 +1,10 @@
 --  ============
---  CONTEXT-MENU
---  ============
-
-UCL = Mods['S7_UI_Components_Library'] -- Import UI Components Library
-
---  ============
 --  CONTEXT MENU
 --  ============
 
-local GUID = ExtractGUID(Inspector)
-
-if UCL.ContextMenu then
+Ext.RegisterListener('SessionLoaded', function()
+    UCL = Mods['S7_UI_Components_Library'] -- Import UI Components Library
+    local GUID = ExtractGUID(Inspector)
     UCL.ContextMenu:Register({
         ["RootTemplate::" .. GUID] = {
             {
@@ -22,4 +16,4 @@ if UCL.ContextMenu then
             }
         }
     })
-end
+end)
