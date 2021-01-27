@@ -23,5 +23,5 @@ function StatsLoader()
 end
 
 --  ============================================
-Ext.RegisterListener("StatsLoaded", StatsLoader)
+Ext.RegisterListener('StatsLoaded', StatsLoader)
 --  ============================================

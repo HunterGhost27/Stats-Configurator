@@ -24,14 +24,14 @@ ConsoleCommander:Register({
 
 ConsoleCommander:Register({
     ['Name'] = 'SyncStat',
-    ['Description'] = "Synchronize (stat) for all peers",
+    ['Description'] = "Synchronize (stat|nil) with (persistence|false) for all peers",
     ['Context'] = 'Server',
-    ['Params'] = {[1] = 'StatName', [2] = 'StatPersistence'},
+    ['Params'] = {[1] = 'StatName: string|nil', [2] = 'StatPersistence: boolean = false'},
     ['Action'] = function (...)
         local args = {...}
         local statName = args[1] or ""
         local statPersistence = args[2] or false
-        if not ValidString(statName) or not Osi.NRD_StatExists(statName) then return end
+        if not ValidString(statName) or not Osi.NRD_StatExists(statName) then Stats:Synchronize() return end
         Ext.SyncStat(statName, statPersistence)
         Debug:Print("Synchronized Stat: " .. statName)
     end
@@ -42,9 +42,9 @@ ConsoleCommander:Register({
 
 ConsoleCommander:Register({
     ['Name'] = 'SearchStat',
-    ['Description'] = "Search for (search-string) in category (stat-type)",
-    ['Context'] = "Shared",
-    ['Params'] = {[1] = 'Search', [2] = 'SearchType'},
+    ['Description'] = "Search for (search-string) in category (stat-type|nil)",
+    ['Context'] = 'Shared',
+    ['Params'] = {[1] = 'Search: string', [2] = 'SearchType: string|nil'},
     ['Action'] = function (search, searchType)
         if not ValidString(search) then return end
         local allStat = ValidString(searchType) and Ext.GetStatEntries(searchType) or Ext.GetStatEntries()
@@ -61,10 +61,10 @@ ConsoleCommander:Register({
     ['Name'] = 'DeepDive',
     ['Description'] = "Prints detailed information about (statName)",
     ['Context'] = 'Shared',
-    ['Params'] = {[1] = 'statName'},
+    ['Params'] = {[1] = 'statName: string'},
     ['Action'] = function(statName)
         local stat = Ext.GetStat(statName)
-        if not stat then return Debug:Warn('No such stat found!') end
+        if not stat then return Debug:Warn('Error404: No such stat found!') end
         local statType = DetermineStatType(statName)
         local attributes = table.pack(Disintegrate(AttributeMaps[statType], ","))
         Write:SetHeader('DeepDive into ' .. statName)
