@@ -73,42 +73,17 @@ ModMenuDialog:AddListeners({
     --  STATS-CONFIGURATOR
     --  ==================
 
-    ['S7_StatsConfigurator'] = function ()
-        local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
-        local files = LoadFiles(fileNames) or {}
-        Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
-        ForEach(files, function (fileName, fileContent)
-            if not IsValid(fileContent) then
-                Debug:FError(fileName .. " not found. Creating empty file", {['dialogVar'] = 'StatsConfigurator'})
-                SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFiles[Pinpoint(fileName, Settings.ConfigFiles)], {})
-            end
-            ForEach(fileContent, function(key, value) Stats.Configurations[key] = value end)
-        end)
-        Stats:Configurator()
-        Stats:Synchronize()
-        Debug:Print("StatsConfiguration Finished", {['dialogVar'] = 'StatsConfigurator'})
-    end,
+    ['S7_StatsConfigurator'] = function () LoadConfigs() end,
 
     --  BUILD CONFIG DATA
     --  =================
 
-    ['S7_BuildConfigData'] = function()
-        local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
-        local files = LoadFiles(fileNames) or {}
-        for idx, file in pairs(files) do Stats:BuildConfigData(file) end
-        Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName)
-    end,
+    ['S7_BuildConfigData'] = function() BuildConfigs() end,
 
     --  BROADCAST CONFIG-DATA
     --  =====================
 
-    ['S7_BroadcastConfigData'] = function ()
-        local broadcast = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or ""
-        if ValidString(broadcast) then
-            Ext.BroadcastMessage("S7_Config::ConfigData", broadcast)
-            Debug:Print("Server broadcasted their configuration file")
-        else Debug:Error("Failed to broadcast the configuration file") end
-    end,
+    ['S7_BroadcastConfigData'] = function () BroadcastConfigs() end,
 
     --  VALIDATE CLIENT CONFIG
     --  ======================
