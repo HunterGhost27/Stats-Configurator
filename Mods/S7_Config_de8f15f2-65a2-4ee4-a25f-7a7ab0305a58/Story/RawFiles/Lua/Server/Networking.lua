@@ -17,11 +17,11 @@ end
 
 Ext.RegisterNetListener('S7_Config::ConfigValidationResponse', function (channel, payload)
     local displayMessage = "Verification Complete"
-    if payload == 'Config mismatch detected' then
+    if payload:match('Config mismatch detected') then
         Debug:FWarn("Client Response: " .. payload)
         Osi.ShowNotification(Osi.CharacterGetHostCharacter(), Color:Fire(payload))
         displayMessage = "Client Configs mismatch detected"
-    elseif payload == 'Config verified' then
+    elseif payload:match('Config verified') then
         Debug:FPrint("Client Response: " .. payload)
     end
     Debug:Print(displayMessage, {['dialogVar'] = 'ValidateClientConfigs'})
