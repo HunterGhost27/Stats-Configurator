@@ -23,11 +23,11 @@ end
 --  ==========
 
 Ext.RegisterOsirisListener('GameStarted', 2, 'after', function (level, gameMode)
-    if not IsValid(Osi.IsGameLevel(level)) then return end
 
     RefreshSettings()
     Collections:Rebuild()
 
+    if not IsValid(Osi.IsGameLevel(level)) then return end
     local hostCharacter = Osi.CharacterGetHostCharacter()
     if Osi.ItemTemplateIsInPartyInventory(hostCharacter, Inspector, 1) < 1 then
         Osi.ItemTemplateAddTo(Inspector, hostCharacter, 1)
