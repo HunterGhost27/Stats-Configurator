@@ -57,13 +57,7 @@ function LoadConfigs()
     local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
     local files = LoadFiles(fileNames) or {}
     Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
-    ForEach(files, function (fileName, fileContent)
-        if not IsValid(fileContent) then
-            Debug:FError(fileName .. " not found. Creating empty file", {['dialogVar'] = 'StatsConfigurator'})
-            SaveFile(MODINFO.SubdirPrefix .. Settings.ConfigFiles[Pinpoint(fileName, Settings.ConfigFiles)], {})
-        end
-        ForEach(fileContent, function(key, value) Stats.Configurations[key] = value end)
-    end)
+    for fileName, fileContent in pairs(files) do Stats.Configurations = Integrate(Stats.Configurations, fileContent) end
     Stats:Configurator()
     Stats:Synchronize()
     Debug:Print("StatsConfiguration Finished", {['dialogVar'] = 'StatsConfigurator'})
