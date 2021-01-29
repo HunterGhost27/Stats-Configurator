@@ -58,6 +58,10 @@ function LoadConfigs()
     local files = LoadFiles(fileNames) or {}
     Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
     for fileName, fileContent in pairs(files) do Stats.Configurations = Integrate(Stats.Configurations, fileContent) end
+    local configCache = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
+    Ext.Print(Ext.JsonStringify(Rematerialize(configCache)))
+    Stats.Memoizer = Memoizer:Init(configCache.Cache)
+    Ext.Print(Ext.JsonStringify(Rematerialize(Stats)))
     Stats:Configurator()
     Stats:Synchronize()
     Debug:Print("StatsConfiguration Finished", {['dialogVar'] = 'StatsConfigurator'})
@@ -76,6 +80,7 @@ end
 function Stats:BuildConfigData(buildData)
     local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
     for key, value in pairs(buildData) do configData[key] = value end
+    configData['Cache'] = Rematerialize(Stats.Memoizer)
     SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)
 end
 
