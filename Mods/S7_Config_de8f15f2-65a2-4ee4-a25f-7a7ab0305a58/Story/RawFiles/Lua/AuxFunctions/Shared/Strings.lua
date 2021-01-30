@@ -58,7 +58,7 @@ Write = {
 ---@param str string
 function Write:UpdateMaxLen(str)
     if str:len() > self.MaxLen then self.MaxLen = str:len() end
-    if self.MaxLen > 350 then self.MaxLen = 350 end
+    if self.MaxLen > 121 then self.MaxLen = 121 end
 end
 
 ---Sets the Header
