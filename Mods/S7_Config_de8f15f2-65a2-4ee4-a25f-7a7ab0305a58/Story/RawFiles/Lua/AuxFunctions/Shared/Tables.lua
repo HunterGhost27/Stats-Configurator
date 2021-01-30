@@ -196,3 +196,49 @@ function Reduce(t, prop, callback, initialProp)
     end
     return prop
 end
+
+--  ========
+--  PINPOINT
+--  ========
+
+---Returns the address of value in target table
+---@param tar any Value in question
+---@param tbl table Target table
+---@return string point Address of deepest value
+---@return table addresses Table of all addresses
+function Pinpoint(tar, tbl, curr, addresses)
+    if type(tbl) ~= 'table' then return end
+    local point = ""
+    local curr = curr or ""
+    local addresses = addresses or {}
+    for key, value in pairs(tbl) do
+        if type(value) == 'table' then
+            curr = curr .. tostring(key) .. "."
+            point = Pinpoint(tar, value, curr, addresses)
+        elseif tar == value then
+            point = curr .. tostring(key)
+            table.insert(addresses, point)
+        end
+    end
+    return point, addresses
+end
+
+--  =====
+--  TRACE
+--  =====
+
+---Returns the value at address
+---@param t table
+---@param address string
+---@return any
+function Trace(t, address)
+    local adr = table.pack(Disintegrate(address, '.'))
+    local seek = table.remove(adr, 1)
+    local ret
+    if type(t[seek]) == 'table' then
+        if adr[1] then
+            ret = Trace(t[seek], table.concat(adr, '.'))
+        else ret = t[seek] end
+    else ret = t[seek] end
+    return ret
+end
