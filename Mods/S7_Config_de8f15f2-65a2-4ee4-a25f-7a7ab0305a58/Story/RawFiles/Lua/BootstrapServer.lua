@@ -14,9 +14,7 @@ Ext.Require('Shared/StatsConfigurator.lua')
 --  UI-COMPONENTS-LIBRARY INTEGRATION
 --  =================================
 
-if Ext.IsModLoaded('b66d56c6-12f9-4abc-844f-0c30b89d32e4') then
-    Ext.Require('Server/ContextMenu.lua')
-end
+if Ext.IsModLoaded(UCLUUID) then Ext.Require('Server/ContextMenu.lua') end
 
 --  ==========
 --  GAME START
