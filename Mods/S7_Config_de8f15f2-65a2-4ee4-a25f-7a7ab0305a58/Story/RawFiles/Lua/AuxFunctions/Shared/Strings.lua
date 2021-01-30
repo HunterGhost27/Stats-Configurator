@@ -29,12 +29,12 @@ end
 
 ---Extract GUID and Name parts from NameGUID
 ---@param str string GUIDString
----@return string extractGUID
----@return string extractName
+---@return string GUID
+---@return string Name
 function ExtractGUID(str)
     if type(str) ~= 'string' then return end
-    local extractName, extractGUID = str:match("(.*)_(.-)$")
-    return extractGUID, extractName
+    local Name, GUID = str:match("(.*)_(.-)$")
+    return GUID, Name
 end
 
 --  ======
@@ -56,7 +56,10 @@ Write = {
 
 ---Updates MaxLength
 ---@param str string
-function Write:UpdateMaxLen(str) if str:len() > self.MaxLen then self.MaxLen = str:len() end end
+function Write:UpdateMaxLen(str)
+    if str:len() > self.MaxLen then self.MaxLen = str:len() end
+    if self.MaxLen > 350 then self.MaxLen = 350 end
+end
 
 ---Sets the Header
 ---@param str string
@@ -155,7 +158,7 @@ Color = {
 ---@param color string Hex-Color-Value
 ---@param str string
 ---@return string
-local function addFontTags(color, str) return "<font color=\'" .. color .. "\'>" .. tostring(str) .. "</font>" end
+local function addFontTags(color, str) return string.format("<font color=\'%s\'>%s</font>", color, str) end
 
 ---Color the string Red
 ---@param str string
@@ -263,8 +266,8 @@ function Color:Water(str) return addFontTags(self.water, str) end
 --  CUSTOM COLOR
 --  ============
 
----Color the string with custom Hex-Value
----@param hex string Color Hex-Value
+---Color the string with custom hex-value
+---@param hex string Color hex-value
 ---@param str string String to color
 ---@return string
 function Color:Custom(hex, str) return addFontTags(hex, str) end
