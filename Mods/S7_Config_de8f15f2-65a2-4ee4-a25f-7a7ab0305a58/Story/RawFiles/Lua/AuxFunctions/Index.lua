@@ -39,5 +39,9 @@ end
 --  ===========
 
 Ext.Require('AuxFunctions/Shared/Versioning.lua')
+
+--  TESTING
+--  =======
+
 Ext.Require('AuxFunctions/Shared/Testing.lua')
 Ext.Require('AuxFunctions/Tests/Index.lua')
