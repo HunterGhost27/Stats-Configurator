@@ -6,7 +6,11 @@
 ---@field CacheFile string CacheFile Name
 ---@field Cache table<string, any>
 ---@field Resolvers table<string, function|any>
-Memoizer = {}
+Memoizer = {
+    CacheFile = "",
+    Cache = {},
+    Resolvers = {}
+}
 
 ---Initialize Memoizer
 ---@param object table|nil
