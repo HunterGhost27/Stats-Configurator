@@ -13,11 +13,12 @@ function StatsLoader()
     Debug:HFPrint("StatsLoader active. Loading " .. Settings.StatsLoader.FileName)
     local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
 
-    for key, value in pairs(configData) do
-        if key == 'Cache' then Stats.Memoizer = Memoizer:Init(value)
-        else Stats.Configurations[key] = value
-        end
-    end
+    ForEach(configData, function (key, value)
+        if key == 'Cache' then return end
+        Stats.Configurations[key] = value
+    end)
+
+    Stats.Memoizer:LoadCache(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
 
     Ext.Print(Ext.JsonStringify(Rematerialize(Stats)))
 
