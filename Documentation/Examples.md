@@ -19,18 +19,16 @@ Here are a few examples to show you what's possible using the **Stats-Configurat
 
 ```json
 {
-    "Projectile_Fireball": {
-        "ActionPoints": 4,
-        "Cooldown": 7,
-        "ExplodeRadius": 10,
-        "DisplayName": "BOOMER"
-    }
+  "Projectile_Fireball": {
+    "ActionPoints": 4,
+    "Cooldown": 7,
+    "ExplodeRadius": 10,
+    "DisplayName": "BOOMER"
+  }
 }
 ```
 
-The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points** and has a **7 turn Cooldown**. It _explodes_ in a **10m Radius**.
-
-> **NOTE:** VFX is still original size.
+The **_Fireball_** skill is now called **_BOOMER_**. It costs **4 Action-Points** and has a **7 turn Cooldown**. It _explodes_ in a **10m Radius**.
 
 ![Fireball-Example](https://imgur.com/Vc3NkF8.png)
 
@@ -38,17 +36,17 @@ The ***Fireball*** skill is now called ***BOOMER***. It costs **4 Action-Points*
 
 ```json
 {
-    "COLLECTION NonPlayerCharacters": {
-        "Armor": 50,
-        "MagicArmor": 50,
-        "Vitality": 200
-    }
+  "COLLECTION NonPlayerCharacters": {
+    "%Armor": 50,
+    "%MagicArmor": 50,
+    "%Vitality": 200
+  }
 }
 ```
 
-Every ***Non-Player-Character*** will have their **Physical** and **Magic-Armor** _reduced_ by **50%** and their **Vitality** _increased_ by **100%**. _(Assuming 100 as baseline)_
+Every **_Non-Player-Character_** will have their **Physical** and **Magic-Armor** _reduced_ by **50%** and their **Vitality** _increased_ by **100%**.
 
-> **NOTE:** this affects **Maximum-Vitality** and not **Current-Vitality**. Characters that have already been _"loaded"_ in-game will have their max-HP increased but they will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs. It is not uncommon to have the default values to these attributes be something other than 100. In such cases, changing these percentages may yield unintuitive results. For example: **Vitality: 200** is a nerf for a character that originally had **Vitality: 250**)
+> **NOTE:** this affects **Maximum-Vitality** and not **Current-Vitality**. Characters that have already been _"loaded"_ in-game will have their max-HP increased but they will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.
 
 ![Dallis-Armor-Config](https://imgur.com/i6uw3Ky.png)
 
@@ -56,15 +54,15 @@ Every ***Non-Player-Character*** will have their **Physical** and **Magic-Armor*
 
 ```json
 {
-    "ARM_UNIQUE_AirRobe": {
-        "ItemColor": "Red"
-    }
+  "ARM_UNIQUE_AirRobe": {
+    "ItemColor": "Red"
+  }
 }
 ```
 
 This will change the color of **Gawin's Robes** _(ARM_UNIQUE_AirRobe)_ to **Red**.
 
->**NOTE:** ItemColor labels can be weird, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
+> **NOTE:** ItemColor labels can be weird, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
 
 ![Item-Color-Config](https://imgur.com/hvb9DYM.png)
 
@@ -72,9 +70,9 @@ This will change the color of **Gawin's Robes** _(ARM_UNIQUE_AirRobe)_ to **Red*
 
 ```json
 {
-    "NULLIFY_RESISTANCE": {
-        "SavingThrow": "None"
-    }
+  "NULLIFY_RESISTANCE": {
+    "SavingThrow": "None"
+  }
 }
 ```
 
@@ -88,14 +86,14 @@ The status **Nullified Resistance** applied by the _Flay Skin_ skill will _no lo
 
 ```json
 {
-    "COLLECTION Character": {
-        "Accuracy": 65,
-        "APMaximum": 2,
-        "APRecovery": 2
-    },
-    "COLLECTION SkillData": {
-        "ActionPoints": 2
-    }
+  "COLLECTION Character": {
+    "Accuracy": 65,
+    "APMaximum": 2,
+    "APRecovery": 2
+  },
+  "COLLECTION SkillData": {
+    "ActionPoints": 2
+  }
 }
 ```
 
@@ -107,27 +105,27 @@ All **Characters** have their base **Accuracy** set at **65%** and they recover 
 
 ```json
 {
-    "COLLECTION Character": {
-        "Talents": "AttackOfOpportunity;Rastilin"
-    }
+  "COLLECTION Character": {
+    "Talents": "AttackOfOpportunity;Rastilin"
+  }
 }
 ```
 
-All **Characters** get the ***Opportunist*** and ***Glass-Cannon*** talent.
+All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
 
 ![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
 
-> **NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible.
+> **NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible. Using the special attribute "+Talents" will append your config to the original list without replacing the original talents.
 
 ## Summons Galore
 
 ```json
 {
-    "Player_Fane": {
-        "MaxSummons": 3,
-        "APStart": 2,
-        "APRecovery": 2
-    }
+  "Player_Fane": {
+    "MaxSummons": 3,
+    "APStart": 2,
+    "APRecovery": 2
+  }
 }
 ```
 
@@ -139,24 +137,24 @@ All **Characters** get the ***Opportunist*** and ***Glass-Cannon*** talent.
 
 ```json
 {
-    "COLLECTION WeaponTypeKnife": {
-        "AttackAPCost": 1,
-        "Initiative": 10,
-        "DodgeBoost": 15,
-        "Damage Type": "Piercing"
-    },
-    "COLLECTION WeaponIsTwoHanded": {
-        "AttackAPCost": 3,
-        "CleaveAngle": 60,
-        "CleavePercentage": 50,
-        "AccuracyBoost": -25
-    },
-    "COLLECTION WeaponTypeSpear": {
-        "Damage Type": "Piercing"
-    }
+  "COLLECTION WeaponTypeKnife": {
+    "AttackAPCost": 1,
+    "Initiative": 10,
+    "DodgeBoost": 15,
+    "Damage Type": "Piercing"
+  },
+  "COLLECTION WeaponIsTwoHanded": {
+    "AttackAPCost": 3,
+    "CleaveAngle": 60,
+    "CleavePercentage": 50,
+    "AccuracyBoost": -25
+  },
+  "COLLECTION WeaponTypeSpear": {
+    "Damage Type": "Piercing"
+  }
 }
 ```
 
 ![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
 
-***Daggers*** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
+This example showcases how you can use this mod to make overhaul worth of changes. **_Daggers_** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
