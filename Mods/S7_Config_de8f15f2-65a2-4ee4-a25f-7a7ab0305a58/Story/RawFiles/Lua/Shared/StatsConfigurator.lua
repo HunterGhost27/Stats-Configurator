@@ -59,7 +59,6 @@ function LoadConfigs()
     Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
     for fileName, fileContent in pairs(files) do Stats.Configurations = Integrate(Stats.Configurations, fileContent) end
     Stats.Memoizer:LoadCache(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
-    Ext.Print(Ext.JsonStringify(Rematerialize(Stats)))
     Stats:Configurator()
     Stats:Synchronize()
     Debug:Print("StatsConfiguration Finished", {['dialogVar'] = 'StatsConfigurator'})

@@ -36,7 +36,7 @@ Settings = MODINFO.ModSettings
 
 ---  Overrides ConfigSettings on ModuleLoadStarted event and Player's request.
 function RefreshSettings()
-    Debug:FPrint("Synchronizing ModSettings")
+    Debug:FPrint("Synchronizing Mod Settings")
     local centralFile = LoadFile(CENTRALFILE) or {}
     CENTRAL = Integrate(CENTRAL, centralFile)
     Settings = Integrate(Settings, CENTRAL[IDENTIFIER].ModSettings)

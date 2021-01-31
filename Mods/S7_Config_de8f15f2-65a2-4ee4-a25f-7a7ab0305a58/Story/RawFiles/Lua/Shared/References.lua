@@ -761,36 +761,3 @@ function EnumTransformer(mode, enumerationTypeName, argument)
 	elseif mode == "Label2Index" then return Ext.EnumLabelToIndex(enumerationTypeName, argument)
 	end
 end
-
---  REFERENCE
---  =========
-
-ConsoleCommander:Register({
-    ['Name'] = 'Reference',
-    ['Description'] = "Lookup information about (search-string) in References",
-    ['Context'] = 'Shared',
-    ['Params'] = {[1] = 'SearchString', [2] = 'AdditionalArgument'},
-    ['Action'] = function(search, arg)
-        local statAttribute = StatAttributeDefs[search]
-        if statAttribute then
-            Write:SetHeader('Showing information about attribute' .. search)
-            if not string.match(statAttribute, 'Enumeration') then Write:SetHeader(search .. ": " .. statAttribute)
-            else
-                local enumName, enumType, enumVal = Disintegrate(statAttribute, ":")
-                if arg and enumType then
-                    enumVal = EnumTransformer(type(arg) == 'string' and 'Label2Index' or 'Index2Label', enumType, arg)
-                    Write:SetHeader(search .. ": " .. enumName .. " - " .. enumType .. " | " .. arg .. " = " .. enumVal)
-                else Write:SetHeader(search .. ": " .. enumName .. " - " .. enumType) end
-            end
-        else
-            if not AttributeMaps[search] then DetermineStatType(search) end
-            local attributes = table.pack(Disintegrate(AttributeMaps[search], ","))
-            Write:SetHeader('Attributes for ' .. search ..": ")
-            for _, attribute in pairs(attributes) do
-                local attributeType = DetermineAttributeType(attribute, search)
-                Write:NewLine(attribute .. "(" .. tostring(attributeType) .. ")")
-            end
-        end
-        Debug:Print(Write:Display())
-    end
-})
