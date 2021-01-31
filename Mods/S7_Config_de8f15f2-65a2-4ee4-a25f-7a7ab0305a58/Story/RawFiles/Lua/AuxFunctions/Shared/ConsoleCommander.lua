@@ -12,11 +12,11 @@
 ---@field Description string Help-Messsage
 ---@field Params table<number, string> Parameters
 Command = {
-    ['Name'] = "",
+    ['Name'] = "Unnamed ConsoleCommand",
     ['Action'] = function() end,
     ['Context'] = "Shared",
-    ['Description'] = "",
-    -- ['Params'] = {}
+    ['Description'] = "No Description",
+    ['Params'] = {}
 }
 
 ---Instantiate new Command Object
@@ -32,7 +32,7 @@ end
 ---@param CMD Command
 ---@return boolean
 local function isValidContext(CMD)
-    if CMD.Context == "Shared" or CMD.Context == Ext.IsServer() and "Server" or "Client" then return true
+    if CMD.Context == 'Shared' or CMD.Context == Ext.IsServer() and 'Server' or 'Client' then return true
     else return false end
 end
 
@@ -44,7 +44,7 @@ ConsoleCommander = {}
 ---Registers new Console-Command
 ---@param CMD Command
 function ConsoleCommander:Register(CMD)
-    if not ValidString(CMD.Name) then Debug:Error('Cannot register console-command. Invalid commandName'); return end
+    if not ValidInputTable(CMD, {'Name'}) then return end
     self[CMD.Name] = Command:New(CMD)
 end
 
@@ -53,13 +53,13 @@ end
 
 ---Help-Message Console-Command
 ---@param target string Command-Name or ""
-function ConsoleCommanderHelp(target)
+local function ConsoleCommanderHelp(target)
     local target = target or ""
     local helpMsg = ""
 
     if ConsoleCommander[target] and isValidContext(ConsoleCommander[target]) then
         Write:SetHeader(target .. ": " .. ConsoleCommander[target].Description)
-        if ConsoleCommander[target].Params then
+        if IsValid(ConsoleCommander[target].Params) then
             for key, value in ipairs(ConsoleCommander[target].Params) do
                 Write:NewLine("\t" .. "Parameter" .. key .. ": " .. value)
             end
@@ -78,18 +78,18 @@ function ConsoleCommanderHelp(target)
 end
 
 ConsoleCommander:Register({
-    ['Name'] = "Help",
+    ['Name'] = 'Help',
     ['Action'] = ConsoleCommanderHelp,
-    ['Context'] = "Shared",
-    ['Description'] = "Displays a list of all console-commands. <param1:SpecificCommand>",
-    ['Params'] = {[1] = "Target Command-Name"}
+    ['Context'] = 'Shared',
+    ['Description'] = 'Displays a list of all console-commands',
+    ['Params'] = {[1] = 'Target Command-Name'}
 })
 
 --  REGISTER CONSOLE-COMMANDER
 --  ==========================
 
 Ext.RegisterConsoleCommand(IDENTIFIER, function (cmd, command, ...)
-    if not ValidString(command) then Debug:FError('Invalid Command. Try !' .. IDENTIFIER .. ' Help'); return end
+    if not ValidString(command) then Debug:FError('Invalid Command. Try !' .. IDENTIFIER .. ' Help') return end
     if not ConsoleCommander[command] then command = "Help" end
     ConsoleCommander[command].Action(...)
 end)

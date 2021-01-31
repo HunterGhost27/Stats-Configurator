@@ -67,10 +67,12 @@ ConsoleCommander:Register({
         if not stat then return Debug:Warn('Error404: No such stat found!') end
         local statType = DetermineStatType(statName)
         local attributes = table.pack(Disintegrate(AttributeMaps[statType], ","))
+        attributes['n'] = nil
         Write:SetHeader('DeepDive into ' .. statName)
-        for _, attribute in pairs(attributes) do
+        ForEach(attributes, function(idx, attribute)
+            if not IsValid(stat[attributes]) then return end
             Write:NewLine(attribute .. ": " .. Ext.JsonStringify(stat[attribute]))
-        end
+        end)
         Debug:Print(Write:Display())
     end
 })
