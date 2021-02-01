@@ -2,28 +2,64 @@
 
 ---
 
+## [0.7.9.9] --- 31st January 2021 --- **_Remastered_**
+
+### NEW
+
+- _Integrated_ with `AuxFunctions`. They do most of the heavy lifting.
+- Allow _loading_ multiple config files.
+- _Added_ tokenization support.
+- _Memoizer_ and _Caching_ support. Helps with relative/positional changes.
+- _Integrated_ with `UI-Components-Library`.
+- _Added_ `ContextMenu` option from UCL.
+- Probably 100 other things that I haven't documented.
+
+### CHANGED
+
+- _Refactored_ pretty much the entire thing.
+- _Reorganized_ Files.
+- _Renamed_ net channels.
+- _Revamped_ ModMenu.
+- _Updated_ Dialogmenu vars.
+- _Reworked_ Console-Commander.
+- _Improved_ Inspect Skill.
+- _Changed_ Collections prefix to `#`.
+- _Fixed_ `EnumTransformer` thanks to Norbyte.
+- Probably 100 other things I can't recall.
+
+### REMOVED
+
+- _Removed_ `ConfigSettings` and integrated into `S7Central.json`.
+- _Removed_ totally overkill reference tables.
+- _Removed_ `Reference` console-command.
+- _Removed_ mod-registry and mod-integration.
+- _Removed_ satefy check.
+- _Removed_ old Changelog system.
+- Probably 100 other things that I felt were unneeded.
+
 ## [0.7.1.0] --- 13th January 2021 --- **_Restarted Remaster_**
 
 ### FIXED
 
-* _Transformed_ `EnumTransformer`.
+- _Transformed_ `EnumTransformer`.
 
 ### REMOVED
 
-* Some instances of _CHANGELOG_.
+- Some instances of _CHANGELOG_.
+
 ## [0.7.1.0] --- 29th December 2020 --- **_Started Remaster_**
 
 ### NEW
 
-* Time to re-write the entire mod.
+- Time to re-write the entire mod.
 
 ### CHANGED
 
-* _Luaified_ the entire code.
+- _Luaified_ the entire code.
 
 ### REMOVED
 
-* _Started_ purging `ExportStatsToTSV`. -- Not sure what to do with this.
+- _Started_ purging `ExportStatsToTSV`. -- Not sure what to do with this.
 
 ## [0.7.0.1] --- 26th October 2020 --- 📂 **_Subdirectory Support_** 📂
 
@@ -149,7 +185,7 @@
 
 ### COMMENTS
 
-- The ***Slow March*** through documentation, to victory!
+- The **_Slow March_** through documentation, to victory!
 
 ## [0.6.5.0] --- 4th July 2020 --- **_Reworks_**
 
