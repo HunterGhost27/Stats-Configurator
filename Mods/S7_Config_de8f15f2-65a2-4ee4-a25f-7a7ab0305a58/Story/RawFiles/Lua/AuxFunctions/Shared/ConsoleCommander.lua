@@ -12,10 +12,10 @@
 ---@field Description string Help-Messsage
 ---@field Params table<number, string> Parameters
 Command = {
-    ['Name'] = "Unnamed ConsoleCommand",
-    ['Action'] = function() end,
-    ['Context'] = "Shared",
-    ['Description'] = "No Description",
+    ['Name'] = '',
+    ['Action'] = '',
+    ['Context'] = 'Shared',
+    ['Description'] = '',
     ['Params'] = {}
 }
 
@@ -23,6 +23,7 @@ Command = {
 ---@param object Command
 ---@return Command
 function Command:New(object)
+    if not ValidInputTable(object, {'Name', 'Action'}) then return end
     local object = object or {}
     Integrate(self, object)
     return object
@@ -39,12 +40,13 @@ end
 --  CONSOLE COMMANDER
 --  =================
 
+---@class ConsoleCommander
 ConsoleCommander = {}
 
 ---Registers new Console-Command
 ---@param CMD Command
 function ConsoleCommander:Register(CMD)
-    if not ValidInputTable(CMD, {'Name'}) then return end
+    if not ValidInputTable(CMD, {'Name', 'Action'}) then return end
     self[CMD.Name] = Command:New(CMD)
 end
 

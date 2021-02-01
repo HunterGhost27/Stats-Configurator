@@ -9,7 +9,6 @@ Ext.Require('AuxFunctions/Shared/General.lua')
 Ext.Require('AuxFunctions/Shared/Strings.lua')
 Ext.Require('AuxFunctions/Shared/Tables.lua')
 Ext.Require('AuxFunctions/Shared/Memoizer.lua')
-Ext.Require('AuxFunctions/Shared/Yamlifier.lua')
 Ext.Require('AuxFunctions/Shared/Files.lua')
 Ext.Require('AuxFunctions/Shared/Debug.lua')
 
@@ -24,15 +23,17 @@ Ext.Require('AuxFunctions/Shared/ConsoleCommander.lua')
 --  ---------------
 
 if Ext.IsServer() then
-    Ext.Require('AuxFunctions/Server/DialogManager.lua')
+    Ext.Require('AuxFunctions/Server/Networker.lua')
     Ext.Require('AuxFunctions/Server/FlagsManager.lua')
+    Ext.Require('AuxFunctions/Server/DialogManager.lua')
+    -- Ext.Require('AuxFunctions/Server/DynamicDialog.lua')
 end
 
 --  CLIENT-SPECIFIC
 --  ---------------
 
 if Ext.IsClient() then
-
+    Ext.Require('AuxFunctions/Client/Networker.lua')
 end
 
 --  LATE LOADER

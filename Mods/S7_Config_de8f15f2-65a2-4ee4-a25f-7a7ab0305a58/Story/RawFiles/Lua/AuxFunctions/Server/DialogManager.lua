@@ -25,7 +25,7 @@ function Dialog:New(object)
     return object
 end
 
----Update DialogVariables
+---Update DialogVars
 ---@param vars table<string, DialogVar>
 function Dialog:Update(vars) self.Vars = Integrate(self.Vars, vars) end
 
@@ -42,12 +42,12 @@ function Dialog:Set(vars)
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    for alias, Var in pairs(self.Vars) do
+    ForEach(self.Vars, function (alias, Var)
         if type(Var) ~= 'table' then return end
         local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal
         if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
         else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal)) end
-    end
+    end)
 end
 
 ---Register Flag actions

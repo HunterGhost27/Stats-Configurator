@@ -7,7 +7,7 @@
 
 ---@class FlagObject
 ---@field flagName string
----@field flagType string 'Global' only for now
+---@field flagType string 'Global'
 ---@field state number 0 or 1
 ---@field boolState boolean false or true
 FlagObject = {
@@ -21,6 +21,7 @@ FlagObject = {
 ---@param object table
 ---@return FlagObject
 function FlagObject:New(object)
+    if not ValidInputTable(object, {'flagName'}) then return end
     local object = object or {}
     object = Integrate(self, object)
     return object
@@ -52,15 +53,15 @@ Flags = {}
 
 ---Track new flag
 ---@param flag FlagObject|table
-function Flags:Track(flag)
-    if not ValidInputTable(flag, {'flagName'}) then return end
-    self[flag.flagName] = FlagObject:New(flag)
-end
+function Flags:Track(flag) self[flag.flagName] = FlagObject:New(flag) end
 
 ---Prints information about all tracked flags
 function Flags:StatusReport()
     Write:SetHeader("Status Report - Flags:")
-    for flagName, flag in pairs(Rematerialize(self)) do if type(flag) == 'table' then Write:NewLine(tostring(flag.flagType) .. " " .. flagName .. ": " .. tostring(flag.boolState)) end end
+    local flags = Map(Rematerialize(self), function (flagName, flag)
+       return flag.flagType .. " " .. flagName, tostring(flag.boolState)
+    end)
+    Write:NewLine(Yamlify(flags))
     Debug:Print(Write:Display())
 end
 

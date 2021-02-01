@@ -83,15 +83,15 @@ function DynamicDialog:Set()
     local entries = #ExtractKeys(self.Stage) or 1
     self.State.maxPage = math.floor((entries - 1) / 5) + 1
 
-    for key, value in pairs(self.Stage) do
+    ForEach(self.Stage, function (key, value)
         local pos = tonumber(key)
-        if not pos then break end
+        if not pos then return end
         if (pos < (1 + 5 * self.State.page)) and (pos > (5 * (self.State.page - 1))) then
             local relPos = pos % 5; if relPos == 0 then relPos = 5 end
             Osi.GlobalSetFlag('S7_DynamicDialog_AvailOpt' .. tostring(relPos))
             self:Update({['S7_DynamicDialog_Opt' .. tostring(relPos)] = {['dialogVal'] = value.Text}})
         end
-    end
+    end)
 
     if self.State.page == 1 and self.State.page ~= self.State.maxPage then
         Osi.GlobalClearFlag("S7_DynamicDialog_PrevPageAvailable"); Osi.GlobalSetFlag("S7_DynamicDialog_NextPageAvailable")
@@ -109,12 +109,12 @@ function DynamicDialog:Set()
         ['Float'] = Osi.DialogSetVariableFloat,
     }
 
-    for alias, Var in pairs(self['Vars']) do
+    ForEach(self.Vars, function (alias, Var)
         if type(Var) ~= 'table' then return end
         local dialogVal = type(Var.dialogVal) == 'function' and Var.dialogVal() or Var.dialogVal or ""
         if ValidString(Var.dialogType) then setterFunction[Var.dialogType](self.Name, Var.dialogVar, dialogVal)
         else Osi.DialogSetVariableFixedString(self.Name, Var.dialogVar, tostring(dialogVal)) end
-     end
+    end)
 end
 
 ---Overrides base Dialog:Start
