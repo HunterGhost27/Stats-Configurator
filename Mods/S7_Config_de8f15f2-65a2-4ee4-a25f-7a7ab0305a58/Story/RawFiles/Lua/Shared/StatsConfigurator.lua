@@ -20,11 +20,10 @@ function Stats:Configurator()
             local stat = Ext.GetStat(statName)
             if not stat then return end
 
-            Write:NewLine(statName)
-            Write:LineBreak('-')
+            Write:NewLine(statName .. ":")
             ForEach(config, function(key, value)
                 local attribute, value = HandleAttributeTokens(stat, key, value)
-                Write:NewLine(tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
+                Write:NewLine("\t" .. tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
                 stat[attribute] = value
             end)
             Write:LineBreak('_')

@@ -10,5 +10,6 @@ Ext.RegisterNetListener("S7UCL::ContextMenu", function (channel, payload)
         BuildConfigs()
         BroadcastConfigs()
         ValidateClientConfigs()
+        Osi.ShowNotification(Osi.CharacterGetHostCharacter(), 'Configuration Applied')
     end
 end)
