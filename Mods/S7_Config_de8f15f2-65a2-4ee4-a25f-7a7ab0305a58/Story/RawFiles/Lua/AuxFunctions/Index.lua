@@ -18,6 +18,7 @@ Ext.Require('AuxFunctions/Shared/Debug.lua')
 Ext.Require('AuxFunctions/Shared/Centralize.lua')
 Ext.Require('AuxFunctions/Shared/Networker.lua')
 Ext.Require('AuxFunctions/Shared/ConsoleCommander.lua')
+Ext.Require('AuxFunctions/Shared/Testing.lua')
 
 --  SERVER-SPECIFIC
 --  ---------------
@@ -40,3 +41,4 @@ end
 --  ===========
 
 Ext.Require('AuxFunctions/Shared/Versioning.lua')
+Ext.Require('AuxFunctions/Tests/Index.lua')
