@@ -49,7 +49,7 @@ function Debug:Print(t, config)
         local context = Ext.IsServer() and '(S)' or '(C)'
         local displayString = "[" .. config.IDENTIFIER .. context .. "] - "
         displayString = displayString .. tostring(table.remove(x, 1))
-        local len = string.len(displayString) < 120 and string.len(displayString) or 120
+        local len = string.len(displayString) < 107 and string.len(displayString) or 107
         if ValidString(config.highlight) then config.printFunction(string.rep(config.highlight, len)) end
         if x then config.printFunction(displayString, table.unpack(x)) else config.printFunction(displayString) end
         if ValidString(config.highlight) then config.printFunction(string.rep(config.highlight, len)) end
