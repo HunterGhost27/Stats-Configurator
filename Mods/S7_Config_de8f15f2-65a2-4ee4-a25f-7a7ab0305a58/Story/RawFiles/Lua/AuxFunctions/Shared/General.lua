@@ -100,4 +100,4 @@ function IsCallable(e)
       return type(mt) == 'table' and IsCallable(mt.__call)
     end
     return false
-  end
+end

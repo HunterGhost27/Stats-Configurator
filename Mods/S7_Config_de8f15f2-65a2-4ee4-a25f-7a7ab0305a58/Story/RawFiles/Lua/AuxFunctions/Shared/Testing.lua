@@ -1,3 +1,17 @@
+--  ===========
+--  PERFORMANCE
+--  ===========
+
+---Measures execution time of function
+---@param funcName string
+---@param fun function
+function Snapshot(funcName, fun, ...)
+    local start = Ext.MonotonicTime()
+    fun(...)
+    local finish = Ext.MonotonicTime()
+    Debug:Print(funcName .. " took " .. finish - start .. "ms")
+end
+
 --  ============
 --  UNIT TESTING
 --  ============
