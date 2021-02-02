@@ -21,6 +21,8 @@ TestSuite = {
     ['Results'] = {},
 }
 
+Tests = {}
+
 ---Creates a new TestSuite
 ---@param object table
 ---@return TestSuite
@@ -28,6 +30,7 @@ function TestSuite:New(object)
     if not ValidInputTable(object, {'Name'}) then return end
     local object = object or {}
     object = Integrate(self, object)
+    table.insert(Tests, object)
     return object
 end
 
@@ -46,20 +49,17 @@ function TestSuite:It(spec)
     if status then self.Results[spec.description] = Tag.PASS end
 end
 
----Displays Test Results
-function TestSuite:ShowResults()
-    local results = {}
-    local md = Ext.LoadFile('S7TestResults.md') or ""
-    local header = "Test Results for Suite " .. self.Name .. ":"
-    table.insert(results, "# " .. header)
-    table.insert(results, "\n|Result|Specification|\n|---|---|")
-    Debug:HFPrint(header)
-    for desc, success in pairs(self.Results) do
-        if success == Tag.PASS then Debug:FPrint(success .. ": " .. desc) else Debug:FError(success .. ": " .. desc) end
-        table.insert(results, "|`" .. success .. "`|" .. desc .. "|")
-    end
-    local testResults = md .. "\n\n" .. table.concat(results, "\n")
-    Ext.SaveFile('S7TestResults.md', testResults)
-end
-
 function ClearTestResults() Ext.SaveFile("S7TestResults.md", "") end
+function ShowTestResults()
+    local md = Ext.LoadFile('S7TestResults.md') or ""
+    for idx, suite in ipairs(Tests) do
+       local header = "# Test Results for Suite: " .. suite.Name .. "\n\n"
+       local tableHeader = "|Result|Specification|\n|---|---|"
+       local table = "" 
+       for desc, success in pairs(suite.Results) do
+            table = table .. "\n|`" .. success .. "`|" .. desc .. "|"
+        end
+        md = md ..header .. tableHeader .. table .. "\n"
+    end
+    Ext.SaveFile('S7TestResults.md', md)
+end

@@ -46,8 +46,6 @@ Test:It({
     ['expectation'] = {false}
 })
 
-Test:ShowResults()
-
 --  ============
 --  DISINTEGRATE
 --  ============
@@ -106,5 +104,3 @@ Test:It({
     ['params'] = {5.62},
     ['expectation'] = {5, 0.62}
 })
-
-Test:ShowResults()
