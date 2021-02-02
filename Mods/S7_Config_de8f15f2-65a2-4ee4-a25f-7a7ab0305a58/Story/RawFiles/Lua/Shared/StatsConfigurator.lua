@@ -11,11 +11,13 @@ Stats = {
 function Stats:Configurator()
     Write:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile.")
     ForEach(self.Configurations, function(key, config)
-        if type(config) ~= 'table' then return end
 
         local statList = Collections:Unpack(key)
         ForEach(statList, function(statName, bool)
             if not bool then return end
+
+            local statName, statType = Disintegrate(statName, ":")
+            if IsValid(statType) then HandleSpecialStat(statName, statType, config) return end
 
             local stat = Ext.GetStat(statName)
             if not stat then return end
@@ -137,4 +139,19 @@ function HandleAttributeTokens(stat, attribute, value)
     end
 
     return attribute, value
+end
+
+function HandleSpecialStat(statName, statType, config)
+    local specialStatTypeHandler = {
+        ['TranslatedStringHandle'] = function(handle, value)
+            Ext.CreateTranslatedStringHandle(handle, value)
+        end,
+        ['TranslatedString'] = function(key, value)
+            Ext.CreateTranslatedString(key, value)
+        end,
+    }
+
+    if not specialStatTypeHandler[statType] then return end
+    specialStatTypeHandler[statType](statName, config)
+    Write:NewLine(statName .. ": " .. config)
 end
