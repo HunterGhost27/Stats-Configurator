@@ -92,40 +92,11 @@ Collections = {
     --  ---------
 
     ["SkillData"] = {},
-    -- ["SkillAbilityWarrior"] = {},
-    -- ["SkillAbilityRanger"] = {},
-    -- ["SkillAbilityRogue"] = {},
-    -- ["SkillAbilitySource"] = {},
-    -- ["SkillAbilityFire"] = {},
-    -- ["SkillAbilityWater"] = {},
-    -- ["SkillAbilityAir"] = {},
-    -- ["SkillAbilityEarth"] = {},
-    -- ["SkillAbilityDeath"] = {},
-    -- ["SkillAbilitySummoning"] = {},
-    -- ["SkillAbilityPolymorph"] = {},
-    -- ["DamageTypePhysical"] = {},
-    -- ["DamageTypePiercing"] = {},
-    -- ["DamageTypeCorrosive"] = {},
-    -- ["DamageTypeMagic"] = {},
-    -- ["DamageTypeChaos"] = {},
-    -- ["DamageTypeFire"] = {},
-    -- ["DamageTypeAir"] = {},
-    -- ["DamageTypeWater"] = {},
-    -- ["DamageTypeEarth"] = {},
-    -- ["DamageTypePoison"] = {},
-    -- ["DamageTypeShadow"] = {},
-    -- ["IsSourceSkill"] = {},
 
     --  STATUSDATA
     --  ----------
 
     ["StatusData"] = {},
-    -- ["VitalityHealStatus"] = {},
-    -- ["PhysicalArmorHealStatus"] = {},
-    -- ["MagicArmorHealStatus"] = {},
-    -- ["AllArmorHealStatus"] = {},
-    -- ["AllHealStatus"] = {},
-    -- ["SourceHealStatus"] = {},
 
     --  WEAPON
     --  ------
@@ -244,37 +215,6 @@ function Collections:Rebuild()
 
                 if statData["IsTwoHanded"] == "Yes" then Collections["WeaponIsTwoHanded"][stat] = true
                 else Collections["WeaponIsNotTwoHanded"][stat] = true end
-
-            --  SKILL DATA
-            --  ----------
-
-            elseif statType == "SkillData" then
-
-                --  ABILITY
-                -- if ValidString(statData["Ability"]) then
-                --     Collections["SkillAbility" .. statData["Ability"]][stat] = true
-                -- end
-
-                --  DAMAGE TYPE
-                -- if ValidString(statData["DamageType"]) then
-                --     Collections["DamageType" .. statData["DamageType"]][stat] = true
-                -- end
-
-                --  IS SOURCE SKILL
-                -- if statData["Magic Cost"] ~= nil and statData["Magic Cost"] > 0 then
-                --     Collections["IsSourceSkill"][stat] = true
-                -- end
-
-            --  STATUS DATA
-            --  -----------
-
-            elseif statType == "StatusData" then
-
-            --  HEALING STATUS DATA
-
-            -- if statData["HealStat"] ~= nil then
-            --     Collections["HealStatus" .. statData["HealStat"]][stat] = true
-            -- end
             end
         end
     end
