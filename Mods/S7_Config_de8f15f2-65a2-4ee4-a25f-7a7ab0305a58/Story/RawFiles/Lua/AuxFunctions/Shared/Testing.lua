@@ -26,33 +26,35 @@ function Test:NewSuite(object)
     return object
 end
 
+local Tag = {['Fail'] = "[FAIL]", ['Pass'] = "[PASS]"}
+
 ---Unit Test
 ---@param spec TestSpec
 function Test:It(spec)
     if not ValidInputTable(spec, {'fun', 'description'}) then return end
     local results = table.pack(
         xpcall(spec.fun, function(err)
-            self.Results[spec.description .. ": " .. err] = '[FAIL]'
+            self.Results[spec.description .. "::`" .. err .. "`"] = Tag.Fail
         end, table.unpack(spec.params)
         )
     )
     local status = table.remove(results, 1); results['n'] = nil
-    if not IsEqual(results, spec.expectation) then status = false; table.insert(self.Results, spec.description) end
-    if status then self.Results[spec.description] = '[PASS]' end
+    if not IsEqual(results, spec.expectation) then status = false; self.Results[spec.description] = Tag.Fail end
+    if status then self.Results[spec.description] = Tag.Pass end
 end
 
 ---Displays Test Results
 function Test:ShowResults()
     local results = {}
     local md = Ext.LoadFile('S7TestResults.md') or ""
-    local header = "\n\nTest Results for Suite " .. self.Name .. ":"
-    table.insert(results, header)
+    local header = "Test Results for Suite " .. self.Name .. ":"
+    table.insert(results, "# " .. header)
+    table.insert(results, "\n|Result|Specification|\n|---|---|")
     Debug:HFPrint(header)
     for desc, success in pairs(self.Results) do
-        local testSpec = success .. ": " .. desc
-        table.insert(results, testSpec)
-        if success == '[PASS]' then Debug:FPrint(testSpec) else Debug:FError(testSpec) end
+        if success == Tag.Pass then Debug:FPrint(success .. ": " .. desc) else Debug:FError(success .. ": " .. desc) end
+        table.insert(results, "|`" .. success .. "`|" .. desc .. "|")
     end
-    local testResults = md .. "\n" .. table.concat(results, "\n")
+    local testResults = md .. "\n\n" .. table.concat(results, "\n")
     Ext.SaveFile('S7TestResults.md', testResults)
 end
