@@ -52,4 +52,3 @@ Ext.RegisterListener('ModuleLoadStarted', RefreshSettings)
 --  ======
 
 Inspector = 'S7_Config_Inspector_c5959819-25e9-4dbc-ae20-0f6283502254'
-UCLUUID = 'b66d56c6-12f9-4abc-844f-0c30b89d32e4'
