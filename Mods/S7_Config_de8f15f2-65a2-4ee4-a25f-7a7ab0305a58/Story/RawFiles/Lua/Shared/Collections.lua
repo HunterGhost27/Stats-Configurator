@@ -245,5 +245,5 @@ ConsoleCommander:Register({
     ['Name'] = 'RebuildCollections',
     ['Description'] = 'Rebuild Collection Data',
     ['Context'] = 'Shared',
-    ['Action'] = Collections.Rebuild
+    ['Action'] = function() Collections:Rebuild() end
 })
