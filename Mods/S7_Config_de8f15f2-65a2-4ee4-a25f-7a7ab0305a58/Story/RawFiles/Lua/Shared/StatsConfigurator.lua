@@ -179,11 +179,11 @@ function HandleAttributeConfig(stat, attribute, value)
         if token == "+" then
             local t = table.pack(Disintegrate(originalValue), ";")
             table.insert(t, value)
-            value = ArrayToString(t)
+            value = table.concat(t, ';')
         elseif token == "-" then
             local t = table.pack(Disintegrate(value), ";")
             table.remove(t, Pinpoint(value))
-            value = ArrayToString(t)
+            value = table.concat(t, ';')
         elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
         end
     end
