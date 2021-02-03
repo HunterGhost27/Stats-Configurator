@@ -149,6 +149,46 @@ function HandleSpecialStat(statName, statType, config)
         ['TranslatedString'] = function(key, value)
             Ext.CreateTranslatedString(key, value)
         end,
+        ['TreasureTable'] = function (name, config)
+            local treasureTable = Ext.GetTreasureTable(name) or {} -- Create base template
+            treasureTable = Integrate(treasureTable, config)
+            Ext.UpdateTreasureTable(treasureTable)
+        end,
+        ['TreasureCategory'] = function (name, config)
+            local treasureCategory = Ext.GetTreasureCategory(name) or {} -- Create base template
+            treasureCategory = Integrate(treasureCategory, config)
+            Ext.UpdateTreasureCategory(treasureCategory, config.Category)
+        end,
+        ['SkillSet'] = function (name, config)
+            local skillSet = Ext.GetSkillSet(name) or {} -- Create base template
+            skillSet = Integrate(skillSet, config)
+            Ext.UpdateSkillSet(skillSet)
+        end,
+        ['ItemComboPreviewData'] = function (name, config)
+            local itemComboPreviewData = Ext.GetItemComboPreviewData(name) or {} -- Create base template
+            itemComboPreviewData = Integrate(itemComboPreviewData, config)
+            Ext.UpdateItemComboPreviewData(itemComboPreviewData)
+        end,
+        ['ItemCombo'] = function (name, config)
+            local itemCombo = Ext.GetItemCombo(name) or {} -- Create base template. WARNING: Causes crash in non-dev SE v53
+            itemCombo = Integrate(itemCombo, config)
+            Ext.UpdateItemCombo(itemCombo)
+        end,
+        ['ItemComboProperty'] = function (name, config)
+            local itemComboProperty = Ext.GetItemComboProperty(name) or {} -- Create base template
+            itemComboProperty = Integrate(itemComboProperty, config)
+            Ext.UpdateItemComboProperty(itemComboProperty)
+        end,
+        ['EquipmentSet'] = function (name, config)
+            local equipmentSet = Ext.GetEquipmentSet(name) or {} -- Create base template
+            equipmentSet = Integrate(equipmentSet, config)
+            Ext.UpdateEquipmentSet(equipmentSet)
+        end,
+        ['DeltaModifier'] = function (name, config)
+            local deltaMod = Ext.GetDeltaMod(name, config.ModifierType) or {} -- Create base template
+            deltaMod = Integrate(deltaMod, config)
+            Ext.UpdateDeltaMod(deltaMod)
+        end,
     }
 
     if not specialStatTypeHandler[statType] then return end
