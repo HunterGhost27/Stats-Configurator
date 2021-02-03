@@ -20,7 +20,7 @@ The **_Stats Configurator_** allows you to modify and customize stats by creatin
 
 ### Configure to your heart's desire
 
-Users can override stats by creating a **json file** (Default: `Config.json`) like so:
+Users can override stats by creating **json files** (Default: `Config.json`) like so:
 
 ```json
 {
@@ -33,7 +33,7 @@ Users can override stats by creating a **json file** (Default: `Config.json`) li
 }
 ```
 
-> All config-files are created in the \*\*Osiris Data\StatsConfigurator\*\* folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\StatsConfigurator\`.
+> All config-files are created in the Osiris Data\StatsConfigurator\ folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\StatsConfigurator\`.
 
 When this configuration loads, it will override `Projectile_Fireball`. The **Fireball** skill will now cost **_4 ActionPoints_**, have a **_7 turn Cooldown_**, _explode_ in a **_10m radius_** and will be called **_BOOMER_**.
 
@@ -51,8 +51,8 @@ All configuration-profiles, _user-created_ or _mod-created_, are compiled into a
 
 ```json
 {
-  "ConfigFile": "S7_Config.json",
-  "StatsLoader": { "Enable": true, "FileName": "S7_ConfigData.json" },
+  "ConfigFile": ["Config.json"],
+  "StatsLoader": { "Enable": true, "FileName": "ConfigData.json" },
   "SyncStatPersistence": false
 }
 ```
