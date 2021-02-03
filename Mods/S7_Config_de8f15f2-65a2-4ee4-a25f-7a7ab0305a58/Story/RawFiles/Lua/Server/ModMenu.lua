@@ -73,17 +73,17 @@ ModMenuDialog:AddListeners({
     --  STATS-CONFIGURATOR
     --  ==================
 
-    ['S7_StatsConfigurator'] = function () LoadConfigs() end,
+    ['S7_StatsConfigurator'] = function () Stats:LoadConfigs() end,
 
     --  BUILD CONFIG DATA
     --  =================
 
-    ['S7_BuildConfigData'] = function() BuildConfigs() end,
+    ['S7_BuildConfigData'] = function() Stats:BuildConfigs() end,
 
     --  BROADCAST CONFIG-DATA
     --  =====================
 
-    ['S7_BroadcastConfigData'] = function () BroadcastConfigs() end,
+    ['S7_BroadcastConfigData'] = function () Stats:BroadcastConfigData() end,
 
     --  VALIDATE CLIENT CONFIG
     --  ======================
