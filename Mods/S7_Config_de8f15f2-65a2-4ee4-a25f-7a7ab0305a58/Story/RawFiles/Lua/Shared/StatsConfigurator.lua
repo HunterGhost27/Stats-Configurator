@@ -24,42 +24,42 @@ Stats = {
         --  -------------------------
 
         ['TreasureTable'] = function (name, config)
-            local treasureTable = Ext.GetTreasureTable(name) or {} -- Create base template
+            local treasureTable = Ext.GetTreasureTable(name) or {}
             treasureTable = Integrate(treasureTable, config)
             Ext.UpdateTreasureTable(treasureTable)
         end,
         ['TreasureCategory'] = function (name, config)
-            local treasureCategory = Ext.GetTreasureCategory(name) or {} -- Create base template
+            local treasureCategory = Ext.GetTreasureCategory(name) or {}
             treasureCategory = Integrate(treasureCategory, config)
             Ext.UpdateTreasureCategory(name, treasureCategory)
         end,
         ['SkillSet'] = function (name, config)
-            local skillSet = Ext.GetSkillSet(name) or {} -- Create base template
+            local skillSet = Ext.GetSkillSet(name) or {}
             skillSet = Integrate(skillSet, config)
             Ext.UpdateSkillSet(skillSet)
         end,
-        ['ItemComboPreviewData'] = function (name, config)
-            local itemComboPreviewData = Ext.GetItemComboPreviewData(name) or {} -- Create base template
-            itemComboPreviewData = Integrate(itemComboPreviewData, config)
-            Ext.UpdateItemComboPreviewData(itemComboPreviewData)
-        end,
         ['ItemCombo'] = function (name, config)
-            local itemCombo = Ext.GetItemCombo(name) or {} -- Create base template. WARNING: Causes crash in non-dev SE v53
+            local itemCombo = Ext.GetItemCombo(name) or {} -- ⚠ WARNING: Causes crash in non-dev SE v53
             itemCombo = Integrate(itemCombo, config)
             Ext.UpdateItemCombo(itemCombo)
         end,
+        ['ItemComboPreviewData'] = function (name, config)
+            local itemComboPreviewData = Ext.GetItemComboPreviewData(name) or {}
+            itemComboPreviewData = Integrate(itemComboPreviewData, config)
+            Ext.UpdateItemComboPreviewData(itemComboPreviewData)
+        end,
         ['ItemComboProperty'] = function (name, config)
-            local itemComboProperty = Ext.GetItemComboProperty(name) or {} -- Create base template
+            local itemComboProperty = Ext.GetItemComboProperty(name) or {}
             itemComboProperty = Integrate(itemComboProperty, config)
             Ext.UpdateItemComboProperty(itemComboProperty)
         end,
         ['EquipmentSet'] = function (name, config)
-            local equipmentSet = Ext.GetEquipmentSet(name) or {} -- Create base template
+            local equipmentSet = Ext.GetEquipmentSet(name) or {}
             equipmentSet = Integrate(equipmentSet, config)
             Ext.UpdateEquipmentSet(equipmentSet)
         end,
         ['DeltaModifier'] = function (name, config)
-            local deltaMod = Ext.GetDeltaMod(name, config.ModifierType) or {} -- Create base template
+            local deltaMod = Ext.GetDeltaMod(name, config.ModifierType) or {}
             deltaMod = Integrate(deltaMod, config)
             Ext.UpdateDeltaMod(deltaMod)
         end,
@@ -79,7 +79,7 @@ function Stats:Configurator()
         local statName, statType = Disintegrate(statName, ":")
         statType = statType or 'StatsObject'
 
-        Write:NewLine("Configure: " .. statName)
+        Write:NewLine("\t" .. statName)
         Stats.Handlers[statType](statName, config)
     end
 
@@ -101,7 +101,7 @@ function Stats:Synchronize()
     Write:SetHeader('Synchronizing Stats [Persistence: ' .. tostring(Settings.SyncStatPersistence) .. ']')
     for stat, bool in pairs(self.Synchronizations) do
         Ext.SyncStat(stat, Settings.SyncStatPersistence)
-        Write:NewLine('Synchronize: ' .. stat)
+        Write:NewLine('\t' .. stat)
         self.Synchronizations[stat] = nil
     end
     Debug:Print(Write:Display())
