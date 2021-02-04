@@ -79,7 +79,7 @@ function Stats:Configurator()
         local statName, statType = Disintegrate(statName, ":")
         statType = statType or 'StatsObject'
 
-        Write:NewLine(statName .. ": " .. Ext.JsonStringify(config))
+        Write:NewLine("Configure: " .. statName)
         Stats.Handlers[statType](statName, config)
     end
 
@@ -101,7 +101,7 @@ function Stats:Synchronize()
     Write:SetHeader('Synchronizing Stats [Persistence: ' .. tostring(Settings.SyncStatPersistence) .. ']')
     for stat, bool in pairs(self.Synchronizations) do
         Ext.SyncStat(stat, Settings.SyncStatPersistence)
-        Write:NewLine('Synchronized Stat: ' .. stat)
+        Write:NewLine('Synchronize: ' .. stat)
         self.Synchronizations[stat] = nil
     end
     Debug:Print(Write:Display())
