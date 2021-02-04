@@ -3,7 +3,6 @@
 	<content contentuid="h462e31c5g71f7g46a9g9addg010475efb80f" Source="S7_Config_Inspector">Stats-Configurator</content>
 	<content contentuid="had2961e1g67ccg456dg8c2cgd2aae4152c32" Source="S7_Config_Inspector">Tools</content>
 	<content contentuid="he75fd409g4766g4daeg8d20gc89f5ec2ec6f" Source="S7_Config_Inspector">Stats-Configurator</content>
-	<content contentuid="h05fbae3dg579eg4e9ag9652g1bf48e20ef35" Source="S7_Config_Items.lsb" Key="S7_Config_CHANGELOG">[Pre-Release]&lt;br&gt;Mod hasn&apos;t even been released!</content>
 	<content contentuid="h2072d626g225eg4fa9g9577g47716c44a7d7" Source="S7_Config_ModMenu.lsj">Settings refreshed.</content>
 	<content contentuid="hd02b933bgaf8cg4c05gaa16gb83fac35a0c0" Source="S7_Config_ModMenu.lsj">Reapplying settings ...</content>
 	<content contentuid="ha6d9bfb4g2319g42d1gbd91g87a318c25c4a" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Toggle Savegame Persistence]&lt;/b&gt; Stat-edits are stored persistently in the savegame if enabled. (Default: Disabled)</content>
@@ -44,7 +43,7 @@
 	<content contentuid="hf9209b5dgc205g4bffga63bg03bb17a32088" Source="S7_Config_ModMenu.lsj">Collections Rebuilt.</content>
 	<content contentuid="h679ca616g08d8g4387gab58g4bc85bb24233" Source="S7_Config_ModMenu.lsj">[&lt;b&gt;Active Profile]&lt;/b&gt;: [S7_ConfigData_50855cec-1d18-4305-9292-f47ae56735c8]&lt;br&gt;&lt;b&gt;[Stats-Loader]:&lt;/b&gt; [S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37]&lt;br&gt;&lt;b&gt;[Savegame Persistence]: &lt;/b&gt;[S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a]</content>
 	<content contentuid="h7e210449g4fbeg448dgb223g8b40301050e6" Source="S7_Config_ModMenu.lsj">&lt;b&gt;[Go Back]&lt;/b&gt;</content>
-	<content contentuid="h218ffacag4ac2g43c0gbee3gac4beb0ff1dc" Source="Target_Description.lsb" Key="Target_S7_Config_Inspect_Description">Inspect the target&apos;s active skills and statuses. Prints their statsIDs to the script-extender&apos;s debug-console.</content>
+	<content contentuid="h218ffacag4ac2g43c0gbee3gac4beb0ff1dc" Source="Target_Description.lsb" Key="Target_S7_Config_Inspect_Description">Prints useful information to the script-extender&apos;s debug-console.</content>
 	<content contentuid="h0d186aeag65feg4ecdgb910g011dcaf0e4a7" Source="Target_DisplayName.lsb" Key="Target_S7_Config_Inspect_DisplayName">Inspect</content>
-	<content contentuid="hf84f20fbg840fg489cg9791gbc6370dc8c66" Source="Target_StatsDescription.lsb" Key="Target_S7_Config_Inspect_StatsDescription">Prints statIDs to the script-extender&apos;s debug-console.</content>
+	<content contentuid="hf84f20fbg840fg489cg9791gbc6370dc8c66" Source="Target_StatsDescription.lsb" Key="Target_S7_Config_Inspect_StatsDescription">Prints useful information to the script-extender&apos;s debug-console.</content>
 </contentList>
