@@ -92,14 +92,7 @@ Test:It({
 })
 
 Test:It({
-    ['description'] = 'Should split not split a string if no separator is provided',
-    ['fun'] = Disintegrate,
-    ['params'] = {"A BC 123 XY-Z", ""},
-    ['expectation'] = {"A BC 123 XY-Z"}
-})
-
-Test:It({
-    ['description'] = 'Should split a number into whole and decimal parts (will fail - hanvent implemented)',
+    ['description'] = 'Should split a number into whole part and (2) decimal places',
     ['fun'] = Disintegrate,
     ['params'] = {5.62},
     ['expectation'] = {5, 0.62}

@@ -21,8 +21,8 @@ end
 --  ============
 
 local Tag = {
-    ['FAIL'] = "**[FAIL]**",
-    ['PASS'] = "`[PASS]`"
+    ['FAIL'] = "❌",
+    ['PASS'] = "✅"
 }
 
 ---@class TestSpec @Test Specification
@@ -73,12 +73,12 @@ function TestSuite:It(spec)
     local status = table.remove(results, 1); results['n'] = nil
     if not IsEqual(results, spec.expectation) then
         status = false
-        message = message or "`Unexpected Expectations!`"
+        message = message or ("`Unexpected Results: " .. table.concat(results, ", ") .. "`")
         self.Results[spec.description .. "~~" .. tostring(elapsed) .. "~~" .. message] = Tag.FAIL
         Tests.Failed = Tests.Failed + 1
     end
     if status then
-        self.Results[spec.description .. "~~" .. tostring(elapsed) .. "~~" .. "Success"] = Tag.PASS
+        self.Results[spec.description .. "~~" .. tostring(elapsed) .. "~~Success"] = Tag.PASS
         Tests.Passed = Tests.Passed + 1
     end
 end
@@ -87,15 +87,15 @@ function ClearTestResults() Ext.SaveFile("S7TestResults.md", "") end
 
 function ShowTestResults()
     local md = Ext.LoadFile('S7TestResults.md') or ""
-    local report = "# Test Summary\n\n"
-   report = report .. tostring(Tests.Passed) .. " Tests `Passed`" .. "\n"
-   report = report .. tostring(Tests.Failed) .. " Tests **Failed**" .. "\n"
+    local report = "# Test Summary 📊\n\n"
+   report = report .. "`" .. tostring(Tests.Passed) .. "` ✔ Tests `Passed`" .. "   |   "
+   report = report .. "`" .. tostring(Tests.Failed) .. "` ❌ Tests **Failed**" .. "\n"
 
     md = md .. report .. "\n"
 
     for _, suite in ipairs(Tests) do
-        local header = "## Test Results for Suite: " .. suite.Name .. "\n\n"
-       local tableHeader = "|Result|Specification|Time|Details|\n|---|---|---|---|"
+        local header = "## 🧪Test Results for Suite: `" .. suite.Name .. "`\n\n"
+       local tableHeader = "|Result|Specification|Time|Details|\n|:--:|---|---|---|"
        local table = "" 
        for desc, success in pairs(suite.Results) do
         local desc, time, message = Disintegrate(desc, "~~")
