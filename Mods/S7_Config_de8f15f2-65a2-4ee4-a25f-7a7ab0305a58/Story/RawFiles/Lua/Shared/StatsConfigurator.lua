@@ -31,7 +31,7 @@ Stats = {
         ['TreasureCategory'] = function (name, config)
             local treasureCategory = Ext.GetTreasureCategory(name) or {} -- Create base template
             treasureCategory = Integrate(treasureCategory, config)
-            Ext.UpdateTreasureCategory(treasureCategory, config.Category)
+            Ext.UpdateTreasureCategory(name, treasureCategory)
         end,
         ['SkillSet'] = function (name, config)
             local skillSet = Ext.GetSkillSet(name) or {} -- Create base template
@@ -79,6 +79,7 @@ function Stats:Configurator()
         local statName, statType = Disintegrate(statName, ":")
         statType = statType or 'StatsObject'
 
+        Write:NewLine(statName .. ": " .. Ext.JsonStringify(config))
         Stats.Handlers[statType](statName, config)
     end
 
@@ -211,12 +212,9 @@ function StatsObjectHandler(statName, config)
     local stat = Ext.GetStat(statName)
     if not stat then return end
 
-    Write:NewLine(statName .. ":")
     ForEach(config, function(attribute, value)
         local attribute, value = HandleAttributeConfig(stat, attribute, value)
-        Write:NewLine("\t" .. tostring(attribute) .. ": " .. tostring(value) .. " (" .. tostring(stat[attribute]) .. ")")
         stat[attribute] = value
     end)
-    Write:LineBreak('_')
     Stats.Synchronizations[statName] = true
 end
