@@ -76,3 +76,17 @@ ConsoleCommander:Register({
         Debug:Print(Write:Display())
     end
 })
+
+--  CLEAR CACHE
+--  ===========
+
+ConsoleCommander:Register({
+    ['Name'] = 'ClearCache',
+    ['Description'] = 'Removes Cached information from ConfigData',
+    ['Context'] = 'Shared',
+    ['Action'] = function ()
+        local configData = LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName) or {}
+        configData['Cache'] = nil
+        SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)
+    end
+})
