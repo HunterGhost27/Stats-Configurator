@@ -116,11 +116,13 @@ ehthumbs.db
 Thumbs.db
 *.lnk
 
-#    #######################
-#        HUNTER-GHOST-27
-#    #######################
+# HUNTER-GHOST-27 #
+###################
 
+#   VSCode Stuff
 .vscode/
 *.code-workspace
+
+#   Documentation
 Documentation/Images/
 Documentation/Videos/
