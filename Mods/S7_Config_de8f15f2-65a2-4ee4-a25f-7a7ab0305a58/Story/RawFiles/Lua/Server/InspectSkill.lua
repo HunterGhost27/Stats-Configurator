@@ -68,6 +68,7 @@ Ext.RegisterOsirisListener('CharacterUsedSkillOnTarget', 5, 'after', function (c
         Write:LineBreak('_')
     end
 
+    Osi.ShowNotification(char, 'Check the Debug-Console for results')
     Debug:FPrint(Write:Display())
 end)
 
@@ -93,5 +94,6 @@ Ext.RegisterOsirisListener('CharacterUsedSkillAtPosition', 7, 'after', function(
     end
     Write:LineBreak('_')
 
+    Osi.ShowNotification(char, 'Check the Debug-Console for results')
     Debug:FPrint(Write:Display())
 end)
