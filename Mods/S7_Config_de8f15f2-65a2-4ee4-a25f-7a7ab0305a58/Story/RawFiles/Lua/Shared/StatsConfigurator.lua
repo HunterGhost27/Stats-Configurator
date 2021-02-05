@@ -83,7 +83,7 @@ function Stats:Configurator()
         Stats.Handlers[statType](statName, config)
     end
 
-    Write:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile.")
+    Write:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile")
     ForEach(self.Configurations, function(key, config)
         local statList = Collections:Unpack(key)
         ForEach(statList, function(statName, bool) configurator(statName, config, bool) end)
@@ -116,7 +116,10 @@ function Stats:LoadConfigs()
     local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
     local files = LoadFiles(fileNames) or {}
     Debug:Print("Loading ConfigFiles", {['dialogVar'] = 'StatsConfigurator'})
-    for fileName, fileContent in pairs(files) do self.Configurations = Integrate(self.Configurations, fileContent) end
+    for fileName, fileContent in pairs(files) do
+        if not IsValid(fileContent) then SaveFile(fileName, "{}") end
+        self.Configurations = Integrate(self.Configurations, fileContent)
+    end
     self.Memoizer:LoadCache(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
     self:Configurator()
     self:Synchronize()
