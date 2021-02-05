@@ -40,9 +40,17 @@ Ext.RegisterOsirisListener('CharacterUsedSkillOnTarget', 5, 'after', function (c
     if char ~= Osi.CharacterGetHostCharacter() and skill ~= InspectSkill then return end
 
     local targetGUID = ExtractGUID(tar)
-    local target = Osi.ObjectIsCharacter(targetGUID) == 1 and Ext.GetCharacter(targetGUID) or Ext.GetItem(targetGUID)
 
-    Write:SetHeader('Inspecting: ' .. tostring(tar))
+    local target, statsId
+    if Osi.ObjectIsCharacter(targetGUID) == 1 then
+        target = Ext.GetCharacter(targetGUID)
+        statsId = target.RootTemplate.Stats
+    else
+        target = Ext.GetItem(targetGUID)
+        statsId = target.RootTemplate.Stats
+    end
+
+    Write:SetHeader('Inspecting: ' .. tostring(statsId))
 
     if Osi.ObjectIsCharacter(targetGUID) == 1 then
         local skills = target:GetSkills()
