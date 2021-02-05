@@ -36,10 +36,10 @@ The **_Fireball_** skill is now called **_BOOMER_**. It costs **4 Action-Points*
 
 ```json
 {
-  "COLLECTION NonPlayerCharacters": {
-    "%Armor": 50,
-    "%MagicArmor": 50,
-    "%Vitality": 200
+  "#NonPlayerCharacters": {
+    "*Armor": 0.5,
+    "*MagicArmor": 0.5,
+    "*Vitality": 2
   }
 }
 ```
@@ -80,18 +80,18 @@ The status **Nullified Resistance** applied by the _Flay Skin_ skill will _no lo
 
 ![Flay-Skin](https://i.imgur.com/zr4YcAO.png)
 
-> **P.S.:** Using `COLLECTION StatusData` will remove _saving-throws_ from **all** status-effects!
+> **P.S.:** Using `#StatusData` will remove _saving-throws_ from **all** status-effects!
 
 ## That's XCOM Baby
 
 ```json
 {
-  "COLLECTION Character": {
+  "#Character": {
     "Accuracy": 65,
     "APMaximum": 2,
     "APRecovery": 2
   },
-  "COLLECTION SkillData": {
+  "#SkillData": {
     "ActionPoints": 2
   }
 }
@@ -105,7 +105,7 @@ All **Characters** have their base **Accuracy** set at **65%** and they recover 
 
 ```json
 {
-  "COLLECTION Character": {
+  "#Character": {
     "Talents": "AttackOfOpportunity;Rastilin"
   }
 }
@@ -115,7 +115,9 @@ All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
 
 ![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
 
-> **NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible. Using the special attribute "+Talents" will append your config to the original list without replacing the original talents.
+> **NOTE:** This replaced the old talent _WalkItOff_. While collections are super useful, you'd want to avoid making bulk edits like this if possible.
+
+> Using the special attribute "+Talents" will append your config to the original list without replacing the original talents.
 
 ## Summons Galore
 
@@ -137,19 +139,19 @@ All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
 
 ```json
 {
-  "COLLECTION WeaponTypeKnife": {
+  "#WeaponTypeKnife": {
     "AttackAPCost": 1,
     "Initiative": 10,
     "DodgeBoost": 15,
     "Damage Type": "Piercing"
   },
-  "COLLECTION WeaponIsTwoHanded": {
+  "#WeaponIsTwoHanded": {
     "AttackAPCost": 3,
     "CleaveAngle": 60,
     "CleavePercentage": 50,
     "AccuracyBoost": -25
   },
-  "COLLECTION WeaponTypeSpear": {
+  "#WeaponTypeSpear": {
     "Damage Type": "Piercing"
   }
 }
@@ -157,4 +159,4 @@ All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
 
 ![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
 
-This example showcases how you can use this mod to make overhaul worth of changes. **_Daggers_** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
+This example showcases how you can use this mod to make overhauls worth of changes. **_Daggers_** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
