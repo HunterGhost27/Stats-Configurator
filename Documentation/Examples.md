@@ -88,8 +88,8 @@ The status **Nullified Resistance** applied by the _Flay Skin_ skill will _no lo
 {
   "#Character": {
     "Accuracy": 65,
-    "APMaximum": 2,
-    "APRecovery": 2
+    "-APMaximum": 2,
+    "/APRecovery": 2
   },
   "#SkillData": {
     "ActionPoints": 2
@@ -97,7 +97,7 @@ The status **Nullified Resistance** applied by the _Flay Skin_ skill will _no lo
 }
 ```
 
-All **Characters** have their base **Accuracy** set at **65%** and they recover **2AP per turn** upto **2AP Maximum**. All Skill now cost **2AP**.
+All **Characters** have their base **Accuracy** set at **65%**. **AP Recovery** is **halved** and **Max AP** is reduced by **2AP**. All Skill now cost **2AP**.
 
 ![Accuracy-AP-Config](https://imgur.com/glX91qP.png)
 
@@ -140,13 +140,13 @@ All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
 ```json
 {
   "#WeaponTypeKnife": {
-    "AttackAPCost": 1,
-    "Initiative": 10,
-    "DodgeBoost": 15,
+    "-AttackAPCost": 1,
+    "+Initiative": 10,
+    "+DodgeBoost": 15,
     "Damage Type": "Piercing"
   },
   "#WeaponIsTwoHanded": {
-    "AttackAPCost": 3,
+    "+AttackAPCost": 1,
     "CleaveAngle": 60,
     "CleavePercentage": 50,
     "AccuracyBoost": -25
@@ -159,4 +159,4 @@ All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
 
 ![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
 
-This example showcases how you can use this mod to make overhauls worth of changes. **_Daggers_** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **10 initiative** and **15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
+This example showcases how you can use this mod to make overhauls worth of changes. **_Daggers_** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **+10 initiative** and **+15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
