@@ -173,7 +173,7 @@ function HandleAttributeConfig(stat, attribute, value)
         elseif token == "*" then value = originalValue * value
         elseif token == "/" then value = originalValue / value
         elseif token == "%" then value = originalValue % value
-        elseif token == "^" then local v = 1 for i = 1, value do v = v * originalValue end value = v
+        elseif token == "^" then value = originalValue ^ value
         elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
         elseif token == "?" then value = Ext.Random(0, value)
         end
@@ -181,13 +181,12 @@ function HandleAttributeConfig(stat, attribute, value)
 
     if attributeType == 'String' or attributeType == 'string' then
         if token == "+" then
-            local t = table.pack(Disintegrate(originalValue), ";")
+            local t = table.pack(Disintegrate(originalValue, ";"))
             table.insert(t, value)
             value = table.concat(t, ';')
         elseif token == "-" then
-            local t = table.pack(Disintegrate(value), ";")
-            table.remove(t, Pinpoint(value))
-            value = table.concat(t, ';')
+            if string.match(originalValue, value) then value = string.gsub(originalValue, value, '') end
+            value = string.gsub(value, '[;]+', ';')
         elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
         end
     end
