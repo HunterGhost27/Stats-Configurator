@@ -139,6 +139,7 @@ function Stats:BuildConfigs()
         SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, configData)
     end
     Stats.Memoizer:SaveCache(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
+    Osi.ShowNotification(Osi.CharacterGetHostCharacter(), 'ConfigData Rebuilt')
     Debug:Print("Rebuilt " .. Settings.StatsLoader.FileName)
 end
 
