@@ -7,21 +7,28 @@ This document is a work-in-progress!
 - [Extensive-Documentation](#extensive-documentation)
   - [Osiris Data](#osiris-data)
   - [Debug Console](#debug-console)
-  - [Config File and ConfigData File](#config-file-and-configdata-file)
+  - [Config Files and ConfigData File](#config-files-and-configdata-file)
   - [Host and Client Contexts](#host-and-client-contexts)
   - [Stats-Configurator](#stats-configurator)
     - [Stats-Configurator Items](#stats-configurator-items)
     - [Stats-Configurator Mod-Menu](#stats-configurator-mod-menu)
+    - [Stats-Configurator Context-Menu](#stats-configurator-context-menu)
     - [Applying Configurations](#applying-configurations)
     - [StatsLoader](#statsloader)
       - [StatLoader Settings](#statloader-settings)
       - [StatsLoader and Load-Order](#statsloader-and-load-order)
     - [Stat Persistence](#stat-persistence)
+  - [Relative Changes](#relative-changes)
+    - [Attribute Tokens for Numbers](#attribute-tokens-for-numbers)
+    - [Attribute Tokens for Strings](#attribute-tokens-for-strings)
+    - [Attribute Tokens for Enumerations](#attribute-tokens-for-enumerations)
   - [Collections](#collections)
+  - [Modification of Special Stat-Types](#modification-of-special-stat-types)
   - [Settings](#settings)
     - [Default Settings](#default-settings)
     - [Setting Details](#setting-details)
     - [Custom Settings](#custom-settings)
+  - [UI-Components-Library Integration](#ui-components-library-integration)
   - [Inspect Skill](#inspect-skill)
   - [Console-Commands](#console-commands)
   - [References](#references)
@@ -30,7 +37,7 @@ This document is a work-in-progress!
 
 ## Osiris Data
 
-The [**_script-extender_**](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be in the `StatsConfigurator\` subdirectory in this location. The `Osiris Data` folder is in your game-document directory, i.e. something like `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. For reference, this is also where your `PlayerProfiles` and `Mods` folders are located.
+The [**_script-extender_**](https://github.com/Norbyte/ositools) _reads from_ and _writes_ files to the `Osiris Data` folder. All **config-files** and/or **exported data** for this mod will always be in the `StatsConfigurator\` subdirectory in this location. The `Osiris Data` folder is in your game-document directory, i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`. For reference, this is also where your `PlayerProfiles` and `Mods` folders are located.
 
 > **NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\StatsConfigurator\` directory.
 
@@ -38,13 +45,13 @@ The [**_script-extender_**](https://github.com/Norbyte/ositools) _reads from_ an
 
 The mod uses the script-extender's _debug-console_ to display a lot of useful information. The console is also used to input [console-commands](#console-commands).
 The _debug-console_ can be enabled by setting `CreateConsole` to `true` in `OsirisExtenderSettings.json`.
-Alternatively, if you use LaughingLeader's Mod-Manager, you can go to `Settings>Preferences>Script-Extender` and `Enable Console Window`. Then `Export Settings`.
+Alternatively, if you use [LaughingLeader's Mod-Manager](https://github.com/LaughingLeader-DOS2-Mods/DivinityModManager), you can go to `Settings>Preferences>Script-Extender` and `Enable Console Window`. Then `Export Settings`.
 
-## Config File and ConfigData File
+## Config Files and ConfigData File
 
-**Config-File** and **ConfigData File** refer to two separate files. **Config-File** (default: `Config.json`) is what users write their configurations in. This file is used to apply configurations from the mod-menu. The **ConfigData File** (default: `ConfigData.json`) on the other hand is compiled from all available configuration data, _user-created_ or _mod-created_. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more consolidated format and read automatically during `ModuleLoading` event if [**StatsLoader**](#statsloader) is `enabled`. ConfigData is also where the mod stores any persistent cache.
+**Config-File** and **ConfigData File** refer to two separate files. **Config-Files** (default: `Config.json`) are what users write their configurations in. These files are used to apply configurations from the mod-menu. The **ConfigData File** (default: `ConfigData.json`) on the other hand is compiled from all available configuration data. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more consolidated format and read automatically during `ModuleLoading` event if [**StatsLoader**](#statsloader) is `enabled`. ConfigData is also where the mod stores any persistent cache.
 
-This document will always refer to the **ConfigFile** unless explicitly stated otherwise. loading configuration, configs or configuration-profile all refer to the **ConfigFile**. Basically, if the documentation asks for manual-intervention, it means the **ConfigFile**. Anything else is probably automatically handled by the mod in **ConfigData**.
+This document will always refer to the **ConfigFiles** unless explicitly stated otherwise. loading configuration, configs or configuration-profile all refer to the **ConfigFiles**. Basically, if the documentation asks for manual-intervention, it means the **ConfigFiles**. Anything else is probably automatically handled by the mod in **ConfigData**.
 
 ## Host and Client Contexts
 
@@ -67,6 +74,10 @@ The _"Stats-Configurator"_ item is granted to the player ([host-character](#host
 The **mod-menu** allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod. All of these functions can also be called directly using the [console-commands](#Console-Commands).
 
 Since most of these functions require the `server` context, only the [**host-character**](#host-and-client-contexts) is allowed to interact with the item. Any attempts, by the clients to use the item will redirect the dialog to the host-character.
+
+### Stats-Configurator Context-Menu
+
+If you have the [**UI-Components-Library**](https://github.com/HunterGhost27/UI-Components-Library) you can use the Context-Menu. The Context-Menu provides a one-click solution to load and apply configs. You can also access the mod-manual from there.
 
 ### Applying Configurations
 
@@ -113,6 +124,50 @@ The StatsLoader loads config-data from mods in accordance to the load-order. i.e
 Stat-overrides can be saved persistently in the save-file so that those overrides are baked into the game-session. This will make sure those changes are always active for the server and the client. Norbyte did tell me this has hidden caveats but I forgot to ask for details.
 
 By default, `SyncStatPersistence` is disabled. This essentially means that all configs must be reloaded every game session. StatsLoader can do this automatically for you.
+
+## Relative Changes
+
+By prefixing an stat-attribute with special characters you can modify the behaviour of the config-variable. This allows you to make relative changes instead of absolute ones.
+For example,
+
+```json
+{
+  "Shout_InspireStart": {
+    "-Cooldown": 1,
+    "+ActionPoints": 2
+  }
+}
+```
+
+This will reduce `InspireStart`'s cooldown by 1 and increase AP cost by 2 (Relative to their original/current stat values).
+
+### Attribute Tokens for Numbers
+
+| Attribute Token | Function              | Expected Parameter |
+| --------------: | --------------------- | ------------------ |
+|             `+` | Increase value        | `number`           |
+|             `-` | Decrease value        | `number`           |
+|             `*` | Multiply value        | `number`           |
+|             `/` | Divide value          | `number`           |
+|             `%` | Modulo of value       | `number`           |
+|             `^` | Exponent of value     | `number`           |
+|             `$` | Copy value            | `statID`           |
+|             `?` | Random value (0 to X) | `number`           |
+
+### Attribute Tokens for Strings
+
+| Attribute Token | Function      | Expected Parameter |
+| --------------: | ------------- | ------------------ |
+|             `+` | Append String | `string`           |
+|             `-` | Remove String | `string`           |
+
+### Attribute Tokens for Enumerations
+
+| Attribute Token | Function           | Expected Paramter |
+| --------------: | ------------------ | ----------------- |
+|             `+` | Increase EnumIndex | `EnumIndex`       |
+|             `-` | Decrease EnumIndex | `EnumIndex`       |
+|             `$` | Copy EnumIndex     | `EnumIndex`       |
 
 ## Collections
 
@@ -191,13 +246,38 @@ To use this feature, you just need the key to be in the following format: `"#<Co
 
 Users can create and define their own collections using the ConfigCollections.json.
 
+## Modification of Special Stat-Types
+
+Certain stat-types like `DeltaMods`, `TreasureTables` and `TranslatedStrings` cannot be modified without the use of special functions. Such special statIDs should be suffixed with `:<SpecialStatType>` in the configs for the mod to know how to handle them. For example, in order to modify a translated string handle:
+
+```json
+{
+  "h2072d626g225eg4fa9g9577g47716c44a7d7:TranslatedStringHandle": "<-- Take Note of :TranslatedStringHandle"
+}
+```
+
+> General stats like `Character`, `Armor` etc can also be suffixed with the corresponding types (`:Character`, `:Armor` etc) however it is not necessary.
+
+A list of Special Stats:
+
+- DeltaMods
+- EquipmentSets
+- SkillSets
+- Item Combination
+- TranslatedString
+- TranslatedStringHandle
+- Treasure Table
+- Treasure Category
+
+Configs for these stats must follow a [specific template](../References/md/Templates.md).
+
 ## Settings
 
 ### Default Settings
 
 ```json
 {
-  "ConfigFile": "Config.json",
+  "ConfigFile": ["Config.json"],
   "StatsLoader": { "Enable": true, "FileName": "ConfigData.json" },
   "SyncStatPersistence": false
 }
@@ -209,20 +289,24 @@ These are the mod's **default** settings. The user can override these settings i
 
 Here's a quick summary of all the settings:
 
-| Setting                | Default Value        | Purpose                                                                                                      |
-| ---------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `ConfigFile`           | `S7_Config.json`     | Name of the user-created configuration file. This is the file that users will write their configurations in. |
-| `StatsLoader.Enable`   | `true`               | StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.                          |
-| `StatsLoader.FileName` | `S7_ConfigData.json` | Name of the mod-created **ConfigData** file. This is the compiled configuration profile.                     |
-| `SyncStatPersistence`  | `false`              | Stat-edits will be saved **persistently** in the savefile if `true`.                                         |
+| Setting                | Default Value     | Purpose                                                                                                          |
+| ---------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `ConfigFiles`          | `["Config.json"]` | Array of the user-created configuration files. These are the file that users will write their configurations in. |
+| `StatsLoader.Enable`   | `true`            | StatsLoader is responsible for loading **ConfigData** during `ModuleLoading` event.                              |
+| `StatsLoader.FileName` | `ConfigData.json` | Name of the mod-created **ConfigData** file. This is the compiled configuration profile.                         |
+| `SyncStatPersistence`  | `false`           | Stat-edits will be saved **persistently** in the savefile if `true`.                                             |
 
 ### Custom Settings
 
 Custom Settings are applied from `S7Central.json` in `Osiris Data`. Custom settings are applied automatically when `ModuleLoadStarted` event triggers, but can be reapplied whenever the host-user wants, using the modmenu. Collections are automatically rebuilt everytime settings are refreshed. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself. They can also be toggled using [console-commands](Documentation/Extensive-Docuementation.md#Console-Commands).
 
+## UI-Components-Library Integration
+
+If you have the [**UI-Components-Library**](https://github.com/HunterGhost27/UI-Components-Library) installed, you can **apply configurations** and access **mod-manual** from the **Context-Menu**. The Context-Menu option is a one-click solution that _loads_, _rebuilds_, _broadcasts_ and _verifies_ configs automatically.
+
 ## Inspect Skill
 
-The **Inspect** skill is a special skill that the host-character can learn through the diagnostics menu. The skill does not cost any action-points or memory and you are completely free to use it whenever you chose. Targetting a character/Item by **Inspect** will print all the _active status-effects_ and _skills_ the target has to the debug-console. This is a quick and easy way to find out what the stat-names/statIDs of target's skills and statuses are. You can also target specific items, like armors and weapons to get their item-name/itemID aswell. When you are done with the skill you can "unlearn" it from the same menu. For a more comprehensive reference list, you can use the function described below.
+The **Inspect** skill is a special skill that the host-character can learn through the diagnostics menu. The skill does not cost any action-points or memory and you are completely free to use it whenever you chose. Targetting a character/Item by **Inspect** will print all the _active status-effects_ and _skills_ the target has to the debug-console as well as their _statID_. When you are done with the skill you can "unlearn" it from the same menu. For a more comprehensive reference list, you can use the function described below.
 
 You can also use the [console-command](#Console-Commands) `!S7_Config SearchStat YourSearchQueryHere OptionalTypeRestriction`. This will search any stats that have `YourSearchQueryHere` in their name. The optional argument `OptionalTypeRestriction` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for the string `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character` will only search for the string `Dallis` in stat-entries of the `Character` type.
 
@@ -232,19 +316,16 @@ The mod comes with a suite of console-commands for a variety of purposes. Consol
 
 All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up the following list of useful commands in the debug-console window.
 
-| Command             | Argument 1       | Argument 2  | Comments                                                 | Examples                                           |
-| ------------------- | ---------------- | ----------- | -------------------------------------------------------- | -------------------------------------------------- |
-| **Help**            |                  |             | Prints a helpful list of console-commands.               | `!S7_Config Help` or simply `!S7_Config`           |
-| **AddConfigurator** |                  |             | Adds the configurator item to the host-character.        | `!S7_Config AddConfigurator`                       |
-| **StartModMenu**    |                  |             | Starts the Mod-Menu Dialog.                              | `!S7_Config StartModMenu`                          |
-| **SearchStat**      | **SearchString** | StatType    | Search for (SearchString) in category (StatType).        | `!S7_Config SearchStat Summon_Incarnate SkillData` |
-| **SyncStat**        | **StatID**       | Persistence | Synchronize (StatID) with (Persistence) for all clients. | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
-| **DeepDive**        | **statsID**      |             | Print all valid attributes and their values.             | `!S7_Config DeepDive Shout_ShedSkin`               |
-
-> **NOTE**:
->
-> - Non-bold arguments are optional.
-> - Character-key accepts the following values: Host, Clients, [Character's Name e.g. Beast, Fane], [Empty-String to select all players]
+| Command                | Argument 1       | Argument 2  | Comments                                                 | Examples                                           |
+| ---------------------- | ---------------- | ----------- | -------------------------------------------------------- | -------------------------------------------------- |
+| **Help**               |                  |             | Prints a helpful list of console-commands.               | `!S7_Config Help` or simply `!S7_Config`           |
+| **AddConfigurator**    |                  |             | Adds the configurator item to the host-character.        | `!S7_Config AddConfigurator`                       |
+| **StartModMenu**       |                  |             | Starts the Mod-Menu Dialog.                              | `!S7_Config StartModMenu`                          |
+| **SearchStat**         | **SearchString** | StatType    | Search for (SearchString) in category (StatType).        | `!S7_Config SearchStat Summon_Incarnate SkillData` |
+| **SyncStat**           | **StatID**       | Persistence | Synchronize (StatID) with (Persistence) for all clients. | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
+| **DeepDive**           | **statsID**      |             | Print all valid attributes and their values.             | `!S7_Config DeepDive Shout_ShedSkin`               |
+| **ClearCache**         |                  |             | Clears the ConfigData Cache.                             | `!S7_Config ClearCache`                            |
+| **RebuildCollections** |                  |             | Rebuilds Custom-Collections data.                        | `!S7_Config RebuildCollections`                    |
 
 ## References
 
@@ -254,8 +335,6 @@ Each stat-name/stat-ID has a corresponding _stat-type_. Each stat-type has a set
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
-
-This information can also be printed to the debug-console using the `Reference` [console-command](#console-commands).
 
 > **NOTE:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable) markdown. The reference sheets may seem incomplete, but it is what it is. So feel free to ask if you are still unsure about something.
 
