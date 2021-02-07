@@ -11,8 +11,8 @@ ConsoleCommander:Register({
     ['Context'] = 'Server',
     ['Action'] = function()
         local hostCharacter = Osi.CharacterGetHostCharacter()
-        if Osi.ItemTemplateIsInPartyInventory(hostCharacter, Inspector, 1) < 1 then
-            Osi.ItemTemplateAddTo(Inspector, hostCharacter, 1)
+        if Osi.ItemTemplateIsInPartyInventory(hostCharacter, ConfiguratorItem, 1) < 1 then
+            Osi.ItemTemplateAddTo(ConfiguratorItem, hostCharacter, 1)
             Debug:Print("Configurator added to Host-Character's Inventory")
         else Debug:Warn("Check your bags! The party has the Configurator already") end
     end

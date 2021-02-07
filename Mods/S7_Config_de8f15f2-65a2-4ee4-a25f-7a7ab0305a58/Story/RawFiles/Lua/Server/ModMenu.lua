@@ -47,7 +47,7 @@ ModMenuDialog:Update({
 --  =================
 
 Ext.RegisterOsirisListener("CharacterUsedItemTemplate", 3, 'after', function (character, itemTemplate, item)
-    if itemTemplate ~= Inspector then return end
+    if itemTemplate ~= ConfiguratorItem then return end
     ModMenuDialog:Start()
 end)
 
