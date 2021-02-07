@@ -123,6 +123,7 @@ Collections = {
 --  CUSTOM-COLLECTIONS
 --  ==================
 
+---Rebuilds Custom-Collection Data
 function Collections:CustomRebuild()
     local customCollections = LoadFile(MODINFO.SubdirPrefix .. 'ConfigCollections.json') or {}
     self = Integrate(self, customCollections)
@@ -131,6 +132,7 @@ end
 --  PREDEF-COLLECTIONS
 --  ==================
 
+---Rebuilds Collection Data
 function Collections:Rebuild()
 
     local statTypeTable = {
@@ -227,15 +229,18 @@ function Collections:Rebuild()
     Debug:FPrint('Collections Rebuilt')
 end
 
+---Unpacks Collection into a table
+---@param keyName string CollectionName
+---@return table collection Collection
 function Collections:Unpack(keyName)
-    local returnNameList = {}
+    local collection = {}
     local collectionName = string.match(keyName, '^#(.-)$')
-    if not collectionName then returnNameList[keyName] = true; return returnNameList end
+    if not collectionName then collection[keyName] = true; return collection end
     if self[collectionName] then
         Debug:Print("Unpacking collection " .. collectionName)
-        for statName, _ in pairs(self[collectionName]) do returnNameList[statName] = true end
+        for statName, _ in pairs(self[collectionName]) do collection[statName] = true end
     else Debug:Error("No collection named " .. collectionName .. " found.") end
-    return returnNameList
+    return collection
 end
 
 --  CONSOLE-COMMAND

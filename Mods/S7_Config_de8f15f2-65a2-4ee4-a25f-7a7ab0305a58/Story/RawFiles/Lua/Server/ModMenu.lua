@@ -88,7 +88,7 @@ ModMenuDialog:AddListeners({
     --  VALIDATE CLIENT CONFIG
     --  ======================
 
-    ['S7_ValidateClientConfigs'] = function () ValidateClientConfigs() end,
+    ['S7_ValidateClientConfigs'] = function () Stats:ValidateConfigs() end,
 
     --  TOGGLES
     --  =======

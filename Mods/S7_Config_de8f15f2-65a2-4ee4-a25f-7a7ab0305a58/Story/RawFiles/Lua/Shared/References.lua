@@ -724,7 +724,7 @@ function DetermineStatType(statName)
 	--	=========
 
 	if statType == 'SkillData' then
-		local super = Disintegrate(statName, "_")
+		local super = Disintegrate(statName, '_')
 		if SkillandStatusData['SkillData'][super] then return super end
 
 	--	STATUSDATA
@@ -757,7 +757,7 @@ end
 ---@param argument string `Index` or `Label`
 ---@return string @`Index` or `Label`
 function EnumTransformer(mode, enumerationTypeName, argument)
-	if mode == "Index2Label" then return Ext.EnumIndexToLabel(enumerationTypeName, argument)
-	elseif mode == "Label2Index" then return Ext.EnumLabelToIndex(enumerationTypeName, argument)
+	if mode == 'Index2Label' then return Ext.EnumIndexToLabel(enumerationTypeName, argument)
+	elseif mode == 'Label2Index' then return Ext.EnumLabelToIndex(enumerationTypeName, argument)
 	end
 end

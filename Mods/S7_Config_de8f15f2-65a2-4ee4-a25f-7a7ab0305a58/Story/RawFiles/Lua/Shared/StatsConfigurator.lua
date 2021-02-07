@@ -1,6 +1,12 @@
 --  ==================
 --  STATS-CONFIGURATOR
 --  ==================
+
+---@class Configurator
+---@field Configurations table Table of Configs
+---@field Synchronizations table Queue of Syncs
+---@field Memoizer Memoizer Config Cacher
+---@field Handlers table StatObject Handlers
 Stats = {
     ['Configurations'] = {},
     ['Synchronizations'] = {},
@@ -10,14 +16,14 @@ Stats = {
         --  STATS OBJECT HANDLERS
         --  ---------------------
 
-        ['Armor'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Shield'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Weapon'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Potion'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Character'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Object'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Skill'] = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Status'] = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Armor']       = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Shield']      = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Weapon']      = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Potion']      = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Character']   = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Object']      = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Skill']       = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['Status']      = function(statName, config) StatsObjectHandler(statName, config) end,
         ['StatsObject'] = function(statName, config) StatsObjectHandler(statName, config) end,
 
         --  NON STATS OBJECT HANDLERS
@@ -44,7 +50,7 @@ Stats = {
             Ext.UpdateItemCombo(itemCombo)
         end,
         ['ItemComboPreviewData'] = function (name, config)
-            local itemComboPreviewData = Ext.GetItemComboPreviewData(name) or {}
+            local itemComboPreviewData = Ext.GetItemComboPreviewData(name) or {} -- Doesn't seem to work
             itemComboPreviewData = Integrate(itemComboPreviewData, config)
             Ext.UpdateItemComboPreviewData(itemComboPreviewData)
         end,
@@ -154,6 +160,23 @@ function Stats:BroadcastConfigData()
     Debug:Print("Server broadcasted their configuration file")
 end
 
+--  VALIDATE CLIENT CONFIGS
+--  =======================
+
+---Validate Client ConfigData
+function Stats:ValidateConfigs()
+    UserInformation:ReSync()
+    Debug:FPrint("Validating Client Config...", {['dialogVar'] = 'ValidateClientConfigs'})
+    local source = Ext.LoadFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName)
+    if not ValidString(source) then Debug:FWarn("Nothing to validate. Please check if the server has " .. Settings.StatsLoader.FileName, {['dialogVar'] = 'ValidateClientConfigs'}) end
+
+    ForEach(UserInformation.Clients, function (userProfileID, information)
+        if not IsValid(userProfileID) then return end
+        local clientID = information['DisplayName'] .. " (" .. information['UserName'] .. ")"
+        Ext.PostMessageToClient(information['CurrentCharacter'], 'S7_Config::ConfigValidation', Ext.JsonStringify({[clientID] = source}))
+    end)
+end
+
 --  =======
 --  HELPERS
 --  =======
@@ -161,34 +184,40 @@ end
 --  ATTRIBUTE TOKENS
 --  ----------------
 
+---Attribute token handlers
+---@param stat table StatObject
+---@param attribute string Config-Attribute
+---@param value any Config-Value
+---@return string attribute AttributeName
+---@return any value AttributeValue
 function HandleAttributeConfig(stat, attribute, value)
-    local token, attribute = string.match(attribute, "^(%p?)(.-)$")
-    if not IsValid(token) then return attribute, value end
+    local token, attribute = string.match(attribute, '^(%p?)(.-)$')
+    if not IsValid(token) then return attribute, value end -- No special attribute token. return attribute and value as is
 
-    local originalValue = Stats.Memoizer:UseMemo(stat.Name ..":" .. attribute, stat[attribute])
+    local originalValue = Stats.Memoizer:UseMemo(stat.Name ..":" .. attribute, stat[attribute]) -- Lookup original value in cache
     local attributeType = DetermineAttributeType(attribute, stat.Name)
 
     if attributeType == 'Integer' or attributeType == 'number' then
-        if token == "+" then value = originalValue + value
-        elseif token == "-" then value = originalValue - value
-        elseif token == "*" then value = originalValue * value
-        elseif token == "/" then value = originalValue / value
-        elseif token == "%" then value = originalValue % value
-        elseif token == "^" then value = originalValue ^ value
-        elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
-        elseif token == "?" then value = Ext.Random(0, value)
+        if token == '+' then value = originalValue + value
+        elseif token == '-' then value = originalValue - value
+        elseif token == '*' then value = originalValue * value
+        elseif token == '/' then value = originalValue / value
+        elseif token == '%' then value = originalValue % value
+        elseif token == '^' then value = originalValue ^ value
+        elseif token == '$' then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
+        elseif token == '?' then value = Ext.Random(0, value)
         end
     end
 
     if attributeType == 'String' or attributeType == 'string' then
-        if token == "+" then
-            local t = table.pack(Disintegrate(originalValue, ";"))
+        if token == '+' then
+            local t = table.pack(Disintegrate(originalValue, ';'))
             table.insert(t, value)
             value = table.concat(t, ';')
-        elseif token == "-" then
+        elseif token == '-' then
             if string.match(originalValue, value) then value = string.gsub(originalValue, value, '') end
             value = string.gsub(value, '[;]+', ';')
-        elseif token == "$" then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
+        elseif token == '$' then value = Ext.StatGetAttribute(stat.Name, attribute) or originalValue
         end
     end
 
@@ -196,9 +225,9 @@ function HandleAttributeConfig(stat, attribute, value)
         local _, enumType = Disintegrate(attributeType, ":")
         if type(originalValue) == 'string' then originalValue = EnumTransformer('Label2Index', enumType, originalValue) end
         value = type(value) == 'string' and EnumTransformer('Label2Index', enumType, value) or value
-        if token == "+" then value = originalValue + value
-        elseif token == "-" then value = originalValue - value
-        elseif token == "$" then
+        if token == '+' then value = originalValue + value
+        elseif token == '-' then value = originalValue - value
+        elseif token == '$' then
             local copy = Ext.StatGetAttribute(stat.Name, attribute)
             copy = type(copy) == 'string' and EnumTransformer('Label2Index', enumType, copy) or copy
             value =  copy or originalValue
@@ -211,6 +240,9 @@ end
 --  STATS OBJECT HANDLER
 --  --------------------
 
+---Handler function for general stat-objects
+---@param statName string StatName
+---@param config any StatConfig Table
 function StatsObjectHandler(statName, config)
     local stat = Ext.GetStat(statName)
     if not stat then return end
