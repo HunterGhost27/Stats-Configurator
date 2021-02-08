@@ -44,7 +44,10 @@ Ext.RegisterNetListener('S7UCL::ContextMenu', function (channel, payload)
         local replacers = {
             {['?ModVersion'] = Version:Parse(MODINFO.Version):String()},
             {['?ModAuthor'] = MODINFO.Author},
-            {['?ModDescription'] = MODINFO.Description}
+            {['?ModDescription'] = MODINFO.Description},
+            {['?SettingsConfigFiles'] = Ext.JsonStringify(Settings.ConfigFiles)},
+            {['?SettingsSyncStatPersistence'] = Ext.JsonStringify(Settings.SyncStatPersistence)},
+            {['?SettingsStatsLoader'] = Ext.JsonStringify(Settings.StatsLoader)},
         }
 
         local specs = UCL.Journalify(manual, replacers) -- Parse ModInformation.md into Journal Specification

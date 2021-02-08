@@ -4,92 +4,123 @@
 
 ## Mod Details
 
----
-
 ### Stats Configurator
 
 - Mod Version: ?ModVersion
 - Author: ?ModAuthor
-- Description: **Editable notebooks** for story and GM modes! Take _notes_, keep a record of _events_ and _characters_, and write about your _deeds_ (or misdeeds) as you adventure through Rivellon. _Create_, _View_, _Edit_ your entries in-game or externally.
+- Description: The Stats Configurator allows you to modify and customize stats by creating config files. Through the configuration file, you can change attributes like action-points costs, cooldowns and memory costs of skills; gold-value, damage-values and damage type of weapons; resistances and item-color of armors; talents, accuracy and dodge of characters; and many more.
 - ===
 - CURRENT MOD SETTINGS
+- `ConfigFiles`: ?SettingsConfigFiles
+- `SyncStatPersistence`: ?SettingsSyncStatPersistence
+- `StatsLoader`: ?SettingsStatsLoader
 
 ## General Information
 
----
+### Osiris Data
 
-### How to use?
+- The **_script-extender_** _reads from_ and _writes_ files to the `Osiris Data` folder (`..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\`). All **config-files** for this mod are located in the `StatsConfigurator\` subdirectory inside `Osiris Data`.
 
-- Just find and open a **notebook**, enable `edit-mode` and start writing. The contents will be automatically _saved_ when you close the UI.
-- The notebook's **title** can also be edited!
+- **NOTE:** Throughout this document, `Osiris Data` will refer to the `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\StatsConfigurator\` directory.
 
-### How to acquire?
+### Debug Console
 
-- Notebooks have been _integrated_ into vanilla **treasure-tables**. You can buy them off vendors and find them as loot.
-- Notebooks can also be crafted: `LeatherScraps + Needle-&-Thread + 3x Sheet-of-Paper`
-- If you've set the `Uniques` option, each player will get 1 notebook as soon as the game loads. But they won't be a part of _treasure-tables_ anymore.
+- The mod uses the script-extender's _debug-console_ to display a lot of useful information. The console is also used to input console-commands.
+- The _debug-console_ can be enabled by setting `CreateConsole` to `true` in `OsirisExtenderSettings.json`.
+- Alternatively, if you use **LaughingLeader's Mod-Manager**, you can go to _Settings>Preferences>Script-Extender_ and `Enable Console Window`. Then `Export Settings`.
 
-### Mod Settings
+### Config Files and ConfigData File
 
-- ModSettings can be changed by editing the global settings file (`S7Central.json`) in the _Osiris Data_ folder. (`..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\S7Central.json`). Search for **S7_Journal**, the internal identifier for the mod.
+- **Config-Files** (default: `Config.json`) are what users write their configurations in. These files are used to apply configurations from the mod-menu.
+- The **ConfigData File** (default: `ConfigData.json`) on the other hand is compiled from all available configuration data. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more consolidated format and read automatically during `ModuleLoading` event if **StatsLoader** is `enabled`. ConfigData is also where the mod stores any persistent cache.
+
+### Host and Client Contexts
+
+- Each game session has two contexts - the `server` and the `client`. There are significant differences between the two and they are completely isolated from one-another. Due to these differences not all functionality is available to both contexts. You can read more about this `(https://github.com/Norbyte/ositools/blob/master/LuaAPIDocs.md#client--server-states)`.
 - ===
-- **_Uniques_** <font color='#888888'>(Default: false)</font> --- By setting `Uniques` to _true_, the notebooks will be treated as a **Unique story item** by the game. One notebook will be granted to each player at the start of the game. However, they will not spawn as loot and you won't be able to sell them either. <font color='#888888'>(Current: `?UniquesOption`)</font>
+- The document will refer to the player that creates the `server` context as the `host` and their controlled-character as `host-character`, and all other peers are refered to as `clients`.
+
+## Stats-Configurator
+
+### Stats-Configurator Items
+
+- The _"Stats-Configurator"_ item is granted to the **host-character** automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. If you lose the item somehow, you can reacquire it using the `!S7_Config AddConfigurator` _console-command_.
+
+### Stats-Configurator Mod-Menu
+
+- The **mod-menu** allows you access most of the functionality of this mod; like _loading and sharing configurations_ or changing _settings_ etc. This is how most people will interact with the mod.
 - ===
-- **_StorageMode_** <font color='#888888'>(Default: Internal)</font> --- By default, the mod stores the notebook contents in the save-file itself. You can change this behaviour to `External` so that you can view/edit these notebooks externally as `markdown` files. They are stored in `Osiris Data/TakeNotes/`. <font color='#888888'>(Current: `?StorageOption`)</font>
+- Since most of these functions require the `server` context, only the **host-character** is allowed to interact with the item. Any attempts, by the clients to use the item will redirect the dialog to the host-character.
+
+### Stats-Configurator Context-Menu
+
+- If you have the **UI-Components-Library** you can use the Context-Menu. The Context-Menu provides a one-click solution to _load and apply configs_.
+
+### Applying Configurations
+
+- Users create their configs in `json` files. These config-files can be loaded-in at any time by the **host-character** using the mod-menu's `Load Configuration` option. Users can safely test their configs before they _rebuild_ their **ConfigData** file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a _save-and-reload_.
+- These configurations are **not** saved persistently by _default_ (this can be changed in the **settings**; meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (**recommended**) or loading the configuration when `SyncStatPersistence` is `enabled`.
 - ===
-- **_SyncMode_** <font color='#888888'>(Default: ItemGUID)</font> --- By default, the notebook contents are tied to the item. This means that each notebook holds its own contents. You can change this to `CharacterGUID` if you want the notebooks to be tied to the characters instead. <font color='#888888'>(Current: `?SyncOption`)</font>
+- Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using **console-commands**. Edited stats remain in memory until the game is closed, allowing you to synchronize all of them at will, should a client join after loading a configuration.
+- ===
+- Applying configurations this way is great for **prototyping** or making **temporary changes**. But otherwise, instead of re-applying configurations every session or making irreversible changes to your save-file (using `SyncStatPersistence`), you should export the configs to **ConfigData**. This will allow the StatsLoader(Read more below) to apply those edits automatically when the game loads.
+
+### StatsLoader
+
+- The **StatsLoader** is responsible for loading **ConfigData** during the `ModuleLoading` event. Stat-modifications applied through the StatsLoader do not require additional synchronization as they are loaded just after the `StatsLoaded` event (but before `GameStart`) and on the client context.
+- The only caveat here is that all clients **need** to have a local copy of the same ConfigData; otherwise, they will not have the same stats. The host-player can share their ConfigData file manually or _broadcast_ it in-game from the mod-menu.
+- **Broadcasting** the configuration profile will send the host's ConfigData file to all _connected clients_ and save (/overwrite) it on their local system; however, all peer must then restart their game for the changes to apply.
+- If the host wishes to check if their peers have the same ConfigData as them or not, they can **Verify Client Configs** to print out a response from the client's game to their debug-console. This way, the host can check if any peer is _out-of-sync_ (or is deliberately cheating :P).
+- ===
+- Preferably, all custom stat-modifications should be applied through the **StatsLoader**, while active-loading should only be used for prototyping and testing. Users should export their configs to it if they wish them to apply automatically when the game loads.
+- With the **default settings**, stat-overrides will not be stored persistently in the save-file, i.e. you'll lose those changes and will have to re-load the configuration file every game-session. You can enable stat-synchronization persistence using the **settings** and console-commands, however, the recommended approach is to save your configs to the ConfigData file. This can easily be done using the **Rebuild ConfigData** option in the Mod-Menu.
+
+### Stat Persistence
+
+- Stat-overrides can be saved persistently in the save-file so that those overrides are baked into the game-session. This will make sure those changes are always active for the server and the client. Norbyte did tell me this has hidden caveats but I forgot to ask for details.
+- By default, `SyncStatPersistence` is disabled. This essentially means that all configs must be reloaded every game session. StatsLoader can do this automatically for you.
+
+### Relative Changes
+
+- By prefixing an stat-attribute with special characters you can modify the behaviour of the config-variable. This allows you to make relative changes instead of absolute ones. For example (@TODO)
+
+### Collections
+
+- Trying to edit stats en-masse with the same values is both a redundant and time-consuming process. To solve this issue, stats can be grouped in a **collection** and configurations can be applied to all of them in-tandem. A collection is basically a list of stat-names/statIDs; whenever you apply stat-modifications to a collection, the modifications are applied to all stat-entries associated with the collection. For (@TODO)
+
+### Modification of Special Stat-Types
+
+- Certain stat-types like `DeltaMods`, `TreasureTables` and `TranslatedStrings` cannot be modified without the use of special functions. Such special statIDs should be suffixed with `:<SpecialStatType>` in the configs for the mod to know how to handle them. For example, in order to modify a translated string handle:
 
 ## Additional Information
 
----
+### Current Settings
 
-### Formatting Tips
+- `ConfigFiles`: ?SettingsConfigFiles
+- `SyncStatPersistence`: ?SettingsSyncStatPersistence
+- `StatsLoader`: ?SettingsStatsLoader
+- ===
+- Custom Settings are loaded from `S7Central.json` in `Osiris Data`. Custom settings are applied automatically when `ModuleLoadStarted` event triggers, but can be reapplied whenever the host-user wants, using the modmenu. Collections are automatically rebuilt everytime settings are refreshed. The mod-menu shows whether you're using the **default** settings or **custom** ones. Some simple settings can be toggled on-or-off from the mod-menu itself.
 
-- You can do some basic formatting using `markdown` syntax. Most of them just add _colors_ `like` **this**.
-- Avoid using HTML tags directly in the in-game UI. They are not parsed correctly by `textInputs`. Using tags in the `External` files seems fine.
-- ===
-- Entries can be left completely blank if they just contain 3 **_=_**. Like the line above.
+### Default Settings
 
-### Editing Externally
+- `ConfigFiles`: ["Config.json"]
+- `SyncStatPersistence`: `false`
+- `StatsLoader`: {`Enable`: `true`, `FileName`: "ConfigData.json"}
+- ===
+- These are the mod's **default settings**. The user can override these settings in `S7Central.json` in `Osiris Data`. Changes made in this file will take precedence over the default values when the mod loads. You can **Reapply Custom Settings** or **Reset To Default** from the stats-configurator **_mod-menu_**.
 
-- If you enable the `External` storage mode, then notebooks will be saved as _markdown_ files in `Osiris Data/TakeNotes/` folder.
-- ===
-- **_#_** for the notebook's caption or title.
-- **_##_** for a category
-- **_###_** for a chapter within the category
-- **_-_** for a paragraph within the chapter
-- ===
-- The mod originally saved this data in a `json` format. If you still have old externally-saved journal-data that you'd like to port over, you will have to create a `fileList.json` file in **Osiris Data/TakeNotes/**. This will allow the patcher to convert those `json` files into newer `md` files. You can delete all `json` files once they've been patched.
-- The `fileList.json` will look something like: `["file1.json", "file2.json"]`
+### Reference
 
-### Known Issues
-
-- All notebooks share the same `Journal UI`. The contents are loaded in when you open the item and are saved when you close the UI. Opening a notebook when the UI is already opened will cause the new content to load **over** the last (without the opportunity to save).
-- This is problematic as closing the UI now will save jumbled contents. In such an event, it may be wise to load a previous save (if content-storage is _Internal_) or `Ctrl+Z` your way out (if content-storage is _External_).
-- <font color='#E03616'>You can avoid this situation altogether if you just close the UI before you open the next notebook</font>.
+- Use `S7_Config Help` for a detailed list of **console-commands**.
+- If you wish to know the `statName`/`statID` of something specific, you can target it in-game using the **_Inspect skill_**. The Inspect skill is a special skill that the host-character can learn through the diagnostics menu. The skill does not cost any action-points or memory and you are completely free to use it whenever you chose. Targetting a character/Item by **Inspect** will print all the _statID_, _active status-effects_ and _skills_ the target has to the debug-console. When you are done with the skill you can "unlearn" it from the same menu. For a more comprehensive reference list, you can use the function described below.
+- Alternatively, You can use the **console-command** `!S7_Config SearchStat SearchString SearchType`. This will search any stats that have `Search` in their name. The optional argument `SearchType` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character`; this will only search for `Dallis` in stat-entries of the `Character` type.
+- If you wish to retrieve all _attributes_ and their corresponding _values_ for a given stat you can use the `DeepDive` **_console-command_**. `!S7_Config DeepDive Projectile_Fireball` will print absolutely everything related to stat `Projectile_Fireball`.
 - ===
-- The line spacing in larger paragraphs looks off.
-- ===
-- The <font color='#9A5085'>GameMaster</font> can't directly open these notebooks as they never trigger the `CharacterUseItem` Osiris event. They can access the notebooks if they control a character though.
-- ===
-- The ContextMenu option <font color='#E03616'>persists</font> if you `left-click` to dismiss it. Dismissing by `right-clicking` out of the menu or `clicking a button` works perfectly.
+- Checkout the online documentation on the mod-page for more details.
 
 ## <font color='#3F784C'>Changelog</font>
 
----
-
-### [v1.1.0.0]<font color='#888888'>: 9-Jan-2021</font>
-
-- The **Gold Value** of notebooks now scales with the contents.
-- The mod now stores and reads notebooks as `markdown` files.
-- The mod will try to patch existing `JournalData` to the new format automatically.
-- Added `ContextMenu` support for mod-information.
-
-### [v1.0.1.0]<font color='#888888'>: 31-Dec-2020</font>
-
-- The `displayName` of notebooks can now be changed by directly editing the _Journal UI's caption_. <font color='#888888'>(save-reload for changes to apply).</font>
-- Changed `Osiris Data` subdirectory to "**TakeNotes**". If you were using the _External_ storage mode, please rename `S7_Journal/` folder to `TakeNotes/`.
-
-### [v1.0.0.0]<font color='#888888'>: 27-Dec-2020</font>
+### [v1.0.0.0]<font color='#888888'>: 1-Mar-2021</font>
 
 - Initial Release.
