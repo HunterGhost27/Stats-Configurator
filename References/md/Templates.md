@@ -1,4 +1,4 @@
-# STAT TEMPLATES
+# Stat Templates
 
 ## TreasureTable
 
@@ -78,30 +78,30 @@
     {
       "IngredientType": "Category",
       "ItemRarity": "Sentinel",
-      "Object": "Bone",
+      "Object": "<ObjectName>",
       "Transform": "Transform"
     },
     {
       "IngredientType": "Object",
       "ItemRarity": "Sentinel",
-      "Object": "LAB_MortarPestle_A",
+      "Object": "<ObjectName>",
       "Transform": "None"
     }
   ],
-  "Name": "Bone_LAB_MortarPestle_A",
-  "RecipeCategory": "Runes",
+  "Name": "<RecipeName>",
+  "RecipeCategory": "<RecipeCategory>",
   "Results": [
     {
-      "Name": "Bone_LAB_MortarPestle_A_1",
+      "Name": "<RecipeName>_1",
       "PreviewIcon": "",
-      "PreviewStatsId": "TOOL_Pouch_Dust_Bone_A",
+      "PreviewStatsId": "<RecipePreviewID>",
       "PreviewTooltip": "",
       "ReqLevel": 0,
       "Requirement": "Sentinel",
       "Results": [
         {
           "Boost": "",
-          "Result": "TOOL_Pouch_Dust_Bone_A",
+          "Result": "<RecipeResult>",
           "ResultAmount": 1
         }
       ]
@@ -119,23 +119,23 @@
   "Entries": [
     {
       "IngredientType": "Object",
-      "ObjectId": "CONT_Barrel_Oil_A",
-      "Result": "CONT_Barrel_Oil_A"
+      "ObjectId": "<ObjectID>",
+      "Result": "<ObjectID>"
     },
     {
       "IngredientType": "Object",
-      "ObjectId": "CON_Drink_Cup_A_Oil",
-      "Result": "CON_Drink_Cup_A_Empty"
+      "ObjectId": "<ObjectID>",
+      "Result": "<ObjectID>"
     },
     {
       "IngredientType": "Object",
-      "ObjectId": "ITEM_BottleWithOil",
-      "Result": "ITEM_EmptyBottle"
+      "ObjectId": "<ObjectID>",
+      "Result": "<ObjectID>"
     }
   ],
-  "Name": "Oil",
-  "PreviewIcon": "Item_Cont_Barrel_Oil_A",
-  "PreviewTooltip": "ItemCombinationProperty_Oil_Tooltip"
+  "Name": "<PropertyName>",
+  "PreviewIcon": "<PreviewIcon>",
+  "PreviewTooltip": "<PreviewTooltip>"
 }
 ```
 
@@ -161,7 +161,7 @@
     "Boosts":
     [
         {
-            "Boost":  "_Boost_Armor_All_Armour_Base",
+            "Boost":  "<DeltaBoost>",
             "Count":  1
         }
     ],
@@ -170,7 +170,7 @@
     "MaxLevel":  -1,
     "MinLevel":  1,
     "ModifierType":  "Armor",
-    "Name":  "Boost_Armor_All_Armour_Base_Helmet_Leather",
+    "Name":  "<DeltaModName>",
     "SlotType":  "Sentinel",
     "WeaponType":  "Sentinel"
 }
