@@ -13,17 +13,9 @@ Stats = {
     ['Memoizer'] = Memoizer:Init(),
     ['Handlers'] = {
 
-        --  STATS OBJECT HANDLERS
-        --  ---------------------
+        --  STATS OBJECT HANDLER
+        --  --------------------
 
-        ['Armor']       = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Shield']      = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Weapon']      = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Potion']      = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Character']   = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Object']      = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Skill']       = function(statName, config) StatsObjectHandler(statName, config) end,
-        ['Status']      = function(statName, config) StatsObjectHandler(statName, config) end,
         ['StatsObject'] = function(statName, config) StatsObjectHandler(statName, config) end,
 
         --  NON STATS OBJECT HANDLERS
@@ -83,6 +75,8 @@ function Stats:Configurator()
     local function configurator(statName, config, bool)
         if not bool then return end
         local statName, statType = Disintegrate(statName, ":")
+        local genericStatType = 'Armor,Shield,Weapon,Potion,Character,Object,Skill,Status,StatsObject'
+        if IsValid(string.match(genericStatType, statType or "")) then statType = 'StatsObject' end
         statType = statType or 'StatsObject'
 
         Write:NewLine("\t" .. statName)
