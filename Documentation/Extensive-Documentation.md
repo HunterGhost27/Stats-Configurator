@@ -330,7 +330,7 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 
 ### Inspect Skill
 
-If you wish to know the `statName`/`statID` of something specific, you can target it in-game using the [Inspect skill](#inspect-skill). The **Inspect** skill is a special skill that the host-character can learn (and unlearn) through the **diagnostics** option in the mod-menu. The skill does not cost any _action-points_ or _memory_ and you are completely free to use it whenever you chose. Targetting a `character/Item` by **Inspect** will print all _statID_, _active status-effects_ and _skills_ the target has to the debug-console. When you are done with the skill you can "unlearn" it from the same menu option.
+If you wish to know the `statName`/`statID` of something specific, you can target it in-game using the [Inspect skill](#inspect-skill). The **Inspect** skill is a special skill that the host-character can learn (and unlearn) through the **miscellaneous** option in the mod-menu. The skill does not cost any _action-points_ or _memory_ and you are completely free to use it whenever you chose. Targetting a `character/Item` by **Inspect** will print all _statID_, _active status-effects_ and _skills_ the target has to the debug-console. When you are done with the skill you can "unlearn" it from the same menu option.
 
 ### SearchStat
 

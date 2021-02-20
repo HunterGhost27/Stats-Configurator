@@ -1,4 +1,4 @@
-# Stat Templates
+# Stat Template Examples
 
 ## TreasureTable
 
