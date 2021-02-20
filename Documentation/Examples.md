@@ -1,6 +1,6 @@
 # Example Configurations
 
-Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and you can do a whole lot more. Read the [extensive-documentation](Extensive-Documentation.md) to get into the nitty-gritty. If you're unsure about the in-engine names of certain attributes you can always check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
+Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and you can do a whole lot more. Read the [extensive-documentation](Extensive-Documentation.md) to get into the nitty-gritty. If you're ever unsure about anything you can always check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
 
 ---
 
@@ -44,7 +44,7 @@ The **_Fireball_** skill is now called **_BOOMER_**. It costs **4 Action-Points*
 }
 ```
 
-Every **_Non-Player-Character_** will have their **Physical** and **Magic-Armor** _reduced_ by **50%** and their **Vitality** _increased_ by **100%**.
+Every **_Non-Player-Character_** will have their **Physical** and **Magic-Armor** _halved_ and their **Vitality** _doubled_.
 
 > **NOTE:** this affects **Maximum-Vitality** and not **Current-Vitality**. Characters that have already been _"loaded"_ in-game will have their max-HP increased but they will be wounded. Do this _before_ starting a new-game or use a mod that heals partially-wounded NPCs.
 
@@ -62,7 +62,7 @@ Every **_Non-Player-Character_** will have their **Physical** and **Magic-Armor*
 
 This will change the color of **Gawin's Robes** _(ARM_UNIQUE_AirRobe)_ to **Red**.
 
-> **NOTE:** ItemColor labels can be weird, like `"DefaultGray", "Shelob", "MagisterRed"` etc.)
+> **NOTE:** ItemColor labels can be weird, like `"DefaultGray", "Shelob", "MagisterRed"` etc.).
 
 ![Item-Color-Config](https://imgur.com/hvb9DYM.png)
 
@@ -111,7 +111,7 @@ All **Characters** have their base **Accuracy** set at **65%**. **AP Recovery** 
 }
 ```
 
-All **Characters** get the **_Opportunist_** and **_Glass-Cannon_** talent.
+All **Characters** now only have **_Opportunist_** and **_Glass-Cannon_** talents.
 
 ![RivellonsGotTalent](https://imgur.com/XYIfDM2.png)
 

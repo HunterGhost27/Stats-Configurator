@@ -31,6 +31,10 @@ This document is a work-in-progress!
   - [UI-Components-Library Integration](#ui-components-library-integration)
   - [Console-Commands](#console-commands)
   - [References](#references)
+    - [Inspect Skill](#inspect-skill)
+    - [SearchStat](#searchstat)
+    - [StatObjectDefs and Enumerations](#statobjectdefs-and-enumerations)
+    - [DeepDive](#deepdive)
 
 ---
 
@@ -42,19 +46,19 @@ The [**_script-extender_**](https://github.com/Norbyte/ositools) _reads from_ an
 
 ## Debug Console
 
-The mod uses the script-extender's _debug-console_ to display a lot of useful information. The console is also used to input [console-commands](#console-commands).
-To enable the _debug-console_ you have to set `CreateConsole` to `true` in `OsirisExtenderSettings.json`.
-Alternatively, if you use [LaughingLeader's Mod-Manager](https://github.com/LaughingLeader-DOS2-Mods/DivinityModManager), you can go to `Settings>Preferences>Script-Extender` and `Enable Console Window`. Then `Export Settings`.
+The mod uses the script-extender's _debug-console_ to display a lot of useful information. The console is also where you can input [console-commands](#console-commands).
+To enable the _debug-console_, the `CreateConsole` property must be set to `true` in `OsirisExtenderSettings.json`.
+If you use [LaughingLeader's Mod-Manager](https://github.com/LaughingLeader-DOS2-Mods/DivinityModManager), you can go to `Settings > Preferences > Script-Extender`, check `Enable Console Window` and then `Export Settings`.
 
 ## Config Files and ConfigData File
 
-**Config-Files** (default: `Config.json`) are what users write their configurations in. These files are used to apply configurations from the mod-menu. The **ConfigData File** (default: `ConfigData.json`) on the other hand is compiled from all available configuration data. The **ConfigData** file is not meant to be directly edited by the user, it is used to store data in a more consolidated format and read automatically during `ModuleLoading` event if [**StatsLoader**](#statsloader) is `enabled`. ConfigData is also where the mod stores any persistent cache.
+**Config-Files** (default: `Config.json`) are what users write their configurations in. These files are used to apply configs from the mod-menu. The **ConfigData File** (default: `ConfigData.json`) on the other hand is compiled by the mod. The **ConfigData** file is not meant to be directly edited by the user, it is used to store config-data in a more consolidated format and read automatically when the module loads (provided [**StatsLoader**](#statsloader) is `enabled`). ConfigData is also where the mod stores any persistent cache.
 
 ## Host and Client Contexts
 
-Each game session has two contexts - the `server` and the `client`. There are significant differences between the two and they are completely isolated from one-another. Due to these differences not all functionality is available to both contexts. You can read more about this [here](https://github.com/Norbyte/ositools/blob/master/LuaAPIDocs.md#client--server-states).
+The game is split into two contexts - the `server` and the `client`. There are significant differences between the two and they are completely isolated from one another. Due to these differences, not all functionality is available to both contexts. You can read more about this [here](https://github.com/Norbyte/ositools/blob/master/LuaAPIDocs.md#client--server-states).
 
-The document will refer to the player that creates the `server` context as the `host` and their controlled-character as `host-character`, and all other peers are refered to as `clients`.
+The document will refer to the player that creates the `server` context as the `host`, and all other peers are referred to as `clients`.
 
 ## Stats-Configurator
 
@@ -68,17 +72,17 @@ The _"Stats-Configurator"_ item is granted to the player ([host-character](#host
 
 ![ModMenu](https://imgur.com/sADorrm.png)
 
-The **mod-menu** allows you access most of the functionality of this mod; like [loading and sharing configurations](#Applying-Configurations) or changing [settings](#Settings) etc. This is how most people will interact with the mod.
-
 Since most of these functions require the `server` context, only the [**host-character**](#host-and-client-contexts) is allowed to interact with the item. Any attempts, by the clients to use the item will redirect the dialog to the host-character.
 
 ### Stats-Configurator Context-Menu
 
-If you have the [**UI-Components-Library**](https://github.com/HunterGhost27/UI-Components-Library) you can use the Context-Menu. The Context-Menu provides a one-click solution to load and apply configs. You can also access the mod-manual from there.
+![ContextMenu](https://i.imgur.com/NsIUxnh.png)
+
+If you have the [**UI-Components-Library**](https://github.com/HunterGhost27/UI-Components-Library) you can use the Context-Menu. The Context-Menu provides a one-click solution to **_load and apply configs_**. You can also access the mod-manual from there.
 
 ### Applying Configurations
 
-Users create their configs in `json` files. These config-files can be loaded-in at any time by the [host-character](#host-and-client-contexts) using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their [**ConfigData**](#config-file-and-configdata-file) file. Some stat-edits (like skills) are applied instantaneously and some (like characters) will require a _save-and-reload_. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (**recommended**) or loading the configuration when `SyncStatPersistence` is `enabled`.
+Users create their configs in `json` files. These config-files can be loaded-in at any time by the [host-character](#host-and-client-contexts) using the mod-menu's `Load Configuration` option. Users can safely test their configs before they rebuild their [**ConfigData**](#config-file-and-configdata-file) file. Some stat-edits (like skills) are applied instantaneously and most (like characters) will require a _save-and-reload_. These configurations are **not** saved persistently by _default_ (this can be changed in the [settings](#Custom-Settings)); meaning, they'll be lost after the session closes. Stat-overrides can be made persistent by rebuilding the ConfigData file after loading a configuration (**recommended**) or loading the configuration when `SyncStatPersistence` is `enabled`.
 
 Stat-modifications from this file are loaded in the `server` context and are automatically synchronized to the clients afterwards. Clients connecting after this process may not have their stat synchronized to the server - you must reload the configuration if that is the case. You can also manually synchronize stats by using [console-commands](#Console-Commands). Edited stats remain in memory until the game is closed, allowing you to synchronize all of them at will, should a client join after loading a configuration.
 
@@ -86,9 +90,9 @@ Applying configurations this way is great for **prototyping** or making **tempor
 
 ### StatsLoader
 
-The **StatsLoader** is responsible for loading **ConfigData** during the `ModuleLoading` event. Stat-modifications applied through the StatsLoader do not require additional synchronization as they are loaded just after the `StatsLoaded` event (but before `GameStart`) and on the client context. The only caveat here is that all clients **need** to have a local copy of the same ConfigData; otherwise, they will not have the same stats. The host-player can share their ConfigData file manually or _broadcast_ it in-game from the mod-menu. **Broadcasting** the configuration profile will send the host's ConfigData file to all _connected clients_ and save (/overwrite) it on their local system; however, all peer must then restart their game for the changes to apply. If the host wishes to check if their peers have the same ConfigData as them or not, they can **Verify Client Configs** to print out a response from the client's game to their debug-console. This way, the host can check if any peer is _out-of-sync_ (or is deliberately cheating :P).
+The **StatsLoader** is responsible for loading **ConfigData** during the `ModuleLoading`. Stat-modifications applied through the StatsLoader do not require additional synchronization. The only caveat here is that all clients **need** to have a local copy of the same ConfigData; otherwise, they will not have the same stats. The host-player can share their ConfigData file manually or _broadcast_ it in-game from the mod-menu. **Broadcasting** the configuration profile will send the host's ConfigData file to all _connected clients_ and save (/overwrite) it on their local system; however, all peer must then restart their game for the changes to apply. If the host wishes to check if their peers have the same ConfigData as them or not, they can **Verify Client Configs** to print out a response from the client's game to their debug-console. This way, the host can check if any peer is _out-of-sync_ (or is deliberately cheating :P).
 
-Preferably, all custom stat-modifications should be applied through the **StatsLoader**, while active-loading should only be used for prototyping and testing. All configurations made by mods are already stored in ConfigData. Users should also export their configs to if they wish them to apply automatically when the game loads. With the [default settings](#Default-Settings), stat-overrides will not be stored persistently in the save-file, i.e. you'll lose those changes and will have to re-load the configuration file every game-session. You can enable stat-synchronization persistence using the [settings](#Setting-Details) and console-commands, however, the recommended approach is to save your configs to the ConfigData file. This can easily be done using the **Rebuild ConfigData** option in the Mod-Menu.
+Preferably, all custom stat-modifications should be applied through the **StatsLoader**, while active-loading should only be used for prototyping and testing. Users should also export their configs to if they wish them to apply automatically when the game loads. With the [default settings](#Default-Settings), stat-overrides will not be stored persistently in the save-file, i.e. you'll lose those changes and will have to re-load the configuration file every game-session. You can enable stat-synchronization persistence using the [settings](#Setting-Details) and console-commands, however, the recommended approach is to save your configs to the ConfigData file. This can easily be done using the **Rebuild ConfigData** option in the Mod-Menu.
 
 #### StatLoader Settings
 
@@ -100,7 +104,7 @@ You can stop the StatsLoader from applying _any_ stat-modification through the [
 }
 ```
 
-or by using the `ToggleStatsLoader` option in the Mod-Menu's setting page, or through console-commands (`!S7_Config ToggleStatsLoader`). Setting this to `false` will completely disable the **StatsLoader**.
+Setting this to `false` will completely disable the **StatsLoader**.
 
 There can be only one **ConfigData** file but its name can be changed to whatever you like using the [settings](#Custom-Settings).
 
@@ -114,7 +118,7 @@ This can be useful if you are playing with different groups and want to seperate
 
 #### StatsLoader and Load-Order
 
-The StatsLoader loads config-data from mods in accordance to the load-order. i.e. stat-modifications from mods higher up in the load-order are loaded before mods at the bottom. Stat-edits that come from mods loaded late in the load-order override the previous stat-edits (if any). This information is crucial for conflict-resolution. If two mods edit the same stat, the mod that's placed lower in the load-order will win the conflict. This let's you exercise some degree of control over the outcome, but Ideally, modder should avoid conflicts if possible. Keep in mind that dependencies are always loaded before that mod, even if the dependency is technically lower in the load-order. Thus, any mod will always override their dependencies. I advise everyone to put this mod, **Stats-Configurator**, as low in their load order as they can. This mod will only hold config-data that's created by the user. As such, those changes are probably meant to be final. Putting this mod at the bottom will ensure that user-created configs always win the conflict.
+The StatsLoader loads config-data from mods in accordance to the load-order. i.e. Stat-edits that come from mods loaded late in the load-order override the previous stat-edits (if any). This information is crucial for conflict-resolution. If two mods edit the same stat, the mod that's placed lower in the load-order will win the conflict. This let's you exercise some degree of control over the outcome, but Ideally, modder should avoid conflicts if possible. Keep in mind that dependencies are always loaded before that mod, even if the dependency is technically lower in the load-order. Thus, any mod will always override their dependencies. I advise everyone to put this mod, **Stats-Configurator**, as low in their load order as they can. This mod will only hold config-data that's created by the user. As such, those changes are probably meant to be final. Putting this mod at the bottom will ensure that user-created configs always win any conflicts.
 
 ### Stat Persistence
 
@@ -301,7 +305,7 @@ Custom Settings are loaded from `S7Central.json` in `Osiris Data`. Custom settin
 
 If you have the [**UI-Components-Library**](https://github.com/HunterGhost27/UI-Components-Library) installed, you can **apply configurations** and access the **mod-manual** from the **Context-Menu**. The Context-Menu option is a one-click solution that _loads_, _rebuilds_, _broadcasts_ and _verifies_ configs automatically.
 
-@TODO: Context-Menu Image
+![ContextMenu](https://i.imgur.com/NsIUxnh.png)
 
 ## Console-Commands
 
@@ -322,16 +326,28 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 
 ## References
 
-If you wish to know the `statName`/`statID` of something specific, you can target it in-game using the [Inspect skill](#inspect-skill). The **Inspect** skill is a special skill that the host-character can learn through the diagnostics menu. The skill does not cost any action-points or memory and you are completely free to use it whenever you chose. Targetting a character/Item by **Inspect** will print all the _statID_, _active status-effects_ and _skills_ the target has to the debug-console. When you are done with the skill you can "unlearn" it from the same menu. For a more comprehensive reference list, you can use the function described below.
+### Inspect Skill
 
-Alternatively, You can use the [console-command](#Console-Commands) `!S7_Config SearchStat SearchString SearchType`. This will search any stats that have `Search` in their name. The optional argument `SearchType` will restrict the search to that stat-type only - it can be omitted to search everything. e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character`; this will only search for `Dallis` in stat-entries of the `Character` type.
+If you wish to know the `statName`/`statID` of something specific, you can target it in-game using the [Inspect skill](#inspect-skill). The **Inspect** skill is a special skill that the host-character can learn (and unlearn) through the **diagnostics** option in the mod-menu. The skill does not cost any _action-points_ or _memory_ and you are completely free to use it whenever you chose. Targetting a `character/Item` by **Inspect** will print all _statID_, _active status-effects_ and _skills_ the target has to the debug-console. When you are done with the skill you can "unlearn" it from the same menu option.
 
-Each `stat` has a corresponding `statType`. Each `statType` has a set of _attributes_ associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be _enumerations_ that have an associated list of values of their own as defined in `Enumerations.xml` file. Both of these files have been provided for your convenience.
+### SearchStat
+
+Alternatively, You can use the [console-command](#Console-Commands)
+
+`!S7_Config SearchStat <SearchString> <SearchType>` will search for any stats that have `SearchString` in their name. The optional argument `SearchType` will restrict the search to that stat-type only - it can be omitted to search everything.
+
+e.g. `!S7_Config SearchStat Dallis` will search all stat-entries for `Dallis` and return any matches. To narrow down the search to her character we can use `!S7_Config SearchStat Dallis Character`; this will only search for `Dallis` in stat-entries of the `Character` type.
+
+### StatObjectDefs and Enumerations
+
+Each `stat` has a corresponding `statType`. Each `statType` has a set of `attributes` associated with them as defined in the `StatObjectDefinitions.xml` file. Furthermore, some of those attributes can be `enumerations` that have an associated list of values of their own as defined in `Enumerations.xml` file.
 
 - [**StatObjectDefinitions**](../References/StatObjectDefinitions.md)
 - [**Enumerations**](../References/Enumerations.md)
 
 > **NOTE:** The data is taken straight from the game-engine files `StatObjectDefinitions.xml` and `Enumerations.xml`. Which is to say that all this is provided by **Larian**. I've just converted them into (human-readable) markdown. The reference sheets may seem incomplete, but it is what it is. So feel free to ask if you are still unsure about something.
+
+### DeepDive
 
 If you wish to retrieve all _attributes_ and their corresponding _values_ for a given stat you can use the `DeepDive` [console-command](#console-commands). `!S7_Config DeepDive Projectile_Fireball` will print absolutely everything related to stat `Projectile_Fireball`.
 

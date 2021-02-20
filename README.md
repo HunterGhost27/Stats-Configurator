@@ -9,7 +9,6 @@ The **_Stats Configurator_** allows you to modify and customize stats by creatin
 ## Releases
 
 - [ ] ~~**_[Steam Workshop](#SteamWorkshop)_**~~
-- [ ] ~~**_[Nexus](#NexusMods)_**~~
 - [x] **_[Github](https://github.com/Shresht7/Stats-Configurator/releases)_**
 
 ## Requirements
@@ -62,6 +61,11 @@ All config-files are compiled into a single **ConfigData** file (Default: `Confi
 **_[READ THE EXTENSIVE DOCUMENTATION](Documentation/Extensive-Documentation.md)_**
 
 ============================
+
+## Complementary Mods
+
+- [**EXIM**](https://steamcommunity.com/sharedfiles/filedetails/?id=2006677782) by **_Luxen_** - EXIM allows you to export/import and modify characters stats, skills, inventory and hotbar.
+- [**UI Components Library**](https://steamcommunity.com/sharedfiles/filedetails/?id=2337228868) - Enables the ContextMenu option to _apply configurations_.
 
 ---
 
