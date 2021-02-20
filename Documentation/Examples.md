@@ -1,6 +1,6 @@
 # Example Configurations
 
-Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and you can do a whole lot more. Read the [extensive-documentation](Extensive-Documentation.md) to get into the nitty-gritty. If you're ever unsure about anything you can always check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
+Here are a few examples to show you what's possible using the **Stats-Configurator**. This list is by no means exhaustive, and you can do a whole lot more. Read the [extensive-documentation](Extensive-Documentation.md) to get into the nitty-gritty. If you're ever unsure about anything, you can always check out the [reference sheets](Extensive-Documentation.md#References). Experiment with these examples, use your imagination and creativity, and don't forget to share your awesome configs with everyone.
 
 ---
 

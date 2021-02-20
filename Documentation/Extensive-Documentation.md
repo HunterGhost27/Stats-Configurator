@@ -309,7 +309,9 @@ If you have the [**UI-Components-Library**](https://github.com/HunterGhost27/UI-
 
 ## Console-Commands
 
-The mod comes with a suite of console-commands for a variety of purposes. Console-commands can allow the user to bypass the boring mod-menu entirely. You input console-commands through the script-extender's [debug-console](#debug-console) window. Press enter while the debug-console is in focus to initiate the command-line.
+![DebugConsole](https://imgur.com/qc03Zj8.png)
+
+The mod comes with a suite of console-commands for a variety of purposes. You input console-commands through the script-extender's [debug-console](#debug-console) window. Press enter while the debug-console is in focus to initiate the command-line.
 
 All console-commands from this mod are accessed by using the `!S7_Config` prefix. For example: `!S7_Config Help` will bring up the following list of useful commands in the debug-console window.
 
