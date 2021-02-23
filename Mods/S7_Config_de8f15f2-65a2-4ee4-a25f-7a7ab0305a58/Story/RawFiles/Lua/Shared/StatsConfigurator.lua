@@ -13,12 +13,24 @@ Stats = {
     ['Memoizer'] = Memoizer:Init(),
     ['Handlers'] = {
 
-        --  STATS OBJECT HANDLER
+        --  STATS-OBJECT HANDLER
         --  --------------------
 
-        ['StatsObject'] = function(statName, config) StatsObjectHandler(statName, config) end,
+        ['StatsObject'] = function(statName, config)
+            local shouldCreate = Settings.StatCreation and function() local b, s = pcall(Ext.GetStat, statName) return IsValid(s) end
+            local stat = shouldCreate and Ext.CreateStat(statName, config.statType, config.useTemplate) or Ext.GetStat(statName)
+            config.statType, config.useTemplate = nil, nil
+            if not stat then return end
 
-        --  NON STATS OBJECT HANDLERS
+            ForEach(config, function(attribute, value)
+                local attribute, value = HandleAttributeConfig(stat, attribute, value)
+                if not stat[attribute] then return end
+                stat[attribute] = value
+            end)
+            Stats.Synchronizations[statName] = true
+        end,
+
+        --  NON STATS-OBJECT HANDLERS
         --  -------------------------
 
         ['TreasureTable'] = function (name, config)
@@ -72,23 +84,27 @@ Stats = {
 
 ---Main Configurator Function
 function Stats:Configurator()
-    local function configurator(statName, config, bool)
-        if not bool then return end
-        local statName, statType = Disintegrate(statName, ":")
-        local genericStatType = 'Armor,Shield,Weapon,Potion,Character,Object,Skill,Status,StatsObject'
-        if IsValid(string.match(genericStatType, statType or "")) then statType = 'StatsObject' end
-        statType = statType or 'StatsObject'
-
-        Write:NewLine("\t" .. statName)
-        Stats.Handlers[statType](statName, config)
-    end
-
     Write:SetHeader(Settings.StatsLoader.FileName .. " loaded. Applying configuration profile")
+
     ForEach(self.Configurations, function(key, config)
         local statList = Collections:Unpack(key)
-        ForEach(statList, function(statName, bool) configurator(statName, config, bool) end)
+        ForEach(statList, function(statName, bool)
+            if not bool then return end
+
+            local statName, statType = Disintegrate(statName, ":")
+            local genericStatType = 'Armor,Shield,Weapon,Potion,Character,Object,SkillData,StatusData,StatsObject'
+            if IsValid(string.match(genericStatType, statType or "")) then
+                config.statType = config.statType or statType
+                statType = 'StatsObject'
+            end
+            statType = statType or 'StatsObject'
+            Write:NewLine("\t" .. statName)
+
+            Stats.Handlers[statType](statName, config)
+        end)
         self.Configurations[key] = nil
     end)
+
     Debug:Print(Write:Display())
     Debug:FPrint('Configuration Profile Active')
 end
@@ -229,21 +245,4 @@ function HandleAttributeConfig(stat, attribute, value)
     end
 
     return attribute, value
-end
-
---  STATS OBJECT HANDLER
---  --------------------
-
----Handler function for general stat-objects
----@param statName string StatName
----@param config any StatConfig Table
-function StatsObjectHandler(statName, config)
-    local stat = Ext.GetStat(statName)
-    if not stat then return end
-
-    ForEach(config, function(attribute, value)
-        local attribute, value = HandleAttributeConfig(stat, attribute, value)
-        stat[attribute] = value
-    end)
-    Stats.Synchronizations[statName] = true
 end

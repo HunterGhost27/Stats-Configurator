@@ -13,7 +13,8 @@ MODINFO.SubdirPrefix = 'StatsConfigurator/'
 MODINFO.DefaultSettings = {
     ['ConfigFiles'] = {'Config.json'},
     ['StatsLoader'] = {['Enable'] = true, ['FileName'] = 'ConfigData.json'},
-    ['SyncStatPersistence'] = false
+    ['SyncStatPersistence'] = false,
+    ['StatCreation'] = false
 }
 
 --  ========  AUX FUNCTIONS  ========
@@ -31,6 +32,7 @@ Ext.Require("AuxFunctions/Index.lua")
 ---@field ConfigFiles string[]
 ---@field StatsLoader table
 ---@field SyncStatPersistence boolean
+---@field StatCreation boolean
 ---@field CustomCollections table
 Settings = MODINFO.ModSettings
 

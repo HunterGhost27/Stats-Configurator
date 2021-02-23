@@ -48,6 +48,7 @@ Ext.RegisterNetListener('S7UCL::ContextMenu', function (channel, payload)
             {['?SettingsConfigFiles'] = Ext.JsonStringify(Settings.ConfigFiles)},
             {['?SettingsSyncStatPersistence'] = Ext.JsonStringify(Settings.SyncStatPersistence)},
             {['?SettingsStatsLoader'] = Ext.JsonStringify(Settings.StatsLoader)},
+            {['?SettingsStatCreation'] = Ext.JsonStringify(Settings.StatCreation)},
         }
 
         local specs = UCL.Journalify(manual, replacers) -- Parse ModInformation.md into Journal Specification

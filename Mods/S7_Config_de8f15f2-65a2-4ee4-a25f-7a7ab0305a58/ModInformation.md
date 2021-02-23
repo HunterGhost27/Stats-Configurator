@@ -14,6 +14,7 @@
 - `ConfigFiles`: ?SettingsConfigFiles
 - `SyncStatPersistence`: ?SettingsSyncStatPersistence
 - `StatsLoader`: ?SettingsStatsLoader
+- `StatCreation`: ?SettingsStatCreation
 
 ## General Information
 
