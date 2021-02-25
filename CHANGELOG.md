@@ -2,6 +2,13 @@
 
 ---
 
+## [0.8.0.0] --- 25th February 2021 --- **_Minor Fixes_**
+
+### FIX
+
+- _Fixed_ a bug with `player` collections.
+- Collections now ignore base entries.
+  
 ## [0.7.9.9] --- 31st January 2021 --- **_Remastered_**
 
 ### NEW
