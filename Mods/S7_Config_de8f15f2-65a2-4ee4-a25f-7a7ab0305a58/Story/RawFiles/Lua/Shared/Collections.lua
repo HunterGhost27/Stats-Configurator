@@ -10,7 +10,7 @@ Collections = {
     ['Character'] = {},
     ['PlayerCharacters'] = {
         --  Thanks to LaughingLeader. table taken from https://gist.github.com/LaughingLeader/3d4d23540852679260b988936799c1fe
-        ['_Hero'] = true,
+        -- ['_Hero'] = true,
         ['HumanFemaleHero'] = true,
         ['HumanMaleHero'] = true,
         ['DwarfFemaleHero'] = true,
@@ -27,11 +27,11 @@ Collections = {
         ['ElfUndeadMaleHero'] = true,
         ['LizardUndeadFemaleHero'] = true,
         ['LizardUndeadMaleHero'] = true,
-        ['_Companions'] = true,
-        ['StoryPlayer'] = true,
-        ['CasualPlayer'] = true,
-        ['NormalPlayer'] = true,
-        ['HardcorePlayer'] = true,
+        -- ['_Companions'] = true,
+        -- ['StoryPlayer'] = true,
+        -- ['CasualPlayer'] = true,
+        -- ['NormalPlayer'] = true,
+        -- ['HardcorePlayer'] = true,
         ['Player_Ifan'] = true,
         ['Player_Lohse'] = true,
         ['Player_RedPrince'] = true,
@@ -150,7 +150,7 @@ function Collections:Rebuild()
     for _, statType in pairs(statTypeTable) do
         local allStat = Ext.GetStatEntries(statType)
 
-        for _, stat in pairs(allStat) do
+        ForEach(allStat, function (idx, stat)
             local statData = Ext.GetStat(stat)
 
             --  ----------------------
@@ -162,6 +162,8 @@ function Collections:Rebuild()
             --  --------------------------
             --  SPECIALIZED CATEGORIZATION
             --  --------------------------
+
+            if stat:sub(1,1) == "_" then return end -- Skip _Entries
 
             --  CHARACTERS
             --  ----------
@@ -218,7 +220,7 @@ function Collections:Rebuild()
                 if statData['IsTwoHanded'] == "Yes" then self['WeaponIsTwoHanded'][stat] = true
                 else self['WeaponIsNotTwoHanded'][stat] = true end
             end
-        end
+        end)
     end
 
     --  CUSTOM COLLECTIONS

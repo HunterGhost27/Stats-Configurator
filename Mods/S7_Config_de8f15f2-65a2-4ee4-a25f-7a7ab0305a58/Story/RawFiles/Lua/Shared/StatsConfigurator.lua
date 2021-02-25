@@ -24,7 +24,8 @@ Stats = {
 
             ForEach(config, function(attribute, value)
                 local attribute, value = HandleAttributeConfig(stat, attribute, value)
-                if not stat[attribute] then return end
+                if not IsValid(stat[attribute]) then return end
+                Write:NewLine("\t\t" .. attribute .. ":\t" .. stat[attribute] .. " --> " .. value)
                 stat[attribute] = value
             end)
             Stats.Synchronizations[statName] = true
@@ -243,6 +244,8 @@ function HandleAttributeConfig(stat, attribute, value)
             value =  copy or originalValue
         end
     end
+
+    if type(value) == 'number' then value = math.modf(value) end
 
     return attribute, value
 end
