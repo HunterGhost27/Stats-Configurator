@@ -161,16 +161,3 @@ All **Characters** now only have **_Opportunist_** and **_Glass-Cannon_** talent
 ![LightAndHeavyWeapons](https://imgur.com/u58ACuM.png)
 
 This example showcases how you can use this mod to make overhauls worth of changes. **_Daggers_** now cost **1AP to attack** and deal **Piercing damage**. They also grant the user **+10 initiative** and **+15% dodge**. **All TwoHanded Weapons** now cost **3AP to attack** at a _reduced_ **accuracy** but have a **60 degree cleave-angle** and deal **50% cleave-damage**. In addition, **spears** also deal **Piercing damage**.
-
-## Translated Strings
-
-```json
-{
-  "h0d186aeag65feg4ecdgb910g011dcaf0e4a7:TranslatedStringHandle" : "アレクサンダー司教はカモメに殺されました！"
-}
-```
-
-![TranslatedStringHandle](https://imgur.com/tEZXdHt.png)
-
-This example modifies `h0d186aeag65feg4ecdgb910g011dcaf0e4a7`, the *translated string handle* for Inspect's displayName.
-> Notice how the key is suffixed with `:TranslatedStringHandle`. This is necessary for special stats like `:DeltaMod`, `:ItemCombo` etc.
