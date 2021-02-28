@@ -17,9 +17,7 @@ Stats = {
         --  --------------------
 
         ['StatsObject'] = function(statName, config)
-            local shouldCreate = Settings.StatCreation and function() local b, s = pcall(Ext.GetStat, statName) return IsValid(s) end
-            local stat = shouldCreate and Ext.CreateStat(statName, config.statType, config.useTemplate) or Ext.GetStat(statName)
-            config.statType, config.useTemplate = nil, nil
+            local stat = Ext.GetStat(statName)
             if not stat then return end
 
             ForEach(config, function(attribute, value)
@@ -94,10 +92,7 @@ function Stats:Configurator()
 
             local statName, statType = Disintegrate(statName, ":")
             local genericStatType = 'Armor,Shield,Weapon,Potion,Character,Object,SkillData,StatusData,StatsObject'
-            if IsValid(string.match(genericStatType, statType or "")) then
-                config.statType = config.statType or statType
-                statType = 'StatsObject'
-            end
+            if IsValid(string.match(genericStatType, statType or "")) then statType = 'StatsObject' end
             statType = statType or 'StatsObject'
             Write:NewLine("\t" .. statName)
 

@@ -16,10 +16,6 @@ ModMenuDialog:Update({
         ['dialogVar'] = 'S7_Config_StatsLoader_11670d82-a36e-4657-9868-5fdb7c86db37',
         ['dialogVal'] = function() return Settings.StatsLoader.Enable == true and 'Enabled' or 'Disabled' end
     },
-    ['StatCreation'] = {
-        ['dialogVar'] = 'S7_StatCreation_70af8d2e-d6fa-407e-9168-4005ca5d5554',
-        ['dialogVal'] = function () return Settings.StatCreation == true and 'Enabled' or 'Disabled' end
-    },
     ['SyncStatPersistence'] = {
         ['dialogVar'] = 'S7_SyncStatPersistence_e48a7ea1-a9e4-430e-8ccc-99fe3fcc477a',
         ['dialogVal'] = function() return Settings.SyncStatPersistence == true and 'Enabled' or 'Disabled' end
