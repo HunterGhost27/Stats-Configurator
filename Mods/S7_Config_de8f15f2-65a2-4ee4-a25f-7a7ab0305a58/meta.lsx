@@ -9,7 +9,7 @@
                 <node id="ModuleInfo">
                     <attribute id="Author" value="Hunter-Ghost-27" type="30" />
                     <attribute id="CharacterCreationLevelName" value="" type="22" />
-                    <attribute id="Description" value="The Stats Configurator allows you to modify and customize stats. It&apos;s a tool for users to make changes to stat-entries by creating config files. It also allows other mods to interface with its functionality to achieve the same. Through configuration files, you can change attributes like action-points cost, cooldown, gold-value, display-name, damage-values and resistances, memory cost, item-colour and many more." type="30" />
+                    <attribute id="Description" value="The Stats Configurator allows you to modify and customize stats by creating config files. Through the configuration file, you can change attributes like action-points costs, cooldowns and memory costs of skills; gold-value, damage-values and damage type of weapons; resistances and item-color of armors; talents, accuracy and dodge of characters; and many more." type="30" />
                     <attribute id="DescriptionName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
                     <attribute id="DisplayName" value="" handle="ls::TranslatedStringRepository::s_HandleUnknown" type="28" />
                     <attribute id="Folder" value="S7_Config_de8f15f2-65a2-4ee4-a25f-7a7ab0305a58" type="30" />
