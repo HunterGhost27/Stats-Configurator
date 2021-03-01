@@ -16,6 +16,21 @@
 - `StatsLoader`: ?SettingsStatsLoader
 
 ## General Information
+### Quick Start
+
+- 1. Create/Edit `Config.json` in `Osiris Data\StatsConfigurator\`.
+- ===
+- 2. `Load Configuration` from the in-game **mod-menu**.
+- ===
+- 3. `Rebuild ConfigData` once you're happy with your edits.
+- ===
+- 4. `Broadcast` your **ConfigData** to any peers. (Multiplayer)
+- ===
+- 5. `Verify` client configs to ensure everyone is on the same page.
+- ===
+- 6. ***Done*** - your **ConfigData** will automatically reload your edits whenever the game loads. Repeat the aforementioned options as necessary.
+- ===
+- 7. Restart the game for changes to apply.
 
 ### Osiris Data
 
@@ -127,9 +142,9 @@
 ### Default Settings
 
 - `ConfigFiles`: ["Config.json"]
-- `SyncStatPersistence`: `false`
+- `SyncStatPersistence`: false
 - `StatsLoader`: {
--   `Enable`: `true`,
+-   `Enable`: true,
 -   `FileName`: "ConfigData.json"
 - }
 - ===
@@ -151,6 +166,6 @@
 
 ## <font color='#3F784C'>Changelog</font>
 
-### [v1.0.0.0]<font color='#888888'>: 1-Mar-2021</font>
+### [v0.9.0.0]<font color='#888888'>: 1-Mar-2021</font>
 
 - Initial Release.

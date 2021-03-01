@@ -2,6 +2,10 @@
 
 ---
 
+## [0.9.0.0] --- 1st March 2021 --- **_Initial Release_**
+
+- Initial Release.
+
 ## [0.8.0.0] --- 25th February 2021 --- **_Minor Fixes_**
 
 ### FIX
