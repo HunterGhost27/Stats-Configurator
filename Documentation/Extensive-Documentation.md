@@ -248,9 +248,9 @@ Users can create and define their own collections by creating and using `ConfigC
 ```json
 {
   "MyCollection": {
-    "Projectile_PyroclasticRock",
-    "Shout_InspireStart",
-    "Shout_ShedSkin",
+    "Projectile_PyroclasticRock": true,
+    "Shout_InspireStart": true,
+    "Shout_ShedSkin": true
   }
 }
 ```
