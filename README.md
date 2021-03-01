@@ -44,18 +44,6 @@ When this configuration loads, it will override `Projectile_Fireball`. The **Fir
 
 All config-files are compiled into a single **ConfigData** file (Default: `ConfigData.json`). The mod applies these _stat-modifications_ when the game loads. Since this operation takes place locally on the `client-side`, all peers connected to the same game-session should have the same ConfigData file loaded. The host can manually share this file with their friends or send it to them from the in-game mod-menu.
 
-### Settings
-
-[Settings](Documentation/Extensive-Documentation.md#Settings) allow you to fine tune your experience and provide greater control over the mod's functionality. You can edit the `S7Central.json` file (in `Osiris Data`) to change settings.
-
-```json
-{
-  "ConfigFile": ["Config.json"],
-  "StatsLoader": { "Enable": true, "FileName": "ConfigData.json" },
-  "SyncStatPersistence": false
-}
-```
-
 ============================
 
 **_[READ THE EXTENSIVE DOCUMENTATION](Documentation/Extensive-Documentation.md)_**

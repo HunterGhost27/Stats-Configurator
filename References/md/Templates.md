@@ -1,5 +1,7 @@
 # Stat Template Examples
 
+These are just examples, you may have to do a fair bit of editing to get them to do what you want.
+
 ## TreasureTable
 
 ```json

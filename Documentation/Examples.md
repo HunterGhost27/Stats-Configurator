@@ -12,7 +12,6 @@ Here are a few examples to show you what's possible using the **Stats-Configurat
 - **[Rivellon's Got Talent](#rivellons-got-talent)**
 - **[Summons Galore](#summons-galore)**
 - **[Light and Heavy Weapons](#light-and-heavy-weapons)**
-- **[Translated String Handle](#translated-strings)**
 
 ---
 
