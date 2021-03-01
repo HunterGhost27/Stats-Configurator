@@ -70,7 +70,7 @@ ConsoleCommander:Register({
         attributes['n'] = nil
         Write:SetHeader('DeepDive into ' .. statName)
         ForEach(attributes, function(idx, attribute)
-            if not IsValid(stat[attributes]) then return end
+            if not IsValid(stat[attribute]) then return end
             Write:NewLine(attribute .. ": " .. Ext.JsonStringify(stat[attribute]))
         end)
         Debug:Print(Write:Display())
