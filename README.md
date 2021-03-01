@@ -40,9 +40,15 @@ When this configuration loads, it will override `Projectile_Fireball`. The **Fir
 
 **_Checkout more [examples!](Documentation/Examples.md)_**
 
-### Easily share your config in multiplayer
+### Quick Start
 
-All config-files are compiled into a single **ConfigData** file (Default: `ConfigData.json`). The mod applies these _stat-modifications_ when the game loads. Since this operation takes place locally on the `client-side`, all peers connected to the same game-session should have the same ConfigData file loaded. The host can manually share this file with their friends or send it to them from the in-game mod-menu.
+1. Create/Edit `Config.json` in `Osiris Data\StatsConfigurator\`.
+2. `Load Configuration` from the in-game **mod-menu**.
+3. `Rebuild ConfigData` once you're happy with your edits.
+4. `Broadcast` your **ConfigData** to any peers. (Multiplayer)
+5. `Verify` client configs to ensure everyone is on the same page.
+6. **Done** - your **ConfigData** will automatically reload your edits whenever the game loads. Repeat the aforementioned options as necessary.
+7. Restart the game for changes to apply.
 
 ============================
 
@@ -61,4 +67,4 @@ All config-files are compiled into a single **ConfigData** file (Default: `Confi
 
 - **[Divinity: Original Sin 2](http://store.steampowered.com/app/435150/Divinity_Original_Sin_2/)**, a game by **[Larian Studios](http://larian.com/)**.
 - **LaughingLeader** for the **[Source Control Generator](https://github.com/LaughingLeader/SourceControlGenerator)**.
-- **Norbyte** for the **[Script-Extender](https://github.com/Norbyte/ositools)**.
+- Huge thanks to **Norbyte** for the **[Script-Extender](https://github.com/Norbyte/ositools)**, for valuable advice and for having a fix for every problem.
