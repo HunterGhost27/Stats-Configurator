@@ -10,7 +10,7 @@ Ext.RegisterListener('SessionLoaded', function() -- UCL has been loaded by this 
     local GUID = ExtractGUID(ConfiguratorItem)
 
     -- Register Context-Menu label to Configurator Item
-    UCL.ContextMenu:QuickRegister({
+    UCL.ContextMenu:Register({
         ["RootTemplate::" .. GUID] = {
             {
                 ['actionID'] = 27701,
