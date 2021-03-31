@@ -33,7 +33,7 @@ function Memoizer:AddResolver(alias, resolver) self['Resolvers'] = {[alias] = re
 function Memoizer:UseMemo(alias, fallback, ...)
     local ret
     if not self['Resolvers'][alias] then self:AddResolver(alias, fallback) end
-    if IsValid(self['Cache'][alias]) then ret = self['Cache'][alias]
+    if self['Cache'][alias] then ret = self['Cache'][alias]
     else
         self['Cache'][alias] = type(self['Resolvers'][alias]) == 'function' and self['Resolvers'][alias](...) or self['Resolvers'][alias]
         ret = self['Cache'][alias]
