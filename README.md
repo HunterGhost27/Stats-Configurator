@@ -8,8 +8,8 @@ The **_Stats Configurator_** allows you to modify and customize stats by creatin
 
 ## Releases
 
-- [ ] ~~**_[Steam Workshop](#SteamWorkshop)_**~~
-- [x] **_[Github](https://github.com/Shresht7/Stats-Configurator/releases)_**
+- ~~**_[Steam Workshop](#SteamWorkshop)_**~~
+- **_[Github](https://github.com/Shresht7/Stats-Configurator/releases)_**
 
 ## Requirements
 
@@ -32,7 +32,7 @@ Users can override stats by creating **json files** (Default: `Config.json`) lik
 }
 ```
 
-> All config-files are created in the Osiris Data\StatsConfigurator\ folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\StatsConfigurator\`.
+> Create your config-files in the Osiris Data\StatsConfigurator\ folder. - i.e. `..\Documents\Larian Studios\Divinity Original Sin 2 Definitive Edition\Osiris Data\StatsConfigurator\`.
 
 When this configuration loads, it will override `Projectile_Fireball`. The **Fireball** skill will now cost **_4 ActionPoints_**, have a **_7 turn Cooldown_**, _explode_ in a **_10m radius_** and will be called **_BOOMER_**.
 

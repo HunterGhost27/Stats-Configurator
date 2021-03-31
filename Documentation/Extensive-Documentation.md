@@ -167,14 +167,14 @@ This will reduce `Inspire`'s cooldown by 1 and increase AP cost by 2 (Relative t
 | --------------: | ------------------ | ----------------- |
 |             `+` | Increase EnumIndex | `EnumIndex`       |
 |             `-` | Decrease EnumIndex | `EnumIndex`       |
-|             `$` | Copy EnumIndex     | `statID`       |
+|             `$` | Copy EnumIndex     | `statID`          |
 
 ## Collections
 
 Trying to edit stats en-masse with the same values is both a redundant and time-consuming process. To solve this issue, stats can be grouped in a **collection** and configurations can be applied to all of them in-tandem. A collection is basically a list of stat-names/statIDs; whenever you apply stat-modifications to a collection, the modifications are applied to all stat-entries associated with the collection. E.g.
 
 ```json
-"#Shield" {
+"#Shield": {
   "Blocking": 15,
   "Physical": 25,
   "Piercing": 25
@@ -213,7 +213,7 @@ The mod comes with the following preset collections:
 | ArmorSlotHorns       | A collection of stats that occupy the `Horns` slot.                                                      |
 | ArmorSlotOverhead    | A collection of stats that occupy the `Overhead` slot.                                                   |
 | **Crime**            |                                                                                                          |
-| Crime                | A collection of stats of the `Crime` type. _Don't know anything about Crime Stats_, sorry!               |
+| Crime                | A collection of stats of the `Crime` type.                                                               |
 | **Object**           |                                                                                                          |
 | Object               | A collection of stats of the `Object` type. Miscellaneous Items like crafting-ingredients.               |
 | **Potion**           |                                                                                                          |
@@ -245,6 +245,7 @@ The mod comes with the following preset collections:
 To use this feature, you just need the key to be in the following format: `"#<CollectionName>"`.
 
 Users can create and define their own collections by creating and using `ConfigCollections.json`.
+
 ```json
 {
   "MyCollection": {
@@ -254,7 +255,9 @@ Users can create and define their own collections by creating and using `ConfigC
   }
 }
 ```
+
 You can then use your collections in your configs like:
+
 ```json
 {
   "#MyCollection": {
@@ -334,16 +337,16 @@ All console-commands from this mod are accessed by using the `!S7_Config` prefix
 
 `!S7_Config Help` will bring up the following list of useful commands in the debug-console window.
 
-| Command                | Argument 1       | Argument 2 (Optional)  | Comments                                                 | Examples                                           |
-| ---------------------- | ---------------- | ----------- | -------------------------------------------------------- | -------------------------------------------------- |
-| **Help**               |                  |             | Prints a helpful list of console-commands.               | `!S7_Config Help`           |
-| **AddConfigurator**    |                  |             | Adds the configurator item to the host-character.        | `!S7_Config AddConfigurator`                       |
-| **StartModMenu**       |                  |             | Starts the Mod-Menu Dialog.                              | `!S7_Config StartModMenu`                          |
-| **SearchStat**         | **SearchString** | StatType    | Search for (SearchString) in category (StatType).        | `!S7_Config SearchStat Summon_Incarnate SkillData` |
-| **SyncStat**           | **StatID**       | Persistence | Synchronize (StatID) with (Persistence) for all clients. | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
-| **DeepDive**           | **statsID**      |             | Print all valid attributes of (stat) and their values.   | `!S7_Config DeepDive Shout_ShedSkin`               |
-| **ClearCache**         |                  |             | Clears the ConfigData Cache.                             | `!S7_Config ClearCache`                            |
-| **RebuildCollections** |                  |             | Rebuilds Custom-Collections data.                        | `!S7_Config RebuildCollections`                    |
+| Command                | Argument 1       | Argument 2 (Optional) | Comments                                                 | Examples                                           |
+| ---------------------- | ---------------- | --------------------- | -------------------------------------------------------- | -------------------------------------------------- |
+| **Help**               |                  |                       | Prints a helpful list of console-commands.               | `!S7_Config Help`                                  |
+| **AddConfigurator**    |                  |                       | Adds the configurator item to the host-character.        | `!S7_Config AddConfigurator`                       |
+| **StartModMenu**       |                  |                       | Starts the Mod-Menu Dialog.                              | `!S7_Config StartModMenu`                          |
+| **SearchStat**         | **SearchString** | StatType              | Search for (SearchString) in category (StatType).        | `!S7_Config SearchStat Summon_Incarnate SkillData` |
+| **SyncStat**           | **StatID**       | Persistence           | Synchronize (StatID) with (Persistence) for all clients. | `!S7_Config SyncStat Projectile_PyroclasticRock`   |
+| **DeepDive**           | **statsID**      |                       | Print all valid attributes of (stat) and their values.   | `!S7_Config DeepDive Shout_ShedSkin`               |
+| **ClearCache**         |                  |                       | Clears the ConfigData Cache.                             | `!S7_Config ClearCache`                            |
+| **RebuildCollections** |                  |                       | Rebuilds Custom-Collections data.                        | `!S7_Config RebuildCollections`                    |
 
 ## References
 
