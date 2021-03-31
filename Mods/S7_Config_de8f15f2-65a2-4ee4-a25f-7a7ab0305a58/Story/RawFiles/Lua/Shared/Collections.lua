@@ -126,7 +126,7 @@ Collections = {
 ---Rebuilds Custom-Collection Data
 function Collections:CustomRebuild()
     local customCollections = LoadFile(MODINFO.SubdirPrefix .. 'ConfigCollections.json') or {}
-    self = Integrate(self, customCollections)
+    for key, value in pairs(customCollections) do self[key] = value end
 end
 
 --  PREDEF-COLLECTIONS
