@@ -143,6 +143,7 @@ end
 
 ---Builds ConfigData using Config-Files
 function Stats:BuildConfigs()
+    SaveFile(MODINFO.SubdirPrefix .. Settings.StatsLoader.FileName, "{}")
     local fileNames = Map(Settings.ConfigFiles, function (idx, fileName) return idx, MODINFO.SubdirPrefix .. fileName end)
     local files = LoadFiles(fileNames) or {}
     for _, file in pairs(files) do
