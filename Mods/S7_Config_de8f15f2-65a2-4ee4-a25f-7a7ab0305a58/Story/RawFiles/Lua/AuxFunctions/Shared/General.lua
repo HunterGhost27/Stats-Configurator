@@ -103,3 +103,18 @@ function IsCallable(e)
     end
     return false
 end
+
+--  ========
+--  RESOLVER
+--  ========
+
+---Resolves a resolver
+---@param value any|ResolverFunction
+---@return any ret Resolved value
+function Resolve(value, ...)
+    local ret
+    if type(value) == 'function' then ret = value(...)
+    else ret = value end
+    if not ret then ret = false end
+    return ret
+end

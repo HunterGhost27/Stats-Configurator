@@ -1,0 +1,10 @@
+{
+  "ProjectName": "S7_Config",
+  "ProjectUUID": "de8f15f2-65a2-4ee4-a25f-7a7ab0305a58",
+  "ScriptExtenderVersion": 52,
+  "SEFeatureFlags": [
+    "OsirisExtensions",
+    "Lua"
+  ],
+  "ProjectDirectory": "S7_Config_de8f15f2-65a2-4ee4-a25f-7a7ab0305a58"
+}

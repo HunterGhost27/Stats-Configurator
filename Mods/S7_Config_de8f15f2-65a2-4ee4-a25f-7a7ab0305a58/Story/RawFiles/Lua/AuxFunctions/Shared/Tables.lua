@@ -138,7 +138,7 @@ function Map(t, callback, recursive)
     local mapped = {}
     local recursive = recursive or false
 
-    for key, value in pairs(Rematerialize(t)) do
+    for key, value in pairs(t) do
         local newKey, newValue = key, value
         if type(value) == 'table' then newValue = recursive and Map(value, callback, recursive) or value
         else newKey, newValue = callback(key, value, recursive) end
@@ -195,11 +195,13 @@ function Pinpoint(tar, tbl, curr, addresses)
     local addresses = addresses or {}
     for key, value in pairs(tbl) do
         if type(value) == 'table' then
-            curr = curr .. tostring(key) .. "."
-            point = Pinpoint(tar, value, curr, addresses)
+            if IsValid(point) then break end
+            local check = curr .. tostring(key) .. "."
+            point = Pinpoint(tar, value, check, addresses)
         elseif tar == value then
             point = curr .. tostring(key)
             table.insert(addresses, point)
+            break
         end
     end
     return point, addresses

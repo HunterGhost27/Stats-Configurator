@@ -40,3 +40,12 @@ end
 --  ===========
 
 Ext.Require('AuxFunctions/Shared/Versioning.lua')
+
+--  TESTING
+--  =======
+
+--- Disable Tests in Production
+if Ext.IsDeveloperMode() then
+    Ext.Require('AuxFunctions/Shared/Testing.lua')
+    Ext.Require('AuxFunctions/Tests/Index.lua')
+end
