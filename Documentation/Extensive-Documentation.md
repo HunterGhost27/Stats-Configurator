@@ -63,7 +63,7 @@ The document will refer to the player that creates the `server` context as the `
 
 ### Stats-Configurator Items
 
-![stats-configurator-item](https://imgur.com/BagN95a.png)
+![stats-configurator-item](https://imgur.com/oliA8Vx.png)
 
 The _"Stats-Configurator"_ item is granted to the player ([host-character](#host-and-client-contexts)) automatically as soon as they load into a game after activating this mod. The item is used to activate the _mod-menu dialog_. If you lose the item somehow, you can reacquire it using the `!S7_Config AddConfigurator` [console-command](#console-commands).
 
