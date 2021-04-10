@@ -1,0 +1,49 @@
+repoLabels:
+
+  - name: Refactor
+    color: "5319e7"
+    description: Refactor a piece of code
+
+  - name: bug
+    color: b60205
+    description: Something isn't working
+
+  - name: deferred
+    color: f8b281
+    description: Work will resume in due course
+
+  - name: documentation
+    color: 0e8a16
+    description: Improvements or additions to documentation
+
+  - name: duplicate
+    color: d4c5f9
+    description: This issue or pull request already exists
+
+  - name: enhancement
+    color: 1d76db
+    description: New feature or request
+
+  - name: good first issue
+    color: b3bc34
+    description: Good for newcomers
+
+  - name: help wanted
+    color: "008672"
+    description: Extra attention is needed
+
+  - name: invalid
+    color: d73a4a
+    description: This doesn't seem right
+
+  - name: marked-for-review
+    color: e99695
+    description: Revisit and re-examine later
+
+  - name: question
+    color: fbca04
+    description: Further information is requested
+
+  - name: wontfix
+    color: "000000"
+    description: This will not be worked on
