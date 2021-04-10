@@ -4,12 +4,16 @@ repoLabels:
     color: "5319e7"
     description: Refactor a piece of code
 
+  - name: brainstorming
+    color: F50884
+    description: Thinking real hard
+
   - name: bug
-    color: b60205
+    color: EE1111
     description: Something isn't working
 
   - name: deferred
-    color: f8b281
+    color: D2984D
     description: Work will resume in due course
 
   - name: documentation
@@ -17,15 +21,19 @@ repoLabels:
     description: Improvements or additions to documentation
 
   - name: duplicate
-    color: d4c5f9
+    color: cfd3d7
     description: This issue or pull request already exists
 
   - name: enhancement
     color: 1d76db
     description: New feature or request
 
+  - name: focus
+    color: d93f0b
+    description: Critical / High-Priority / Currently-in-Focus
+
   - name: good first issue
-    color: b3bc34
+    color: A5F45C
     description: Good for newcomers
 
   - name: help wanted
@@ -36,8 +44,8 @@ repoLabels:
     color: d73a4a
     description: This doesn't seem right
 
-  - name: marked-for-review
-    color: e99695
+  - name: marked for review
+    color: 006b75
     description: Revisit and re-examine later
 
   - name: question
