@@ -31,7 +31,7 @@ jobs:
       # ========================
 
       - name: SynLabels
-        uses: Shresht7/SynLabels@debug
+        uses: Shresht7/SynLabels@main
         id: SynLabels
 
         # Config Parameters
@@ -42,7 +42,7 @@ jobs:
           dryrun: false   # Will not make any actual changes if true (default: true)
           create: true    # If true, SynLabels has permissions to create labels (default: true)
           update: true    # If true, SynLabels has permissions to update labels (default: true)
-          delete: false   # If true, SynLabels has permissions to delete labels (default: false)
+          delete: true    # If true, SynLabels has permissions to delete labels (default: false)
 
         # Environment Variables
         # ---------------------
