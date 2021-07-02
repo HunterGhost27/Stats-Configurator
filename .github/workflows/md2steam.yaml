@@ -49,7 +49,7 @@ jobs:
           file: "README.md"
           
           # Target directory
-          outDir: "."
+          outDir: "Documentation/"
 
           # Commit Message
           commitMessage: "Update Steam BB-Content"
