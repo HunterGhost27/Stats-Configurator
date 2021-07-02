@@ -2,7 +2,7 @@
 # MARKDOWN-TO-STEAM
 # =================
 
-# This workflow parses the repo's README.md file and creates/updates a text file for the steam workshop description
+# This workflow converts the repo's README.md into steam bb-code
 
 name: Markdown-to-Steam
 
@@ -47,9 +47,12 @@ jobs:
         with:
           # The file to change
           file: "README.md"
-
+          
           # Target directory
           outDir: "."
+
+          # Commit Message
+          commitMessage: "Update Steam BB-Content"
 
         # Environment Variables
         # ---------------------
